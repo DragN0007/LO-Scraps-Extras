@@ -1,0 +1,26 @@
+{
+  "name": "Libanoculex",
+  "icon": "deadlydinos:libanoculex_egg",
+  "category": "deadlydinos:animals_category",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Category:$() Insect $(br)$(l)Tamable:$() False $(br)$(l)Aggression:$() Aggressive $(br)$(l)Type:$() Solo Hunter $(br)$(l)Found In:$() Wetlands"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "deadlydinos:libanoculex"
+      },
+      "text": "Journal Page by $(l)Unknown Survivor$() $(br2)The Libanoculex is an ancient species mosquito that feeds off of animals and survivors. Only females feed on animals; male Libanoculex only eat pollen."
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "deadlydinos:libanoculex{Variant:0}",
+      "name": "The Libanoculex",
+      "default_rotation": 45,
+      "scale": 0.8,
+      "rotate": "false"
+    }
+  ]
+}

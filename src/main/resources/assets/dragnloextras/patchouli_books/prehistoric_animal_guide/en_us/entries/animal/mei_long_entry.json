@@ -1,0 +1,26 @@
+{
+  "name": "Mei Long",
+  "icon": "deadlydinos:mei_long_egg",
+  "category": "deadlydinos:animals_category",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Category:$() Small Carnivore $(br)$(l)Tamable:$() True $(br)$(l)Aggression:$() Neutral $(br)$(l)Type:$() Pack Hunter $(br)$(l)Found In:$() Forests"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "deadlydinos:mei_long_trophy"
+      },
+      "text": "Journal Page by $(l)Unknown Survivor$() $(br2)The Mei Long is a small, swift carnivore. It hunts in packs, but can be tamed with meat. Mei Longs don't have to be babies to be tamed, unlike some other dinosaurs."
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "deadlydinos:mei_long{Variant:0}",
+      "name": "The Mei Long",
+      "default_rotation": 45,
+      "scale": 0.8,
+      "rotate": "false"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "name": "Giant Crop Snail",
+  "icon": "deadlydinos:giant_crop_snail_egg",
+  "category": "deadlydinos:animals_category",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Category:$() Small Herbivore $(br)$(l)Tamable:$() False $(br)$(l)Aggression:$() Peaceful $(br)$(l)Type:$() Solo Hunter $(br)$(l)Found In:$() Wetlands"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "deadlydinos:escargot"
+      },
+      "text": "Journal Page by $(l)Unknown Survivor$() $(br2)The Giant Crop Snail is an ancient species of snail that preys on crops and plants. They will destroy farms if they can get into them."
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "deadlydinos:giant_crop_snail{Variant:0}",
+      "name": "The Crop Snail",
+      "default_rotation": 45,
+      "scale": 0.8,
+      "rotate": "false"
+    }
+  ]
+}

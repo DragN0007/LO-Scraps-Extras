@@ -1,0 +1,26 @@
+{
+  "name": "Oviraptor",
+  "icon": "deadlydinos:oviraptor_egg",
+  "category": "deadlydinos:animals_category",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Category:$() Small Carnivore $(br)$(l)Tamable:$() True $(br)$(l)Aggression:$() Neutral $(br)$(l)Type:$() Solo Hunter $(br)$(l)Found In:$() Grasslands"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "deadlydinos:oviraptor_trophy"
+      },
+      "text": "Journal Page by $(l)HannahPBnJ$() $(br2)The Oviraptor is a small, swift carnivore that can collect eggs for the player once tamed. Oviraptor can be tamed as a baby or an adult with meat or eggs."
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "deadlydinos:oviraptor{Variant:0}",
+      "name": "The Oviraptor",
+      "default_rotation": 45,
+      "scale": 0.8,
+      "rotate": "false"
+    }
+  ]
+}

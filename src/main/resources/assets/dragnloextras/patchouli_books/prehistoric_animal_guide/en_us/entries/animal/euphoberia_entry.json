@@ -1,0 +1,26 @@
+{
+  "name": "Euphoberia",
+  "icon": "deadlydinos:euphoberia_egg",
+  "category": "deadlydinos:animals_category",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Category:$() Insect $(br)$(l)Tamable:$() False $(br)$(l)Aggression:$() Peaceful $(br)$(l)Type:$() Prey $(br)$(l)Found In:$() Hills"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "deadlydinos:euphoberia"
+      },
+      "text": "Journal Page by $(l)Unknown Survivor$() $(br2)The Euphoberia is an ancient species millipede that feeds on plants high up in the hills. They are harmless to survivors and other animals."
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "deadlydinos:euphoberia{Variant:0}",
+      "name": "The Euphoberia",
+      "default_rotation": 45,
+      "scale": 0.8,
+      "rotate": "false"
+    }
+  ]
+}

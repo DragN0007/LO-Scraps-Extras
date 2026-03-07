@@ -1,0 +1,26 @@
+{
+  "name": "Anurognathus",
+  "icon": "deadlydinos:anurognathus_egg",
+  "category": "deadlydinos:animals_category",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Category:$() Small Insectivore $(br)$(l)Tamable:$() True $(br)$(l)Aggression:$() Peaceful $(br)$(l)Type:$() Solo Hunter $(br)$(l)Found In:$() Jungles"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "deadlydinos:anurognathus_egg"
+      },
+      "text": "Journal Page by $(l)Unknown Survivor$() $(br2)The Anurognathus is a small, swift, flying insectivore. It can be tamed with insects and is not harmful to survivors or other larger animals. Anurognathus don't have to be babies to be tamed, unlike some other dinosaurs."
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "deadlydinos:anurognathus{Variant:0}",
+      "name": "The Anurognathus",
+      "default_rotation": 45,
+      "scale": 0.8,
+      "rotate": "false"
+    }
+  ]
+}

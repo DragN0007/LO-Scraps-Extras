@@ -1,0 +1,26 @@
+{
+  "name": "Diplodocus",
+  "icon": "deadlydinos:diplodocus_egg",
+  "category": "deadlydinos:animals_category",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Category:$() Large Sauropod $(br)$(l)Tamable:$() True $(br)$(l)Aggression:$() Neutral $(br)$(l)Type:$() Herd $(br)$(l)Found In:$() Taigas"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "deadlydinos:diplodocus_trophy"
+      },
+      "text": "Journal Page by $(l)HannahPBnJ$() $(br2)The Diplodocus is a large-sized sauropod that can carry up to 3 players when tamed. It can be tamed as a baby with veggies, and switched into Harvesting Mode with Space to harvest tree leaves while riding."
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "deadlydinos:diplodocus{Variant:0}",
+      "name": "The Diplodocus",
+      "default_rotation": 45,
+      "scale": 0.8,
+      "rotate": "false"
+    }
+  ]
+}

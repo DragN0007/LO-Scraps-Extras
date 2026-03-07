@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.dragn0007.dragnloextras.mixin",
+  "refmap": "mixins.dragnloextras.refmap.json",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "OHorseMixin",
+    "OHorseRenderMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

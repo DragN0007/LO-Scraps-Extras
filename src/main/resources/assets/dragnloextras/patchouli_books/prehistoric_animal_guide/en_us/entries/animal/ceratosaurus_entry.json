@@ -1,0 +1,26 @@
+{
+  "name": "Ceratosaurus",
+  "icon": "deadlydinos:ceratosaurus_egg",
+  "category": "deadlydinos:animals_category",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Category:$() Medium Carnivore $(br)$(l)Tamable:$() True $(br)$(l)Aggression:$() Aggressive $(br)$(l)Type:$() Solo Hunter $(br)$(l)Found In:$() Grasslands"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "deadlydinos:ceratosaurus_trophy"
+      },
+      "text": "Journal Page by $(l)HannahPBnJ$() $(br2)The Ceratosaurus is a mid-sized, swift carnivore. It can be tamed as a baby with meat and ridden with a saddle."
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "deadlydinos:ceratosaurus{Variant:0}",
+      "name": "The Ceratosaurus",
+      "default_rotation": 45,
+      "scale": 0.8,
+      "rotate": "false"
+    }
+  ]
+}

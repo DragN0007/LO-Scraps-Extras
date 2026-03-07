@@ -1,0 +1,26 @@
+{
+  "name": "Eocarcharia",
+  "icon": "deadlydinos:eocarcharia_egg",
+  "category": "deadlydinos:animals_category",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Category:$() Large Carnivore $(br)$(l)Tamable:$() True $(br)$(l)Aggression:$() Aggressive $(br)$(l)Type:$() Solo Hunter $(br)$(l)Found In:$() Deserts, Savannahs $(br)$(l)Special Ability:$() Armorable"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "deadlydinos:eocarcharia_trophy"
+      },
+      "text": "Journal Page by $(l)Unknown Survivor$() $(br2)The Eocarcharia is a large, bulky carnivore. $(br2)Eocarcharia babies can be tamed, and domesticated adults can be armored for an extra battle boost. (See \"Domestication\" section.)"
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "deadlydinos:eocarcharia{Variant:0}",
+      "name": "The Eocarcharia",
+      "default_rotation": 45,
+      "scale": 0.8,
+      "rotate": "false"
+    }
+  ]
+}

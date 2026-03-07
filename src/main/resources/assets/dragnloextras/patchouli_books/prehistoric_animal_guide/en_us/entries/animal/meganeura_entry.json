@@ -1,0 +1,26 @@
+{
+  "name": "Meganeura",
+  "icon": "deadlydinos:meganeura_egg",
+  "category": "deadlydinos:animals_category",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Category:$() Insect $(br)$(l)Tamable:$() False $(br)$(l)Aggression:$() Swarm-Aggressive $(br)$(l)Type:$() Swarm Hunter $(br)$(l)Found In:$() Forests"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "deadlydinos:meganeura"
+      },
+      "text": "Journal Page by $(l)Unknown Survivor$() $(br2)The Meganeura is an ancient species dragonfly that hunts in small swarms. They can be dangerous to survivors in larger numbers."
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "deadlydinos:meganeura{Variant:0}",
+      "name": "The Meganeura",
+      "default_rotation": 45,
+      "scale": 0.8,
+      "rotate": "false"
+    }
+  ]
+}

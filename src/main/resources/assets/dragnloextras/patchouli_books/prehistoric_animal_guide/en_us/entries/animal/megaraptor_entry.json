@@ -1,0 +1,26 @@
+{
+  "name": "Megaraptor",
+  "icon": "deadlydinos:megaraptor_egg",
+  "category": "deadlydinos:animals_category",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Category:$() Raptor $(br)$(l)Tamable:$() False $(br)$(l)Aggression:$() Aggressive $(br)$(l)Type:$() Small-Pack Hunter $(br)$(l)Found In:$() Forests"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "deadlydinos:megaraptor_trophy"
+      },
+      "text": "Journal Page by $(l)Unknown Survivor$() $(br2)The Megaraptor is a pack-hunting, medium-sized carnivore. Upon finding a suitable hunting target, it'll crouch down and stalk it for up to a few seconds before breaking into a chase and gaining Speed and Strength for a short amount of time. Megaraptors use their large, front claws to slice into prey, giving them the Bleeding effect."
+    },
+    {
+      "type": "patchouli:entity",
+      "entity": "deadlydinos:megaraptor{Variant:0}",
+      "name": "The Megaraptor",
+      "default_rotation": 45,
+      "scale": 0.8,
+      "rotate": "false"
+    }
+  ]
+}
