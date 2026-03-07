@@ -14,6 +14,6 @@ public class SERecipeMaker extends RecipeProvider implements IConditionBuilder {
 
     @Override
     public void buildRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
-
+            //TODO: recipes
         }
 }

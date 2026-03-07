@@ -22,6 +22,8 @@ public class ForgeEvent {
             Player player = event.getEntity();
             ItemStack stack = event.getItemStack();
 
+            //TODO: feeding system
+
             if (stack.is(SEItems.GRAIN_FEED.get())) {
                 if (entity instanceof OHorse) {
 
@@ -35,6 +37,8 @@ public class ForgeEvent {
         if (event.getTarget() instanceof LivingEntity entity) {
             Player player = event.getEntity();
             ItemStack stack = event.getItemStack();
+
+            //TODO: all ailment cures
 
             if (stack.is(SEItems.ANTIBIOTIC_INJECTION.get())) {
                 if (entity.hasEffect(SEEffects.INFECTION.get())) {

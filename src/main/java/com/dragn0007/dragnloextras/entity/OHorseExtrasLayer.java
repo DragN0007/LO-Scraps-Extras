@@ -3,14 +3,12 @@ package com.dragn0007.dragnloextras.entity;
 import com.dragn0007.dragnlivestock.LivestockOverhaul;
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnloextras.util.IsDirtyDuck;
-import com.dragn0007.dragnloextras.util.IsHalteredDuck;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.DyeColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
@@ -42,6 +40,8 @@ public class OHorseExtrasLayer extends GeoRenderLayer<OHorse> {
     public OHorseExtrasLayer(GeoRenderer<OHorse> entityRendererIn) {
         super(entityRendererIn);
     }
+
+    //this sort of works in the client class... sometimes...?
 
     @Override
     public void render(PoseStack poseStack, OHorse animatable, BakedGeoModel bakedModel, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {

@@ -14,6 +14,7 @@ public class SEItems {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, ScrapsExtras.MODID);
 
+    //TODO: item classes
     public static final RegistryObject<Item> STETHOSCOPE = ITEMS.register("stethoscope",
             () -> new AntibioticInjectionItem(new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> ANTIBIOTIC_INJECTION = ITEMS.register("antibiotic_injection",

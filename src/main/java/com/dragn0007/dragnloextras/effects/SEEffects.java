@@ -12,6 +12,8 @@ public class SEEffects {
     public static final DeferredRegister<MobEffect> MOB_EFFECTS =
             DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, ScrapsExtras.MODID);
 
+    //TODO: ailment classes
+
     public static final RegistryObject<MobEffect> DIRTY = MOB_EFFECTS.register("dirty",
             () -> new InfectionEffect(MobEffectCategory.NEUTRAL, 0x5c0d12));
 

@@ -23,6 +23,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(OHorse.class)
 public abstract class OHorseMixin extends AbstractOMount implements IsDirtyDuck {
 
+    //TODO: IsDirty fix, halters, hunger tick
+
     public OHorseMixin(EntityType<? extends OHorseMixin> entityType, Level level) {
         super(entityType, level);
     }
@@ -32,6 +34,8 @@ public abstract class OHorseMixin extends AbstractOMount implements IsDirtyDuck 
 
     @Unique
     public int livestockOverhaulScraps$dirtyTick;
+    @Unique
+    public int livestockOverhaulScraps$hungryTick;
 
     @Inject(method = "tick", at = @At("HEAD"))
     protected void onTick(CallbackInfo ci) {
@@ -45,6 +49,8 @@ public abstract class OHorseMixin extends AbstractOMount implements IsDirtyDuck 
             }
         }
     }
+
+    //the "dirty" function seems to only be running on client-side and sometimes not at all (?)
 
     @Unique
     public boolean livestockOverhaulScraps$dirty = false;
@@ -96,6 +102,8 @@ public abstract class OHorseMixin extends AbstractOMount implements IsDirtyDuck 
          */
         return super.mobInteract(player, hand);
     }
+
+    //literally none of this works. dunno what a Forge Capability is
 
     /*
     @Unique
