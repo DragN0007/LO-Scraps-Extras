@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:light_gray_wool"
+    },
+    "B": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "pattern": [
+    "  A",
+    "AAA",
+    "B B"
+  ],
+  "result": {
+    "item": "dragnloextras:horse_mannequin"
+  },
+  "show_notification": true
+}

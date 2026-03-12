@@ -35,6 +35,8 @@ public class SEItemGroupModifier {
                         output.accept(SEItems.KIBBLE.get());
                         output.accept(SEItems.HEARTY_KIBBLE.get());
 
+                        output.accept(SEItems.HORSE_MANNEQUIN.get());
+
                         output.accept(SEItems.BLACK_HALTER.get());
                         output.accept(SEItems.BLUE_HALTER.get());
                         output.accept(SEItems.BROWN_HALTER.get());

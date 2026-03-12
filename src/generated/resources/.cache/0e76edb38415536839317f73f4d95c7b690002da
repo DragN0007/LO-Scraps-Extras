@@ -1,4 +1,4 @@
-// 1.20.1	2026-03-06T20:13:06.0328035	Item Models: dragnloextras
+// 1.20.1	2026-03-12T00:19:04.2258745	Item Models: dragnloextras
 4d58d8777a803ce3c6f0c80907de9579c019ac6c assets/dragnloextras/models/item/antibiotic_eardrops.json
 5f7dd1f99481a3aa4a46c7658b52b3f9655da8dd assets/dragnloextras/models/item/antibiotic_injection.json
 c76280cffd2fe708ec18ee2e9ee876ddc90b9199 assets/dragnloextras/models/item/antibiotic_ointment.json
@@ -16,6 +16,7 @@ ae60532bdfd0a530f3cbb290797f9fb296010c34 assets/dragnloextras/models/item/grain_
 f7554ebf1c6f65433160ee04838e8bcda14a552c assets/dragnloextras/models/item/hearty_grain_feed.json
 742507355ac5a9e17742813ab1b8cdf5aea7e43c assets/dragnloextras/models/item/hearty_kibble.json
 b5c92eae16b9e2694a769123ab526b5f495217f2 assets/dragnloextras/models/item/hoof_pick.json
+caabb14274662186723d98412205f3e40b3f7f96 assets/dragnloextras/models/item/horse_mannequin.json
 e5a1049eeee9896f62f1bf05b6193a003db2f613 assets/dragnloextras/models/item/kibble.json
 febb3eaaa9725439e0cf327136eaf9457e2949a2 assets/dragnloextras/models/item/light_blue_halter.json
 549efc4242075d8cc35c9861f7141403e7a004c8 assets/dragnloextras/models/item/light_grey_halter.json

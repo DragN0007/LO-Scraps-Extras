@@ -80,9 +80,30 @@ public abstract class OHorseMixin extends AbstractOMount implements IsDirtyDuck 
         if (itemstack.is(Items.SHEARS)) {
             if (this.livestockOverhaulScraps$isHaltered()) {
                 this.livestockOverhaulScraps$setHaltered(false);
-                this.playSound(SoundEvents.SHEEP_SHEAR, 0.5f, 1f);
-                return InteractionResult.sidedSuccess(this.level().isClientSide);
-            }
+				DyeColor dyeColor = DyeColor.byId(this.getHalterColor().getId());
+				Item halter = switch (dyeColor) {
+					case WHITE -> SEItems.WHITE_HALTER.get();
+					case ORANGE -> SEItems.ORANGE_HALTER.get();
+					case MAGENTA -> SEItems.MAGENTA_HALTER.get();
+					case LIGHT_BLUE -> SEItems.LIGHT_BLUE_HALTER.get();
+					case YELLOW -> SEItems.YELLOW_HALTER.get();
+					case LIME -> SEItems.LIME_HALTER.get();
+					case PINK -> SEItems.PINK_HALTER.get();
+					case GRAY -> SEItems.GREY_HALTER.get();
+					case LIGHT_GRAY -> SEItems.LIGHT_GREY_HALTER.get();
+					case CYAN -> SEItems.CYAN_HALTER.get();
+					case PURPLE -> SEItems.PURPLE_HALTER.get();
+					case BLUE -> SEItems.BLUE_HALTER.get();
+					case BROWN -> SEItems.BROWN_HALTER.get();
+					case GREEN -> SEItems.GREEN_HALTER.get();
+					case RED -> SEItems.RED_HALTER.get();
+					case BLACK -> SEItems.BLACK_HALTER.get();
+				};
+				spawnAtLocation(halter);
+				this.playSound(SoundEvents.SHEEP_SHEAR, 0.5f, 1f);
+				return InteractionResult.sidedSuccess(this.level().isClientSide);
+				}
+			}
         }
 
         if (item instanceof HalterItem) {

@@ -1,6 +1,8 @@
 package com.dragn0007.dragnloextras;
 
+import com.dragn0007.dragnloextras.common.gui.SEMenuTypes;
 import com.dragn0007.dragnloextras.effects.SEEffects;
+import com.dragn0007.dragnloextras.entity.SEEntityTypes;
 import com.dragn0007.dragnloextras.items.SEItemGroupModifier;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasClientConfig;
@@ -26,6 +28,8 @@ public class ScrapsExtras
         SEItems.register(eventBus);
         SEItemGroupModifier.register(eventBus);
         SEEffects.register(eventBus);
+        SEMenuTypes.register(eventBus);
+        SEEntityTypes.ENTITY_TYPES.register(eventBus);
 
         GeckoLib.initialize();
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ScrapsExtrasClientConfig.SPEC, "livestock-overhaul-extras-client.toml");

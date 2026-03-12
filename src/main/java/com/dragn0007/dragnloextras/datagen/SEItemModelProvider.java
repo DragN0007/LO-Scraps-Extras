@@ -17,6 +17,8 @@ public class SEItemModelProvider extends ItemModelProvider {
 
     @Override
     public void registerModels() {
+        simpleItem(SEItems.HORSE_MANNEQUIN);
+
         simpleItem(SEItems.STETHOSCOPE);
         simpleItem(SEItems.ANTIBIOTIC_INJECTION);
         simpleItem(SEItems.ANTIBIOTIC_OINTMENT);

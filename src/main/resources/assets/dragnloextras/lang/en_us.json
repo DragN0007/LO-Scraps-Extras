@@ -1,6 +1,9 @@
 {
   "itemGroup.scraps": "O-Extras",
 
+  "entity.dragnloextras.horse_mannequin": "Horse Mannequin",
+  "item.dragnloextras.horse_mannequin": "Horse Mannequin",
+
   "item.dragnloextras.stethoscope": "Stethoscope",
   "item.dragnloextras.antibiotic_injection": "Antibiotic Injection",
   "item.dragnloextras.antibiotic_ointment": "Antibiotic Ointment",
