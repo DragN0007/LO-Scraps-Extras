@@ -158,7 +158,7 @@ public abstract class OHorseMixin extends AbstractOMount implements IsDirtyDuck,
     protected void defineData(CallbackInfo ci) {
     }
 
-    @Inject(method = "finalizeSpawn", at = @At("HEAD"))
+    @Inject(method = "finalizeSpawn", at = @At("TAIL"))
     private void spawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, SpawnGroupData data, CompoundTag tag, CallbackInfoReturnable<SpawnGroupData> cir) {
         Random random = new Random();
         this.livestockOverhaulScraps$setTrait(random.nextInt(Trait.values().length));
