@@ -40,6 +40,7 @@ public class ScrapsExtrasCommonConfig {
     public static final ForgeConfigSpec.BooleanValue BOTFLY_INFESTATION;
     public static final ForgeConfigSpec.BooleanValue MANGE;
     public static final ForgeConfigSpec.BooleanValue TRAITS_SYSTEM;
+    public static final ForgeConfigSpec.BooleanValue TRAITS_BY_BREED;
     public static final ForgeConfigSpec.BooleanValue GOOD_TRAITS;
     public static final ForgeConfigSpec.BooleanValue BAD_TRAITS;
     public static final ForgeConfigSpec.BooleanValue HALTER;
@@ -104,6 +105,8 @@ public class ScrapsExtrasCommonConfig {
 
         BUILDER.push("Traits");
         TRAITS_SYSTEM = BUILDER.define("Traits System Enabled", true);
+        TRAITS_BY_BREED = BUILDER.comment("Should Traits depend on the breed of the animal? (For example, Draft horses are more likely to get a \"strong\"-type trait)")
+                .define("Traits Chance By Breed", true);
         GOOD_TRAITS = BUILDER.define("Good Traits Give Effects", true);
         BAD_TRAITS = BUILDER.define("Bad Traits Give Effects", true);
         BUILDER.pop();

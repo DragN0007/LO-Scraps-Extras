@@ -1,9 +1,6 @@
 package com.dragn0007.dragnloextras.common.event;
 
-import com.dragn0007.dragnlivestock.entities.EntityTypes;
-import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnloextras.ScrapsExtras;
-import com.dragn0007.dragnloextras.common.gui.MannequinMenu;
 import com.dragn0007.dragnloextras.entity.SEEntityTypes;
 import com.dragn0007.dragnloextras.entity.mannequin.HorseMannequin;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;

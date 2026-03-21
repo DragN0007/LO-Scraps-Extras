@@ -18,6 +18,7 @@ import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 @OnlyIn(Dist.CLIENT)
 public class OHorseExtrasLayer extends GeoRenderLayer<OHorse> {
 
+    /*
     private static final ResourceLocation[] HALTER_LOCATION = new ResourceLocation[]{
             new ResourceLocation(LivestockOverhaul.MODID, "textures/entity/horse/halter/white.png"),
             new ResourceLocation(LivestockOverhaul.MODID, "textures/entity/horse/halter/orange.png"),
@@ -36,6 +37,7 @@ public class OHorseExtrasLayer extends GeoRenderLayer<OHorse> {
             new ResourceLocation(LivestockOverhaul.MODID, "textures/entity/horse/halter/red.png"),
             new ResourceLocation(LivestockOverhaul.MODID, "textures/entity/horse/halter/black.png")
     };
+     */
 
     public OHorseExtrasLayer(GeoRenderer<OHorse> entityRendererIn) {
         super(entityRendererIn);
@@ -45,39 +47,9 @@ public class OHorseExtrasLayer extends GeoRenderLayer<OHorse> {
 
     @Override
     public void render(PoseStack poseStack, OHorse animatable, BakedGeoModel bakedModel, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
-        ResourceLocation resourceLocation = null;
+        ResourceLocation resourceLocation;
 
-        /*
-        if (((IsHalteredDuck) animatable).livestockOverhaulScraps$isHaltered()) {
-            DyeColor dyeColor = (((IsHalteredDuck) animatable).livestockOverhaulScraps$getHalterColor());
-            if (dyeColor != null) {
-                resourceLocation = HALTER_LOCATION[dyeColor.getId()];
-            }
-
-            if (animatable.isSaddled()) {
-                return;
-            }
-
-            if (resourceLocation == null) {
-                return;
-            }
-
-            RenderType renderType1 = RenderType.entityCutout(resourceLocation);
-            poseStack.pushPose();
-            poseStack.scale(1.0f, 1.0f, 1.0f);
-            poseStack.translate(0.0d, 0.0d, 0.0d);
-            poseStack.popPose();
-            getRenderer().reRender(getDefaultBakedModel(animatable),
-                    poseStack,
-                    bufferSource,
-                    animatable,
-                    renderType1,
-                    bufferSource.getBuffer(renderType1), partialTick, packedLight, OverlayTexture.NO_OVERLAY,
-                    1, 1, 1, 1);
-        }
-         */
-
-        if (((IsDirtyDuck) animatable).livestockOverhaulScraps$isDirty()) {
+        if (((IsDirtyDuck)animatable).livestockOverhaulScraps$isDirty()) {
 
             resourceLocation = new ResourceLocation(LivestockOverhaul.MODID, "textures/entity/horse/dirt.png");
 

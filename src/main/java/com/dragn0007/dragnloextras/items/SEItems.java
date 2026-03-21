@@ -1,6 +1,5 @@
 package com.dragn0007.dragnloextras.items;
 
-import com.dragn0007.dragnlivestock.entities.EntityTypes;
 import com.dragn0007.dragnloextras.ScrapsExtras;
 import com.dragn0007.dragnloextras.entity.SEEntityTypes;
 import com.dragn0007.dragnloextras.items.custom.*;
@@ -19,7 +18,6 @@ public class SEItems {
 
     public static final RegistryObject<Item> HORSE_MANNEQUIN = ITEMS.register("horse_mannequin",
             () -> new ForgeSpawnEggItem(SEEntityTypes.HORSE_MANNEQUIN_ENTITY, 0x00FFFFFF, 0x00FFFFFF, new Item.Properties().stacksTo(64)));
-
 
     //TODO: item classes
     public static final RegistryObject<Item> STETHOSCOPE = ITEMS.register("stethoscope",
