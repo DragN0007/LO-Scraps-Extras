@@ -43,14 +43,11 @@ public class OHorseExtrasLayer extends GeoRenderLayer<OHorse> {
         super(entityRendererIn);
     }
 
-    //this sort of works in the client class... sometimes...?
-
     @Override
     public void render(PoseStack poseStack, OHorse animatable, BakedGeoModel bakedModel, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
         ResourceLocation resourceLocation;
 
         if (((IsDirtyDuck)animatable).livestockOverhaulScraps$isDirty()) {
-
             resourceLocation = new ResourceLocation(LivestockOverhaul.MODID, "textures/entity/horse/dirt.png");
 
             RenderType renderType1 = RenderType.entityCutout(resourceLocation);

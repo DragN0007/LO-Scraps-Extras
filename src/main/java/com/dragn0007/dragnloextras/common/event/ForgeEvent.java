@@ -1,22 +1,50 @@
 package com.dragn0007.dragnloextras.common.event;
 
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
+import com.dragn0007.dragnloextras.ScrapsExtras;
+import com.dragn0007.dragnloextras.capabilities.*;
 import com.dragn0007.dragnloextras.effects.SEEffects;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.util.TraitDuck;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.IntTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.common.capabilities.*;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import javax.annotation.Nullable;
+
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeEvent {
+
+    @SubscribeEvent
+    public void registerCaps(RegisterCapabilitiesEvent event) {
+        event.register(MyCapability.class);
+    }
+
+    @SubscribeEvent
+    public void onAttachCapabilities(AttachCapabilitiesEvent<Entity> event) {
+        if (event.getObject() instanceof Player) {
+            event.addCapability(
+                    new ResourceLocation(ScrapsExtras.MODID, "horse_cap"),
+                    new MyCapabilityAttacher.MyCapabilityProvider()
+            );
+        }
+    }
+
     @SubscribeEvent
     public static void onTryFeedEntity(PlayerInteractEvent.EntityInteract event) {
         if (event.getTarget() instanceof LivingEntity entity) {
@@ -85,7 +113,7 @@ public class ForgeEvent {
                         illnessText = "This animal has Rabies.\n";
                     if (animal.hasEffect(SEEffects.HOOF_ABSCESS.get()))
                         illnessText = "This animal has a Hoof Abscess.\n";
-                    player.sendSystemMessage(Component.translatable(traitText + "\n" + illnessText).withStyle(ChatFormatting.WHITE));
+                    player.sendSystemMessage(Component.translatable(traitText).withStyle(ChatFormatting.WHITE));
 //                    player.displayClientMessage(Component.translatable(traitText + " | " + illnessText).withStyle(ChatFormatting.GOLD), true);
                 }
             }
