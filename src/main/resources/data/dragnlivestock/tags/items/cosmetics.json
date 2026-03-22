@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    "dragnloextras:white_turnout_blanket",
+    "dragnloextras:orange_turnout_blanket",
+    "dragnloextras:magenta_turnout_blanket",
+    "dragnloextras:light_blue_turnout_blanket",
+    "dragnloextras:yellow_turnout_blanket",
+    "dragnloextras:lime_turnout_blanket",
+    "dragnloextras:pink_turnout_blanket",
+    "dragnloextras:grey_turnout_blanket",
+    "dragnloextras:light_grey_turnout_blanket",
+    "dragnloextras:cyan_turnout_blanket",
+    "dragnloextras:purple_turnout_blanket",
+    "dragnloextras:blue_turnout_blanket",
+    "dragnloextras:brown_turnout_blanket",
+    "dragnloextras:green_turnout_blanket",
+    "dragnloextras:red_turnout_blanket",
+    "dragnloextras:black_turnout_blanket"
+  ]
+}

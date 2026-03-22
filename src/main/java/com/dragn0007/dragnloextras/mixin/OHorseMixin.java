@@ -2,21 +2,24 @@ package com.dragn0007.dragnloextras.mixin;
 
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
-import com.dragn0007.dragnloextras.capabilities.DirtyCapability;
 import com.dragn0007.dragnloextras.capabilities.DirtyCapabilityInterface;
+import com.dragn0007.dragnloextras.capabilities.SECapabilities;
+import com.dragn0007.dragnloextras.capabilities.TraitCapabilityInterface;
 import com.dragn0007.dragnloextras.effects.SEEffects;
-import com.dragn0007.dragnloextras.holders.ITraitByBreedTypeHolder;
-import com.dragn0007.dragnloextras.holders.Trait;
-import com.dragn0007.dragnloextras.holders.TraitDuck;
 import com.dragn0007.dragnloextras.items.SEItems;
-import com.dragn0007.dragnloextras.network.CapabilitySyncHandler;
+import com.dragn0007.dragnloextras.items.custom.HalterItem;
+import com.dragn0007.dragnloextras.network.SyncDirtyLayerPacket;
+import com.dragn0007.dragnloextras.network.SyncHalterLayerPacket;
+import com.dragn0007.dragnloextras.network.SyncTraitPacket;
+import com.dragn0007.dragnloextras.util.ITraitByBreedTypeHolder;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
-import net.minecraft.core.particles.ParticleTypes;
+import com.dragn0007.dragnloextras.util.Trait;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
@@ -38,9 +41,9 @@ import java.util.Objects;
 import java.util.Random;
 
 @Mixin(OHorse.class)
-public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabilityInterface, TraitDuck, ITraitByBreedTypeHolder {
+public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabilityInterface, ITraitByBreedTypeHolder {
 
-    //TODO: halters, hunger tick
+    //TODO: halters, hunger tick, trait mechanics, illness mechanics
 
     @Shadow public abstract boolean isDraftBreed();
     @Shadow public abstract boolean isWarmbloodedBreed();
@@ -50,6 +53,10 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
 
     public OHorseMixin(EntityType<? extends OHorseMixin> entityType, Level level) {
         super(entityType, level);
+    }
+    @Inject(method = "getStepHeight", at = @At("HEAD"), remap = false, cancellable = true)
+    protected void getStepHeight(CallbackInfoReturnable<Float> cir) {
+        cir.setReturnValue(2.0F);
     }
 
     @Unique
@@ -61,12 +68,11 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
     protected void onTick(CallbackInfo ci) {
         if (!this.level().isClientSide) {
 
-
             if (ScrapsExtrasCommonConfig.HYGIENE_SYSTEM.get()) {
                 livestockOverhaulScraps$dirtyTick++;
 
                 if (livestockOverhaulScraps$dirtyTick >= ScrapsExtrasCommonConfig.DIRTY_TICK.get() && this.hasEffect(SEEffects.DIRTY.get())) {
-                    this.getCapability(DirtyCapability.DIRTY_CAPABILITY).ifPresent(cap -> {
+                    this.getCapability(SECapabilities.DIRTY_CAPABILITY).ifPresent(cap -> {
                         if (cap.isDirty()) {
                             int amp = Objects.requireNonNull(this.getEffect(SEEffects.DIRTY.get())).getAmplifier();
                             if (amp <= 4) {
@@ -77,9 +83,9 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
                 }
 
                 if (livestockOverhaulScraps$dirtyTick >= ScrapsExtrasCommonConfig.DIRTY_TICK.get()) {
-                    this.getCapability(DirtyCapability.DIRTY_CAPABILITY).ifPresent(cap -> {
+                    this.getCapability(SECapabilities.DIRTY_CAPABILITY).ifPresent(cap -> {
                         cap.setDirty(true);
-                        CapabilitySyncHandler.syncToTracking(this, true);
+                        SyncDirtyLayerPacket.syncToTracking(this, true);
                     });
                     this.addEffect(new MobEffectInstance(SEEffects.DIRTY.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
                     livestockOverhaulScraps$dirtyTick = 0;
@@ -90,20 +96,10 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
 
     @Inject(method = "aiStep", at = @At("HEAD"))
     protected void onAIStep(CallbackInfo ci) {
-        if (this.hasEffect(SEEffects.DIRTY.get())) {
-            this.level().addParticle(ParticleTypes.MYCELIUM, this.getRandomX(0.6D), this.getRandomY(), this.getRandomZ(0.6D), 0.0D, 0.0D, 0.0D);
-        }
     }
 
-    @Unique
-    private int livestockOverhaulScraps$trait;
-    @Override
-    public int livestockOverhaulScraps$getTrait() {
-        return this.livestockOverhaulScraps$trait;
-    }
-    @Override
-    public void livestockOverhaulScraps$setTrait(int value) {
-        this.livestockOverhaulScraps$trait = value;
+    @Inject(method = "hurt", at = @At("HEAD"))
+    public void hurt(DamageSource damageSource, float v, CallbackInfoReturnable<Boolean> cir) {
     }
 
     @Override
@@ -114,13 +110,36 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
         if (!this.level().isClientSide) {
             if (itemstack.is(SEItems.BRUSH.get())) {
                 livestockOverhaulScraps$dirtyTick = 0;
-                this.getCapability(DirtyCapability.DIRTY_CAPABILITY).ifPresent(cap -> {
-                    cap.setDirty(false);
-                    CapabilitySyncHandler.syncToTracking(this, false);
+                this.getCapability(SECapabilities.DIRTY_CAPABILITY).ifPresent(cap -> {
+                    cap.setDirty(false); //                                                                            this value
+                    SyncDirtyLayerPacket.syncToTracking(this, false); //always make sure this value matches
                 });
                 this.removeEffect(SEEffects.DIRTY.get());
                 this.playSound(SoundEvents.BRUSH_GENERIC, 0.5f, 1f);
                 return InteractionResult.sidedSuccess(this.level().isClientSide);
+            }
+
+            if (item instanceof HalterItem) {
+                HalterItem halterItem = (HalterItem)item;
+                if (this.isOwnedBy(player)) {
+
+                    this.getCapability(SECapabilities.HALTER_CAPABILITY).ifPresent(cap -> {
+                        cap.setHalter(true);
+                        SyncHalterLayerPacket.syncToTracking(this, true);
+                    });
+
+//                    DyeColor dyecolor = halterItem.getDyeColor();
+//                    if (dyecolor != this.getCollarColor()) {
+//                        this.setCollarColor(dyecolor);
+//                        if (!player.getAbilities().instabuild) {
+//                            itemstack.shrink(1);
+//                        }
+//
+                        return InteractionResult.SUCCESS;
+//                    }
+
+//                    return super.mobInteract(player, hand);
+                }
             }
         }
 
@@ -131,7 +150,6 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
     private void addData(CompoundTag tag, CallbackInfo ci) {
         super.addAdditionalSaveData(tag);
         tag.putInt("DirtyTick", this.livestockOverhaulScraps$dirtyTick);
-        tag.putInt("Trait", this.livestockOverhaulScraps$getTrait());
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("HEAD"))
@@ -139,9 +157,6 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
         super.readAdditionalSaveData(tag);
         if (tag.contains("DirtyTick")) {
             this.livestockOverhaulScraps$dirtyTick = tag.getInt("DirtyTick");
-        }
-        if (tag.contains("Trait")) {
-            this.livestockOverhaulScraps$setTrait(tag.getInt("Trait"));
         }
     }
 
@@ -152,8 +167,15 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
     @Inject(method = "finalizeSpawn", at = @At("TAIL"))
     private void spawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, SpawnGroupData data, CompoundTag tag, CallbackInfoReturnable<SpawnGroupData> cir) {
         Random random = new Random();
-        this.livestockOverhaulScraps$setTrait(random.nextInt(Trait.values().length));
-        switch (this.livestockOverhaulScraps$getTrait()) {
+
+        int trait = random.nextInt(Trait.values().length);
+        this.getCapability(SECapabilities.TRAIT_CAPABILITY).ifPresent(cap -> {
+            cap.setTrait(trait);
+            SyncTraitPacket.syncToTracking(this, trait);
+        });
+
+        TraitCapabilityInterface cap = this.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
+        switch (cap.getTrait()) {
             case 0: this.addEffect(new MobEffectInstance(SEEffects.BRAVE.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
                 break;
             case 1: this.addEffect(new MobEffectInstance(SEEffects.IMMUNOCOMPETENT.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
@@ -185,45 +207,77 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
 
     @Unique
     public void setTraitByBreedType() {
+        int trait = random.nextInt(Trait.values().length);
+
         if (this.isDraftBreed()) { //more likely to have strong and docile traits
             if (random.nextDouble() <= 0.15) {
-                this.livestockOverhaulScraps$setTrait(Trait.values().length);
+                this.getCapability(SECapabilities.TRAIT_CAPABILITY).ifPresent(cap -> {
+                    cap.setTrait(trait);
+                    SyncTraitPacket.syncToTracking(this, trait);
+                });
             } else if (random.nextDouble() > 0.15) {
                 int[] traits = {0, 5, 6, 10};
                 int randomIndex = new Random().nextInt(traits.length);
-                this.livestockOverhaulScraps$setTrait(traits[randomIndex]);
+                this.getCapability(SECapabilities.TRAIT_CAPABILITY).ifPresent(cap -> {
+                    cap.setTrait(traits[randomIndex]);
+                    SyncTraitPacket.syncToTracking(this, traits[randomIndex]);
+                });
             }
         } else if (this.isWarmbloodedBreed()) { //more likely to have athletic traits
             if (random.nextDouble() <= 0.15) {
-                this.livestockOverhaulScraps$setTrait(Trait.values().length);
+                this.getCapability(SECapabilities.TRAIT_CAPABILITY).ifPresent(cap -> {
+                    cap.setTrait(trait);
+                    SyncTraitPacket.syncToTracking(this, trait);
+                });
             } else if (random.nextDouble() > 0.15) {
                 int[] traits = {3, 4, 6, 8};
                 int randomIndex = new Random().nextInt(traits.length);
-                this.livestockOverhaulScraps$setTrait(traits[randomIndex]);
+                this.getCapability(SECapabilities.TRAIT_CAPABILITY).ifPresent(cap -> {
+                    cap.setTrait(traits[randomIndex]);
+                    SyncTraitPacket.syncToTracking(this, traits[randomIndex]);
+                });
             }
         } else if (this.isRacingBreed()) { //more likely to have high-energy traits
             if (random.nextDouble() <= 0.15) {
-                this.livestockOverhaulScraps$setTrait(Trait.values().length);
+                this.getCapability(SECapabilities.TRAIT_CAPABILITY).ifPresent(cap -> {
+                    cap.setTrait(trait);
+                    SyncTraitPacket.syncToTracking(this, trait);
+                });
             } else if (random.nextDouble() > 0.15) {
                 int[] traits = {2, 5, 4, 12};
                 int randomIndex = new Random().nextInt(traits.length);
-                this.livestockOverhaulScraps$setTrait(traits[randomIndex]);
+                this.getCapability(SECapabilities.TRAIT_CAPABILITY).ifPresent(cap -> {
+                    cap.setTrait(traits[randomIndex]);
+                    SyncTraitPacket.syncToTracking(this, traits[randomIndex]);
+                });
             }
         } else if (this.isPonyBreed()) { //more likely to have docile traits
             if (random.nextDouble() <= 0.15) {
-                this.livestockOverhaulScraps$setTrait(Trait.values().length);
+                this.getCapability(SECapabilities.TRAIT_CAPABILITY).ifPresent(cap -> {
+                    cap.setTrait(trait);
+                    SyncTraitPacket.syncToTracking(this, trait);
+                });
             } else if (random.nextDouble() > 0.15) {
                 int[] traits = {1, 4, 6, 9};
                 int randomIndex = new Random().nextInt(traits.length);
-                this.livestockOverhaulScraps$setTrait(traits[randomIndex]);
+                this.getCapability(SECapabilities.TRAIT_CAPABILITY).ifPresent(cap -> {
+                    cap.setTrait(traits[randomIndex]);
+                    SyncTraitPacket.syncToTracking(this, traits[randomIndex]);
+                });
             }
         } else if (this.isStockBreed()) { //more likely to have all-rounder traits
             if (random.nextDouble() <= 0.15) {
-                this.livestockOverhaulScraps$setTrait(Trait.values().length);
+                this.getCapability(SECapabilities.TRAIT_CAPABILITY).ifPresent(cap -> {
+                    cap.setTrait(trait);
+                    SyncTraitPacket.syncToTracking(this, trait);
+                });
             } else if (random.nextDouble() > 0.15) {
                 int[] traits = {1, 2, 3, 7};
                 int randomIndex = new Random().nextInt(traits.length);
-                this.livestockOverhaulScraps$setTrait(traits[randomIndex]);
+                this.getCapability(SECapabilities.TRAIT_CAPABILITY).ifPresent(cap -> {
+                    cap.setTrait(traits[randomIndex]);
+                    SyncTraitPacket.syncToTracking(this, traits[randomIndex]);
+                });
             }
         }
     }

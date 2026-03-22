@@ -13,19 +13,19 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-public class DirtyCapabilityAttacher {
+public class HalterCapabilityAttacher {
 
-    public static class DirtyCapabilityProvider implements ICapabilitySerializable<CompoundTag> {
+    public static class HalterCapabilityProvider implements ICapabilitySerializable<CompoundTag> {
 
-        public static final ResourceLocation IDENTIFIER = new ResourceLocation(ScrapsExtras.MODID, "dirty_cap");
+        public static final ResourceLocation IDENTIFIER = new ResourceLocation(ScrapsExtras.MODID, "halter_cap");
 
-        private final DirtyCapabilityInterface backend = new DirtyCapabilityImplementation();
-        private final LazyOptional<DirtyCapabilityInterface> optionalData = LazyOptional.of(() -> backend);
+        private final HalterCapabilityInterface backend = new HalterCapabilityImplementation();
+        private final LazyOptional<HalterCapabilityInterface> optionalData = LazyOptional.of(() -> backend);
 
         @NotNull
         @Override
         public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-            return SECapabilities.DIRTY_CAPABILITY.orEmpty(cap, this.optionalData);
+            return SECapabilities.HALTER_CAPABILITY.orEmpty(cap, this.optionalData);
         }
 
         void invalidate() {
@@ -44,10 +44,10 @@ public class DirtyCapabilityAttacher {
     }
 
     public static void attach(final AttachCapabilitiesEvent<Entity> event) {
-        final DirtyCapabilityProvider provider = new DirtyCapabilityProvider();
-        event.addCapability(DirtyCapabilityProvider.IDENTIFIER, provider);
+        final HalterCapabilityProvider provider = new HalterCapabilityProvider();
+        event.addCapability(HalterCapabilityProvider.IDENTIFIER, provider);
     }
 
-    private DirtyCapabilityAttacher() {
+    private HalterCapabilityAttacher() {
     }
 }

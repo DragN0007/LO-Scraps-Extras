@@ -10,11 +10,13 @@ import com.dragn0007.dragnlivestock.entities.util.marking_layer.EquineEyeColorOv
 import com.dragn0007.dragnlivestock.entities.util.marking_layer.EquineMarkingOverlay;
 import com.dragn0007.dragnlivestock.spawn.SpawnReplacer;
 import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
+import com.dragn0007.dragnloextras.capabilities.SECapabilities;
+import com.dragn0007.dragnloextras.capabilities.TraitCapabilityInterface;
 import com.dragn0007.dragnloextras.effects.SEEffects;
-import com.dragn0007.dragnloextras.holders.ITraitByBreedTypeHolder;
-import com.dragn0007.dragnloextras.holders.Trait;
-import com.dragn0007.dragnloextras.holders.TraitDuck;
+import com.dragn0007.dragnloextras.network.SyncTraitPacket;
+import com.dragn0007.dragnloextras.util.ITraitByBreedTypeHolder;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
+import com.dragn0007.dragnloextras.util.Trait;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.MobSpawnType;
@@ -108,9 +110,15 @@ public class SpawnReplacerMixin {
                         if (ScrapsExtrasCommonConfig.TRAITS_BY_BREED.get()) {
                             ((ITraitByBreedTypeHolder) oHorse).setTraitByBreedType();
                         } else {
-                            ((TraitDuck) oHorse).livestockOverhaulScraps$setTrait(Trait.values().length);
+                            int trait = random.nextInt(Trait.values().length);
+                            oHorse.getCapability(SECapabilities.TRAIT_CAPABILITY).ifPresent(cap -> {
+                                cap.setTrait(trait);
+                                SyncTraitPacket.syncToTracking(oHorse, trait);
+                            });
                         }
-                        switch (((TraitDuck) oHorse).livestockOverhaulScraps$getTrait()) {
+
+                        TraitCapabilityInterface cap = oHorse.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
+                        switch (cap.getTrait()) {
                             case 0: oHorse.addEffect(new MobEffectInstance(SEEffects.BRAVE.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
                                 break;
                             case 1: oHorse.addEffect(new MobEffectInstance(SEEffects.IMMUNOCOMPETENT.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));

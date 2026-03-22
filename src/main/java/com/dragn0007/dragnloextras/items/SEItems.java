@@ -86,6 +86,39 @@ public class SEItems {
     public static final RegistryObject<Item> YELLOW_HALTER = ITEMS.register("yellow_halter",
             () -> new HalterItem(DyeColor.YELLOW, new Item.Properties()));
 
+    public static final RegistryObject<Item> BLACK_TURNOUT_BLANKET = ITEMS.register("black_turnout_blanket",
+            () -> new TurnoutBlanketItem(DyeColor.BLACK, new Item.Properties()));
+    public static final RegistryObject<Item> BLUE_TURNOUT_BLANKET = ITEMS.register("blue_turnout_blanket",
+            () -> new TurnoutBlanketItem(DyeColor.BLUE, new Item.Properties()));
+    public static final RegistryObject<Item> BROWN_TURNOUT_BLANKET = ITEMS.register("brown_turnout_blanket",
+            () -> new TurnoutBlanketItem(DyeColor.BROWN, new Item.Properties()));
+    public static final RegistryObject<Item> CYAN_TURNOUT_BLANKET = ITEMS.register("cyan_turnout_blanket",
+            () -> new TurnoutBlanketItem(DyeColor.CYAN, new Item.Properties()));
+    public static final RegistryObject<Item> GREEN_TURNOUT_BLANKET = ITEMS.register("green_turnout_blanket",
+            () -> new TurnoutBlanketItem(DyeColor.GREEN, new Item.Properties()));
+    public static final RegistryObject<Item> GREY_TURNOUT_BLANKET = ITEMS.register("grey_turnout_blanket",
+            () -> new TurnoutBlanketItem(DyeColor.GRAY, new Item.Properties()));
+    public static final RegistryObject<Item> LIGHT_BLUE_TURNOUT_BLANKET = ITEMS.register("light_blue_turnout_blanket",
+            () -> new TurnoutBlanketItem(DyeColor.LIGHT_BLUE, new Item.Properties()));
+    public static final RegistryObject<Item> LIGHT_GREY_TURNOUT_BLANKET = ITEMS.register("light_grey_turnout_blanket",
+            () -> new TurnoutBlanketItem(DyeColor.LIGHT_GRAY, new Item.Properties()));
+    public static final RegistryObject<Item> LIME_TURNOUT_BLANKET = ITEMS.register("lime_turnout_blanket",
+            () -> new TurnoutBlanketItem(DyeColor.LIME, new Item.Properties()));
+    public static final RegistryObject<Item> MAGENTA_TURNOUT_BLANKET = ITEMS.register("magenta_turnout_blanket",
+            () -> new TurnoutBlanketItem(DyeColor.MAGENTA, new Item.Properties()));
+    public static final RegistryObject<Item> ORANGE_TURNOUT_BLANKET = ITEMS.register("orange_turnout_blanket",
+            () -> new TurnoutBlanketItem(DyeColor.ORANGE, new Item.Properties()));
+    public static final RegistryObject<Item> PINK_TURNOUT_BLANKET = ITEMS.register("pink_turnout_blanket",
+            () -> new TurnoutBlanketItem(DyeColor.PINK, new Item.Properties()));
+    public static final RegistryObject<Item> PURPLE_TURNOUT_BLANKET = ITEMS.register("purple_turnout_blanket",
+            () -> new TurnoutBlanketItem(DyeColor.PURPLE, new Item.Properties()));
+    public static final RegistryObject<Item> RED_TURNOUT_BLANKET = ITEMS.register("red_turnout_blanket",
+            () -> new TurnoutBlanketItem(DyeColor.RED, new Item.Properties()));
+    public static final RegistryObject<Item> WHITE_TURNOUT_BLANKET = ITEMS.register("white_turnout_blanket",
+            () -> new TurnoutBlanketItem(DyeColor.WHITE, new Item.Properties()));
+    public static final RegistryObject<Item> YELLOW_TURNOUT_BLANKET = ITEMS.register("yellow_turnout_blanket",
+            () -> new TurnoutBlanketItem(DyeColor.YELLOW, new Item.Properties()));
+
 
     public static final RegistryObject<Item> LOGO = ITEMS.register("logo",
             () -> new Item(new Item.Properties()));

@@ -10,31 +10,31 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class SyncDirtyLayerPacket {
+public class SyncHalterLayerPacket {
     private final int entityId;
-    private final boolean isDirty;
+    private final boolean isHalter;
 
-    public SyncDirtyLayerPacket(int entityId, boolean isDirty) {
+    public SyncHalterLayerPacket(int entityId, boolean isHalter) {
         this.entityId = entityId;
-        this.isDirty = isDirty;
+        this.isHalter = isHalter;
     }
 
-    public static void encode(SyncDirtyLayerPacket msg, FriendlyByteBuf buffer) {
+    public static void encode(SyncHalterLayerPacket msg, FriendlyByteBuf buffer) {
         buffer.writeInt(msg.entityId);
-        buffer.writeBoolean(msg.isDirty);
+        buffer.writeBoolean(msg.isHalter);
     }
 
-    public static SyncDirtyLayerPacket decode(FriendlyByteBuf buffer) {
-        return new SyncDirtyLayerPacket(buffer.readInt(), buffer.readBoolean());
+    public static SyncHalterLayerPacket decode(FriendlyByteBuf buffer) {
+        return new SyncHalterLayerPacket(buffer.readInt(), buffer.readBoolean());
     }
 
-    public static void handle(SyncDirtyLayerPacket msg, Supplier<NetworkEvent.Context> ctx) {
+    public static void handle(SyncHalterLayerPacket msg, Supplier<NetworkEvent.Context> ctx) {
         net.minecraft.client.multiplayer.ClientLevel level = net.minecraft.client.Minecraft.getInstance().level;
         if (level != null) {
-            net.minecraft.world.entity.Entity entity = level.getEntity(msg.entityId);
+            Entity entity = level.getEntity(msg.entityId);
             if (entity != null) {
-                entity.getCapability(SECapabilities.DIRTY_CAPABILITY).ifPresent(cap -> {
-                    cap.setDirty(msg.isDirty);
+                entity.getCapability(SECapabilities.HALTER_CAPABILITY).ifPresent(cap -> {
+                    cap.setHalter(msg.isHalter);
                 });
             }
         }
@@ -42,15 +42,15 @@ public class SyncDirtyLayerPacket {
 
     public static void syncToTracking(Entity entity, boolean value) {
         if (!entity.level().isClientSide) {
-            SENetwork.sendToTracking(new SyncDirtyLayerPacket(entity.getId(), value), entity);
+            SENetwork.sendToTracking(new SyncHalterLayerPacket(entity.getId(), value), entity);
         }
     }
 
     @SubscribeEvent
     public static void onStartTracking(PlayerEvent.StartTracking event) {
         Entity target = event.getTarget();
-        target.getCapability(SECapabilities.DIRTY_CAPABILITY).ifPresent(cap -> {
-            SENetwork.sendToPlayer(new SyncDirtyLayerPacket(target.getId(), cap.isDirty()), (ServerPlayer) event.getEntity());
+        target.getCapability(SECapabilities.HALTER_CAPABILITY).ifPresent(cap -> {
+            SENetwork.sendToPlayer(new SyncHalterLayerPacket(target.getId(), cap.isHalter()), (ServerPlayer) event.getEntity());
         });
     }
 }

@@ -17,6 +17,8 @@ public class SERecipeMaker extends RecipeProvider implements IConditionBuilder {
         super(pOutput);
     }
 
+    //TODO: stethoscope, treatments, halter, turnout blanket, food recipes
+
     @Override
     public void buildRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.HORSE_MANNEQUIN.get())

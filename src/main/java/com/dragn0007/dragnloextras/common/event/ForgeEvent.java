@@ -2,13 +2,16 @@ package com.dragn0007.dragnloextras.common.event;
 
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
-import com.dragn0007.dragnloextras.capabilities.DirtyCapability;
-import com.dragn0007.dragnloextras.capabilities.DirtyCapabilityAttacher;
+import com.dragn0007.dragnloextras.capabilities.*;
 import com.dragn0007.dragnloextras.effects.SEEffects;
-import com.dragn0007.dragnloextras.holders.TraitDuck;
 import com.dragn0007.dragnloextras.items.SEItems;
+import com.dragn0007.dragnloextras.network.SENetwork;
+import com.dragn0007.dragnloextras.network.SyncDirtyLayerPacket;
+import com.dragn0007.dragnloextras.network.SyncHalterLayerPacket;
+import com.dragn0007.dragnloextras.network.SyncTraitPacket;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,9 +19,11 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.network.PacketDistributor;
 
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -26,12 +31,44 @@ public class ForgeEvent {
 
     @SubscribeEvent
     public void registerCaps(RegisterCapabilitiesEvent event) {
-        DirtyCapability.register(event);
+        SECapabilities.register(event);
+    }
+
+    @SubscribeEvent
+    public static void onStartTracking(PlayerEvent.StartTracking event) {
+        Entity target = event.getTarget();
+
+        //syncs the player client back up when they rejoin so they render the correct layers
+        if (!target.level().isClientSide) {
+
+            target.getCapability(SECapabilities.HALTER_CAPABILITY).ifPresent(cap -> {
+                SENetwork.INSTANCE.send(
+                        PacketDistributor.PLAYER.with(() -> (ServerPlayer) event.getEntity()),
+                        new SyncHalterLayerPacket(target.getId(), cap.isHalter())
+                );
+            });
+
+            target.getCapability(SECapabilities.DIRTY_CAPABILITY).ifPresent(cap -> {
+                SENetwork.INSTANCE.send(
+                        PacketDistributor.PLAYER.with(() -> (ServerPlayer) event.getEntity()),
+                        new SyncDirtyLayerPacket(target.getId(), cap.isDirty())
+                );
+            });
+
+            target.getCapability(SECapabilities.TRAIT_CAPABILITY).ifPresent(cap -> {
+                SENetwork.INSTANCE.send(
+                        PacketDistributor.PLAYER.with(() -> (ServerPlayer) event.getEntity()),
+                        new SyncTraitPacket(target.getId(), cap.getTrait())
+                );
+            });
+
+        }
     }
 
     @SubscribeEvent
     public static void attach(final AttachCapabilitiesEvent<Entity> event) {
-        if (!event.getObject().getCapability(DirtyCapability.DIRTY_CAPABILITY).isPresent()) {
+        if (!event.getObject().getCapability(SECapabilities.DIRTY_CAPABILITY).isPresent()) {
+            //horses
             if (event.getObject() instanceof OHorse) {
                 final DirtyCapabilityAttacher.DirtyCapabilityProvider provider = new DirtyCapabilityAttacher.DirtyCapabilityProvider();
                 DirtyCapabilityAttacher.attach(event);
@@ -39,7 +76,30 @@ public class ForgeEvent {
                     System.out.println("Attached the Dirty Capability NBT to " + event.getObject().getName());
                 }
             }
+            if (event.getObject() instanceof OHorse) {
+                final HalterCapabilityAttacher.HalterCapabilityProvider provider = new HalterCapabilityAttacher.HalterCapabilityProvider();
+                HalterCapabilityAttacher.attach(event);
+                if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
+                    System.out.println("Attached the Halter Capability NBT to " + event.getObject().getName());
+                }
+            }
+            if (event.getObject() instanceof OHorse) {
+                final TraitCapabilityAttacher.TraitCapabilityProvider provider = new TraitCapabilityAttacher.TraitCapabilityProvider();
+                TraitCapabilityAttacher.attach(event);
+                if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
+                    System.out.println("Attached the Trait Capability NBT to " + event.getObject().getName());
+                }
+            }
         }
+
+        //camels
+        //caribou
+        //donkeys
+        //mules
+        //dogs
+        //wolves
+        //cats
+        //ocelots
     }
 
     @SubscribeEvent
@@ -100,7 +160,8 @@ public class ForgeEvent {
 
             if (stack.is(SEItems.STETHOSCOPE.get())) {
                 if (entity instanceof OHorse animal) {
-                    String traitText = getTraits(((TraitDuck)animal).livestockOverhaulScraps$getTrait());
+                    TraitCapabilityInterface cap = animal.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
+                    String traitText = getTraits(cap.getTrait());
                     String illnessText = "";
                     if (animal.hasEffect(SEEffects.DIRTY.get()))
                         illnessText = "This animal is Dirty and needs to be cleaned.\n";

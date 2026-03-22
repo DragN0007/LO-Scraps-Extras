@@ -54,6 +54,23 @@ public class SEItemGroupModifier {
                         output.accept(SEItems.WHITE_HALTER.get());
                         output.accept(SEItems.YELLOW_HALTER.get());
 
+                        output.accept(SEItems.BLACK_TURNOUT_BLANKET.get());
+                        output.accept(SEItems.BLUE_TURNOUT_BLANKET.get());
+                        output.accept(SEItems.BROWN_TURNOUT_BLANKET.get());
+                        output.accept(SEItems.CYAN_TURNOUT_BLANKET.get());
+                        output.accept(SEItems.GREEN_TURNOUT_BLANKET.get());
+                        output.accept(SEItems.GREY_TURNOUT_BLANKET.get());
+                        output.accept(SEItems.LIGHT_BLUE_TURNOUT_BLANKET.get());
+                        output.accept(SEItems.LIGHT_GREY_TURNOUT_BLANKET.get());
+                        output.accept(SEItems.LIME_TURNOUT_BLANKET.get());
+                        output.accept(SEItems.MAGENTA_TURNOUT_BLANKET.get());
+                        output.accept(SEItems.ORANGE_TURNOUT_BLANKET.get());
+                        output.accept(SEItems.PINK_TURNOUT_BLANKET.get());
+                        output.accept(SEItems.PURPLE_TURNOUT_BLANKET.get());
+                        output.accept(SEItems.RED_TURNOUT_BLANKET.get());
+                        output.accept(SEItems.WHITE_TURNOUT_BLANKET.get());
+                        output.accept(SEItems.YELLOW_TURNOUT_BLANKET.get());
+
                     }).build());
 
     public static void register(IEventBus eventBus) {

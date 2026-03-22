@@ -9,11 +9,14 @@ public class BraveEffect extends MobEffect {
         super(pCategory, pColor);
     }
 
-    public int immunityDamperTick;
+    public int regenHealthCounter = 0;
 
     @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
-        if (!entity.level().isClientSide) {
+        regenHealthCounter++;
+        if (entity.getHealth() < entity.getMaxHealth() && regenHealthCounter >= 100 && entity.isAlive()) {
+            entity.setHealth(entity.getHealth() + 4);
+            regenHealthCounter = 0;
         }
     }
 

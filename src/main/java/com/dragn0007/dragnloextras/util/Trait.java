@@ -1,4 +1,4 @@
-package com.dragn0007.dragnloextras.holders;
+package com.dragn0007.dragnloextras.util;
 
 public enum Trait {
     //Good

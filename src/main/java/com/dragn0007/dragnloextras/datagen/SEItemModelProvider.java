@@ -54,6 +54,23 @@ public class SEItemModelProvider extends ItemModelProvider {
         simpleItem(SEItems.WHITE_HALTER);
         simpleItem(SEItems.YELLOW_HALTER);
 
+        simpleItem(SEItems.BLACK_TURNOUT_BLANKET);
+        simpleItem(SEItems.BLUE_TURNOUT_BLANKET);
+        simpleItem(SEItems.BROWN_TURNOUT_BLANKET);
+        simpleItem(SEItems.CYAN_TURNOUT_BLANKET);
+        simpleItem(SEItems.GREEN_TURNOUT_BLANKET);
+        simpleItem(SEItems.GREY_TURNOUT_BLANKET);
+        simpleItem(SEItems.LIGHT_BLUE_TURNOUT_BLANKET);
+        simpleItem(SEItems.LIGHT_GREY_TURNOUT_BLANKET);
+        simpleItem(SEItems.LIME_TURNOUT_BLANKET);
+        simpleItem(SEItems.MAGENTA_TURNOUT_BLANKET);
+        simpleItem(SEItems.ORANGE_TURNOUT_BLANKET);
+        simpleItem(SEItems.PINK_TURNOUT_BLANKET);
+        simpleItem(SEItems.PURPLE_TURNOUT_BLANKET);
+        simpleItem(SEItems.RED_TURNOUT_BLANKET);
+        simpleItem(SEItems.WHITE_TURNOUT_BLANKET);
+        simpleItem(SEItems.YELLOW_TURNOUT_BLANKET);
+
         simpleItem(SEItems.LOGO);
     }
 

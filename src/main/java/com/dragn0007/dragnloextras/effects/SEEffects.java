@@ -2,6 +2,8 @@ package com.dragn0007.dragnloextras.effects;
 
 import com.dragn0007.dragnloextras.ScrapsExtras;
 import com.dragn0007.dragnloextras.effects.traits.BraveEffect;
+import com.dragn0007.dragnloextras.effects.traits.ClimberEffect;
+import com.dragn0007.dragnloextras.effects.traits.LaggardEffect;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -68,7 +70,7 @@ public class SEEffects {
     public static final RegistryObject<MobEffect> VAULTER = MOB_EFFECTS.register("vaulter",
             () -> new BraveEffect(MobEffectCategory.BENEFICIAL, 0x5c0d12));
     public static final RegistryObject<MobEffect> CLIMBER = MOB_EFFECTS.register("climber",
-            () -> new BraveEffect(MobEffectCategory.BENEFICIAL, 0x5c0d12));
+            () -> new ClimberEffect(MobEffectCategory.BENEFICIAL, 0x5c0d12));
     public static final RegistryObject<MobEffect> BUSTER = MOB_EFFECTS.register("buster",
             () -> new BraveEffect(MobEffectCategory.BENEFICIAL, 0x5c0d12));
     public static final RegistryObject<MobEffect> STURDY = MOB_EFFECTS.register("sturdy",
@@ -81,7 +83,7 @@ public class SEEffects {
     public static final RegistryObject<MobEffect> STUBBORN = MOB_EFFECTS.register("stubborn",
             () -> new BraveEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
     public static final RegistryObject<MobEffect> LAGGARD = MOB_EFFECTS.register("laggard",
-            () -> new BraveEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
+            () -> new LaggardEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
     public static final RegistryObject<MobEffect> FRAIL = MOB_EFFECTS.register("frail",
             () -> new BraveEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
     public static final RegistryObject<MobEffect> MEAN = MOB_EFFECTS.register("mean",
