@@ -2,11 +2,15 @@ package com.dragn0007.dragnloextras.mixin;
 
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
-import com.dragn0007.dragnloextras.capabilities.IDirtyCapability;
+import com.dragn0007.dragnloextras.capabilities.DirtyCapability;
+import com.dragn0007.dragnloextras.capabilities.DirtyCapabilityInterface;
 import com.dragn0007.dragnloextras.effects.SEEffects;
+import com.dragn0007.dragnloextras.holders.ITraitByBreedTypeHolder;
+import com.dragn0007.dragnloextras.holders.Trait;
+import com.dragn0007.dragnloextras.holders.TraitDuck;
 import com.dragn0007.dragnloextras.items.SEItems;
-import com.dragn0007.dragnloextras.util.*;
-import net.minecraft.core.Direction;
+import com.dragn0007.dragnloextras.network.CapabilitySyncHandler;
+import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
@@ -22,9 +26,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -33,31 +34,23 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import javax.annotation.Nullable;
 import java.util.Objects;
 import java.util.Random;
 
 @Mixin(OHorse.class)
-public abstract class OHorseMixin extends AbstractOMount implements IsDirtyDuck, TraitDuck, ITraitByBreedTypeHolder {
+public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabilityInterface, TraitDuck, ITraitByBreedTypeHolder {
 
-    //TODO: IsDirty fix, halters, hunger tick
+    //TODO: halters, hunger tick
 
     @Shadow public abstract boolean isDraftBreed();
-
     @Shadow public abstract boolean isWarmbloodedBreed();
-
     @Shadow public abstract boolean isRacingBreed();
-
     @Shadow public abstract boolean isPonyBreed();
-
     @Shadow public abstract boolean isStockBreed();
 
     public OHorseMixin(EntityType<? extends OHorseMixin> entityType, Level level) {
         super(entityType, level);
     }
-
-    //something in here causes a config crash on servers
-    //put me out of my misery
 
     @Unique
     public int livestockOverhaulScraps$dirtyTick;
@@ -67,19 +60,27 @@ public abstract class OHorseMixin extends AbstractOMount implements IsDirtyDuck,
     @Inject(method = "tick", at = @At("HEAD"))
     protected void onTick(CallbackInfo ci) {
         if (!this.level().isClientSide) {
+
+
             if (ScrapsExtrasCommonConfig.HYGIENE_SYSTEM.get()) {
                 livestockOverhaulScraps$dirtyTick++;
 
-                if (livestockOverhaulScraps$isDirty() && livestockOverhaulScraps$dirtyTick >= ScrapsExtrasCommonConfig.DIRTY_TICK.get() &&
-                        this.hasEffect(SEEffects.DIRTY.get())) {
-                    int amp = Objects.requireNonNull(this.getEffect(SEEffects.DIRTY.get())).getAmplifier();
-                    if (amp <= 4) {
-                        this.addEffect(new MobEffectInstance(SEEffects.DIRTY.get(), MobEffectInstance.INFINITE_DURATION, amp + 1, false, false));
-                    }
+                if (livestockOverhaulScraps$dirtyTick >= ScrapsExtrasCommonConfig.DIRTY_TICK.get() && this.hasEffect(SEEffects.DIRTY.get())) {
+                    this.getCapability(DirtyCapability.DIRTY_CAPABILITY).ifPresent(cap -> {
+                        if (cap.isDirty()) {
+                            int amp = Objects.requireNonNull(this.getEffect(SEEffects.DIRTY.get())).getAmplifier();
+                            if (amp <= 4) {
+                                this.addEffect(new MobEffectInstance(SEEffects.DIRTY.get(), MobEffectInstance.INFINITE_DURATION, amp + 1, false, false));
+                            }
+                        }
+                    });
                 }
 
                 if (livestockOverhaulScraps$dirtyTick >= ScrapsExtrasCommonConfig.DIRTY_TICK.get()) {
-                    this.livestockOverhaulScraps$setDirty(true);
+                    this.getCapability(DirtyCapability.DIRTY_CAPABILITY).ifPresent(cap -> {
+                        cap.setDirty(true);
+                        CapabilitySyncHandler.syncToTracking(this, true);
+                    });
                     this.addEffect(new MobEffectInstance(SEEffects.DIRTY.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
                     livestockOverhaulScraps$dirtyTick = 0;
                 }
@@ -92,18 +93,6 @@ public abstract class OHorseMixin extends AbstractOMount implements IsDirtyDuck,
         if (this.hasEffect(SEEffects.DIRTY.get())) {
             this.level().addParticle(ParticleTypes.MYCELIUM, this.getRandomX(0.6D), this.getRandomY(), this.getRandomZ(0.6D), 0.0D, 0.0D, 0.0D);
         }
-    }
-
-    @Unique
-    public boolean livestockOverhaulScraps$dirty = false;
-
-    @Unique
-    public boolean livestockOverhaulScraps$isDirty() {
-        return this.livestockOverhaulScraps$dirty;
-    }
-    @Unique
-    public void livestockOverhaulScraps$setDirty(boolean dirty) {
-        this.livestockOverhaulScraps$dirty = dirty;
     }
 
     @Unique
@@ -122,11 +111,17 @@ public abstract class OHorseMixin extends AbstractOMount implements IsDirtyDuck,
         ItemStack itemstack = player.getItemInHand(hand);
         Item item = itemstack.getItem();
 
-        if (itemstack.is(SEItems.BRUSH.get())) {
-            livestockOverhaulScraps$dirtyTick = 0;
-            this.livestockOverhaulScraps$setDirty(false);
-            this.playSound(SoundEvents.BRUSH_GENERIC, 0.5f, 1f);
-            return InteractionResult.sidedSuccess(this.level().isClientSide);
+        if (!this.level().isClientSide) {
+            if (itemstack.is(SEItems.BRUSH.get())) {
+                livestockOverhaulScraps$dirtyTick = 0;
+                this.getCapability(DirtyCapability.DIRTY_CAPABILITY).ifPresent(cap -> {
+                    cap.setDirty(false);
+                    CapabilitySyncHandler.syncToTracking(this, false);
+                });
+                this.removeEffect(SEEffects.DIRTY.get());
+                this.playSound(SoundEvents.BRUSH_GENERIC, 0.5f, 1f);
+                return InteractionResult.sidedSuccess(this.level().isClientSide);
+            }
         }
 
         return super.mobInteract(player, hand);
@@ -135,7 +130,6 @@ public abstract class OHorseMixin extends AbstractOMount implements IsDirtyDuck,
     @Inject(method = "addAdditionalSaveData", at = @At("HEAD"))
     private void addData(CompoundTag tag, CallbackInfo ci) {
         super.addAdditionalSaveData(tag);
-        tag.putBoolean("Dirty", this.livestockOverhaulScraps$isDirty());
         tag.putInt("DirtyTick", this.livestockOverhaulScraps$dirtyTick);
         tag.putInt("Trait", this.livestockOverhaulScraps$getTrait());
     }
@@ -143,9 +137,6 @@ public abstract class OHorseMixin extends AbstractOMount implements IsDirtyDuck,
     @Inject(method = "readAdditionalSaveData", at = @At("HEAD"))
     private void readData(CompoundTag tag, CallbackInfo ci) {
         super.readAdditionalSaveData(tag);
-        if(tag.contains("Dirty")) {
-            this.livestockOverhaulScraps$setDirty(tag.getBoolean("Dirty"));
-        }
         if (tag.contains("DirtyTick")) {
             this.livestockOverhaulScraps$dirtyTick = tag.getInt("DirtyTick");
         }

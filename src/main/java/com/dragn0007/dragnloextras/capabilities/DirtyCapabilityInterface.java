@@ -3,9 +3,9 @@ package com.dragn0007.dragnloextras.capabilities;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public interface MyCapabilityInterface extends INBTSerializable<CompoundTag> {
+public interface DirtyCapabilityInterface extends INBTSerializable<CompoundTag> {
 
-    String getValue();
+    boolean isDirty();
 
-    void setMyValue(String myValue);
+    void setDirty(boolean dirty);
 }

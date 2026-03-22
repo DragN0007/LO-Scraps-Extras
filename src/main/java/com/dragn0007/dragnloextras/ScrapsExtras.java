@@ -1,8 +1,5 @@
 package com.dragn0007.dragnloextras;
 
-import com.dragn0007.dragnloextras.capabilities.MyCapability;
-import com.dragn0007.dragnloextras.capabilities.MyCapabilityAttacher;
-import com.dragn0007.dragnloextras.capabilities.MyCapabilityImplementation;
 import com.dragn0007.dragnloextras.common.gui.SEMenuTypes;
 import com.dragn0007.dragnloextras.effects.SEEffects;
 import com.dragn0007.dragnloextras.entity.SEEntityTypes;

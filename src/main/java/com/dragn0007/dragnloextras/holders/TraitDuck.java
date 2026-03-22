@@ -1,4 +1,4 @@
-package com.dragn0007.dragnloextras.util;
+package com.dragn0007.dragnloextras.holders;
 
 public interface TraitDuck {
     int livestockOverhaulScraps$trait();

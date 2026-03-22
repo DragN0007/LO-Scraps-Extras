@@ -11,10 +11,10 @@ import com.dragn0007.dragnlivestock.entities.util.marking_layer.EquineMarkingOve
 import com.dragn0007.dragnlivestock.spawn.SpawnReplacer;
 import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
 import com.dragn0007.dragnloextras.effects.SEEffects;
-import com.dragn0007.dragnloextras.util.ITraitByBreedTypeHolder;
+import com.dragn0007.dragnloextras.holders.ITraitByBreedTypeHolder;
+import com.dragn0007.dragnloextras.holders.Trait;
+import com.dragn0007.dragnloextras.holders.TraitDuck;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
-import com.dragn0007.dragnloextras.util.Trait;
-import com.dragn0007.dragnloextras.util.TraitDuck;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.MobSpawnType;

@@ -14,19 +14,19 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-public class MyCapabilityAttacher {
+public class DirtyCapabilityAttacher {
 
-    public static class MyCapabilityProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
+    public static class DirtyCapabilityProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
 
-        public static final ResourceLocation IDENTIFIER = new ResourceLocation(ScrapsExtras.MODID, "horse_cap");
+        public static final ResourceLocation IDENTIFIER = new ResourceLocation(ScrapsExtras.MODID, "dirty_cap");
 
-        private final MyCapabilityInterface backend = new MyCapabilityImplementation();
-        private final LazyOptional<MyCapabilityInterface> optionalData = LazyOptional.of(() -> backend);
+        private final DirtyCapabilityInterface backend = new DirtyCapabilityImplementation();
+        private final LazyOptional<DirtyCapabilityInterface> optionalData = LazyOptional.of(() -> backend);
 
         @NotNull
         @Override
         public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-            return MyCapability.INSTANCE.orEmpty(cap, this.optionalData);
+            return DirtyCapability.DIRTY_CAPABILITY.orEmpty(cap, this.optionalData);
         }
 
         void invalidate() {
@@ -45,11 +45,10 @@ public class MyCapabilityAttacher {
     }
 
     public static void attach(final AttachCapabilitiesEvent<Entity> event) {
-        final MyCapabilityProvider provider = new MyCapabilityProvider();
-
-        event.addCapability(MyCapabilityProvider.IDENTIFIER, provider);
+        final DirtyCapabilityProvider provider = new DirtyCapabilityProvider();
+        event.addCapability(DirtyCapabilityProvider.IDENTIFIER, provider);
     }
 
-    private MyCapabilityAttacher() {
+    private DirtyCapabilityAttacher() {
     }
 }

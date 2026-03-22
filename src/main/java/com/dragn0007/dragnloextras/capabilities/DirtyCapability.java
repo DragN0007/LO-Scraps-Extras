@@ -5,11 +5,11 @@ import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 
-public interface MyCapability {
+public interface DirtyCapability {
 
-    Capability<MyCapabilityInterface> INSTANCE = CapabilityManager.get(new CapabilityToken<>() {});
+    Capability<DirtyCapabilityInterface> DIRTY_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
 
     static void register(RegisterCapabilitiesEvent event) {
-        event.register(MyCapabilityInterface.class);
+        event.register(DirtyCapabilityInterface.class);
     }
 }

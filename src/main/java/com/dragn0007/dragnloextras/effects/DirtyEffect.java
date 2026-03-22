@@ -3,7 +3,6 @@ package com.dragn0007.dragnloextras.effects;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 
 public class DirtyEffect extends MobEffect {
@@ -23,7 +22,7 @@ public class DirtyEffect extends MobEffect {
                 immunityDamperTick++;
 
             if (immunityDamperTick >= ScrapsExtrasCommonConfig.DIRTY_TICK.get()) {
-                entity.addEffect(new MobEffectInstance(SEEffects.IMMUNOCOMPROMISED.get(), 20, amp, false, false));
+
             }
         }
     }
