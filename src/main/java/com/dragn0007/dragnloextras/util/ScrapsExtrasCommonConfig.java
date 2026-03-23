@@ -46,8 +46,7 @@ public class ScrapsExtrasCommonConfig {
     public static final ForgeConfigSpec.BooleanValue SADDLE_SORE;
     public static final ForgeConfigSpec.BooleanValue TRAITS_SYSTEM;
     public static final ForgeConfigSpec.BooleanValue TRAITS_BY_BREED;
-    public static final ForgeConfigSpec.BooleanValue GOOD_TRAITS;
-    public static final ForgeConfigSpec.BooleanValue BAD_TRAITS;
+    public static final ForgeConfigSpec.BooleanValue GOOD_TRAITS_ONLY;
     public static final ForgeConfigSpec.BooleanValue HALTER;
     public static final ForgeConfigSpec.BooleanValue SPIKE_COLLAR;
 
@@ -119,14 +118,14 @@ public class ScrapsExtrasCommonConfig {
 
         BUILDER.push("Traits");
         TRAITS_SYSTEM = BUILDER.define("Traits System Enabled", true);
-        TRAITS_BY_BREED = BUILDER.comment("Should Traits depend on the breed of the animal? (For example, Draft horses are more likely to get a \"strong\"-type trait)")
+        TRAITS_BY_BREED = BUILDER.comment("Should traits depend on the breed of the animal? (For example, Draft horses are more likely to get a \"strong\"-type trait)")
                 .define("Traits Chance By Breed", true);
-        GOOD_TRAITS = BUILDER.define("Good Traits Give Effects", true);
-        BAD_TRAITS = BUILDER.define("Bad Traits Give Effects", true);
+        GOOD_TRAITS_ONLY = BUILDER.comment("Should animals only be allowed to spawn/ be born with beneficial traits? This does not change already-existing animals' traits.")
+                .define("Good Traits Only", false);
         BUILDER.pop();
 
         BUILDER.push("Misc");
-        HALTER = BUILDER.define("Halter Following Enabled", true);
+        HALTER = BUILDER.define("Halter Owner Following Enabled", true);
         SPIKE_COLLAR = BUILDER.define("Spike Collar Thorns Enabled", true);
         BUILDER.pop();
 

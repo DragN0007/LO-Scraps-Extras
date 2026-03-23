@@ -36,7 +36,8 @@ public class SENetwork {
             INSTANCE.registerMessage(0, SyncDirtyLayerPacket.class, SyncDirtyLayerPacket::encode, SyncDirtyLayerPacket::decode, SyncDirtyLayerPacket::handle);
             INSTANCE.registerMessage(1, SyncHalterLayerPacket.class, SyncHalterLayerPacket::encode, SyncHalterLayerPacket::decode, SyncHalterLayerPacket::handle);
             INSTANCE.registerMessage(2, SyncTraitPacket.class, SyncTraitPacket::encode, SyncTraitPacket::decode, SyncTraitPacket::handle);
-            INSTANCE.registerMessage(4, SyncHalterColorPacket.class, SyncHalterColorPacket::encode, SyncHalterColorPacket::decode, SyncHalterColorPacket::handle);
+            INSTANCE.registerMessage(3, SyncHalterColorPacket.class, SyncHalterColorPacket::encode, SyncHalterColorPacket::decode, SyncHalterColorPacket::handle);
+            INSTANCE.registerMessage(4, SyncImmunityPacket.class, SyncImmunityPacket::encode, SyncImmunityPacket::decode, SyncImmunityPacket::handle);
         });
     }
 }

@@ -7,10 +7,8 @@ import com.dragn0007.dragnloextras.effects.SEEffects;
 import com.dragn0007.dragnloextras.entity.ai.HorseFollowOwnerGoal;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.items.custom.HalterItem;
-import com.dragn0007.dragnloextras.network.SyncDirtyLayerPacket;
-import com.dragn0007.dragnloextras.network.SyncHalterColorPacket;
-import com.dragn0007.dragnloextras.network.SyncHalterLayerPacket;
-import com.dragn0007.dragnloextras.network.SyncTraitPacket;
+import com.dragn0007.dragnloextras.network.*;
+import com.dragn0007.dragnloextras.util.IHungerHolder;
 import com.dragn0007.dragnloextras.util.ITraitByBreedTypeHolder;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import com.dragn0007.dragnloextras.util.Trait;
@@ -21,9 +19,14 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
@@ -43,15 +46,24 @@ import java.util.Objects;
 import java.util.Random;
 
 @Mixin(OHorse.class)
-public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabilityInterface, ITraitByBreedTypeHolder {
+public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabilityInterface, ITraitByBreedTypeHolder, IHungerHolder {
 
-    //TODO: hunger tick, trait mechanics, illness mechanics
+    //TODO: hunger tick, trait mechanics, illness mechanics, born-with traits
 
     @Shadow public abstract boolean isDraftBreed();
     @Shadow public abstract boolean isWarmbloodedBreed();
     @Shadow public abstract boolean isRacingBreed();
     @Shadow public abstract boolean isPonyBreed();
     @Shadow public abstract boolean isStockBreed();
+    @Unique int livestockOverhaulScraps$beMeanTargetTick = random.nextInt(24000) + 1200;
+
+    @Override
+    public boolean isHungry() {
+        return false;
+    }
+    @Override
+    public void setHungry(boolean hungry) {
+    }
 
     public OHorseMixin(EntityType<? extends OHorseMixin> entityType, Level level) {
         super(entityType, level);
@@ -62,21 +74,44 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
         super.registerGoals();
         OHorse self = (OHorse) (Object) this;
         this.goalSelector.addGoal(6, new HorseFollowOwnerGoal(self, 1.0D, 2.0F, 2.0F, false));
+        this.goalSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10, true, false, entity ->
+                entity instanceof Player && !this.isBaby() && this.hasEffect(SEEffects.RABIES.get())
+        ));
+        this.goalSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10, true, false, entity ->
+                (entity instanceof Player || entity instanceof Villager || entity instanceof Animal) &&
+                        !this.isBaby() && this.hasEffect(SEEffects.MEAN.get()) && livestockOverhaulScraps$beMeanTick >= livestockOverhaulScraps$beMeanTargetTick
+        ));
     }
 
-
-    @Unique
-    public int livestockOverhaulScraps$dirtyTick;
-    @Unique
-    public int livestockOverhaulScraps$hungryTick;
+    @Unique public int livestockOverhaulScraps$dirtyTick;
+    @Unique public int livestockOverhaulScraps$hungryTick;
+    @Unique public int livestockOverhaulScraps$beMeanTick;
 
     @Inject(method = "tick", at = @At("HEAD"))
     protected void onTick(CallbackInfo ci) {
         if (!this.level().isClientSide) {
 
+            if (ScrapsExtrasCommonConfig.FEEDING_SYSTEM.get()) {
+                if (!this.isHungry()) {
+                    livestockOverhaulScraps$hungryTick++;
+                    if (livestockOverhaulScraps$hungryTick >= ScrapsExtrasCommonConfig.HORSE_FEED_TICK.get()) {
+                        this.setHungry(true);
+                        this.addEffect(new MobEffectInstance(SEEffects.HUNGER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        livestockOverhaulScraps$hungryTick = 0;
+                    }
+                }
+            }
+
+            TraitCapabilityInterface traitCap = this.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
+            if (ScrapsExtrasCommonConfig.TRAITS_SYSTEM.get() && this.hasEffect(SEEffects.MEAN.get()) && traitCap.getTrait() == 12) {
+                livestockOverhaulScraps$beMeanTick++;
+                if (livestockOverhaulScraps$beMeanTick >= livestockOverhaulScraps$beMeanTargetTick) {
+                    livestockOverhaulScraps$beMeanTick = 0;
+                }
+            }
+
             if (ScrapsExtrasCommonConfig.HYGIENE_SYSTEM.get()) {
                 livestockOverhaulScraps$dirtyTick++;
-
                 if (livestockOverhaulScraps$dirtyTick >= ScrapsExtrasCommonConfig.DIRTY_TICK.get() && this.hasEffect(SEEffects.DIRTY.get())) {
                     this.getCapability(SECapabilities.DIRTY_CAPABILITY).ifPresent(cap -> {
                         if (cap.isDirty()) {
@@ -123,6 +158,37 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
                 this.removeEffect(SEEffects.DIRTY.get());
                 this.playSound(SoundEvents.BRUSH_GENERIC, 0.5f, 1f);
                 return InteractionResult.sidedSuccess(this.level().isClientSide);
+            }
+
+            if (this.isHungry()) {
+                if (itemstack.is(SEItems.GRAIN_FEED.get())) {
+                    this.setHungry(false);
+                    if (this.hasEffect(SEEffects.HUNGER.get())) {
+                        this.removeEffect(SEEffects.HUNGER.get());
+                    }
+                    if (!player.getAbilities().instabuild) {
+                        itemstack.shrink(1);
+                    }
+                    return InteractionResult.sidedSuccess(this.level().isClientSide);
+                }
+
+                if (itemstack.is(SEItems.HEARTY_GRAIN_FEED.get())) {
+                    this.setHungry(false);
+                    if (this.hasEffect(SEEffects.HUNGER.get())) {
+                        this.removeEffect(SEEffects.HUNGER.get());
+                    }
+                    this.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 12000, 0, false, false));
+                    this.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 12000, 0, false, false));
+                    ImmunityCapabilityInterface immunityCap = this.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
+                    if (immunityCap.getImmunity() < 75) {
+                        SyncImmunityPacket.syncToTracking(this, immunityCap.getImmunity() + 2);
+                        immunityCap.setImmunity(immunityCap.getImmunity() + 2);
+                    }
+                    if (!player.getAbilities().instabuild) {
+                        itemstack.shrink(1);
+                    }
+                    return InteractionResult.sidedSuccess(this.level().isClientSide);
+                }
             }
 
             if (itemstack.is(Items.SHEARS) && player.isShiftKeyDown()) {
@@ -198,14 +264,16 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
     private void addData(CompoundTag tag, CallbackInfo ci) {
         super.addAdditionalSaveData(tag);
         tag.putInt("DirtyTick", this.livestockOverhaulScraps$dirtyTick);
+        tag.putInt("MeanTick", this.livestockOverhaulScraps$beMeanTick);
+        tag.putInt("HungerTick", this.livestockOverhaulScraps$hungryTick);
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
     private void readData(CompoundTag tag, CallbackInfo ci) {
         super.readAdditionalSaveData(tag);
-        if (tag.contains("DirtyTick")) {
-            this.livestockOverhaulScraps$dirtyTick = tag.getInt("DirtyTick");
-        }
+        if (tag.contains("DirtyTick")) {this.livestockOverhaulScraps$dirtyTick = tag.getInt("DirtyTick");}
+        if (tag.contains("MeanTick")) {this.livestockOverhaulScraps$beMeanTick = tag.getInt("MeanTick");}
+        if (tag.contains("HungerTick")) {this.livestockOverhaulScraps$hungryTick = tag.getInt("HungerTick");}
     }
 
     @Inject(method = "defineSynchedData", at = @At("TAIL"))
@@ -216,46 +284,77 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
     private void spawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, SpawnGroupData data, CompoundTag tag, CallbackInfoReturnable<SpawnGroupData> cir) {
         Random random = new Random();
 
-        if (ScrapsExtrasCommonConfig.TRAITS_SYSTEM.get()) {
-            if (ScrapsExtrasCommonConfig.TRAITS_BY_BREED.get()) {
-                ((ITraitByBreedTypeHolder)this).setTraitByBreedType();
-            } else {
-                int trait = random.nextInt(Trait.values().length);
-                this.getCapability(SECapabilities.TRAIT_CAPABILITY).ifPresent(cap -> {
-                    cap.setTrait(trait);
-                    SyncTraitPacket.syncToTracking(this, trait);
-                });
-            }
+        ImmunityCapabilityInterface immunityCap = this.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
+        if (ScrapsExtrasCommonConfig.AILMENT_SYSTEM.get()) {
+            immunityCap.setImmunity(random.nextInt(50));
         }
 
-        TraitCapabilityInterface cap = this.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
-        switch (cap.getTrait()) {
-            case 0: this.addEffect(new MobEffectInstance(SEEffects.BRAVE.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                break;
-            case 1: this.addEffect(new MobEffectInstance(SEEffects.IMMUNOCOMPETENT.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                break;
-            case 2: this.addEffect(new MobEffectInstance(SEEffects.SWIFT.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                break;
-            case 3: this.addEffect(new MobEffectInstance(SEEffects.VAULTER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                break;
-            case 4: this.addEffect(new MobEffectInstance(SEEffects.CLIMBER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                break;
-            case 5: this.addEffect(new MobEffectInstance(SEEffects.BUSTER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                break;
-            case 6: this.addEffect(new MobEffectInstance(SEEffects.STURDY.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                break;
-            case 7: this.addEffect(new MobEffectInstance(SEEffects.COWARDLY.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                break;
-            case 8: this.addEffect(new MobEffectInstance(SEEffects.IMMUNOSUPPRESSED.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                break;
-            case 9: this.addEffect(new MobEffectInstance(SEEffects.STUBBORN.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                break;
-            case 10: this.addEffect(new MobEffectInstance(SEEffects.LAGGARD.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                break;
-            case 11: this.addEffect(new MobEffectInstance(SEEffects.FRAIL.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                break;
-            case 12: this.addEffect(new MobEffectInstance(SEEffects.MEAN.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                break;
+        TraitCapabilityInterface traitCap = this.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
+        if (ScrapsExtrasCommonConfig.TRAITS_SYSTEM.get()) {
+            if (ScrapsExtrasCommonConfig.TRAITS_BY_BREED.get()) {
+                if (ScrapsExtrasCommonConfig.GOOD_TRAITS_ONLY.get()) {
+                    do {
+                        ((ITraitByBreedTypeHolder) this).setTraitByBreedType();
+                    } while (traitCap.getTrait() == 7 || traitCap.getTrait() == 8 || traitCap.getTrait() == 9 ||
+                            traitCap.getTrait() == 10 || traitCap.getTrait() == 11 || traitCap.getTrait() == 12);
+                } else {
+                    ((ITraitByBreedTypeHolder) this).setTraitByBreedType();
+                }
+            } else {
+                int trait = random.nextInt(Trait.values().length);
+                if (ScrapsExtrasCommonConfig.GOOD_TRAITS_ONLY.get()) {
+                    do {
+                        traitCap.setTrait(trait);
+                        SyncTraitPacket.syncToTracking(this, trait);
+                    } while (traitCap.getTrait() == 7 || traitCap.getTrait() == 8 || traitCap.getTrait() == 9 ||
+                            traitCap.getTrait() == 10 || traitCap.getTrait() == 11 || traitCap.getTrait() == 12);
+                } else {
+                    traitCap.setTrait(trait);
+                    SyncTraitPacket.syncToTracking(this, trait);
+                }
+            }
+
+            switch (traitCap.getTrait()) {
+                case 0:
+                    this.addEffect(new MobEffectInstance(SEEffects.BRAVE.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    break;
+                case 1:
+                    this.addEffect(new MobEffectInstance(SEEffects.IMMUNOCOMPETENT.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    break;
+                case 2:
+                    this.addEffect(new MobEffectInstance(SEEffects.SWIFT.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    break;
+                case 3:
+                    this.addEffect(new MobEffectInstance(SEEffects.VAULTER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    break;
+                case 4:
+                    this.addEffect(new MobEffectInstance(SEEffects.CLIMBER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    break;
+                case 5:
+                    this.addEffect(new MobEffectInstance(SEEffects.BUSTER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    break;
+                case 6:
+                    this.addEffect(new MobEffectInstance(SEEffects.STURDY.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    break;
+                case 7:
+                    this.addEffect(new MobEffectInstance(SEEffects.COWARDLY.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    break;
+                case 8:
+                    this.addEffect(new MobEffectInstance(SEEffects.IMMUNOSUPPRESSED.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    break;
+                case 9:
+                    this.addEffect(new MobEffectInstance(SEEffects.STUBBORN.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    break;
+                case 10:
+                    this.addEffect(new MobEffectInstance(SEEffects.LAGGARD.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    break;
+                case 11:
+                    this.addEffect(new MobEffectInstance(SEEffects.FRAIL.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    break;
+                case 12:
+                    this.addEffect(new MobEffectInstance(SEEffects.MEAN.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    break;
+            }
         }
     }
 

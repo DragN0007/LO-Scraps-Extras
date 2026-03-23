@@ -13,22 +13,22 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-public class TraitCapabilityAttacher {
+public class ImmunityCapabilityAttacher {
 
-    public static class TraitCapabilityProvider implements ICapabilitySerializable<CompoundTag> {
+    public static class ImmunityCapabilityProvider implements ICapabilitySerializable<CompoundTag> {
 
-        public static final ResourceLocation IDENTIFIER = new ResourceLocation(ScrapsExtras.MODID, "trait_cap");
+        public static final ResourceLocation IDENTIFIER = new ResourceLocation(ScrapsExtras.MODID, "immunity_cap");
 
-        private final TraitCapabilityInterface backend = new TraitCapabilityImplementation();
-        private final LazyOptional<TraitCapabilityInterface> optionalData = LazyOptional.of(() -> backend);
+        private final ImmunityCapabilityInterface backend = new ImmunityCapabilityImplementation();
+        private final LazyOptional<ImmunityCapabilityInterface> optionalData = LazyOptional.of(() -> backend);
 
         @NotNull
         @Override
         public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-            return SECapabilities.TRAIT_CAPABILITY.orEmpty(cap, this.optionalData);
+            return SECapabilities.IMMUNITY_CAPABILITY.orEmpty(cap, this.optionalData);
         }
 
-        public void invalidate() {
+        void invalidate() {
             this.optionalData.invalidate();
         }
 
@@ -44,10 +44,10 @@ public class TraitCapabilityAttacher {
     }
 
     public static void attach(final AttachCapabilitiesEvent<Entity> event) {
-        final TraitCapabilityProvider provider = new TraitCapabilityProvider();
-        event.addCapability(TraitCapabilityProvider.IDENTIFIER, provider);
+        final ImmunityCapabilityProvider provider = new ImmunityCapabilityProvider();
+        event.addCapability(ImmunityCapabilityProvider.IDENTIFIER, provider);
     }
 
-    private TraitCapabilityAttacher() {
+    private ImmunityCapabilityAttacher() {
     }
 }

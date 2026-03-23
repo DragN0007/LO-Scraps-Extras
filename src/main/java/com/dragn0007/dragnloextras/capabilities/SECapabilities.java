@@ -11,11 +11,13 @@ public interface SECapabilities {
     Capability<HalterCapabilityInterface> HALTER_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
     Capability<TraitCapabilityInterface> TRAIT_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
     Capability<HalterColorCapabilityInterface> HALTER_COLOR_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
+    Capability<ImmunityCapabilityInterface> IMMUNITY_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
 
     static void register(RegisterCapabilitiesEvent event) {
         event.register(DirtyCapabilityInterface.class);
         event.register(HalterCapabilityInterface.class);
         event.register(TraitCapabilityInterface.class);
         event.register(HalterColorCapabilityInterface.class);
+        event.register(ImmunityCapabilityInterface.class);
     }
 }
