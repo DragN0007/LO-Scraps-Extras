@@ -57,8 +57,11 @@ public class SEEffects {
     public static final RegistryObject<MobEffect> MANGE = MOB_EFFECTS.register("mange",
             () -> new InfectionEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
 
-    public static final RegistryObject<MobEffect> HUNGER = MOB_EFFECTS.register("hunger",
+    public static final RegistryObject<MobEffect> SADDLE_SORE = MOB_EFFECTS.register("saddle_sore",
             () -> new InfectionEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
+
+    public static final RegistryObject<MobEffect> HUNGER = MOB_EFFECTS.register("hunger",
+            () -> new HungerEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
 
     //Traits
     public static final RegistryObject<MobEffect> BRAVE = MOB_EFFECTS.register("brave",

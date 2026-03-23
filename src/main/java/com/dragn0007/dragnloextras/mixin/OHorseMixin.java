@@ -2,13 +2,13 @@ package com.dragn0007.dragnloextras.mixin;
 
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
-import com.dragn0007.dragnloextras.capabilities.DirtyCapabilityInterface;
-import com.dragn0007.dragnloextras.capabilities.SECapabilities;
-import com.dragn0007.dragnloextras.capabilities.TraitCapabilityInterface;
+import com.dragn0007.dragnloextras.capabilities.*;
 import com.dragn0007.dragnloextras.effects.SEEffects;
+import com.dragn0007.dragnloextras.entity.ai.HorseFollowOwnerGoal;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.items.custom.HalterItem;
 import com.dragn0007.dragnloextras.network.SyncDirtyLayerPacket;
+import com.dragn0007.dragnloextras.network.SyncHalterColorPacket;
 import com.dragn0007.dragnloextras.network.SyncHalterLayerPacket;
 import com.dragn0007.dragnloextras.network.SyncTraitPacket;
 import com.dragn0007.dragnloextras.util.ITraitByBreedTypeHolder;
@@ -25,8 +25,10 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import org.spongepowered.asm.mixin.Mixin;
@@ -43,7 +45,7 @@ import java.util.Random;
 @Mixin(OHorse.class)
 public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabilityInterface, ITraitByBreedTypeHolder {
 
-    //TODO: halters, hunger tick, trait mechanics, illness mechanics
+    //TODO: hunger tick, trait mechanics, illness mechanics
 
     @Shadow public abstract boolean isDraftBreed();
     @Shadow public abstract boolean isWarmbloodedBreed();
@@ -54,10 +56,14 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
     public OHorseMixin(EntityType<? extends OHorseMixin> entityType, Level level) {
         super(entityType, level);
     }
-    @Inject(method = "getStepHeight", at = @At("HEAD"), remap = false, cancellable = true)
-    protected void getStepHeight(CallbackInfoReturnable<Float> cir) {
-        cir.setReturnValue(2.0F);
+
+    @Inject(method = "registerGoals", at = @At("HEAD"))
+    public void registerGoals(CallbackInfo ci) {
+        super.registerGoals();
+        OHorse self = (OHorse) (Object) this;
+        this.goalSelector.addGoal(6, new HorseFollowOwnerGoal(self, 1.0D, 2.0F, 2.0F, false));
     }
+
 
     @Unique
     public int livestockOverhaulScraps$dirtyTick;
@@ -119,40 +125,82 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
                 return InteractionResult.sidedSuccess(this.level().isClientSide);
             }
 
+            if (itemstack.is(Items.SHEARS) && player.isShiftKeyDown()) {
+                if (this.getCapability(SECapabilities.HALTER_CAPABILITY).isPresent()) {
+                    HalterCapabilityInterface halterCapabilityInterface = this.getCapability(SECapabilities.HALTER_CAPABILITY).orElse(null);
+                    HalterColorCapabilityInterface halterColorCapabilityInterface = this.getCapability(SECapabilities.HALTER_COLOR_CAPABILITY).orElse(null);
+                    if (halterCapabilityInterface.hasHalter()) {
+                        halterCapabilityInterface.setHaltered(false);
+                        SyncHalterLayerPacket.syncToTracking(this, false);
+                        DyeColor dyeColor = DyeColor.byId(halterColorCapabilityInterface.getHalterColor().getId());
+                        Item halter = switch (dyeColor) {
+                            case WHITE -> SEItems.WHITE_HALTER.get();
+                            case ORANGE -> SEItems.ORANGE_HALTER.get();
+                            case MAGENTA -> SEItems.MAGENTA_HALTER.get();
+                            case LIGHT_BLUE -> SEItems.LIGHT_BLUE_HALTER.get();
+                            case YELLOW -> SEItems.YELLOW_HALTER.get();
+                            case LIME -> SEItems.LIME_HALTER.get();
+                            case PINK -> SEItems.PINK_HALTER.get();
+                            case GRAY -> SEItems.GREY_HALTER.get();
+                            case LIGHT_GRAY -> SEItems.LIGHT_GREY_HALTER.get();
+                            case CYAN -> SEItems.CYAN_HALTER.get();
+                            case PURPLE -> SEItems.PURPLE_HALTER.get();
+                            case BLUE -> SEItems.BLUE_HALTER.get();
+                            case BROWN -> SEItems.BROWN_HALTER.get();
+                            case GREEN -> SEItems.GREEN_HALTER.get();
+                            case RED -> SEItems.RED_HALTER.get();
+                            case BLACK -> SEItems.BLACK_HALTER.get();
+                        };
+                        spawnAtLocation(halter);
+                        this.playSound(SoundEvents.SHEEP_SHEAR, 0.5f, 1f);
+                        return InteractionResult.sidedSuccess(this.level().isClientSide);
+                    }
+                }
+
+                if (this.isEquine(this)) {
+                    AbstractOMount equine = this;
+                    equine.setFlowerType(0);
+                    equine.setFlowerItem(Items.AIR.getDefaultInstance());
+                }
+
+                if (this.hasChest() && this.isOwnedBy(player)) {
+                    this.dropEquipment();
+                    this.inventory.removeAllItems();
+                    this.setChest(false);
+                    this.playChestEquipsSound();
+
+                    return InteractionResult.sidedSuccess(this.level().isClientSide);
+                }
+            }
+
             if (item instanceof HalterItem) {
                 HalterItem halterItem = (HalterItem)item;
-                if (this.isOwnedBy(player)) {
-
-                    this.getCapability(SECapabilities.HALTER_CAPABILITY).ifPresent(cap -> {
-                        cap.setHalter(true);
-                        SyncHalterLayerPacket.syncToTracking(this, true);
-                    });
-
-//                    DyeColor dyecolor = halterItem.getDyeColor();
-//                    if (dyecolor != this.getCollarColor()) {
-//                        this.setCollarColor(dyecolor);
-//                        if (!player.getAbilities().instabuild) {
-//                            itemstack.shrink(1);
-//                        }
-//
-                        return InteractionResult.SUCCESS;
-//                    }
-
-//                    return super.mobInteract(player, hand);
-                }
+                this.getCapability(SECapabilities.HALTER_CAPABILITY).ifPresent(cap -> {
+                    cap.setHaltered(true);
+                    SyncHalterLayerPacket.syncToTracking(this, true);
+                });
+                DyeColor dyecolor = halterItem.getDyeColor();
+                this.getCapability(SECapabilities.HALTER_COLOR_CAPABILITY).ifPresent(cap -> {
+                    cap.setHalterColor(dyecolor);
+                    SyncHalterColorPacket.syncToTracking(this, dyecolor);
+                    if (!player.getAbilities().instabuild) {
+                        itemstack.shrink(1);
+                    }
+                });
+                return InteractionResult.SUCCESS;
             }
         }
 
         return super.mobInteract(player, hand);
     }
 
-    @Inject(method = "addAdditionalSaveData", at = @At("HEAD"))
+    @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
     private void addData(CompoundTag tag, CallbackInfo ci) {
         super.addAdditionalSaveData(tag);
         tag.putInt("DirtyTick", this.livestockOverhaulScraps$dirtyTick);
     }
 
-    @Inject(method = "readAdditionalSaveData", at = @At("HEAD"))
+    @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
     private void readData(CompoundTag tag, CallbackInfo ci) {
         super.readAdditionalSaveData(tag);
         if (tag.contains("DirtyTick")) {
@@ -168,11 +216,17 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
     private void spawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, SpawnGroupData data, CompoundTag tag, CallbackInfoReturnable<SpawnGroupData> cir) {
         Random random = new Random();
 
-        int trait = random.nextInt(Trait.values().length);
-        this.getCapability(SECapabilities.TRAIT_CAPABILITY).ifPresent(cap -> {
-            cap.setTrait(trait);
-            SyncTraitPacket.syncToTracking(this, trait);
-        });
+        if (ScrapsExtrasCommonConfig.TRAITS_SYSTEM.get()) {
+            if (ScrapsExtrasCommonConfig.TRAITS_BY_BREED.get()) {
+                ((ITraitByBreedTypeHolder)this).setTraitByBreedType();
+            } else {
+                int trait = random.nextInt(Trait.values().length);
+                this.getCapability(SECapabilities.TRAIT_CAPABILITY).ifPresent(cap -> {
+                    cap.setTrait(trait);
+                    SyncTraitPacket.syncToTracking(this, trait);
+                });
+            }
+        }
 
         TraitCapabilityInterface cap = this.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
         switch (cap.getTrait()) {

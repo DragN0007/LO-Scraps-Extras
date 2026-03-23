@@ -8,7 +8,11 @@ public class ScrapsExtrasCommonConfig {
 
     public static final ForgeConfigSpec.BooleanValue HYGIENE_SYSTEM;
     public static final ForgeConfigSpec.ConfigValue<Integer> DIRTY_TICK;
+    public static final ForgeConfigSpec.BooleanValue DIRTY_IMMUNITY_DAMPER;
+    public static final ForgeConfigSpec.ConfigValue<Integer> DIRTY_IMMUNITY_DAMPER_TICK;
     public static final ForgeConfigSpec.BooleanValue FEEDING_SYSTEM;
+    public static final ForgeConfigSpec.BooleanValue HUNGRY_IMMUNITY_DAMPER;
+    public static final ForgeConfigSpec.ConfigValue<Integer> HUNGRY_IMMUNITY_DAMPER_TICK;
     public static final ForgeConfigSpec.BooleanValue HORSE_FOOD;
     public static final ForgeConfigSpec.ConfigValue<Integer> HORSE_FEED_TICK;
     public static final ForgeConfigSpec.BooleanValue DOG_FOOD;
@@ -39,6 +43,7 @@ public class ScrapsExtrasCommonConfig {
     public static final ForgeConfigSpec.BooleanValue RINGWORM;
     public static final ForgeConfigSpec.BooleanValue BOTFLY_INFESTATION;
     public static final ForgeConfigSpec.BooleanValue MANGE;
+    public static final ForgeConfigSpec.BooleanValue SADDLE_SORE;
     public static final ForgeConfigSpec.BooleanValue TRAITS_SYSTEM;
     public static final ForgeConfigSpec.BooleanValue TRAITS_BY_BREED;
     public static final ForgeConfigSpec.BooleanValue GOOD_TRAITS;
@@ -51,10 +56,18 @@ public class ScrapsExtrasCommonConfig {
         HYGIENE_SYSTEM = BUILDER.define("Hygiene System Enabled", true);
         DIRTY_TICK = BUILDER.comment("The amount of time at which an animal becomes dirty. Default is 72000 ticks.")
                 .define("Dirty Tick", 72000);
+        DIRTY_IMMUNITY_DAMPER = BUILDER.comment("Should being dirty negatively affect an animal's immune system (making it easier for them to become sick)?")
+                .define("Dirty Immunity Damper", true);
+        DIRTY_IMMUNITY_DAMPER_TICK = BUILDER.comment("The amount of time at which an animal's immune system becomes dampened from being dirty. Default is 72000 ticks.")
+                .define("Dirty Immunity Damper Tick", 72000);
         BUILDER.pop();
 
         BUILDER.push("Food");
         FEEDING_SYSTEM = BUILDER.define("Feeding System Enabled", true);
+        HUNGRY_IMMUNITY_DAMPER = BUILDER.comment("Should starving negatively affect an animal's immune system (making it easier for them to become sick)?")
+                .define("Starving Immunity Damper", true);
+        HUNGRY_IMMUNITY_DAMPER_TICK = BUILDER.comment("The amount of time at which an animal's immune system becomes dampened from starving. Default is 72000 ticks.")
+                .define("Starving Immunity Damper Tick", 72000);
         HORSE_FOOD = BUILDER.define("Horses Need Food", true);
         HORSE_FEED_TICK = BUILDER.comment("The amount of time at which a horse needs to be fed. Default is 48000 ticks.")
                 .define("Horse Feed Tick", 48000);
@@ -101,6 +114,7 @@ public class ScrapsExtrasCommonConfig {
         RINGWORM = BUILDER.define("Ringworm Enabled", true);
         BOTFLY_INFESTATION = BUILDER.define("Botfly Infestation", true);
         MANGE = BUILDER.define("Mange Enabled", true);
+        SADDLE_SORE = BUILDER.define("Saddle Sore Enabled", true);
         BUILDER.pop();
 
         BUILDER.push("Traits");

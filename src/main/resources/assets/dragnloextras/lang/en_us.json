@@ -60,7 +60,7 @@
   "effect.dragnloextras.dirty": "Dirty",
   "effect.dragnloextras.infection": "Infection",
   "effect.dragnloextras.rabies": "Rabies",
-  "effect.dragnloextras.hoof_abscess": "Hoof_abscess",
+  "effect.dragnloextras.hoof_abscess": "Hoof Abscess",
   "effect.dragnloextras.abrasion": "Abrasion",
   "effect.dragnloextras.rain_rot": "Rain Rot",
   "effect.dragnloextras.ear_infection": "Ear Infection",
@@ -69,7 +69,8 @@
   "effect.dragnloextras.ringworm": "Ringworm",
   "effect.dragnloextras.botfly_infestation": "Botfly Infestation",
   "effect.dragnloextras.mange": "Mange",
-  "effect.dragnloextras.hunger": "Hunger",
+  "effect.dragnloextras.saddle_sore": "Saddle Sore",
+  "effect.dragnloextras.hunger": "Starving",
 
   "effect.dragnloextras.brave": "Trait: Brave",
   "effect.dragnloextras.immunocompetent": "Trait: Immunocompetent",
@@ -95,5 +96,7 @@
   "tooltip.dragnloextras.grain_feed.tooltip": "Feeds a horse.",
   "tooltip.dragnloextras.hearty_grain_feed.tooltip": "Feeds a horse and boosts it's immune system, along with it's speed and health regeneration for a short period of time.",
   "tooltip.dragnloextras.kibble.tooltip": "Feeds a dog, wolf or cat.",
-  "tooltip.dragnloextras.hearty_kibble.tooltip": "Feeds a dog or wolf and boosts it's immune system, along with it's attack damage and health regeneration for a short period of time."
+  "tooltip.dragnloextras.hearty_kibble.tooltip": "Feeds a dog or wolf and boosts it's immune system, along with it's attack damage and health regeneration for a short period of time.",
+  "tooltip.dragnloextras.turnout_blanket.tooltip": "Used on a Horse to prevent Rain Rot. Or just as decoration...",
+  "tooltip.dragnloextras.halter.tooltip": "Used on a Horse to have it follow you."
 }

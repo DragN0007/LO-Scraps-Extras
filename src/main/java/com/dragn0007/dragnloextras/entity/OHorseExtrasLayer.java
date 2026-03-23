@@ -4,6 +4,7 @@ import com.dragn0007.dragnlivestock.LivestockOverhaul;
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnloextras.capabilities.DirtyCapabilityInterface;
 import com.dragn0007.dragnloextras.capabilities.HalterCapabilityInterface;
+import com.dragn0007.dragnloextras.capabilities.HalterColorCapabilityInterface;
 import com.dragn0007.dragnloextras.capabilities.SECapabilities;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasClientConfig;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -21,7 +22,6 @@ import software.bernie.geckolib.renderer.layer.GeoRenderLayer;
 @OnlyIn(Dist.CLIENT)
 public class OHorseExtrasLayer extends GeoRenderLayer<OHorse> {
 
-    /*
     private static final ResourceLocation[] HALTER_LOCATION = new ResourceLocation[]{
             new ResourceLocation(LivestockOverhaul.MODID, "textures/entity/horse/halter/white.png"),
             new ResourceLocation(LivestockOverhaul.MODID, "textures/entity/horse/halter/orange.png"),
@@ -40,7 +40,6 @@ public class OHorseExtrasLayer extends GeoRenderLayer<OHorse> {
             new ResourceLocation(LivestockOverhaul.MODID, "textures/entity/horse/halter/red.png"),
             new ResourceLocation(LivestockOverhaul.MODID, "textures/entity/horse/halter/black.png")
     };
-     */
 
     public OHorseExtrasLayer(GeoRenderer<OHorse> entityRendererIn) {
         super(entityRendererIn);
@@ -52,8 +51,9 @@ public class OHorseExtrasLayer extends GeoRenderLayer<OHorse> {
 
         if (animatable.getCapability(SECapabilities.HALTER_CAPABILITY).isPresent()) {
             HalterCapabilityInterface cap = animatable.getCapability(SECapabilities.HALTER_CAPABILITY).orElse(null);
-            if (cap.isHalter()) {
-                resourceLocation = new ResourceLocation(LivestockOverhaul.MODID, "textures/entity/horse/halter/white.png");
+            HalterColorCapabilityInterface colorcap = animatable.getCapability(SECapabilities.HALTER_COLOR_CAPABILITY).orElse(null);
+            if (cap.hasHalter()) {
+                resourceLocation = HALTER_LOCATION[colorcap.getHalterColor().getId()];
 
                 RenderType renderType1 = RenderType.entityCutout(resourceLocation);
                 poseStack.pushPose();

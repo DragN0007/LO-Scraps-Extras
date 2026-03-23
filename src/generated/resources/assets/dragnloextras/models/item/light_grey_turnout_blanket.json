@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "dragnloextras:item/light_grey_turnout_blanket"
+  }
+}

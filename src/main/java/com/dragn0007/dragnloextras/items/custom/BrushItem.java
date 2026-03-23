@@ -19,5 +19,6 @@ public class BrushItem extends Item {
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.translatable("tooltip.dragnloextras.brush.tooltip").withStyle(ChatFormatting.GRAY));
+        pTooltipComponents.add(Component.translatable("Prevents Dirtiness.").withStyle(ChatFormatting.GOLD));
     }
 }

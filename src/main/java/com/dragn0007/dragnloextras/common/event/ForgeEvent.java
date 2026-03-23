@@ -5,10 +5,7 @@ import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
 import com.dragn0007.dragnloextras.capabilities.*;
 import com.dragn0007.dragnloextras.effects.SEEffects;
 import com.dragn0007.dragnloextras.items.SEItems;
-import com.dragn0007.dragnloextras.network.SENetwork;
-import com.dragn0007.dragnloextras.network.SyncDirtyLayerPacket;
-import com.dragn0007.dragnloextras.network.SyncHalterLayerPacket;
-import com.dragn0007.dragnloextras.network.SyncTraitPacket;
+import com.dragn0007.dragnloextras.network.*;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -44,7 +41,14 @@ public class ForgeEvent {
             target.getCapability(SECapabilities.HALTER_CAPABILITY).ifPresent(cap -> {
                 SENetwork.INSTANCE.send(
                         PacketDistributor.PLAYER.with(() -> (ServerPlayer) event.getEntity()),
-                        new SyncHalterLayerPacket(target.getId(), cap.isHalter())
+                        new SyncHalterLayerPacket(target.getId(), cap.hasHalter())
+                );
+            });
+
+            target.getCapability(SECapabilities.HALTER_COLOR_CAPABILITY).ifPresent(cap -> {
+                SENetwork.INSTANCE.send(
+                        PacketDistributor.PLAYER.with(() -> (ServerPlayer) event.getEntity()),
+                        new SyncHalterColorPacket(target.getId(), cap.getHalterColor())
                 );
             });
 
@@ -81,6 +85,13 @@ public class ForgeEvent {
                 HalterCapabilityAttacher.attach(event);
                 if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
                     System.out.println("Attached the Halter Capability NBT to " + event.getObject().getName());
+                }
+            }
+            if (event.getObject() instanceof OHorse) {
+                final HalterColorCapabilityAttacher.HalterColorCapabilityProvider provider = new HalterColorCapabilityAttacher.HalterColorCapabilityProvider();
+                HalterColorCapabilityAttacher.attach(event);
+                if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
+                    System.out.println("Attached the Halter Color Capability NBT to " + event.getObject().getName());
                 }
             }
             if (event.getObject() instanceof OHorse) {

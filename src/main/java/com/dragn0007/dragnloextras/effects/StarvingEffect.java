@@ -3,11 +3,10 @@ package com.dragn0007.dragnloextras.effects;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 
-public class DirtyEffect extends MobEffect {
-    public DirtyEffect(MobEffectCategory pCategory, int pColor) {
+public class StarvingEffect extends MobEffect {
+    public StarvingEffect(MobEffectCategory pCategory, int pColor) {
         super(pCategory, pColor);
     }
 
@@ -16,16 +15,14 @@ public class DirtyEffect extends MobEffect {
     @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide) {
-            int amp = entity.getEffect(SEEffects.DIRTY.get()).getAmplifier();
-            int duration = entity.getEffect(SEEffects.DIRTY.get()).getDuration();
+            int amp = entity.getEffect(SEEffects.HUNGER.get()).getAmplifier();
+            int duration = entity.getEffect(SEEffects.HUNGER.get()).getDuration();
 
-            if (ScrapsExtrasCommonConfig.HYGIENE_SYSTEM.get())
+            if (ScrapsExtrasCommonConfig.FEEDING_SYSTEM.get())
                 immunityDamperTick++;
 
-            if (ScrapsExtrasCommonConfig.DIRTY_IMMUNITY_DAMPER.get()) {
-                if (immunityDamperTick >= ScrapsExtrasCommonConfig.DIRTY_IMMUNITY_DAMPER_TICK.get()) {
-                    entity.addEffect(new MobEffectInstance(SEEffects.IMMUNOCOMPROMISED.get(), 100, amp, false, false));
-                }
+            if (immunityDamperTick >= ScrapsExtrasCommonConfig.DIRTY_TICK.get()) {
+
             }
         }
     }

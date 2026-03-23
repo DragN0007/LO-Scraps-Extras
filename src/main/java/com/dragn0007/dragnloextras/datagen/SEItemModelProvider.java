@@ -29,7 +29,7 @@ public class SEItemModelProvider extends ItemModelProvider {
         simpleItem(SEItems.VETERINARY_BANDAGE);
 
         simpleItem(SEItems.BRUSH);
-        simpleItem(SEItems.COMB);
+//        simpleItem(SEItems.COMB);
         simpleItem(SEItems.HOOF_PICK);
 
         simpleItem(SEItems.GRAIN_FEED);

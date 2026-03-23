@@ -39,8 +39,8 @@ public class SEItems {
 
     public static final RegistryObject<Item> BRUSH = ITEMS.register("brush",
             () -> new BrushItem(new Item.Properties().stacksTo(1)));
-    public static final RegistryObject<Item> COMB = ITEMS.register("comb",
-            () -> new CombItem(new Item.Properties().stacksTo(1)));
+//    public static final RegistryObject<Item> COMB = ITEMS.register("comb",
+//            () -> new CombItem(new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> HOOF_PICK = ITEMS.register("hoof_pick",
             () -> new HoofPickItem(new Item.Properties().stacksTo(1)));
 

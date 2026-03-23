@@ -34,7 +34,7 @@ public class SyncHalterLayerPacket {
             Entity entity = level.getEntity(msg.entityId);
             if (entity != null) {
                 entity.getCapability(SECapabilities.HALTER_CAPABILITY).ifPresent(cap -> {
-                    cap.setHalter(msg.isHalter);
+                    cap.setHaltered(msg.isHalter);
                 });
             }
         }
@@ -50,7 +50,7 @@ public class SyncHalterLayerPacket {
     public static void onStartTracking(PlayerEvent.StartTracking event) {
         Entity target = event.getTarget();
         target.getCapability(SECapabilities.HALTER_CAPABILITY).ifPresent(cap -> {
-            SENetwork.sendToPlayer(new SyncHalterLayerPacket(target.getId(), cap.isHalter()), (ServerPlayer) event.getEntity());
+            SENetwork.sendToPlayer(new SyncHalterLayerPacket(target.getId(), cap.hasHalter()), (ServerPlayer) event.getEntity());
         });
     }
 }

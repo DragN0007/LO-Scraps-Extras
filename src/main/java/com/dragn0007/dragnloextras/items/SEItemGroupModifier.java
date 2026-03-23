@@ -27,7 +27,7 @@ public class SEItemGroupModifier {
                         output.accept(SEItems.VETERINARY_BANDAGE.get());
 
                         output.accept(SEItems.BRUSH.get());
-                        output.accept(SEItems.COMB.get());
+//                        output.accept(SEItems.COMB.get());
                         output.accept(SEItems.HOOF_PICK.get());
 
                         output.accept(SEItems.GRAIN_FEED.get());

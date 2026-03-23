@@ -9,12 +9,12 @@ public class HalterCapabilityImplementation implements HalterCapabilityInterface
     private Boolean halter = false;
 
     @Override
-    public boolean isHalter() {
+    public boolean hasHalter() {
         return this.halter;
     }
 
     @Override
-    public void setHalter(boolean halter) {
+    public void setHaltered(boolean halter) {
         this.halter = halter;
     }
 
