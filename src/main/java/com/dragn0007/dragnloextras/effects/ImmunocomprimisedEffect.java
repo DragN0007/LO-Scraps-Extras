@@ -1,5 +1,7 @@
 package com.dragn0007.dragnloextras.effects;
 
+import com.dragn0007.dragnloextras.capabilities.ImmunityCapabilityInterface;
+import com.dragn0007.dragnloextras.capabilities.SECapabilities;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
@@ -9,13 +11,12 @@ public class ImmunocomprimisedEffect extends MobEffect {
         super(pCategory, pColor);
     }
 
-    public int immunityDamperTick;
-
     @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide) {
-//            int amp = entity.getEffect(SEEffects.IMMUNOCOMPROMISED.get()).getAmplifier();
-//            int duration = entity.getEffect(SEEffects.IMMUNOCOMPROMISED.get()).getDuration();
+            int amp = entity.getEffect(SEEffects.IMMUNOCOMPROMISED.get()).getAmplifier();
+            int duration = entity.getEffect(SEEffects.IMMUNOCOMPROMISED.get()).getDuration();
+            ImmunityCapabilityInterface immunityCap = entity.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
         }
     }
 

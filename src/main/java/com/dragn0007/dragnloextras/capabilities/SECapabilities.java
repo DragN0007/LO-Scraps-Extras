@@ -12,6 +12,7 @@ public interface SECapabilities {
     Capability<TraitCapabilityInterface> TRAIT_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
     Capability<HalterColorCapabilityInterface> HALTER_COLOR_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
     Capability<ImmunityCapabilityInterface> IMMUNITY_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
+    Capability<SleepingCapabilityInterface> SLEEPING_CAPABILITY = CapabilityManager.get(new CapabilityToken<>() {});
 
     static void register(RegisterCapabilitiesEvent event) {
         event.register(DirtyCapabilityInterface.class);
@@ -19,5 +20,6 @@ public interface SECapabilities {
         event.register(TraitCapabilityInterface.class);
         event.register(HalterColorCapabilityInterface.class);
         event.register(ImmunityCapabilityInterface.class);
+        event.register(SleepingCapabilityInterface.class);
     }
 }

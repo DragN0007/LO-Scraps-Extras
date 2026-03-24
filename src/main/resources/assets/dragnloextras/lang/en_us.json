@@ -98,5 +98,6 @@
   "tooltip.dragnloextras.kibble.tooltip": "Feeds a dog, wolf or cat.",
   "tooltip.dragnloextras.hearty_kibble.tooltip": "Feeds a dog or wolf and boosts it's immune system, along with it's attack damage and health regeneration for a short period of time.",
   "tooltip.dragnloextras.turnout_blanket.tooltip": "Used on a Horse to prevent Rain Rot. Or just as decoration...",
-  "tooltip.dragnloextras.halter.tooltip": "Used on a Horse to have it follow you."
+  "tooltip.dragnloextras.halter.tooltip": "Used on a Horse to have it follow you.",
+  "tooltip.dragnloextras.untreatable.tooltip": "This ailment is/ has become untreatable."
 }

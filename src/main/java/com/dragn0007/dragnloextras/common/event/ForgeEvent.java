@@ -6,6 +6,7 @@ import com.dragn0007.dragnloextras.capabilities.*;
 import com.dragn0007.dragnloextras.effects.SEEffects;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.network.*;
+import com.dragn0007.dragnloextras.util.ISleepAsLeaderHolder;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -74,13 +75,26 @@ public class ForgeEvent {
                 );
             });
 
+            target.getCapability(SECapabilities.SLEEPING_CAPABILITY).ifPresent(cap -> {
+                SENetwork.INSTANCE.send(
+                        PacketDistributor.PLAYER.with(() -> (ServerPlayer) event.getEntity()),
+                        new SyncSleepingPacket(target.getId(), cap.isSleeping())
+                );
+            });
+
+            if (target instanceof OHorse horse)
+                SENetwork.INSTANCE.send(
+                    PacketDistributor.PLAYER.with(() -> (ServerPlayer) event.getEntity()),
+                    new SyncSleepingAsLeaderPacket(target.getId(), ((ISleepAsLeaderHolder) horse).isSleepingAsLeader())
+            );
+
         }
     }
 
     @SubscribeEvent
     public static void attach(final AttachCapabilitiesEvent<Entity> event) {
         //horses
-        if (event.getObject() instanceof OHorse) {
+        if (event.getObject() instanceof OHorse && event.getObject().getClass() == OHorse.class) {
             if (!event.getObject().getCapability(SECapabilities.DIRTY_CAPABILITY).isPresent()) {
                 DirtyCapabilityAttacher.attach(event);
                 if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
@@ -111,6 +125,12 @@ public class ForgeEvent {
                     System.out.println("Attached the Immunity Capability NBT to " + event.getObject().getName());
                 }
             }
+            if (!event.getObject().getCapability(SECapabilities.SLEEPING_CAPABILITY).isPresent()) {
+                SleepingCapabilityAttacher.attach(event);
+                if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
+                    System.out.println("Attached the Sleeping Capability NBT to " + event.getObject().getName());
+                }
+            }
         }
 
         //camels
@@ -131,25 +151,154 @@ public class ForgeEvent {
 
             //TODO: all ailment cures
 
-            if (stack.is(SEItems.ANTIBIOTIC_INJECTION.get())) {
-                if (entity.hasEffect(SEEffects.INFECTION.get())) {
-                    int duration = entity.getEffect(SEEffects.INFECTION.get()).getDuration();
-                    entity.removeEffect(SEEffects.INFECTION.get());
+            if (player.isSecondaryUseActive()) {
+                if (stack.is(SEItems.ANTIBIOTIC_INJECTION.get())) {
+                    if (entity.hasEffect(SEEffects.INFECTION.get())) {
+                        int duration = entity.getEffect(SEEffects.INFECTION.get()).getDuration();
+                        entity.removeEffect(SEEffects.INFECTION.get());
 
-                    if (entity.hasEffect(MobEffects.WEAKNESS) && entity.getEffect(MobEffects.WEAKNESS).getDuration() == duration) {
-                        entity.removeEffect(MobEffects.WEAKNESS);
-                    }
-                    if (entity.hasEffect(MobEffects.MOVEMENT_SLOWDOWN) && entity.getEffect(MobEffects.MOVEMENT_SLOWDOWN).getDuration() == duration) {
-                        entity.removeEffect(MobEffects.MOVEMENT_SLOWDOWN);
+                        if (entity.hasEffect(MobEffects.WEAKNESS) && entity.getEffect(MobEffects.WEAKNESS).getDuration() == duration) {
+                            entity.removeEffect(MobEffects.WEAKNESS);
+                        }
+                        if (entity.hasEffect(MobEffects.MOVEMENT_SLOWDOWN) && entity.getEffect(MobEffects.MOVEMENT_SLOWDOWN).getDuration() == duration) {
+                            entity.removeEffect(MobEffects.MOVEMENT_SLOWDOWN);
+                        }
+
+                        if (!player.getAbilities().instabuild) {
+                            stack.shrink(1);
+                        }
+
+                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
+                    } else {
+                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.no_ailment.tooltip").withStyle(ChatFormatting.YELLOW), true);
                     }
 
-                    if (!player.getAbilities().instabuild) {
-                        stack.shrink(1);
+                    if (entity.hasEffect(SEEffects.HOOF_ABSCESS.get())) {
+                        entity.removeEffect(SEEffects.HOOF_ABSCESS.get());
+                        if (!player.getAbilities().instabuild) {
+                            stack.shrink(1);
+                        }
+                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
+                    } else {
+                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.no_ailment.tooltip").withStyle(ChatFormatting.YELLOW), true);
+                    }
+                }
+
+                if (stack.is(SEItems.ANTIBIOTIC_OINTMENT.get())) {
+                    if (entity.hasEffect(SEEffects.RAIN_ROT.get())) {
+                        entity.removeEffect(SEEffects.RAIN_ROT.get());
+                        if (!player.getAbilities().instabuild) {
+                            stack.shrink(1);
+                        }
+                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
+                    } else {
+                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.no_ailment.tooltip").withStyle(ChatFormatting.YELLOW), true);
+                    }
+                }
+
+                if (stack.is(SEItems.ANTIPARASITIC_OINTMENT.get())) {
+                    if (entity.hasEffect(SEEffects.MANGE.get())) {
+                        entity.removeEffect(SEEffects.MANGE.get());
+                        if (!player.getAbilities().instabuild) {
+                            stack.shrink(1);
+                        }
+                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
+                    } else {
+                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.no_ailment.tooltip").withStyle(ChatFormatting.YELLOW), true);
                     }
 
-                    player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
-                } else {
-                    player.displayClientMessage(Component.translatable("tooltip.dragnloextras.no_ailment.tooltip").withStyle(ChatFormatting.YELLOW), true);
+                    if (entity.hasEffect(SEEffects.FLEA_INFESTATION.get())) {
+                        entity.removeEffect(SEEffects.FLEA_INFESTATION.get());
+                        if (!player.getAbilities().instabuild) {
+                            stack.shrink(1);
+                        }
+                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
+                    } else {
+                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.no_ailment.tooltip").withStyle(ChatFormatting.YELLOW), true);
+                    }
+                }
+
+                if (stack.is(SEItems.ANTIPARASITIC_INJECTION.get())) {
+                    if (entity.hasEffect(SEEffects.HEARTWORMS.get())) {
+                        entity.removeEffect(SEEffects.HEARTWORMS.get());
+                        if (!player.getAbilities().instabuild) {
+                            stack.shrink(1);
+                        }
+                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
+                    } else {
+                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.no_ailment.tooltip").withStyle(ChatFormatting.YELLOW), true);
+                    }
+
+                    if (entity.hasEffect(SEEffects.BOTFLY_INFESTATION.get())) {
+                        entity.removeEffect(SEEffects.BOTFLY_INFESTATION.get());
+                        if (!player.getAbilities().instabuild) {
+                            stack.shrink(1);
+                        }
+                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
+                    } else {
+                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.no_ailment.tooltip").withStyle(ChatFormatting.YELLOW), true);
+                    }
+
+                    if (entity.hasEffect(SEEffects.RINGWORM.get())) {
+                        entity.removeEffect(SEEffects.RINGWORM.get());
+                        if (!player.getAbilities().instabuild) {
+                            stack.shrink(1);
+                        }
+                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
+                    } else {
+                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.no_ailment.tooltip").withStyle(ChatFormatting.YELLOW), true);
+                    }
+                }
+
+                if (stack.is(SEItems.ANTIBIOTIC_EARDROPS.get())) {
+                    if (entity.hasEffect(SEEffects.EAR_INFECTION.get())) {
+                        entity.removeEffect(SEEffects.EAR_INFECTION.get());
+                        if (!player.getAbilities().instabuild) {
+                            stack.shrink(1);
+                        }
+                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
+                    } else {
+                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.no_ailment.tooltip").withStyle(ChatFormatting.YELLOW), true);
+                    }
+                }
+
+                if (stack.is(SEItems.VETERINARY_BANDAGE.get())) {
+                    if (entity.hasEffect(SEEffects.SADDLE_SORE.get())) {
+                        entity.removeEffect(SEEffects.SADDLE_SORE.get());
+                        if (!player.getAbilities().instabuild) {
+                            stack.shrink(1);
+                        }
+                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
+                    } else {
+                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.no_ailment.tooltip").withStyle(ChatFormatting.YELLOW), true);
+                    }
+
+                    if (entity.hasEffect(SEEffects.ABRASION.get())) {
+                        entity.removeEffect(SEEffects.ABRASION.get());
+                        if (!player.getAbilities().instabuild) {
+                            stack.shrink(1);
+                        }
+                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
+                    } else {
+                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.no_ailment.tooltip").withStyle(ChatFormatting.YELLOW), true);
+                    }
+                }
+
+                if (stack.is(SEItems.RABIES_SHOT.get())) {
+                    if (entity.hasEffect(SEEffects.RABIES.get())) {
+                        int duration = entity.getEffect(SEEffects.RABIES.get()).getDuration();
+                        if (duration <= ScrapsExtrasCommonConfig.RABIES_TREATABLE_TICK.get()) {
+                            entity.removeEffect(SEEffects.RABIES.get());
+                            if (!player.getAbilities().instabuild) {
+                                stack.shrink(1);
+                            }
+                            player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
+                        } else {
+                            player.displayClientMessage(Component.translatable("tooltip.dragnloextras.untreatable.tooltip").withStyle(ChatFormatting.GOLD), true);
+                        }
+                    } else {
+                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.no_ailment.tooltip").withStyle(ChatFormatting.YELLOW), true);
+                    }
                 }
             }
 

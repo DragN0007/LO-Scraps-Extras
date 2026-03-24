@@ -30,6 +30,8 @@ public class SEItems {
             () -> new AntibioticInjectionItem(new Item.Properties().stacksTo(16)));
     public static final RegistryObject<Item> ANTIPARASITIC_OINTMENT = ITEMS.register("antiparasitic_ointment",
             () -> new AntibioticInjectionItem(new Item.Properties().stacksTo(16)));
+    public static final RegistryObject<Item> ANTIPARASITIC_INJECTION = ITEMS.register("antiparasitic_injection",
+            () -> new AntibioticInjectionItem(new Item.Properties().stacksTo(16)));
     public static final RegistryObject<Item> HEARTWORM_MEDICINE = ITEMS.register("heartworm_medicine",
             () -> new AntibioticInjectionItem(new Item.Properties().stacksTo(16)));
     public static final RegistryObject<Item> RABIES_SHOT = ITEMS.register("rabies_shot",

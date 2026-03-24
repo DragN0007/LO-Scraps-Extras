@@ -37,7 +37,7 @@ public class SEEffects {
             () -> new InfectionEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
 
     public static final RegistryObject<MobEffect> RAIN_ROT = MOB_EFFECTS.register("rain_rot",
-            () -> new InfectionEffect(MobEffectCategory.NEUTRAL, 0x5c0d12));
+            () -> new RainRotEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
 
     public static final RegistryObject<MobEffect> EAR_INFECTION = MOB_EFFECTS.register("ear_infection",
             () -> new InfectionEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
@@ -58,7 +58,7 @@ public class SEEffects {
             () -> new InfectionEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
 
     public static final RegistryObject<MobEffect> SADDLE_SORE = MOB_EFFECTS.register("saddle_sore",
-            () -> new InfectionEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
+            () -> new SaddleSoreEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
 
     public static final RegistryObject<MobEffect> HUNGER = MOB_EFFECTS.register("hunger",
             () -> new HungerEffect(MobEffectCategory.HARMFUL, 0x5c0d12));

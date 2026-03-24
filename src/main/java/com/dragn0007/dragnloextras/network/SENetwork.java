@@ -38,6 +38,8 @@ public class SENetwork {
             INSTANCE.registerMessage(2, SyncTraitPacket.class, SyncTraitPacket::encode, SyncTraitPacket::decode, SyncTraitPacket::handle);
             INSTANCE.registerMessage(3, SyncHalterColorPacket.class, SyncHalterColorPacket::encode, SyncHalterColorPacket::decode, SyncHalterColorPacket::handle);
             INSTANCE.registerMessage(4, SyncImmunityPacket.class, SyncImmunityPacket::encode, SyncImmunityPacket::decode, SyncImmunityPacket::handle);
+            INSTANCE.registerMessage(5, SyncSleepingPacket.class, SyncSleepingPacket::encode, SyncSleepingPacket::decode, SyncSleepingPacket::handle);
+            INSTANCE.registerMessage(6, SyncSleepingAsLeaderPacket.class, SyncSleepingAsLeaderPacket::encode, SyncSleepingAsLeaderPacket::decode, SyncSleepingAsLeaderPacket::handle);
         });
     }
 }

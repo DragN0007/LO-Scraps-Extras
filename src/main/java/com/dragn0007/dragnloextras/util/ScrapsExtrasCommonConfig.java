@@ -49,6 +49,7 @@ public class ScrapsExtrasCommonConfig {
     public static final ForgeConfigSpec.BooleanValue GOOD_TRAITS_ONLY;
     public static final ForgeConfigSpec.BooleanValue HALTER;
     public static final ForgeConfigSpec.BooleanValue SPIKE_COLLAR;
+    public static final ForgeConfigSpec.BooleanValue SLEEPING;
 
     static {
         BUILDER.push("Hygiene");
@@ -98,9 +99,9 @@ public class ScrapsExtrasCommonConfig {
                 .define("Infection Death Tick", 168000);
         LETHAL_RABIES = BUILDER.comment("Should rabies eventually become lethal if left untreated?")
                 .define("Lethal Rabies", true);
-        RABIES_TREATABLE_TICK = BUILDER.comment("The amount of time at which rabies becomes untreatable. Default is 72000 ticks.")
+        RABIES_TREATABLE_TICK = BUILDER.comment("The amount of time at which rabies becomes untreatable. Set higher to give more time for treatment. Default is 72000 ticks.")
                 .define("Rabies Treatable Tick", 72000);
-        RABIES_DEATH_TICK = BUILDER.comment("The amount of time at which rabies becomes deadly. Default is 168,000 ticks.")
+        RABIES_DEATH_TICK = BUILDER.comment("The amount of time at which rabies becomes deadly and begins killing an animal. Default is 168,000 ticks.")
                 .define("Rabies Death Tick", 168000);
         INFECTIONS = BUILDER.define("Infection Enabled", true);
         RABIES = BUILDER.define("Rabies Enabled", true);
@@ -127,6 +128,7 @@ public class ScrapsExtrasCommonConfig {
         BUILDER.push("Misc");
         HALTER = BUILDER.define("Halter Owner Following Enabled", true);
         SPIKE_COLLAR = BUILDER.define("Spike Collar Thorns Enabled", true);
+        SLEEPING = BUILDER.define("Animals Sleep at Night", true);
         BUILDER.pop();
 
         SPEC = BUILDER.build();
