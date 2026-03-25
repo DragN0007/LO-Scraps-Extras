@@ -3,6 +3,7 @@ package com.dragn0007.dragnloextras.effects;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 
 public class StarvingEffect extends MobEffect {
@@ -18,11 +19,13 @@ public class StarvingEffect extends MobEffect {
             int amp = entity.getEffect(SEEffects.HUNGER.get()).getAmplifier();
             int duration = entity.getEffect(SEEffects.HUNGER.get()).getDuration();
 
-            if (ScrapsExtrasCommonConfig.FEEDING_SYSTEM.get())
+            if (ScrapsExtrasCommonConfig.FEEDING_SYSTEM.get() && ScrapsExtrasCommonConfig.HUNGRY_IMMUNITY_DAMPER.get())
                 immunityDamperTick++;
 
-            if (immunityDamperTick >= ScrapsExtrasCommonConfig.DIRTY_TICK.get()) {
-
+            if (ScrapsExtrasCommonConfig.HUNGRY_IMMUNITY_DAMPER.get()) {
+                if (immunityDamperTick >= ScrapsExtrasCommonConfig.HUNGRY_IMMUNITY_DAMPER_TICK.get()) {
+                    entity.addEffect(new MobEffectInstance(SEEffects.IMMUNOCOMPROMISED.get(), 3000, amp, false, false));
+                }
             }
         }
     }

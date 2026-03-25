@@ -1,14 +1,20 @@
 package com.dragn0007.dragnloextras.effects;
 
-import com.dragn0007.dragnloextras.capabilities.ImmunityCapabilityInterface;
-import com.dragn0007.dragnloextras.capabilities.SECapabilities;
+import com.dragn0007.dragnlivestock.entities.horse.OHorse;
+import com.dragn0007.dragnloextras.util.ISickModHolder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 
-public class ImmunocomprimisedEffect extends MobEffect {
+public class ImmunocomprimisedEffect extends MobEffect implements ISickModHolder {
     public ImmunocomprimisedEffect(MobEffectCategory pCategory, int pColor) {
         super(pCategory, pColor);
+    }
+
+    int livestockOverhaulScraps$becomeSickChanceMod;
+    @Override
+    public void setSickChanceMod(int sickChanceMod) {
+        livestockOverhaulScraps$becomeSickChanceMod = sickChanceMod;
     }
 
     @Override
@@ -16,7 +22,10 @@ public class ImmunocomprimisedEffect extends MobEffect {
         if (!entity.level().isClientSide) {
             int amp = entity.getEffect(SEEffects.IMMUNOCOMPROMISED.get()).getAmplifier();
             int duration = entity.getEffect(SEEffects.IMMUNOCOMPROMISED.get()).getDuration();
-            ImmunityCapabilityInterface immunityCap = entity.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
+
+            if (entity instanceof OHorse horse) {
+                ((ISickModHolder) horse).setSickChanceMod(+25);
+            }
         }
     }
 
@@ -25,5 +34,4 @@ public class ImmunocomprimisedEffect extends MobEffect {
     public boolean isDurationEffectTick(int duration, int amplifier) {
         return true;
     }
-
 }

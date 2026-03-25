@@ -19,12 +19,12 @@ public class DirtyEffect extends MobEffect {
             int amp = entity.getEffect(SEEffects.DIRTY.get()).getAmplifier();
             int duration = entity.getEffect(SEEffects.DIRTY.get()).getDuration();
 
-            if (ScrapsExtrasCommonConfig.HYGIENE_SYSTEM.get())
+            if (ScrapsExtrasCommonConfig.HYGIENE_SYSTEM.get() && ScrapsExtrasCommonConfig.DIRTY_IMMUNITY_DAMPER.get())
                 immunityDamperTick++;
 
             if (ScrapsExtrasCommonConfig.DIRTY_IMMUNITY_DAMPER.get()) {
                 if (immunityDamperTick >= ScrapsExtrasCommonConfig.DIRTY_IMMUNITY_DAMPER_TICK.get()) {
-                    entity.addEffect(new MobEffectInstance(SEEffects.IMMUNOCOMPROMISED.get(), 100, amp, false, false));
+                    entity.addEffect(new MobEffectInstance(SEEffects.IMMUNOCOMPROMISED.get(), 20, amp, false, false));
                 }
             }
         }

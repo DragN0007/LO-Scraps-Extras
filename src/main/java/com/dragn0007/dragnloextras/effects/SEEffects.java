@@ -22,7 +22,7 @@ public class SEEffects {
             () -> new ImmunocomprimisedEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
 
     public static final RegistryObject<MobEffect> DIRTY = MOB_EFFECTS.register("dirty",
-            () -> new DirtyEffect(MobEffectCategory.NEUTRAL, 0x5c0d12));
+            () -> new DirtyEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
 
     public static final RegistryObject<MobEffect> INFECTION = MOB_EFFECTS.register("infection",
             () -> new InfectionEffect(MobEffectCategory.HARMFUL, 0x5c0d12));

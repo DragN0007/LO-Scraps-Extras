@@ -1,10 +1,14 @@
 package com.dragn0007.dragnloextras.effects;
 
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
+import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Unique;
+
+import java.util.Random;
 
 public class SaddleSoreEffect extends MobEffect {
     public SaddleSoreEffect(MobEffectCategory pCategory, int pColor) {
@@ -22,6 +26,9 @@ public class SaddleSoreEffect extends MobEffect {
         this.active = active;
     }
 
+    public int turnIntoInfectionTick = 0;
+    Random random = new Random();
+
     @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide) {
@@ -30,6 +37,14 @@ public class SaddleSoreEffect extends MobEffect {
             this.setActive(entity instanceof OHorse horse && horse.isSaddled() && horse.isVehicle());
             if (this.isActive()) {
                 entity.hurt(entity.damageSources().generic(), 1F);
+            }
+
+            turnIntoInfectionTick++;
+            if (turnIntoInfectionTick >= ScrapsExtrasCommonConfig.INFECTION_TICK.get() && ScrapsExtrasCommonConfig.INFECTIONS.get()) {
+                turnIntoInfectionTick = 0;
+                if (random.nextDouble() <= 0.0008) {
+                    entity.addEffect(new MobEffectInstance(SEEffects.INFECTION.get(), MobEffectInstance.INFINITE_DURATION, 1, true, false));
+                }
             }
         }
     }

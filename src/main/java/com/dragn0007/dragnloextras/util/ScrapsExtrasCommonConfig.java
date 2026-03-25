@@ -10,6 +10,8 @@ public class ScrapsExtrasCommonConfig {
     public static final ForgeConfigSpec.ConfigValue<Integer> DIRTY_TICK;
     public static final ForgeConfigSpec.BooleanValue DIRTY_IMMUNITY_DAMPER;
     public static final ForgeConfigSpec.ConfigValue<Integer> DIRTY_IMMUNITY_DAMPER_TICK;
+    public static final ForgeConfigSpec.BooleanValue GESTATION;
+    public static final ForgeConfigSpec.ConfigValue<Integer> GESTATION_TICK;
     public static final ForgeConfigSpec.BooleanValue FEEDING_SYSTEM;
     public static final ForgeConfigSpec.BooleanValue HUNGRY_IMMUNITY_DAMPER;
     public static final ForgeConfigSpec.ConfigValue<Integer> HUNGRY_IMMUNITY_DAMPER_TICK;
@@ -52,7 +54,7 @@ public class ScrapsExtrasCommonConfig {
     public static final ForgeConfigSpec.BooleanValue SLEEPING;
 
     static {
-        BUILDER.push("Hygiene");
+        BUILDER.push("Hygiene & Welfare");
         HYGIENE_SYSTEM = BUILDER.define("Hygiene System Enabled", true);
         DIRTY_TICK = BUILDER.comment("The amount of time at which an animal becomes dirty. Default is 72000 ticks.")
                 .define("Dirty Tick", 72000);
@@ -60,6 +62,10 @@ public class ScrapsExtrasCommonConfig {
                 .define("Dirty Immunity Damper", true);
         DIRTY_IMMUNITY_DAMPER_TICK = BUILDER.comment("The amount of time at which an animal's immune system becomes dampened from being dirty. Default is 72000 ticks.")
                 .define("Dirty Immunity Damper Tick", 72000);
+        GESTATION = BUILDER.comment("Should female animals become pregnant and have a gestation period after breeding? This requires the (LO) Genders Affect Breeding config to be on.")
+                .define("Gestation", true);
+        GESTATION_TICK = BUILDER.comment("The amount of time at which an animal gestates. Default is 72000 ticks.")
+                .define("Gestation Tick", 72000);
         BUILDER.pop();
 
         BUILDER.push("Food");
