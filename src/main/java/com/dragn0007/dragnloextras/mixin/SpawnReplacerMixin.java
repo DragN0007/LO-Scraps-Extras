@@ -14,7 +14,9 @@ import com.dragn0007.dragnloextras.capabilities.ImmunityCapabilityInterface;
 import com.dragn0007.dragnloextras.capabilities.SECapabilities;
 import com.dragn0007.dragnloextras.capabilities.TraitCapabilityInterface;
 import com.dragn0007.dragnloextras.effects.SEEffects;
+import com.dragn0007.dragnloextras.network.SyncImmunityPacket;
 import com.dragn0007.dragnloextras.network.SyncTraitPacket;
+import com.dragn0007.dragnloextras.util.ISickModHolder;
 import com.dragn0007.dragnloextras.util.ITraitByBreedTypeHolder;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import com.dragn0007.dragnloextras.util.Trait;
@@ -26,6 +28,7 @@ import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.fml.ModList;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -36,7 +39,21 @@ import java.util.Random;
 
 
 @Mixin(SpawnReplacer.class)
-public class SpawnReplacerMixin {
+public class SpawnReplacerMixin implements ISickModHolder {
+
+    @Unique
+    int livestockOverhaulScraps$becomeSickChanceMod = 0;
+    @Unique
+    public void setSickChanceMod(int sickChanceMod) {
+        this.livestockOverhaulScraps$becomeSickChanceMod = sickChanceMod;
+    }
+
+    @Unique
+    int livestockOverhaulScraps$becomeSickChance = 0;
+    @Unique
+    public void setSickChance(int sickChance) {
+        this.livestockOverhaulScraps$becomeSickChance = sickChance;
+    }
 
     @Inject(method = "onSpawn", at = @At("HEAD"), remap = false)
     private static void onSpawn(EntityJoinLevelEvent event, CallbackInfo ci) {
@@ -103,16 +120,36 @@ public class SpawnReplacerMixin {
                     oHorse.setOwnerUUID(vanillaHorse.getOwnerUUID());
                     oHorse.setAge(vanillaHorse.getAge());
                     oHorse.randomizeOHorseAttributes();
-
                     oHorse.setReindeerVariant(random.nextInt(OHorseModel.ReindeerVariant.values().length));
                     oHorse.setGender(random.nextInt(AbstractOMount.Gender.values().length));
 
                     ImmunityCapabilityInterface immunityCap = oHorse.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
+                    TraitCapabilityInterface traitCap = oHorse.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
+
                     if (ScrapsExtrasCommonConfig.AILMENT_SYSTEM.get()) {
-                        immunityCap.setImmunity(random.nextInt(50));
+                        int baseImmunity = random.nextInt(50);
+                        immunityCap.setImmunity(random.nextInt(baseImmunity));
+                        SyncImmunityPacket.syncToTracking(oHorse, random.nextInt(baseImmunity));
+
+                        int traitImmunityAdditionMajor = random.nextInt(50) + 25;
+                        int traitImmunityAdditionMinor = random.nextInt(25);
+                        if (traitCap.getTrait() == 1) { //immunocompetent (major)
+                            immunityCap.setImmunity(immunityCap.getImmunity() + random.nextInt(traitImmunityAdditionMajor));
+                            SyncImmunityPacket.syncToTracking(oHorse, immunityCap.getImmunity() + random.nextInt(traitImmunityAdditionMajor));
+                        } else if (traitCap.getTrait() == 8) { //immunosuppressed (major)
+                            immunityCap.setImmunity(immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMajor));
+                            SyncImmunityPacket.syncToTracking(oHorse, immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMajor));
+                        } else if (traitCap.getTrait() == 6) { //sturdy (minor)
+                            immunityCap.setImmunity(immunityCap.getImmunity() + random.nextInt(traitImmunityAdditionMinor));
+                            SyncImmunityPacket.syncToTracking(oHorse, immunityCap.getImmunity() + random.nextInt(traitImmunityAdditionMinor));
+                        } else if (traitCap.getTrait() == 11) { //frail (minor)
+                            immunityCap.setImmunity(immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMinor));
+                            SyncImmunityPacket.syncToTracking(oHorse, immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMinor));
+                        }
+
+                        ((ISickModHolder) oHorse).setSickChance(100 - immunityCap.getImmunity());
                     }
 
-                    TraitCapabilityInterface traitCap = oHorse.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
                     if (ScrapsExtrasCommonConfig.TRAITS_SYSTEM.get()) {
                         if (ScrapsExtrasCommonConfig.TRAITS_BY_BREED.get()) {
                             if (ScrapsExtrasCommonConfig.GOOD_TRAITS_ONLY.get()) {
@@ -135,48 +172,34 @@ public class SpawnReplacerMixin {
                                 traitCap.setTrait(trait);
                                 SyncTraitPacket.syncToTracking(oHorse, trait);
                             }
+                        }
 
-                            switch (traitCap.getTrait()) {
-                                case 0:
-                                    oHorse.addEffect(new MobEffectInstance(SEEffects.BRAVE.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                                    break;
-                                case 1:
-                                    oHorse.addEffect(new MobEffectInstance(SEEffects.IMMUNOCOMPETENT.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                                    break;
-                                case 2:
-                                    oHorse.addEffect(new MobEffectInstance(SEEffects.SWIFT.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                                    break;
-                                case 3:
-                                    oHorse.addEffect(new MobEffectInstance(SEEffects.VAULTER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                                    break;
-                                case 4:
-                                    oHorse.addEffect(new MobEffectInstance(SEEffects.CLIMBER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                                    break;
-                                case 5:
-                                    oHorse.addEffect(new MobEffectInstance(SEEffects.BUSTER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                                    break;
-                                case 6:
-                                    oHorse.addEffect(new MobEffectInstance(SEEffects.STURDY.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                                    break;
-                                case 7:
-                                    oHorse.addEffect(new MobEffectInstance(SEEffects.COWARDLY.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                                    break;
-                                case 8:
-                                    oHorse.addEffect(new MobEffectInstance(SEEffects.IMMUNOSUPPRESSED.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                                    break;
-                                case 9:
-                                    oHorse.addEffect(new MobEffectInstance(SEEffects.STUBBORN.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                                    break;
-                                case 10:
-                                    oHorse.addEffect(new MobEffectInstance(SEEffects.LAGGARD.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                                    break;
-                                case 11:
-                                    oHorse.addEffect(new MobEffectInstance(SEEffects.FRAIL.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                                    break;
-                                case 12:
-                                    oHorse.addEffect(new MobEffectInstance(SEEffects.MEAN.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                                    break;
-                            }
+                        if (traitCap.getTrait() == 0) {
+                            oHorse.addEffect(new MobEffectInstance(SEEffects.BRAVE.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        } else if (traitCap.getTrait() == 1) {
+                            oHorse.addEffect(new MobEffectInstance(SEEffects.IMMUNOCOMPETENT.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        } else if (traitCap.getTrait() == 2) {
+                            oHorse.addEffect(new MobEffectInstance(SEEffects.SWIFT.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        } else if (traitCap.getTrait() == 3) {
+                            oHorse.addEffect(new MobEffectInstance(SEEffects.VAULTER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        } else if (traitCap.getTrait() == 4) {
+                            oHorse.addEffect(new MobEffectInstance(SEEffects.CLIMBER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        } else if (traitCap.getTrait() == 5) {
+                            oHorse.addEffect(new MobEffectInstance(SEEffects.BUSTER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        } else if (traitCap.getTrait() == 6) {
+                            oHorse.addEffect(new MobEffectInstance(SEEffects.STURDY.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        } else if (traitCap.getTrait() == 7) {
+                            oHorse.addEffect(new MobEffectInstance(SEEffects.COWARDLY.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        } else if (traitCap.getTrait() == 8) {
+                            oHorse.addEffect(new MobEffectInstance(SEEffects.IMMUNOSUPPRESSED.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        } else if (traitCap.getTrait() == 9) {
+                            oHorse.addEffect(new MobEffectInstance(SEEffects.LAGGARD.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        } else if (traitCap.getTrait() == 10) {
+                            oHorse.addEffect(new MobEffectInstance(SEEffects.FRAIL.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        } else if (traitCap.getTrait() == 11) {
+                            oHorse.addEffect(new MobEffectInstance(SEEffects.FRAIL.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        } else if (traitCap.getTrait() == 12) {
+                            oHorse.addEffect(new MobEffectInstance(SEEffects.MEAN.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
                         }
                     }
 
@@ -244,6 +267,46 @@ public class SpawnReplacerMixin {
 
                     event.setCanceled(true);
                 }
+            }
+        }
+
+        //Trait
+        if (event.getEntity() instanceof OHorse oHorse && oHorse.getSpawnType() == MobSpawnType.BREEDING) {
+            if (event.getEntity().getClass() == OHorse.class) {
+                if (event.getLevel().isClientSide) {
+                    return;
+                }
+                if (oHorse != null) {
+                    TraitCapabilityInterface traitCap = oHorse.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
+                    if (traitCap.getTrait() == 0) {
+                        oHorse.addEffect(new MobEffectInstance(SEEffects.BRAVE.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    } else if (traitCap.getTrait() == 1) {
+                        oHorse.addEffect(new MobEffectInstance(SEEffects.IMMUNOCOMPETENT.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    } else if (traitCap.getTrait() == 2) {
+                        oHorse.addEffect(new MobEffectInstance(SEEffects.SWIFT.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    } else if (traitCap.getTrait() == 3) {
+                        oHorse.addEffect(new MobEffectInstance(SEEffects.VAULTER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    } else if (traitCap.getTrait() == 4) {
+                        oHorse.addEffect(new MobEffectInstance(SEEffects.CLIMBER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    } else if (traitCap.getTrait() == 5) {
+                        oHorse.addEffect(new MobEffectInstance(SEEffects.BUSTER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    } else if (traitCap.getTrait() == 6) {
+                        oHorse.addEffect(new MobEffectInstance(SEEffects.STURDY.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    } else if (traitCap.getTrait() == 7) {
+                        oHorse.addEffect(new MobEffectInstance(SEEffects.COWARDLY.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    } else if (traitCap.getTrait() == 8) {
+                        oHorse.addEffect(new MobEffectInstance(SEEffects.IMMUNOSUPPRESSED.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    } else if (traitCap.getTrait() == 9) {
+                        oHorse.addEffect(new MobEffectInstance(SEEffects.LAGGARD.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    } else if (traitCap.getTrait() == 10) {
+                        oHorse.addEffect(new MobEffectInstance(SEEffects.FRAIL.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    } else if (traitCap.getTrait() == 11) {
+                        oHorse.addEffect(new MobEffectInstance(SEEffects.FRAIL.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    } else if (traitCap.getTrait() == 12) {
+                        oHorse.addEffect(new MobEffectInstance(SEEffects.MEAN.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    }
+                }
+                event.setCanceled(true);
             }
         }
     }

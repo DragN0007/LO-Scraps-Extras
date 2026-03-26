@@ -18,6 +18,10 @@ public class ImmunosuppressedEffect extends MobEffect implements ISickModHolder 
     }
 
     @Override
+    public void setSickChance(int sickChance) {
+    }
+
+    @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide) {
             if (entity instanceof OHorse horse) {

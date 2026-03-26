@@ -25,11 +25,13 @@ public class MangeEffect extends MobEffect {
     @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide) {
-            int amp = entity.getEffect(SEEffects.RAIN_ROT.get()).getAmplifier();
-            int duration = entity.getEffect(SEEffects.RAIN_ROT.get()).getDuration();
-            this.setActive(entity instanceof OHorse horse && horse.isSaddled() && horse.isVehicle());
-            if (this.isActive()) {
-                entity.hurt(entity.damageSources().generic(), 1F);
+            if (entity.hasEffect(SEEffects.MANGE.get())) {
+                int amp = entity.getEffect(SEEffects.MANGE.get()).getAmplifier();
+                int duration = entity.getEffect(SEEffects.MANGE.get()).getDuration();
+                this.setActive(entity instanceof OHorse horse && horse.isSaddled() && horse.isVehicle());
+                if (this.isActive()) {
+                    entity.hurt(entity.damageSources().generic(), 1F);
+                }
             }
         }
     }

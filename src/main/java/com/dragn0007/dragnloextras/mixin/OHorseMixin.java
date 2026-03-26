@@ -23,6 +23,7 @@ import com.dragn0007.dragnloextras.network.*;
 import com.dragn0007.dragnloextras.util.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
@@ -43,6 +44,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.network.PacketDistributor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -116,8 +118,14 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
         this.livestockOverhaulScraps$becomeSickChanceMod = sickChanceMod;
     }
 
+    @Unique
+    int livestockOverhaulScraps$becomeSickChance = 0;
+    @Unique
+    public void setSickChance(int sickChance) {
+        this.livestockOverhaulScraps$becomeSickChance = sickChance;
+    }
+
     @Unique int livestockOverhaulScraps$beMeanTargetTick = random.nextInt(24000) + 1200;
-    @Unique int livestockOverhaulScraps$becomeSickChance;
     @Unique int livestockOverhaulScraps$becomeSickRand = random.nextInt(100);
     @Unique int livestockOverhaulScraps$pregnantTick;
 
@@ -278,15 +286,17 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
     }
 
     @Inject(method = "hurt", at = @At("HEAD"))
-    public void hurt(DamageSource damageSource, float v, CallbackInfoReturnable<Boolean> cir) {
-        super.hurt(damageSource, v);
+    public void hurt(DamageSource damageSource, float dmg, CallbackInfoReturnable<Boolean> cir) {
+        super.hurt(damageSource, dmg);
 
         if (ScrapsExtrasCommonConfig.AILMENT_SYSTEM.get()) {
             if (livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
 
+                double abrasionChance = dmg / 10;
+
                 //abrasions happen sometimes, but they're no big deal
-                if (random.nextDouble() <= 0.10) {
-                    this.addEffect(new MobEffectInstance(SEEffects.ABRASION.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                if (random.nextDouble() <= abrasionChance) {
+                    this.addEffect(new MobEffectInstance(SEEffects.ABRASION.get(), ScrapsExtrasCommonConfig.INFECTION_TICK.get() + 20, 0, false, false));
                 }
 
                 if (ScrapsExtrasCommonConfig.RABIES.get()) {
@@ -479,7 +489,7 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
                 SyncImmunityPacket.syncToTracking(this, immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMinor));
             }
 
-            livestockOverhaulScraps$becomeSickChance = 100 - immunityCap.getImmunity();
+            ((ISickModHolder) this).setSickChance(100 - immunityCap.getImmunity());
         }
 
         if (ScrapsExtrasCommonConfig.TRAITS_SYSTEM.get()) {
@@ -644,7 +654,11 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
         double animationSpeed = Math.max(0.1, movementSpeed);
 
         AnimationController<T> controller = tAnimationState.getController();
-        SleepingCapabilityInterface sleepingCap = this.getCapability(SECapabilities.SLEEPING_CAPABILITY).orElse(null);
+
+        SleepingCapabilityInterface sleepingCap = null;
+        if (this.getCapability(SECapabilities.SLEEPING_CAPABILITY).isPresent()) {
+            sleepingCap = this.getCapability(SECapabilities.SLEEPING_CAPABILITY).orElse(null);
+        }
 
         if ((!this.isTamed() || this.isWearingRodeoHarness()) && this.isVehicle() && !this.isJumping()) {
             controller.setAnimation(RawAnimation.begin().then("buck", Animation.LoopType.LOOP));
@@ -715,7 +729,7 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
             } else {
                 if (this.isGroundTied() && LivestockOverhaulCommonConfig.GROUND_TIE.get()) {
                     controller.setAnimation(RawAnimation.begin().then("ground_tie", Animation.LoopType.LOOP));
-                } else if (sleepingCap.isSleeping()) {
+                } else if (sleepingCap != null && sleepingCap.isSleeping()) {
                     if (this.isSleepingAsLeader()) {
                         controller.setAnimation(RawAnimation.begin().then("relax", Animation.LoopType.LOOP));
                     } else {
@@ -730,7 +744,7 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
         cir.setReturnValue(PlayState.CONTINUE);
     }
 
-    @Inject(method = "canMate", at = @At("HEAD"))
+    @Inject(method = "canMate", at = @At("HEAD"), cancellable = true)
     public void canMate(Animal animal, CallbackInfoReturnable<Boolean> cir) {
         if (this.isHungry() || livestockOverhaulScraps$pregnantTick > 0) {
             cir.setReturnValue(false);
@@ -779,7 +793,9 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
             OHorse partner = (OHorse) ageableMob;
             foal = EntityTypes.O_HORSE_ENTITY.get().create(serverLevel);
             ImmunityCapabilityInterface partnerimmunityCap = partner.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
+            ImmunityCapabilityInterface foalimmunityCap = foal.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
             TraitCapabilityInterface partnertraitCap = partner.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
+            TraitCapabilityInterface foaltraitCap = foal.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
 
             int breedChance = this.random.nextInt(5);
             int breed;
@@ -837,10 +853,52 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
             }
             ((OHorse) foal).setEyeVariant(eyes);
 
+            int traitChance = this.random.nextInt(12);
+            int trait;
+            if (traitChance < 5) {
+                trait = traitCap.getTrait();
+                foaltraitCap.setTrait(trait);
+                SyncImmunityPacket.syncToTracking(foal, trait);
+            } else if (traitChance < 10) {
+                trait = partnertraitCap.getTrait();
+                foaltraitCap.setTrait(trait);
+                SyncImmunityPacket.syncToTracking(foal, trait);
+            } else {
+                ((ITraitByBreedTypeHolder) foal).setTraitByBreedType();
+            }
+
             foal.setGender(random.nextInt(Gender.values().length));
             ((OHorse) foal).setFeatheringByBreed();
             ((OHorse) foal).setManeType(3);
             ((OHorse) foal).setTailType(2);
+
+            if (foaltraitCap.getTrait() == 0) {
+                foal.addEffect(new MobEffectInstance(SEEffects.BRAVE.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+            } else if (foaltraitCap.getTrait() == 1) {
+                foal.addEffect(new MobEffectInstance(SEEffects.IMMUNOCOMPETENT.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+            } else if (foaltraitCap.getTrait() == 2) {
+                foal.addEffect(new MobEffectInstance(SEEffects.SWIFT.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+            } else if (foaltraitCap.getTrait() == 3) {
+                foal.addEffect(new MobEffectInstance(SEEffects.VAULTER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+            } else if (foaltraitCap.getTrait() == 4) {
+                foal.addEffect(new MobEffectInstance(SEEffects.CLIMBER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+            } else if (foaltraitCap.getTrait() == 5) {
+                foal.addEffect(new MobEffectInstance(SEEffects.BUSTER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+            } else if (foaltraitCap.getTrait() == 6) {
+                foal.addEffect(new MobEffectInstance(SEEffects.STURDY.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+            } else if (foaltraitCap.getTrait() == 7) {
+                foal.addEffect(new MobEffectInstance(SEEffects.COWARDLY.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+            } else if (foaltraitCap.getTrait() == 8) {
+                foal.addEffect(new MobEffectInstance(SEEffects.IMMUNOSUPPRESSED.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+            } else if (foaltraitCap.getTrait() == 9) {
+                foal.addEffect(new MobEffectInstance(SEEffects.LAGGARD.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+            } else if (foaltraitCap.getTrait() == 10) {
+                foal.addEffect(new MobEffectInstance(SEEffects.FRAIL.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+            } else if (foaltraitCap.getTrait() == 11) {
+                foal.addEffect(new MobEffectInstance(SEEffects.FRAIL.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+            } else if (foaltraitCap.getTrait() == 12) {
+                foal.addEffect(new MobEffectInstance(SEEffects.MEAN.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+            }
 
             if (this.random.nextInt(3) >= 1) {
                 ((OHorse) foal).generateRandomOHorseJumpStrength();
@@ -866,4 +924,5 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
         this.setOffspringAttributes(ageableMob, foal);
         cir.getReturnValue();
     }
+
 }

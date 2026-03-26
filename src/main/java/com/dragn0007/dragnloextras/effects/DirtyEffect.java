@@ -16,15 +16,17 @@ public class DirtyEffect extends MobEffect {
     @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide) {
-            int amp = entity.getEffect(SEEffects.DIRTY.get()).getAmplifier();
-            int duration = entity.getEffect(SEEffects.DIRTY.get()).getDuration();
+            if (entity.hasEffect(SEEffects.DIRTY.get())) {
+                int amp = entity.getEffect(SEEffects.DIRTY.get()).getAmplifier();
+                int duration = entity.getEffect(SEEffects.DIRTY.get()).getDuration();
 
-            if (ScrapsExtrasCommonConfig.HYGIENE_SYSTEM.get() && ScrapsExtrasCommonConfig.DIRTY_IMMUNITY_DAMPER.get())
-                immunityDamperTick++;
+                if (ScrapsExtrasCommonConfig.HYGIENE_SYSTEM.get() && ScrapsExtrasCommonConfig.DIRTY_IMMUNITY_DAMPER.get())
+                    immunityDamperTick++;
 
-            if (ScrapsExtrasCommonConfig.DIRTY_IMMUNITY_DAMPER.get()) {
-                if (immunityDamperTick >= ScrapsExtrasCommonConfig.DIRTY_IMMUNITY_DAMPER_TICK.get()) {
-                    entity.addEffect(new MobEffectInstance(SEEffects.IMMUNOCOMPROMISED.get(), 20, amp, false, false));
+                if (ScrapsExtrasCommonConfig.DIRTY_IMMUNITY_DAMPER.get()) {
+                    if (immunityDamperTick >= ScrapsExtrasCommonConfig.DIRTY_IMMUNITY_DAMPER_TICK.get()) {
+                        entity.addEffect(new MobEffectInstance(SEEffects.IMMUNOCOMPROMISED.get(), 20, amp, false, false));
+                    }
                 }
             }
         }

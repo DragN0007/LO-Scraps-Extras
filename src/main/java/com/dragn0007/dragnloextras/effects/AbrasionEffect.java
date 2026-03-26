@@ -19,11 +19,13 @@ public class AbrasionEffect extends MobEffect {
     @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide) {
-            turnIntoInfectionTick++;
-            if (turnIntoInfectionTick >= ScrapsExtrasCommonConfig.INFECTION_TICK.get() && ScrapsExtrasCommonConfig.INFECTIONS.get()) {
-                turnIntoInfectionTick = 0;
-                if (random.nextDouble() <= 0.02) {
-                    entity.addEffect(new MobEffectInstance(SEEffects.INFECTION.get(), MobEffectInstance.INFINITE_DURATION, 1, true, false));
+            if (entity.hasEffect(SEEffects.ABRASION.get())) {
+                turnIntoInfectionTick++;
+                if (turnIntoInfectionTick >= ScrapsExtrasCommonConfig.INFECTION_TICK.get() && ScrapsExtrasCommonConfig.INFECTIONS.get()) {
+                    turnIntoInfectionTick = 0;
+                    if (random.nextDouble() <= 0.01) {
+                        entity.addEffect(new MobEffectInstance(SEEffects.INFECTION.get(), MobEffectInstance.INFINITE_DURATION, 1, true, false));
+                    }
                 }
             }
         }
@@ -31,6 +33,6 @@ public class AbrasionEffect extends MobEffect {
 
     @Override
     public boolean isDurationEffectTick(int duration, int amplifier) {
-        return duration % 3000 == 0;
+        return duration % 10 == 0;
     }
 }

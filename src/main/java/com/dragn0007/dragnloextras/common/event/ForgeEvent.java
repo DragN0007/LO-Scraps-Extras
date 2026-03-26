@@ -11,6 +11,7 @@ import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,6 +19,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.living.BabyEntitySpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -399,6 +401,7 @@ public class ForgeEvent {
             case 10 -> "Trait: Laggard \nLaggards are slow on their feet.\n";
             case 11 -> "Trait: Frail \nFrail animals have less overall health and are slightly more likely to get sick from common illnesses.\n";
             case 12 -> "Trait: Mean \nMean animals might attack you or other animals out of anger on occasion.\n";
+            case 13 -> "Trait: None \nThis animal seems to have no notable personality or physical trait.\n";
             default -> "Trait: Unknown\n";
         };
     }

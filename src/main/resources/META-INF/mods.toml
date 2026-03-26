@@ -9,7 +9,7 @@ displayName="DragN's Livestock Overhaul: Scraps & Extras Addon!"
 logoFile="scraps_logo.png"
 authors="DragN0007"
 description='''
-An addon to Livestock Overhaul that adds hygiene, welfare, diseases and ailments, genetic traits, and other extra items/ features.
+An addon to Livestock Overhaul that adds hygiene, welfare, diseases and ailments, genetic traits, and other extra items/ features. [INDEV DO NOT DISTRIBUTE]
 '''
 [[dependencies.dragnloextras]]
 modId = "forge"
@@ -33,6 +33,12 @@ side="BOTH"
 modId="dragnlivestock"
 mandatory=true
 versionRange = "[3.6,)"
+ordering="NONE"
+side="BOTH"
+[[dependencies.dragnloextras]]
+modId="jade"
+mandatory=true
+versionRange = "[11.11.1,)"
 ordering="NONE"
 side="BOTH"
 [[dependencies.dragnloextras]]

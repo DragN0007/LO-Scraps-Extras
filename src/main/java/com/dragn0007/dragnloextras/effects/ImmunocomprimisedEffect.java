@@ -18,13 +18,19 @@ public class ImmunocomprimisedEffect extends MobEffect implements ISickModHolder
     }
 
     @Override
+    public void setSickChance(int sickChance) {
+    }
+
+    @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide) {
-            int amp = entity.getEffect(SEEffects.IMMUNOCOMPROMISED.get()).getAmplifier();
-            int duration = entity.getEffect(SEEffects.IMMUNOCOMPROMISED.get()).getDuration();
+            if (entity.hasEffect(SEEffects.IMMUNOCOMPROMISED.get())) {
+                int amp = entity.getEffect(SEEffects.IMMUNOCOMPROMISED.get()).getAmplifier();
+                int duration = entity.getEffect(SEEffects.IMMUNOCOMPROMISED.get()).getDuration();
 
-            if (entity instanceof OHorse horse) {
-                ((ISickModHolder) horse).setSickChanceMod(+25);
+                if (entity instanceof OHorse horse) {
+                    ((ISickModHolder) horse).setSickChanceMod(+25);
+                }
             }
         }
     }

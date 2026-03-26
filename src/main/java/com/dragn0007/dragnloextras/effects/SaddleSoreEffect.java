@@ -32,18 +32,20 @@ public class SaddleSoreEffect extends MobEffect {
     @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide) {
-            int amp = entity.getEffect(SEEffects.SADDLE_SORE.get()).getAmplifier();
-            int duration = entity.getEffect(SEEffects.SADDLE_SORE.get()).getDuration();
-            this.setActive(entity instanceof OHorse horse && horse.isSaddled() && horse.isVehicle());
-            if (this.isActive()) {
-                entity.hurt(entity.damageSources().generic(), 1F);
-            }
+            if (entity.hasEffect(SEEffects.SADDLE_SORE.get())) {
+                int amp = entity.getEffect(SEEffects.SADDLE_SORE.get()).getAmplifier();
+                int duration = entity.getEffect(SEEffects.SADDLE_SORE.get()).getDuration();
+                this.setActive(entity instanceof OHorse horse && horse.isSaddled() && horse.isVehicle());
+                if (this.isActive()) {
+                    entity.hurt(entity.damageSources().generic(), 1F);
+                }
 
-            turnIntoInfectionTick++;
-            if (turnIntoInfectionTick >= ScrapsExtrasCommonConfig.INFECTION_TICK.get() && ScrapsExtrasCommonConfig.INFECTIONS.get()) {
-                turnIntoInfectionTick = 0;
-                if (random.nextDouble() <= 0.0008) {
-                    entity.addEffect(new MobEffectInstance(SEEffects.INFECTION.get(), MobEffectInstance.INFINITE_DURATION, 1, true, false));
+                turnIntoInfectionTick++;
+                if (turnIntoInfectionTick >= ScrapsExtrasCommonConfig.INFECTION_TICK.get() && ScrapsExtrasCommonConfig.INFECTIONS.get()) {
+                    turnIntoInfectionTick = 0;
+                    if (random.nextDouble() <= 0.0008) {
+                        entity.addEffect(new MobEffectInstance(SEEffects.INFECTION.get(), MobEffectInstance.INFINITE_DURATION, 1, true, false));
+                    }
                 }
             }
         }

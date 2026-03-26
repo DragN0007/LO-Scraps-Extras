@@ -16,5 +16,8 @@ public enum Trait {
     STUBBORN, //9
     LAGGARD, //10
     FRAIL, //11
-    MEAN //12
+    MEAN, //12
+
+    //Neutral
+    NONE //13
 }

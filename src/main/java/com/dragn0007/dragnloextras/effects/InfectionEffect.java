@@ -17,23 +17,25 @@ public class InfectionEffect extends MobEffect {
     @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide) {
-            int amp = entity.getEffect(SEEffects.INFECTION.get()).getAmplifier();
-            int duration = entity.getEffect(SEEffects.INFECTION.get()).getDuration();
+            if (entity.hasEffect(SEEffects.INFECTION.get())) {
+                int amp = entity.getEffect(SEEffects.INFECTION.get()).getAmplifier();
+                int duration = entity.getEffect(SEEffects.INFECTION.get()).getDuration();
 
-            entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, duration, amp + 1, false, false));
-            entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, duration, amp, false, false));
+                entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, duration, amp + 1, false, false));
+                entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, duration, amp, false, false));
 
-            if (ScrapsExtrasCommonConfig.INFECTIONS.get() && ScrapsExtrasCommonConfig.LETHAL_INFECTIONS.get())
-                deathTick++;
+                if (ScrapsExtrasCommonConfig.INFECTIONS.get() && ScrapsExtrasCommonConfig.LETHAL_INFECTIONS.get())
+                    deathTick++;
 
-            if (deathTick >= ScrapsExtrasCommonConfig.INFECTION_DEATH_TICK.get()) {
-                float damage;
-                if (amplifier > 0) {
-                    damage = 1F * amplifier;
-                } else {
-                    damage = 1F;
+                if (deathTick >= ScrapsExtrasCommonConfig.INFECTION_DEATH_TICK.get()) {
+                    float damage;
+                    if (amplifier > 0) {
+                        damage = 1F * amplifier;
+                    } else {
+                        damage = 1F;
+                    }
+                    entity.hurt(entity.damageSources().generic(), damage);
                 }
-                entity.hurt(entity.damageSources().generic(), damage);
             }
         }
     }

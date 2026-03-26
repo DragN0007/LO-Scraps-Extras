@@ -40,6 +40,8 @@ public class EquineSleepGoal extends Goal implements ISleepAsLeaderHolder {
          return false;
       } else if (this.mob.getHealth() < this.mob.getMaxHealth()) {
          return false;
+      } else if (mob.level().isDay()) {
+         return false;
       } else if (!ScrapsExtrasCommonConfig.SLEEPING.get()) {
          return false;
       } else return mob.level().isNight();

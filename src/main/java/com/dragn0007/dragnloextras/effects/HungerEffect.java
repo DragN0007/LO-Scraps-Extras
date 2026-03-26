@@ -16,15 +16,17 @@ public class HungerEffect extends MobEffect {
     @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide) {
-            int amp = entity.getEffect(SEEffects.HUNGER.get()).getAmplifier();
-            int duration = entity.getEffect(SEEffects.HUNGER.get()).getDuration();
+            if (entity.hasEffect(SEEffects.HUNGER.get())) {
+                int amp = entity.getEffect(SEEffects.HUNGER.get()).getAmplifier();
+                int duration = entity.getEffect(SEEffects.HUNGER.get()).getDuration();
 
-            if (ScrapsExtrasCommonConfig.FEEDING_SYSTEM.get())
-                immunityDamperTick++;
+                if (ScrapsExtrasCommonConfig.FEEDING_SYSTEM.get())
+                    immunityDamperTick++;
 
-            if (ScrapsExtrasCommonConfig.HUNGRY_IMMUNITY_DAMPER.get()) {
-                if (immunityDamperTick >= ScrapsExtrasCommonConfig.HUNGRY_IMMUNITY_DAMPER_TICK.get()) {
-                    entity.addEffect(new MobEffectInstance(SEEffects.IMMUNOCOMPROMISED.get(), 100, amp, false, false));
+                if (ScrapsExtrasCommonConfig.HUNGRY_IMMUNITY_DAMPER.get()) {
+                    if (immunityDamperTick >= ScrapsExtrasCommonConfig.HUNGRY_IMMUNITY_DAMPER_TICK.get()) {
+                        entity.addEffect(new MobEffectInstance(SEEffects.IMMUNOCOMPROMISED.get(), 100, amp, false, false));
+                    }
                 }
             }
         }
