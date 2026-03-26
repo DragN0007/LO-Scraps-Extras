@@ -11,9 +11,7 @@ public class ScrapsExtrasClientConfig {
     static {
         BUILDER.push("Client");
         BUILDER.pop();
-
         RENDER_DIRT = BUILDER.define("Render Animal Dirt Layer", true);
-
         SPEC = BUILDER.build();
     }
 }
