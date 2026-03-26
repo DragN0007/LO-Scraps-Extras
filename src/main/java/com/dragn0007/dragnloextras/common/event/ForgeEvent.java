@@ -30,6 +30,8 @@ import net.minecraftforge.network.PacketDistributor;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeEvent {
 
+    //todo: babies shouldnt spawn instantly. maybe use event?
+
     @SubscribeEvent
     public void registerCaps(RegisterCapabilitiesEvent event) {
         SECapabilities.register(event);
