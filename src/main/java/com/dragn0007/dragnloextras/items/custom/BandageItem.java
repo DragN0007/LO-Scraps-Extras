@@ -11,19 +11,18 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class BrushItem extends Item {
+public class BandageItem extends Item {
 
-    public BrushItem(Properties properties) {
+    public BandageItem(Properties properties) {
         super(properties);
     }
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        if (ScrapsExtrasCommonConfig.HYGIENE_SYSTEM.get()) {
-            pTooltipComponents.add(Component.translatable("tooltip.dragnloextras.brush.tooltip").withStyle(ChatFormatting.GRAY));
-            pTooltipComponents.add(Component.translatable("Removes Dirtiness.").withStyle(ChatFormatting.GOLD));
+        if (ScrapsExtrasCommonConfig.TREATMENTS.get()) {
+            pTooltipComponents.add(Component.translatable("Cures open wounds in animals.").withStyle(ChatFormatting.GRAY));
         } else {
-            pTooltipComponents.add(Component.translatable("tooltip.dragnloextras.hygiene_disabled.tooltip").withStyle(ChatFormatting.GRAY));
+            pTooltipComponents.add(Component.translatable("tooltip.dragnloextras.medicals_disabled.tooltip").withStyle(ChatFormatting.GRAY));
         }
     }
 }

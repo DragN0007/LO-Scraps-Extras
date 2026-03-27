@@ -1,5 +1,6 @@
 package com.dragn0007.dragnloextras.items.custom;
 
+import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -18,7 +19,11 @@ public class HoofPickItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("tooltip.dragnloextras.hoof_pick.tooltip").withStyle(ChatFormatting.GRAY));
-        pTooltipComponents.add(Component.translatable("Prevents Hoof Abscesses.").withStyle(ChatFormatting.GOLD));
+        if (ScrapsExtrasCommonConfig.HYGIENE_SYSTEM.get()) {
+            pTooltipComponents.add(Component.translatable("tooltip.dragnloextras.hoof_pick.tooltip").withStyle(ChatFormatting.GRAY));
+            pTooltipComponents.add(Component.translatable("Prevents Hoof Abscesses.").withStyle(ChatFormatting.GOLD));
+        } else {
+            pTooltipComponents.add(Component.translatable("tooltip.dragnloextras.hygiene_disabled.tooltip").withStyle(ChatFormatting.GRAY));
+        }
     }
 }

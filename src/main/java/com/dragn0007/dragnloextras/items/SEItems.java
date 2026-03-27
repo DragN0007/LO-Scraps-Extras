@@ -21,23 +21,23 @@ public class SEItems {
 
     //TODO: item classes
     public static final RegistryObject<Item> STETHOSCOPE = ITEMS.register("stethoscope",
-            () -> new AntibioticInjectionItem(new Item.Properties().stacksTo(1)));
+            () -> new StethoscopeItem(new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> ANTIBIOTIC_INJECTION = ITEMS.register("antibiotic_injection",
             () -> new AntibioticInjectionItem(new Item.Properties().stacksTo(16)));
     public static final RegistryObject<Item> ANTIBIOTIC_OINTMENT = ITEMS.register("antibiotic_ointment",
-            () -> new AntibioticInjectionItem(new Item.Properties().stacksTo(16)));
+            () -> new AntibioticOintmentItem(new Item.Properties().stacksTo(16)));
     public static final RegistryObject<Item> ANTIBIOTIC_EARDROPS = ITEMS.register("antibiotic_eardrops",
-            () -> new AntibioticInjectionItem(new Item.Properties().stacksTo(16)));
+            () -> new EardropsItem(new Item.Properties().stacksTo(16)));
     public static final RegistryObject<Item> ANTIPARASITIC_OINTMENT = ITEMS.register("antiparasitic_ointment",
-            () -> new AntibioticInjectionItem(new Item.Properties().stacksTo(16)));
+            () -> new ParasiticOintmentItem(new Item.Properties().stacksTo(16)));
     public static final RegistryObject<Item> ANTIPARASITIC_INJECTION = ITEMS.register("antiparasitic_injection",
             () -> new AntibioticInjectionItem(new Item.Properties().stacksTo(16)));
     public static final RegistryObject<Item> HEARTWORM_MEDICINE = ITEMS.register("heartworm_medicine",
-            () -> new AntibioticInjectionItem(new Item.Properties().stacksTo(16)));
+            () -> new HeartwormMedicineItem(new Item.Properties().stacksTo(16)));
     public static final RegistryObject<Item> RABIES_SHOT = ITEMS.register("rabies_shot",
-            () -> new AntibioticInjectionItem(new Item.Properties().stacksTo(16)));
+            () -> new RabiesInjectionItem(new Item.Properties().stacksTo(16)));
     public static final RegistryObject<Item> VETERINARY_BANDAGE = ITEMS.register("veterinary_bandage",
-            () -> new AntibioticInjectionItem(new Item.Properties().stacksTo(16)));
+            () -> new BandageItem(new Item.Properties().stacksTo(16)));
 
     public static final RegistryObject<Item> BRUSH = ITEMS.register("brush",
             () -> new BrushItem(new Item.Properties().stacksTo(1)));

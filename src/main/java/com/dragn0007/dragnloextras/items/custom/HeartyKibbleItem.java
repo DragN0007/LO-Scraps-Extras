@@ -1,5 +1,6 @@
 package com.dragn0007.dragnloextras.items.custom;
 
+import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -18,6 +19,11 @@ public class HeartyKibbleItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
-        pTooltipComponents.add(Component.translatable("tooltip.dragnloextras.hearty_kibble.tooltip").withStyle(ChatFormatting.GRAY));
+       if (ScrapsExtrasCommonConfig.FEEDING_SYSTEM.get()) {
+            pTooltipComponents.add(Component.translatable("tooltip.dragnloextras.hearty_kibble.tooltip").withStyle(ChatFormatting.GRAY));
+            pTooltipComponents.add(Component.translatable("Cures Starvation.").withStyle(ChatFormatting.GOLD));
+        } else {
+            pTooltipComponents.add(Component.translatable("tooltip.dragnloextras.food_disabled.tooltip").withStyle(ChatFormatting.GRAY));
+        }
     }
 }
