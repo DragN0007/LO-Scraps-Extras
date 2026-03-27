@@ -23,7 +23,6 @@ import com.dragn0007.dragnloextras.network.*;
 import com.dragn0007.dragnloextras.util.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
@@ -44,7 +43,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.network.PacketDistributor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -142,7 +140,7 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
         OHorse self = (OHorse) (Object) this;
         this.goalSelector.addGoal(0, new EquineSleepGoal(self));
         this.goalSelector.addGoal(1, new FleeRainGoal(self, 1.2F));
-        this.goalSelector.addGoal(6, new HorseFollowOwnerGoal(self, 1.0D, 2.0F, 2.0F, false));
+        this.goalSelector.addGoal(2, new HorseFollowOwnerGoal(self, 1.0D, 2.0F, 2.0F, false));
         this.goalSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10, true, false, entity ->
                 entity instanceof Player && !this.isBaby() && this.hasEffect(SEEffects.RABIES.get())
         ));

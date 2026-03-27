@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.Block;
 public class SETags {
 
     public static class Items {
-
+        public static final TagKey<Item> GRAIN = forgeTag("grain");
         public static TagKey<Item> forgeTag (String name) {
             return ItemTags.create(new ResourceLocation("forge", name));
         }
