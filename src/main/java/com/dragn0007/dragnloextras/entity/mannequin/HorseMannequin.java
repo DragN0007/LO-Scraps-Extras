@@ -42,6 +42,7 @@ public class HorseMannequin extends AbstractOMount implements GeoEntity {
 
 	public HorseMannequin(EntityType<? extends HorseMannequin> type, Level level) {
 		super(type, level);
+		this.xpReward = 0;
 	}
 
 	public static AttributeSupplier.Builder createAttributes() {
@@ -323,7 +324,7 @@ public class HorseMannequin extends AbstractOMount implements GeoEntity {
 	@Override
 	@javax.annotation.Nullable
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, @javax.annotation.Nullable SpawnGroupData data, @javax.annotation.Nullable CompoundTag tag) {
-		this.setGender(0);
+		this.setGender(3);
 		return super.finalizeSpawn(serverLevelAccessor, instance, spawnType, data, tag);
 	}
 }

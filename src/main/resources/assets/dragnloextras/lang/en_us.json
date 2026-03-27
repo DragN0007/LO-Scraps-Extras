@@ -87,7 +87,9 @@
   "effect.dragnloextras.mean": "Trait: Hot-Headed",
   
   
-  "tooltip.dragnloextras.medicals_disabled.tooltip": "Treatments have been disabled on this server/ world.",
+  "tooltip.dragnloextras.medicals_disabled.tooltip": "Animal Treatments have been disabled on this server/ world.",
+  "tooltip.dragnloextras.hygiene_disabled.tooltip": "Animal Hygiene has been disabled on this server/ world.",
+  "tooltip.dragnloextras.food_disabled.tooltip": "Animal Hunger has been disabled on this server/ world.",
   "tooltip.dragnloextras.cured.tooltip": "Ailment Cured!",
   "tooltip.dragnloextras.no_ailment.tooltip": "This animal doesn't have the ailment that this treats.",
   "tooltip.dragnloextras.brush.tooltip": "Used to keep animals clean.",
