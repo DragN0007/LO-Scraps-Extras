@@ -1,4 +1,4 @@
-// 1.20.1	2026-03-22T03:53:38.5021431	Item Models: dragnloextras
+// 1.20.1	2026-03-27T00:46:39.566193	Item Models: dragnloextras
 4d58d8777a803ce3c6f0c80907de9579c019ac6c assets/dragnloextras/models/item/antibiotic_eardrops.json
 5f7dd1f99481a3aa4a46c7658b52b3f9655da8dd assets/dragnloextras/models/item/antibiotic_injection.json
 c76280cffd2fe708ec18ee2e9ee876ddc90b9199 assets/dragnloextras/models/item/antibiotic_ointment.json
@@ -10,7 +10,6 @@ e28964ed1195c7962130ac1a878f64aa60e0c5e0 assets/dragnloextras/models/item/antipa
 3b55a28da00317005305a9ad0fcae8964fd335a4 assets/dragnloextras/models/item/brown_halter.json
 981fb5847357b237f7723b369afcca30270b9218 assets/dragnloextras/models/item/brown_turnout_blanket.json
 1e67e4de44fc08a1bcd39c06d6f0aa234591650a assets/dragnloextras/models/item/brush.json
-fdaac85bd014b3d854a0293dc7b2190ed15a6c47 assets/dragnloextras/models/item/comb.json
 404633024df3cc39cee33b7101eb6271e19b7a80 assets/dragnloextras/models/item/cyan_halter.json
 00ab2d0e4ccad1464083a21dce58c62a164dbe9f assets/dragnloextras/models/item/cyan_turnout_blanket.json
 ae60532bdfd0a530f3cbb290797f9fb296010c34 assets/dragnloextras/models/item/grain_feed.json

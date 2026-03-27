@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:leather"
+    },
+    "B": {
+      "item": "minecraft:red_wool"
+    }
+  },
+  "pattern": [
+    "ABA",
+    "AA "
+  ],
+  "result": {
+    "item": "dragnloextras:red_halter"
+  },
+  "show_notification": true
+}

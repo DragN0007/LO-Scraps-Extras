@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:rotten_flesh"
+    },
+    "B": {
+      "item": "minecraft:beef"
+    },
+    "C": {
+      "item": "minecraft:iron_nugget"
+    }
+  },
+  "pattern": [
+    "BA",
+    "AC"
+  ],
+  "result": {
+    "item": "dragnloextras:heartworm_medicine"
+  },
+  "show_notification": true
+}

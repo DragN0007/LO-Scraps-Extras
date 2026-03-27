@@ -1,0 +1,27 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:wheat",
+
+    {
+      "id": "dragncrops:corn",
+      "required": false
+    },
+    {
+      "id": "dragncrops:rice",
+      "required": false
+    },
+    {
+      "id": "dragncrops:rye",
+      "required": false
+    },
+    {
+      "id": "dragncrops:grain",
+      "required": false
+    },
+    {
+      "id": "dragncrops:thorn_barley",
+      "required": false
+    }
+  ]
+}

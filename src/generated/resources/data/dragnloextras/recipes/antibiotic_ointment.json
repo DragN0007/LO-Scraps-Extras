@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "minecraft:iron_nugget"
+    },
+    "C": {
+      "item": "minecraft:slime_ball"
+    }
+  },
+  "pattern": [
+    "BCB",
+    "BCB",
+    "BBB"
+  ],
+  "result": {
+    "item": "dragnloextras:antibiotic_ointment"
+  },
+  "show_notification": true
+}

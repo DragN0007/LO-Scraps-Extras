@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:leather"
+    },
+    "B": {
+      "item": "minecraft:cyan_wool"
+    }
+  },
+  "pattern": [
+    "  B",
+    "BBB",
+    "A A"
+  ],
+  "result": {
+    "item": "dragnloextras:cyan_turnout_blanket"
+  },
+  "show_notification": true
+}

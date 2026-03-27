@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:glass"
+    },
+    "B": {
+      "item": "minecraft:iron_ingot"
+    },
+    "C": {
+      "item": "minecraft:slime_ball"
+    }
+  },
+  "pattern": [
+    "C  ",
+    " A ",
+    "  B"
+  ],
+  "result": {
+    "item": "dragnloextras:antiparasitic_injection"
+  },
+  "show_notification": true
+}

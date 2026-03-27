@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "tag": "minecraft:planks"
+    },
+    "B": {
+      "item": "minecraft:string"
+    }
+  },
+  "pattern": [
+    "AA",
+    "BB"
+  ],
+  "result": {
+    "item": "dragnloextras:brush"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "forge:grain"
+    },
+    {
+      "tag": "forge:grain"
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "minecraft:beetroot"
+    },
+    {
+      "item": "minecraft:blaze_powder"
+    }
+  ],
+  "result": {
+    "item": "dragnloextras:hearty_grain_feed"
+  }
+}

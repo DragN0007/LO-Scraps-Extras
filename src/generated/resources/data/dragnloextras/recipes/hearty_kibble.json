@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "forge:grain"
+    },
+    {
+      "tag": "forge:cooked_fishes"
+    },
+    {
+      "item": "minecraft:bone"
+    },
+    {
+      "item": "minecraft:blaze_powder"
+    }
+  ],
+  "result": {
+    "item": "dragnloextras:hearty_kibble"
+  }
+}

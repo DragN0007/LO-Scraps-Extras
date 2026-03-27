@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:glass"
+    },
+    "B": {
+      "item": "minecraft:iron_ingot"
+    },
+    "C": {
+      "item": "minecraft:golden_apple"
+    }
+  },
+  "pattern": [
+    "C  ",
+    " A ",
+    "  B"
+  ],
+  "result": {
+    "item": "dragnloextras:rabies_shot"
+  },
+  "show_notification": true
+}

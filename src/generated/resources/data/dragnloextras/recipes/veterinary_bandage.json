@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "tag": "minecraft:wool"
+    },
+    "B": {
+      "item": "minecraft:string"
+    }
+  },
+  "pattern": [
+    "B ",
+    "AB"
+  ],
+  "result": {
+    "item": "dragnloextras:veterinary_bandage"
+  },
+  "show_notification": true
+}

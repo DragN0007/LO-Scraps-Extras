@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:redstone"
+    },
+    "B": {
+      "item": "minecraft:iron_nugget"
+    }
+  },
+  "pattern": [
+    " B ",
+    "BAB",
+    "BBB"
+  ],
+  "result": {
+    "item": "dragnloextras:antibiotic_eardrops"
+  },
+  "show_notification": true
+}
