@@ -63,7 +63,7 @@ public class ScrapsExtrasCommonConfig {
         DIRTY_IMMUNITY_DAMPER_TICK = BUILDER.comment("The amount of time at which an animal's immune system becomes dampened from being dirty. Default is 72000 ticks.")
                 .define("Dirty Immunity Damper Tick", 72000);
         GESTATION = BUILDER.comment("Should female animals become pregnant and have a gestation period after breeding? This requires the (LO) Genders Affect Breeding config to be on.")
-                .define("Gestation", true);
+                .define("Animal Gestation", true);
         GESTATION_TICK = BUILDER.comment("The amount of time at which an animal gestates. Default is 72000 ticks.")
                 .define("Gestation Tick", 72000);
         BUILDER.pop();
