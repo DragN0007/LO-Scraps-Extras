@@ -1,9 +1,11 @@
 package com.dragn0007.dragnloextras.entity.ai;
 
+import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnloextras.capabilities.SECapabilities;
 import com.dragn0007.dragnloextras.capabilities.SleepingCapabilityInterface;
 import com.dragn0007.dragnloextras.network.SyncSleepingPacket;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
+import com.dragn0007.dragnpets.entities.dog.ODog;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.animal.Animal;
 
@@ -29,6 +31,10 @@ public class SleepGoal extends Goal {
       } else if (this.mob.isVehicle()) {
          return false;
       } else if (this.mob.getHealth() < this.mob.getMaxHealth()) {
+         return false;
+      } else if (mob.level().isDay()) {
+         return false;
+      } else if (this.mob.getClass() != OHorse.class && this.mob.getClass() != ODog.class) {
          return false;
       } else if (!ScrapsExtrasCommonConfig.SLEEPING.get()) {
          return false;

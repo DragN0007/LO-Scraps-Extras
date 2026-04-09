@@ -7,6 +7,7 @@ import com.dragn0007.dragnloextras.network.SyncSleepingAsLeaderPacket;
 import com.dragn0007.dragnloextras.network.SyncSleepingPacket;
 import com.dragn0007.dragnloextras.util.ISleepAsLeaderHolder;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
+import com.dragn0007.dragnpets.entities.dog.ODog;
 import net.minecraft.world.entity.ai.goal.Goal;
 
 import java.util.EnumSet;
@@ -41,6 +42,8 @@ public class EquineSleepGoal extends Goal implements ISleepAsLeaderHolder {
       } else if (this.mob.getHealth() < this.mob.getMaxHealth()) {
          return false;
       } else if (mob.level().isDay()) {
+         return false;
+      } else if (this.mob.getClass() != OHorse.class) {
          return false;
       } else if (!ScrapsExtrasCommonConfig.SLEEPING.get()) {
          return false;
