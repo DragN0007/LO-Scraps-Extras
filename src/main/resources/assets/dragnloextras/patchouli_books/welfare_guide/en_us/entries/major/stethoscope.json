@@ -1,0 +1,19 @@
+{
+  "name": "General Health Data",
+  "icon": "dragnloextras:stethoscope",
+  "category": "dragnloextras:major_category",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "It can be difficult to figure out an animal's health status by simply looking at it. This is why its recommended to use a Stethoscope on animals whom you may suspect have health issues. A Stethoscope can diagnose an animal's ailments and even provide immunity and trait data."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "dragnloextras:stethoscope"
+      },
+      "title": "Diagnosing",
+      "text": "You can diagnose an animal with a Stethoscope. Simply right-click it to get a full breakdown of the animal's general health."
+    }
+  ]
+}

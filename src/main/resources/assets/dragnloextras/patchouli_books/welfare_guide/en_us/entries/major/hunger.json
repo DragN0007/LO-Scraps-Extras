@@ -1,0 +1,19 @@
+{
+  "name": "Hunger",
+  "icon": "dragnloextras:grain_feed",
+  "category": "dragnloextras:major_category",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Some animals must now be fed frequently to maintain their health. These animals include horses, mules, donkeys, dogs, wolves, cats, ocelots, camels and caribou. Most animals should be fed every 2-3 days by default. $(br2)Grazing animals, such as equines, camels, or caribou do not have to be hand-fed if kept on grass."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "dragnloextras:kibble"
+      },
+      "title": "Feeding",
+      "text": "Feeding an animal keeps it healthy. While not directly lethal, a starving animal may become immunocompromised and get sick easier, which may be deadly indirectly depending on the illness."
+    }
+  ]
+}

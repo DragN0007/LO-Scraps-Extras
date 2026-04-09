@@ -1,0 +1,19 @@
+{
+  "name": "Dirtiness",
+  "icon": "dragnloextras:brush",
+  "category": "dragnloextras:major_category",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Some animals may need to be cleaned on occasion. These animals include horses, mules, donkeys, dogs, wolves, camels and caribou."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "dragnloextras:brush"
+      },
+      "title": "Brush",
+      "text": "Brushes can be used on all animals that have the dirtiness mechanic. Brushing an animal keeps it clean from dirt and debris. If an animal becomes dirty and is left for too long, it may become immunocompromised until cleaned."
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "name": "Ailments & Treatments",
+  "icon": "dragnloextras:antibiotic_injection",
+  "category": "dragnloextras:major_category",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "While your animals may get sick occasionally, there's no need to fret. Almost all possible ailments are treatable, and some may even go away on their own. $(br2)*This mod is not made to be educational; these treatments and ailments are dumbed down significantly for the sake of gameplay."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "dragnloextras:veterinary_bandage"
+      },
+      "title": "Abrasion (Minor)",
+      "text": "An Abrasion is normally caused by an animal getting hit by something or otherwise taking damage. Many abrasions are harmless and will heal on their own. On occasion, they may turn into an Infection if untreated, yet this is a rare outcome. $(br)$(l)Treatment:$() Veterinary Bandage"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "dragnloextras:veterinary_bandage"
+      },
+      "title": "Saddle Sore (Minor)",
+      "text": "Saddle Sores are often found on animals that have been wearing a saddle for an extended period of time. Many saddle sores are harmless and will heal on their own, however an animal with a saddle sore should not be ridden until healed. On occasion, they may turn into an Infection if untreated, yet this is a rare outcome. $(br)$(l)Treatment:$() Veterinary Bandage $(br)$(l)Prevention:$() Offsaddling when not in use"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "dragnloextras:antibiotic_ointment"
+      },
+      "title": "Rain Rot (Minor)",
+      "text": "An animal may get Rain Rot if left standing in the rain for an extended period of time. Rain rot is harmless but cannot heal on it's own without treatment. $(br)$(l)Treatment:$() Antibiotic Ointment $(br)$(l)Prevention:$() Turnout Blankets and/ or Shelter"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "dragnloextras:antiparasitic_ointment"
+      },
+      "title": "Flea Infestation (Minor)",
+      "text": "$(br)$(l)[CONTAGIOUS]$() Flea Infestations happen occasionally with no real rhyme or reason. Flea Infestations do not go away on their own and require treatment. While mostly harmless, it is irritating to the animal. $(br)$(l)Treatment:$() Antiparasitc Ointment"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "dragnloextras:antibiotic_eardrops"
+      },
+      "title": "Ear Infection (Mod.)",
+      "text": "Ear Infections happen occasionally with no real rhyme or reason. Ear infections do not heal on their own and require treatment, and if left untreated, will likely turn into a full Infection. $(br)$(l)Treatment:$() Antibiotic Ear-Drops"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "dragnloextras:antiparasitic_ointment"
+      },
+      "title": "Mange (Moderate)",
+      "text": "$(br)$(l)[CONTAGIOUS]$() Mange happens occasionally with no real rhyme or reason. Mange does not heal on its own and requires treatment. While mostly harmless, it is irritating to the animal. $(br)$(l)Treatment:$() Antiparasitc Ointment"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "dragnloextras:antiparasitic_injection"
+      },
+      "title": "Ringworm (Moderate)",
+      "text": "$(br)$(l)[CONTAGIOUS]$() Ringworm happens occasionally with no real rhyme or reason. Ringworm does not go away on its own and requires treatment. While mostly harmless, it is very irritating to the animal. $(br)$(l)Treatment:$() Antiparasitc Injection"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "dragnloextras:antiparasitic_injection"
+      },
+      "title": "Botfly Infestation (Mod.)",
+      "text": "$(br)$(l)[CONTAGIOUS]$() Botfly Infestations happen occasionally with no real rhyme or reason. Botfly Infestations do not go away on their own and require treatment. While mostly harmless, it is irritating to the animal. $(br)$(l)Treatment:$() Antiparasitc Injection"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "dragnloextras:antibiotic_injection"
+      },
+      "title": "Hoof Abscess (Mod.)",
+      "text": "Hoof Abscesses happen when an animal's hooves have not been picked properly. Hoof Abscesses do not go away on their own and require treatment, else they may become fully infected. An animal with a Hoof Abscess should not be ridden until healed. $(br)$(l)Treatment:$() Antibiotic Injection $(br)$(l)Prevention:$() Periodic hoof picking"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "dragnloextras:antiparasitic_injection"
+      },
+      "title": "Heartworms (Severe)",
+      "text": "Heartworms happen occasionally with no real rhyme or reason. Heartworms can be lethal do not go away on their own; this ailment should be treated as soon as possible. $(br)$(l)Treatment:$() Antiparasitc Injection"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "dragnloextras:antibiotic_injection"
+      },
+      "title": "Infection (Severe)",
+      "text": "Infections happen when a wound or smaller infection festers and is untreated for too long. Infections can be lethal do not go away on their own; this ailment should be treated as soon as possible. $(br)$(l)Treatment:$() Antibiotic Injection"
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "dragnloextras:rabies_shot"
+      },
+      "title": "Rabies (Severe)",
+      "text": "$(br)$(l)[CONTAGIOUS]$() Rabies happens when a an animal is bitten by or comes in contact with another infected animal. Rabies is always lethal after a certain timeframe; this ailment should be treated immediately. $(br)$(l)Treatment:$() Antibiotic Injection $(br)$(l)Prevention:$() Minimized wild animal contact"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "name": "Cosmetics",
+  "icon": "dragnloextras:pink_halter",
+  "category": "dragnloextras:minor_category",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "dragnloextras:pink_halter"
+      },
+      "title": "Halters",
+      "text": "A Halter can be used on a horse as a fashionable accessory. Not only that, but a horse with a halter on will freely follow it's owner."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "dragnloextras:pink_halter"
+      },
+      "title": "Spiked Collars (WIP)",
+      "text": "A Spiked Collar can be used on a dog or wolf as a fashionable accessory. Not only that, but a dog with a spiked collar will inflict a \"Thorns\" effect on enemies."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "dragnloextras:horse_mannequin"
+      },
+      "title": "Horse Mannequin",
+      "text": "A Horse Mannequin can be placed and used as a way to display a set of tack."
+    }
+  ]
+}

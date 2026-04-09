@@ -1,0 +1,31 @@
+{
+  "name": "Traits",
+  "icon": "minecraft:golden_apple",
+  "category": "dragnloextras:major_category",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "Horses, dogs and wolves now have the (large) possibility to be born with traits. These traits affect an animal physically, and can be good or bad."
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Brave:$() Brave animals regenerate health faster, even - especially - in the face of danger. (Increased health regen rate.) $(br2)$(l)Immunocompetent:$() Immunocompetent animals are far less likely to get sick from common illnesses, and are more likely to recover from them. (Increased base immunity stat.) $(br2)$(l)Swift:$() Swift animals are faster on their feet. (Increased base speed stat.)"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Vaulter:$() Vaulters are better at jumping and leaping, vaulting over even the tallest of obstacles. (Increased base jump strength.) $(br2)$(l)Climber:$() Climbers are great at climbing tough terrain; perfect for mountainous regions. (Increased step height.) $(br2)$(l)Buster:$() Busters deal more damage, making them great battle-buddies. (Increased base attack damage stat.)"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Sturdy:$() Sturdy animals have more overall health and are slightly less likely to get sick from common illnesses. (Increased base health, slightly increased base immunity.) $(br2)$(l)Cowardly:$() Cowardly animals are more likely to run away when low on health, and don't regenerate health at all when threatened. (Decreased health regen rate.) $(br2)$(l)Immunosuppressed:$() Immunosuppressed animals are far more likely to get sick from common illnesses, and are less likely to recover from them. (Decreased base immunity stat.)"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Stubborn:$() Stubborn animals may stop randomly, stop following you, or refuse to perform a command. (Possible command refusal.) $(br2)$(l)Laggard:$() Laggards are slow on their feet. (Decreased base speed stat.) $(br2)$(l)Frail:$() Frail animals have less overall health and are slightly more likely to get sick from common illnesses. (Decreased base health, slightly decreased base immunity.)"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Hot-Headed:$() Hot-Headed animals might attack you or other animals out of anger on occasion. (Possible random attack.) $(br2)$(l)None:$() This animal seems to have no notable personality or physical trait. (No stat or mechanical changes.)"
+    }
+  ]
+}

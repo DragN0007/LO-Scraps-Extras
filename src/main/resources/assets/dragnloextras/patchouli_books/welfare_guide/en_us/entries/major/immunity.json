@@ -1,0 +1,19 @@
+{
+  "name": "Immunity",
+  "icon": "dragnloextras:hearty_kibble",
+  "category": "dragnloextras:major_category",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "An animal's ability to avoid illness depends heavily on it's Immunity Stat. An animal with a lower immunity will get sick more often than one with a high immunity. Traits or even Hearty Feeds can affect this stat."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "dragnloextras:hearty_grain_feed"
+      },
+      "title": "Immunity Stat",
+      "text": "Immunity is genetic, and most wild animals have a lower immunity than ones bred over multiple generations."
+    }
+  ]
+}
