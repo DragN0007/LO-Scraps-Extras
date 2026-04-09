@@ -21,6 +21,7 @@ import com.dragn0007.dragnloextras.items.custom.HalterItem;
 import com.dragn0007.dragnloextras.items.custom.TurnoutBlanketItem;
 import com.dragn0007.dragnloextras.network.*;
 import com.dragn0007.dragnloextras.util.*;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -42,8 +43,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.fml.ModList;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -58,6 +62,7 @@ import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -76,6 +81,7 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
 
     @Shadow public abstract int getEyeVariant();
 
+    @Shadow public OHorse leader;
     @Unique
     public boolean sleepingAsLeader = false;
     @Unique
@@ -98,16 +104,16 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
         this.hungry = hungry;
     }
 
-    @Unique
-    public boolean pregnant = false;
-    @Unique
-    public boolean isPregnant() {
-        return this.pregnant;
-    }
-    @Unique
-    public void setPregnant(boolean pregnant) {
-        this.pregnant = pregnant;
-    }
+//    @Unique
+//    public boolean pregnant = false;
+//    @Unique
+//    public boolean isPregnant() {
+//        return this.pregnant;
+//    }
+//    @Unique
+//    public void setPregnant(boolean pregnant) {
+//        this.pregnant = pregnant;
+//    }
 
     @Unique
     int livestockOverhaulScraps$becomeSickChanceMod = 0;
@@ -130,7 +136,7 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
     public OHorseMixin(EntityType<? extends OHorseMixin> entityType, Level level) {
         super(entityType, level);
         this.setHungry(false);
-        this.setPregnant(false);
+//        this.setPregnant(false);
         this.setSleepingAsLeader(false);
     }
 
@@ -157,6 +163,8 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
     @Unique public int livestockOverhaulScraps$sickModDissipateTick = 72000;
     @Unique public int livestockOverhaulScraps$saddleSoreTick;
     @Unique public int livestockOverhaulScraps$rainRotTick;
+    @Unique public int livestockOverhaulScraps$heartwormMedTick;
+    @Unique public int livestockOverhaulScraps$hoofPickTick;
 
     @Inject(method = "tick", at = @At("HEAD"))
     protected void onTick(CallbackInfo ci) {
@@ -182,6 +190,95 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
                 if (livestockOverhaulScraps$sickTick >= 72000) {
                     if (livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
                         livestockOverhaulScraps$sickTick = 0;
+                    }
+                }
+
+                double range = 5.0;
+                AABB searchBox = this.getBoundingBox().inflate(range);
+                List<LivingEntity> nearbyEntities = this.level().getEntitiesOfClass(LivingEntity.class, searchBox);
+
+                for (LivingEntity target : nearbyEntities) {
+                    if (target == this) continue;
+                    if (random.nextDouble() <= 0.01) {
+                        if (target.hasEffect(SEEffects.MANGE.get()) && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                            this.addEffect(new MobEffectInstance(SEEffects.MANGE.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        }
+                        if (target.hasEffect(SEEffects.BOTFLY_INFESTATION.get()) && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                            this.addEffect(new MobEffectInstance(SEEffects.BOTFLY_INFESTATION.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        }
+                        if (target.hasEffect(SEEffects.FLEA_INFESTATION.get()) && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                            this.addEffect(new MobEffectInstance(SEEffects.FLEA_INFESTATION.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        }
+                        if (target.hasEffect(SEEffects.RINGWORM.get()) && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                            this.addEffect(new MobEffectInstance(SEEffects.RINGWORM.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        }
+                        if (target.hasEffect(SEEffects.RABIES.get()) && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                            this.addEffect(new MobEffectInstance(SEEffects.RABIES.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        }
+                    }
+                }
+
+                if (ScrapsExtrasCommonConfig.EAR_INFECTION.get()) {
+                    if (livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                        if (random.nextDouble() <= 0.05) {
+                            this.addEffect(new MobEffectInstance(SEEffects.EAR_INFECTION.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        }
+                    }
+                }
+
+                if (ScrapsExtrasCommonConfig.MANGE.get()) {
+                    if (livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                        if (random.nextDouble() <= 0.05) {
+                            this.addEffect(new MobEffectInstance(SEEffects.MANGE.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        }
+                    }
+                }
+
+                if (ScrapsExtrasCommonConfig.BOTFLY_INFESTATION.get()) {
+                    if (livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                        if (random.nextDouble() <= 0.05) {
+                            this.addEffect(new MobEffectInstance(SEEffects.BOTFLY_INFESTATION.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        }
+                    }
+                }
+
+                if (ScrapsExtrasCommonConfig.FLEA_INFESTATION.get()) {
+                    if (livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                        if (random.nextDouble() <= 0.05) {
+                            this.addEffect(new MobEffectInstance(SEEffects.FLEA_INFESTATION.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        }
+                    }
+                }
+
+                if (ScrapsExtrasCommonConfig.RINGWORM.get()) {
+                    if (livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                        if (random.nextDouble() <= 0.05) {
+                            this.addEffect(new MobEffectInstance(SEEffects.RINGWORM.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        }
+                    }
+                }
+
+                if (ScrapsExtrasCommonConfig.HEARTWORMS.get()) {
+                    if (livestockOverhaulScraps$heartwormMedTick >= 0)
+                    livestockOverhaulScraps$heartwormMedTick--;
+
+                    if (livestockOverhaulScraps$heartwormMedTick < ScrapsExtrasCommonConfig.HEARTWORM_MED_GRACE.get() &&
+                            livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                        if (random.nextDouble() <= 0.05) {
+                            this.addEffect(new MobEffectInstance(SEEffects.HEARTWORMS.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        }
+                    }
+                }
+
+                if (ScrapsExtrasCommonConfig.HOOF_ABSCESS.get()) {
+                    if (livestockOverhaulScraps$hoofPickTick >= 0)
+                        livestockOverhaulScraps$hoofPickTick--;
+
+                    if (livestockOverhaulScraps$hoofPickTick < ScrapsExtrasCommonConfig.HOOF_PICK_GRACE.get() &&
+                            livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                        if (random.nextDouble() <= 0.50) {
+                            this.addEffect(new MobEffectInstance(SEEffects.HOOF_ABSCESS.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        }
                     }
                 }
 
@@ -216,11 +313,15 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
 
             if (ScrapsExtrasCommonConfig.FEEDING_SYSTEM.get()) {
                 if (!this.isHungry()) {
-                    livestockOverhaulScraps$hungryTick++;
-                    if (livestockOverhaulScraps$hungryTick >= ScrapsExtrasCommonConfig.HORSE_FEED_TICK.get()) {
-                        this.setHungry(true);
-                        this.addEffect(new MobEffectInstance(SEEffects.HUNGER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                        livestockOverhaulScraps$hungryTick = 0;
+                    BlockPos blockpos = this.blockPosition();
+                    BlockPos blockpos1 = blockpos.below();
+                    if ((!this.level().getBlockState(blockpos1).is(Blocks.GRASS_BLOCK) && !this.isGroundTied()) && this.isTamed()) {
+                        livestockOverhaulScraps$hungryTick++;
+                        if (livestockOverhaulScraps$hungryTick >= ScrapsExtrasCommonConfig.HORSE_FEED_TICK.get()) {
+                            this.setHungry(true);
+                            this.addEffect(new MobEffectInstance(SEEffects.HUNGER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                            livestockOverhaulScraps$hungryTick = 0;
+                        }
                     }
                 }
             }
@@ -234,7 +335,9 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
             }
 
             if (ScrapsExtrasCommonConfig.HYGIENE_SYSTEM.get()) {
+                if (this.isTamed())
                 livestockOverhaulScraps$dirtyTick++;
+
                 if (livestockOverhaulScraps$dirtyTick >= ScrapsExtrasCommonConfig.DIRTY_TICK.get() && this.hasEffect(SEEffects.DIRTY.get())) {
                     this.getCapability(SECapabilities.DIRTY_CAPABILITY).ifPresent(cap -> {
                         if (cap.isDirty()) {
@@ -296,7 +399,9 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
                     cap.setDirty(false); //                                                                            this value
                     SyncDirtyLayerPacket.syncToTracking(this, false); //always make sure this value matches
                 });
-                this.removeEffect(SEEffects.DIRTY.get());
+                if (this.hasEffect(SEEffects.DIRTY.get())) {
+                    this.removeEffect(SEEffects.DIRTY.get());
+                }
                 this.playSound(SoundEvents.BRUSH_GENERIC, 0.5f, 1f);
                 return InteractionResult.sidedSuccess(this.level().isClientSide);
             }
@@ -330,6 +435,16 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
                     }
                     return InteractionResult.sidedSuccess(this.level().isClientSide);
                 }
+            }
+
+            if (itemstack.is(SEItems.HEARTWORM_MEDICINE.get())) {
+                livestockOverhaulScraps$heartwormMedTick = ScrapsExtrasCommonConfig.HEARTWORM_MED_GRACE.get();
+                return InteractionResult.sidedSuccess(this.level().isClientSide);
+            }
+
+            if (itemstack.is(SEItems.HOOF_PICK.get())) {
+                livestockOverhaulScraps$hoofPickTick = ScrapsExtrasCommonConfig.HOOF_PICK_GRACE.get();
+                return InteractionResult.sidedSuccess(this.level().isClientSide);
             }
 
             if (itemstack.is(Items.SHEARS) && player.isShiftKeyDown()) {
@@ -412,10 +527,12 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
         tag.putInt("SickTick", this.livestockOverhaulScraps$sickTick);
         tag.putInt("SaddleSoreTick", this.livestockOverhaulScraps$saddleSoreTick);
         tag.putInt("RainRotTick", this.livestockOverhaulScraps$rainRotTick);
-        tag.putInt("GestationTick", this.livestockOverhaulScraps$pregnantTick);
+        tag.putInt("HeartwormMedTick", this.livestockOverhaulScraps$heartwormMedTick);
+        tag.putInt("HoofPickTick", this.livestockOverhaulScraps$hoofPickTick);
+//        tag.putInt("GestationTick", this.livestockOverhaulScraps$pregnantTick);
         tag.putBoolean("SleepingAsLeader", this.isSleepingAsLeader());
         tag.putBoolean("Hungry", this.isHungry());
-        tag.putBoolean("Pregnant", this.isPregnant());
+//        tag.putBoolean("Pregnant", this.isPregnant());
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
@@ -429,10 +546,12 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
         if (tag.contains("SickTick")) {this.livestockOverhaulScraps$sickTick = tag.getInt("SickTick");}
         if (tag.contains("SaddleSoreTick")) {this.livestockOverhaulScraps$saddleSoreTick = tag.getInt("SaddleSoreTick");}
         if (tag.contains("RainRotTick")) {this.livestockOverhaulScraps$rainRotTick = tag.getInt("RainRotTick");}
-        if (tag.contains("GestationTick")) {this.livestockOverhaulScraps$pregnantTick = tag.getInt("GestationTick");}
+        if (tag.contains("HeartwormMedTick")) {this.livestockOverhaulScraps$heartwormMedTick = tag.getInt("HeartwormMedTick");}
+        if (tag.contains("HoofPickTick")) {this.livestockOverhaulScraps$hoofPickTick = tag.getInt("HoofPickTick");}
+//        if (tag.contains("GestationTick")) {this.livestockOverhaulScraps$pregnantTick = tag.getInt("GestationTick");}
         if (tag.contains("SleepingAsLeader")) this.setSleepingAsLeader(tag.getBoolean("SleepingAsLeader"));
         if (tag.contains("Hungry")) this.setHungry(tag.getBoolean("Hungry"));
-        if (tag.contains("Pregnant")) this.setPregnant(tag.getBoolean("Pregnant"));
+//        if (tag.contains("Pregnant")) this.setPregnant(tag.getBoolean("Pregnant"));
     }
 
     @Inject(method = "finalizeSpawn", at = @At("TAIL"))
@@ -509,12 +628,12 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
         }
 
         if (ScrapsExtrasCommonConfig.AILMENT_SYSTEM.get()) {
-            int baseImmunity = random.nextInt(50);
+            int baseImmunity = random.nextInt(1, 50);
             immunityCap.setImmunity(random.nextInt(baseImmunity));
             SyncImmunityPacket.syncToTracking(this, random.nextInt(baseImmunity));
 
-            int traitImmunityAdditionMajor = random.nextInt(50) + 25;
-            int traitImmunityAdditionMinor = random.nextInt(25);
+            int traitImmunityAdditionMajor = random.nextInt(1, 50) + 25;
+            int traitImmunityAdditionMinor = random.nextInt(1, 25);
             if (traitCap.getTrait() == 1) { //immunocompetent (major)
                 if (immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMajor) < 100) {
                     immunityCap.setImmunity(immunityCap.getImmunity() + random.nextInt(traitImmunityAdditionMajor));
@@ -524,13 +643,11 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
                     SyncImmunityPacket.syncToTracking(this, 100);
                 }
             } else if (traitCap.getTrait() == 8) { //immunosuppressed (major)
-                if (immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMajor) > 0) {
-                    immunityCap.setImmunity(immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMajor));
-                    SyncImmunityPacket.syncToTracking(this, immunityCap.getImmunity() - (random.nextInt(traitImmunityAdditionMajor)));
-                } else {
-                    immunityCap.setImmunity(0);
-                    SyncImmunityPacket.syncToTracking(this, 0);
-                }
+                int result = Math.max(1, immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMajor));
+                immunityCap.setImmunity(result);
+                SyncImmunityPacket.syncToTracking(this, result);
+                immunityCap.setImmunity(immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMajor));
+                SyncImmunityPacket.syncToTracking(this, immunityCap.getImmunity() - (random.nextInt(traitImmunityAdditionMajor)));
             } else if (traitCap.getTrait() == 6) { //sturdy (minor)
                 if (immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMajor) < 100) {
                     immunityCap.setImmunity(immunityCap.getImmunity() + random.nextInt(traitImmunityAdditionMinor));
@@ -540,13 +657,19 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
                     SyncImmunityPacket.syncToTracking(this, 100);
                 }
             } else if (traitCap.getTrait() == 11) { //frail (minor)
-                if (immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMinor) > 0) {
-                    immunityCap.setImmunity(immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMinor));
-                    SyncImmunityPacket.syncToTracking(this, immunityCap.getImmunity() - (random.nextInt(traitImmunityAdditionMinor)));
-                } else {
-                    immunityCap.setImmunity(0);
-                    SyncImmunityPacket.syncToTracking(this, 0);
-                }
+                int result = Math.max(1, immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMinor));
+                immunityCap.setImmunity(result);
+                SyncImmunityPacket.syncToTracking(this, result);
+                immunityCap.setImmunity(immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMinor));
+                SyncImmunityPacket.syncToTracking(this, immunityCap.getImmunity() - (random.nextInt(traitImmunityAdditionMinor)));
+            }
+
+            if (immunityCap.getImmunity() > 100) {
+                immunityCap.setImmunity(100);
+                SyncImmunityPacket.syncToTracking(this, 100);
+            } else if (immunityCap.getImmunity() < 1) {
+                immunityCap.setImmunity(1);
+                SyncImmunityPacket.syncToTracking(this, 1);
             }
 
             ((ISickModHolder) this).setSickChance(100 - immunityCap.getImmunity());
@@ -744,8 +867,12 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
         }
     }
 
-    @Inject(method = "getBreedOffspring", at = @At("HEAD"))
-    public void getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob, CallbackInfoReturnable<AgeableMob> cir) {
+    /**
+     * @author DragN0007
+     * @reason why are you asking me this on my own fucking code. i hate robots
+     */
+    @Overwrite
+    public AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
         AbstractOMount foal;
         ImmunityCapabilityInterface immunityCap = this.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
         TraitCapabilityInterface traitCap = this.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
@@ -851,19 +978,53 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
             if (traitChance < 5) {
                 trait = traitCap.getTrait();
                 foaltraitCap.setTrait(trait);
-                SyncImmunityPacket.syncToTracking(foal, trait);
+                SyncTraitPacket.syncToTracking(foal, trait);
             } else if (traitChance < 10) {
                 trait = partnertraitCap.getTrait();
                 foaltraitCap.setTrait(trait);
-                SyncImmunityPacket.syncToTracking(foal, trait);
+                SyncTraitPacket.syncToTracking(foal, trait);
             } else {
                 ((ITraitByBreedTypeHolder) foal).setTraitByBreedType();
+            }
+
+            int immunityChance = this.random.nextInt(12);
+            int immunity;
+            if (immunityChance < 5) {
+                immunity = immunityCap.getImmunity();
+                if (random.nextDouble() < 0.25) {
+                    foalimmunityCap.setImmunity(immunity + random.nextInt(1,25));
+                    SyncImmunityPacket.syncToTracking(foal, immunity);
+                } else {
+                    foalimmunityCap.setImmunity(immunity);
+                    SyncImmunityPacket.syncToTracking(foal, immunity);
+                }
+            } else if (immunityChance < 10) {
+                immunity = partnerimmunityCap.getImmunity();
+                if (random.nextDouble() < 0.25) {
+                    foalimmunityCap.setImmunity(immunity + random.nextInt(1,25));
+                    SyncImmunityPacket.syncToTracking(foal, immunity);
+                } else {
+                    foalimmunityCap.setImmunity(immunity);
+                    SyncImmunityPacket.syncToTracking(foal, immunity);
+                }
+            } else {
+                int baseImmunity = random.nextInt(1, 100);
+                foalimmunityCap.setImmunity(random.nextInt(baseImmunity));
+                SyncImmunityPacket.syncToTracking(foal, random.nextInt(baseImmunity));
             }
 
             foal.setGender(random.nextInt(Gender.values().length));
             ((OHorse) foal).setFeatheringByBreed();
             ((OHorse) foal).setManeType(3);
             ((OHorse) foal).setTailType(2);
+            ((ISickModHolder) foal).setSickChance(100 - foalimmunityCap.getImmunity());
+            if (immunityCap.getImmunity() > 100) {
+                immunityCap.setImmunity(100);
+                SyncImmunityPacket.syncToTracking(this, 100);
+            } else if (immunityCap.getImmunity() < 1) {
+                immunityCap.setImmunity(1);
+                SyncImmunityPacket.syncToTracking(this, 1);
+            }
 
             if (foaltraitCap.getTrait() == 0) {
                 foal.addEffect(new MobEffectInstance(SEEffects.BRAVE.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
@@ -908,39 +1069,38 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
             }
         }
 
-        if (LivestockOverhaulCommonConfig.GENDERS_AFFECT_BREEDING.get()) {
-            if (this.isFemale()) {
-                livestockOverhaulScraps$pregnantTick = ScrapsExtrasCommonConfig.GESTATION_TICK.get();
-            }
-        }
-
+//        if (LivestockOverhaulCommonConfig.GENDERS_AFFECT_BREEDING.get()) {
+//            if (this.isFemale()) {
+//                livestockOverhaulScraps$pregnantTick = ScrapsExtrasCommonConfig.GESTATION_TICK.get();
+//            }
+//        }
         this.setOffspringAttributes(ageableMob, foal);
-        cir.getReturnValue();
+        return foal;
     }
 
-    @Inject(method = "aiStep", at = @At("HEAD"))
-    protected void aiStep(CallbackInfo ci) {
-        if (!this.level().isClientSide) {
-
-            if (ScrapsExtrasCommonConfig.GESTATION.get()) {
-                if (this.livestockOverhaulScraps$pregnantTick > 0) {
-                    livestockOverhaulScraps$pregnantTick--;
-                    if (this.livestockOverhaulScraps$pregnantTick <= 0) {
-                        this.spawnGestationChildFromBreeding();
-                    }
-                }
-            }
-        }
-    }
-
-    @Unique
-    private void spawnGestationChildFromBreeding() {
-        Animal parent = this;
-        AgeableMob baby = parent.getBreedOffspring((ServerLevel) this.level(), parent);
-        baby.setBaby(true);
-        baby.moveTo(this.getX(), this.getY(), this.getZ());
-        this.level().addFreshEntity(baby);
-        this.livestockOverhaulScraps$pregnantTick = 0;
-    }
+//    @Inject(method = "aiStep", at = @At("HEAD"))
+//    protected void aiStep(CallbackInfo ci) {
+//        if (!this.level().isClientSide) {
+//
+//            if (ScrapsExtrasCommonConfig.GESTATION.get()) {
+//                if (this.livestockOverhaulScraps$pregnantTick > 0) {
+//                    livestockOverhaulScraps$pregnantTick--;
+//                    if (this.livestockOverhaulScraps$pregnantTick <= 0) {
+//                        this.spawnGestationChildFromBreeding();
+//                    }
+//                }
+//            }
+//        }
+//    }
+//
+//    @Unique
+//    private void spawnGestationChildFromBreeding() {
+//        Animal parent = this;
+//        AgeableMob baby = parent.getBreedOffspring((ServerLevel) this.level(), parent);
+//        baby.setBaby(true);
+//        baby.moveTo(this.getX(), this.getY(), this.getZ());
+//        this.level().addFreshEntity(baby);
+//        this.livestockOverhaulScraps$pregnantTick = 0;
+//    }
 
 }

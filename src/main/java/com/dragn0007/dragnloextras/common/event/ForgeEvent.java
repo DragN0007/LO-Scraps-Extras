@@ -85,11 +85,12 @@ public class ForgeEvent {
                 );
             });
 
-            if (target instanceof OHorse horse)
+            if (target instanceof OHorse horse) {
                 SENetwork.INSTANCE.send(
-                    PacketDistributor.PLAYER.with(() -> (ServerPlayer) event.getEntity()),
-                    new SyncSleepingAsLeaderPacket(target.getId(), ((ISleepAsLeaderHolder) horse).isSleepingAsLeader())
-            );
+                        PacketDistributor.PLAYER.with(() -> (ServerPlayer) event.getEntity()),
+                        new SyncSleepingAsLeaderPacket(target.getId(), ((ISleepAsLeaderHolder) horse).isSleepingAsLeader())
+                );
+            }
 
         }
     }
@@ -159,14 +160,6 @@ public class ForgeEvent {
                     if (entity.hasEffect(SEEffects.INFECTION.get())) {
                         int duration = entity.getEffect(SEEffects.INFECTION.get()).getDuration();
                         entity.removeEffect(SEEffects.INFECTION.get());
-
-                        if (entity.hasEffect(MobEffects.WEAKNESS) && entity.getEffect(MobEffects.WEAKNESS).getDuration() == duration) {
-                            entity.removeEffect(MobEffects.WEAKNESS);
-                        }
-                        if (entity.hasEffect(MobEffects.MOVEMENT_SLOWDOWN) && entity.getEffect(MobEffects.MOVEMENT_SLOWDOWN).getDuration() == duration) {
-                            entity.removeEffect(MobEffects.MOVEMENT_SLOWDOWN);
-                        }
-
                         if (!player.getAbilities().instabuild) {
                             stack.shrink(1);
                         }

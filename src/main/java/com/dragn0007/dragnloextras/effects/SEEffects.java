@@ -26,34 +26,34 @@ public class SEEffects {
             () -> new InfectionEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
 
     public static final RegistryObject<MobEffect> RABIES = MOB_EFFECTS.register("rabies",
-            () -> new InfectionEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
+            () -> new RabiesEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
 
     public static final RegistryObject<MobEffect> HOOF_ABSCESS = MOB_EFFECTS.register("hoof_abscess",
-            () -> new InfectionEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
+            () -> new HoofAbscessEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
 
     public static final RegistryObject<MobEffect> ABRASION = MOB_EFFECTS.register("abrasion",
-            () -> new InfectionEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
+            () -> new AbrasionEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
 
     public static final RegistryObject<MobEffect> RAIN_ROT = MOB_EFFECTS.register("rain_rot",
             () -> new RainRotEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
 
     public static final RegistryObject<MobEffect> EAR_INFECTION = MOB_EFFECTS.register("ear_infection",
-            () -> new InfectionEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
+            () -> new EarInfectionEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
 
     public static final RegistryObject<MobEffect> FLEA_INFESTATION = MOB_EFFECTS.register("flea_infestation",
-            () -> new InfectionEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
+            () -> new FleasEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
 
     public static final RegistryObject<MobEffect> HEARTWORMS = MOB_EFFECTS.register("heartworms",
-            () -> new InfectionEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
+            () -> new HeartwormsEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
 
     public static final RegistryObject<MobEffect> RINGWORM = MOB_EFFECTS.register("ringworm",
-            () -> new InfectionEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
+            () -> new RingwormEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
 
     public static final RegistryObject<MobEffect> BOTFLY_INFESTATION = MOB_EFFECTS.register("botfly_infestation",
-            () -> new InfectionEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
+            () -> new BotflyEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
 
     public static final RegistryObject<MobEffect> MANGE = MOB_EFFECTS.register("mange",
-            () -> new InfectionEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
+            () -> new MangeEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
 
     public static final RegistryObject<MobEffect> SADDLE_SORE = MOB_EFFECTS.register("saddle_sore",
             () -> new SaddleSoreEffect(MobEffectCategory.HARMFUL, 0x5c0d12));

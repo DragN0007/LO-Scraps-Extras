@@ -23,6 +23,7 @@ public class SEItemModelProvider extends ItemModelProvider {
         simpleItem(SEItems.ANTIBIOTIC_INJECTION);
         simpleItem(SEItems.ANTIBIOTIC_OINTMENT);
         simpleItem(SEItems.ANTIBIOTIC_EARDROPS);
+        simpleItem(SEItems.ANTIPARASITIC_INJECTION);
         simpleItem(SEItems.ANTIPARASITIC_OINTMENT);
         simpleItem(SEItems.HEARTWORM_MEDICINE);
         simpleItem(SEItems.RABIES_SHOT);

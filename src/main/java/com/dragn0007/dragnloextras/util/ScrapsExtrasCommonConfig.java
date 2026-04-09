@@ -10,8 +10,8 @@ public class ScrapsExtrasCommonConfig {
     public static final ForgeConfigSpec.ConfigValue<Integer> DIRTY_TICK;
     public static final ForgeConfigSpec.BooleanValue DIRTY_IMMUNITY_DAMPER;
     public static final ForgeConfigSpec.ConfigValue<Integer> DIRTY_IMMUNITY_DAMPER_TICK;
-    public static final ForgeConfigSpec.BooleanValue GESTATION;
-    public static final ForgeConfigSpec.ConfigValue<Integer> GESTATION_TICK;
+//    public static final ForgeConfigSpec.BooleanValue GESTATION;
+//    public static final ForgeConfigSpec.ConfigValue<Integer> GESTATION_TICK;
     public static final ForgeConfigSpec.BooleanValue FEEDING_SYSTEM;
     public static final ForgeConfigSpec.BooleanValue HUNGRY_IMMUNITY_DAMPER;
     public static final ForgeConfigSpec.ConfigValue<Integer> HUNGRY_IMMUNITY_DAMPER_TICK;
@@ -34,6 +34,10 @@ public class ScrapsExtrasCommonConfig {
     public static final ForgeConfigSpec.BooleanValue LETHAL_RABIES;
     public static final ForgeConfigSpec.ConfigValue<Integer> RABIES_TREATABLE_TICK;
     public static final ForgeConfigSpec.ConfigValue<Integer> RABIES_DEATH_TICK;
+    public static final ForgeConfigSpec.BooleanValue LETHAL_HEARTWORMS;
+    public static final ForgeConfigSpec.ConfigValue<Integer> HEARTWORMS_DEATH_TICK;
+    public static final ForgeConfigSpec.ConfigValue<Integer> HEARTWORM_MED_GRACE;
+    public static final ForgeConfigSpec.ConfigValue<Integer> HOOF_PICK_GRACE;
     public static final ForgeConfigSpec.BooleanValue INFECTIONS;
     public static final ForgeConfigSpec.BooleanValue RABIES;
     public static final ForgeConfigSpec.BooleanValue HOOF_ABSCESS;
@@ -62,10 +66,10 @@ public class ScrapsExtrasCommonConfig {
                 .define("Dirty Immunity Damper", true);
         DIRTY_IMMUNITY_DAMPER_TICK = BUILDER.comment("The amount of time at which an animal's immune system becomes dampened from being dirty. Default is 72000 ticks.")
                 .define("Dirty Immunity Damper Tick", 72000);
-        GESTATION = BUILDER.comment("Should female animals become pregnant and have a gestation period after breeding? This requires the (LO) Genders Affect Breeding config to be on.")
-                .define("Animal Gestation", true);
-        GESTATION_TICK = BUILDER.comment("The amount of time at which an animal gestates. Default is 72000 ticks.")
-                .define("Gestation Tick", 72000);
+//        GESTATION = BUILDER.comment("Should female animals become pregnant and have a gestation period after breeding? This requires the (LO) Genders Affect Breeding config to be on.")
+//                .define("[NOT FUNCTIONAL: Future Development] Animal Gestation", true);
+//        GESTATION_TICK = BUILDER.comment("The amount of time at which an animal gestates. Default is 72000 ticks.")
+//                .define("[NOT FUNCTIONAL: Future Development] Gestation Tick", 72000);
         BUILDER.pop();
 
         BUILDER.push("Food");
@@ -99,7 +103,7 @@ public class ScrapsExtrasCommonConfig {
                 .define("Treatment Crafting Enabled", true);
         LETHAL_INFECTIONS = BUILDER.comment("Should infections eventually become lethal if left untreated?")
                 .define("Lethal Infections", true);
-        INFECTION_TICK = BUILDER.comment("The amount of time at which a wound becomes infected. Default is 72000 ticks.")
+        INFECTION_TICK = BUILDER.comment("The amount of time at which a wound or small infection becomes fully infected. Default is 72000 ticks.")
                 .define("Infection Tick", 72000);
         INFECTION_DEATH_TICK = BUILDER.comment("The amount of time at which an infection becomes deadly. Default is 168,000 ticks.")
                 .define("Infection Death Tick", 168000);
@@ -109,6 +113,14 @@ public class ScrapsExtrasCommonConfig {
                 .define("Rabies Treatable Tick", 72000);
         RABIES_DEATH_TICK = BUILDER.comment("The amount of time at which rabies becomes deadly and begins killing an animal. Default is 168,000 ticks.")
                 .define("Rabies Death Tick", 168000);
+        LETHAL_HEARTWORMS = BUILDER.comment("Should heartworms eventually become lethal if left untreated?")
+                .define("Lethal Heartworms", true);
+        HEARTWORMS_DEATH_TICK = BUILDER.comment("The amount of time at which heartworms become deadly. Default is 168,000 ticks.")
+                .define("Heartworms Death Tick", 168000);
+        HEARTWORM_MED_GRACE = BUILDER.comment("The amount of grace period against Heartworms after giving an animal Heartworm Medicine. Default is 168,000 ticks.")
+                .define("Heartworm Med vs Heartworms Grace Period Tick", 168000);
+        HOOF_PICK_GRACE = BUILDER.comment("The amount of grace period against Hoof Abscesses after picking an animal's hooves. Default is 168,000 ticks.")
+                .define("Hoof Pick vs Hoof Abscesses Grace Period Tick", 168000);
         INFECTIONS = BUILDER.define("Infection Enabled", true);
         RABIES = BUILDER.define("Rabies Enabled", true);
         HOOF_ABSCESS = BUILDER.define("Hoof Abscess Enabled", true);

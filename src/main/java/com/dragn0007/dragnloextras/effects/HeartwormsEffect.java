@@ -7,8 +7,8 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 
-public class InfectionEffect extends MobEffect {
-    public InfectionEffect(MobEffectCategory pCategory, int pColor) {
+public class HeartwormsEffect extends MobEffect {
+    public HeartwormsEffect(MobEffectCategory pCategory, int pColor) {
         super(pCategory, pColor);
     }
 
@@ -17,17 +17,17 @@ public class InfectionEffect extends MobEffect {
     @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide) {
-            if (entity.hasEffect(SEEffects.INFECTION.get())) {
-                int amp = entity.getEffect(SEEffects.INFECTION.get()).getAmplifier();
-                int duration = entity.getEffect(SEEffects.INFECTION.get()).getDuration();
+            if (entity.hasEffect(SEEffects.HEARTWORMS.get())) {
+                int amp = entity.getEffect(SEEffects.HEARTWORMS.get()).getAmplifier();
+                int duration = entity.getEffect(SEEffects.HEARTWORMS.get()).getDuration();
 
                 entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, amp + 1, false, false));
                 entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, amp, false, false));
 
-                if (ScrapsExtrasCommonConfig.INFECTIONS.get() && ScrapsExtrasCommonConfig.LETHAL_INFECTIONS.get())
+                if (ScrapsExtrasCommonConfig.INFECTIONS.get() && ScrapsExtrasCommonConfig.LETHAL_HEARTWORMS.get())
                     deathTick++;
 
-                if (deathTick >= ScrapsExtrasCommonConfig.INFECTION_DEATH_TICK.get()) {
+                if (deathTick >= ScrapsExtrasCommonConfig.HEARTWORMS_DEATH_TICK.get()) {
                     float damage;
                     if (amplifier > 0) {
                         damage = 1F * amplifier;
@@ -43,7 +43,7 @@ public class InfectionEffect extends MobEffect {
     //how fast the entity takes damage (how fast applyEffectTick() is run)
     @Override
     public boolean isDurationEffectTick(int duration, int amplifier) {
-        if (deathTick >= ScrapsExtrasCommonConfig.INFECTION_DEATH_TICK.get()) {
+        if (deathTick >= ScrapsExtrasCommonConfig.HEARTWORMS_DEATH_TICK.get()) {
             if (amplifier > 0) {
                 return duration % (60 / amplifier) == 0;
             } else {

@@ -21,6 +21,7 @@ public class SEItemGroupModifier {
                         output.accept(SEItems.ANTIBIOTIC_INJECTION.get());
                         output.accept(SEItems.ANTIBIOTIC_OINTMENT.get());
                         output.accept(SEItems.ANTIBIOTIC_EARDROPS.get());
+                        output.accept(SEItems.ANTIPARASITIC_INJECTION.get());
                         output.accept(SEItems.ANTIPARASITIC_OINTMENT.get());
                         output.accept(SEItems.HEARTWORM_MEDICINE.get());
                         output.accept(SEItems.RABIES_SHOT.get());
