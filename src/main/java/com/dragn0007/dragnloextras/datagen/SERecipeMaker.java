@@ -1,15 +1,11 @@
 package com.dragn0007.dragnloextras.datagen;
 
-import com.dragn0007.dragnlivestock.LivestockOverhaul;
-import com.dragn0007.dragnlivestock.datagen.conditions.BlanketConfigCondition;
-import com.dragn0007.dragnlivestock.items.LOItems;
 import com.dragn0007.dragnlivestock.util.LOTags;
 import com.dragn0007.dragnloextras.ScrapsExtras;
 import com.dragn0007.dragnloextras.datagen.conditions.TFCCondition;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.util.SETags;
 import net.dries007.tfc.common.TFCTags;
-import net.dries007.tfc.common.blocks.rock.Ore;
 import net.dries007.tfc.common.items.Food;
 import net.dries007.tfc.common.items.Powder;
 import net.dries007.tfc.common.items.TFCItems;
@@ -19,12 +15,9 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.crafting.ConditionalRecipe;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
-import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Consumer;
 

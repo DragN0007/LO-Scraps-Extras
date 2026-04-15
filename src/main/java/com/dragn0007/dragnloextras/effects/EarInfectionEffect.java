@@ -1,6 +1,5 @@
 package com.dragn0007.dragnloextras.effects;
 
-import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;

@@ -1,6 +1,5 @@
 package com.dragn0007.dragnloextras;
 
-import com.dragn0007.dragnlivestock.datagen.conditions.BlanketConfigCondition;
 import com.dragn0007.dragnloextras.common.gui.SEMenuTypes;
 import com.dragn0007.dragnloextras.datagen.conditions.TFCCondition;
 import com.dragn0007.dragnloextras.effects.SEEffects;

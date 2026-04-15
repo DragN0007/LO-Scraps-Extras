@@ -1,26 +1,11 @@
 package com.dragn0007.dragnloextras.mixin;
 
-import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
-import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
-import com.dragn0007.dragnloextras.capabilities.SECapabilities;
-import com.dragn0007.dragnloextras.capabilities.TraitCapabilityInterface;
-import com.dragn0007.dragnloextras.effects.SEEffects;
 import com.dragn0007.dragnloextras.util.IHungerHolder;
-import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.horse.AbstractChestedHorse;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 //unused
 @Mixin(AbstractOMount.class)
 public abstract class AbstractOMountMixin extends AbstractChestedHorse implements IHungerHolder {

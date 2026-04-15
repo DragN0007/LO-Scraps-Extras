@@ -1,6 +1,5 @@
 package com.dragn0007.dragnloextras.datagen.conditions;
 
-import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
 import com.google.gson.JsonObject;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.crafting.conditions.ICondition;
