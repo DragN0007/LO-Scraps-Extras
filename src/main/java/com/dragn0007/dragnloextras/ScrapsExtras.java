@@ -1,13 +1,17 @@
 package com.dragn0007.dragnloextras;
 
+import com.dragn0007.dragnlivestock.datagen.conditions.BlanketConfigCondition;
 import com.dragn0007.dragnloextras.common.gui.SEMenuTypes;
+import com.dragn0007.dragnloextras.datagen.conditions.TFCCondition;
 import com.dragn0007.dragnloextras.effects.SEEffects;
 import com.dragn0007.dragnloextras.entity.SEEntityTypes;
 import com.dragn0007.dragnloextras.items.SEItemGroupModifier;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasClientConfig;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -34,6 +38,9 @@ public class ScrapsExtras
         GeckoLib.initialize();
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ScrapsExtrasClientConfig.SPEC, "livestock-overhaul-extras-client.toml");
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ScrapsExtrasCommonConfig.SPEC, "livestock-overhaul-extras-common.toml");
+
+        //if TFC is installed, the recipes for this mod switch into TFC-friendly ones
+        CraftingHelper.register(new TFCCondition.Serializer(new ResourceLocation(MODID, "tfc_condition")));
 
         MinecraftForge.EVENT_BUS.register(this);
     }

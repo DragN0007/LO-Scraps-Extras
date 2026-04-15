@@ -1,0 +1,33 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "dragnloextras:tfc_condition"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "category": "misc",
+        "key": {
+          "A": {
+            "item": "tfc:metal/ingot/copper"
+          },
+          "B": {
+            "tag": "tfc:firepit_logs"
+          }
+        },
+        "pattern": [
+          "  A",
+          " B ",
+          "B  "
+        ],
+        "result": {
+          "item": "dragnloextras:hoof_pick"
+        },
+        "show_notification": true
+      }
+    }
+  ]
+}

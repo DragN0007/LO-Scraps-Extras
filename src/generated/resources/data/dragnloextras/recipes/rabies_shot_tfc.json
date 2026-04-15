@@ -1,0 +1,36 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "dragnloextras:tfc_condition"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "category": "misc",
+        "key": {
+          "A": {
+            "item": "minecraft:glass"
+          },
+          "B": {
+            "item": "tfc:metal/ingot/copper"
+          },
+          "C": {
+            "item": "tfc:powder/wood_ash"
+          }
+        },
+        "pattern": [
+          "C  ",
+          " A ",
+          "  B"
+        ],
+        "result": {
+          "item": "dragnloextras:rabies_shot"
+        },
+        "show_notification": true
+      }
+    }
+  ]
+}

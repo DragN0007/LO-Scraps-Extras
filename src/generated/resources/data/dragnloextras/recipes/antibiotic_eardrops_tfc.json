@@ -1,0 +1,33 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "dragnloextras:tfc_condition"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "category": "misc",
+        "key": {
+          "B": {
+            "item": "minecraft:clay"
+          },
+          "C": {
+            "item": "tfc:powder/wood_ash"
+          }
+        },
+        "pattern": [
+          " B ",
+          "BCB",
+          "BCB"
+        ],
+        "result": {
+          "item": "dragnloextras:antibiotic_eardrops"
+        },
+        "show_notification": true
+      }
+    }
+  ]
+}

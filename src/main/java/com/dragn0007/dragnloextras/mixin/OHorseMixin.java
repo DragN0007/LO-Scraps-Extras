@@ -199,7 +199,7 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
 
                 for (LivingEntity target : nearbyEntities) {
                     if (target == this) continue;
-                    if (random.nextDouble() <= 0.01) {
+                    if (random.nextDouble() <= 0.001) {
                         if (target.hasEffect(SEEffects.MANGE.get()) && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
                             this.addEffect(new MobEffectInstance(SEEffects.MANGE.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
                         }
@@ -315,7 +315,7 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
                 if (!this.isHungry()) {
                     BlockPos blockpos = this.blockPosition();
                     BlockPos blockpos1 = blockpos.below();
-                    if ((!this.level().getBlockState(blockpos1).is(Blocks.GRASS_BLOCK) && !this.isGroundTied()) && this.isTamed()) {
+                    if (ScrapsExtrasCommonConfig.GRAZING.get() && (!this.level().getBlockState(blockpos1).is(Blocks.GRASS_BLOCK) && !this.isGroundTied()) && this.isTamed()) {
                         livestockOverhaulScraps$hungryTick++;
                         if (livestockOverhaulScraps$hungryTick >= ScrapsExtrasCommonConfig.HORSE_FEED_TICK.get()) {
                             this.setHungry(true);
@@ -943,7 +943,7 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
                     variant = this.random.nextInt(OHorseModel.Variant.values().length);
                 }
                 foal.setVariant(variant);
-            } else if (breedChance == 0 && random.nextDouble() < 0.5) {
+            } else if (random.nextDouble() < 0.5) {
                 ((OHorse) foal).setColorByBreed();
             }
 
@@ -958,7 +958,7 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
                     overlay = this.random.nextInt(EquineMarkingOverlay.values().length);
                 }
                 foal.setOverlayVariant(overlay);
-            } else if (breedChance == 0 && random.nextDouble() < 0.5) {
+            } else if (random.nextDouble() < 0.5) {
                 ((OHorse) foal).setMarkingByBreed();
             }
 

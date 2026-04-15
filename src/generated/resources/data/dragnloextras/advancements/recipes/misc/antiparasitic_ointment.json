@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_redstone": {
+    "has_slime": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:redstone"
+              "minecraft:slime_ball"
             ]
           }
         ]
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "dragnloextras:antibiotic_ointment"
+        "recipe": "dragnloextras:antiparasitic_ointment"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_redstone",
+      "has_slime",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "dragnloextras:antibiotic_ointment"
+      "dragnloextras:antiparasitic_ointment"
     ]
   },
   "sends_telemetry_event": false

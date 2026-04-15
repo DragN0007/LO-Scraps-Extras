@@ -6,7 +6,7 @@
       "item": "minecraft:iron_nugget"
     },
     "C": {
-      "item": "minecraft:redstone"
+      "item": "minecraft:slime_ball"
     }
   },
   "pattern": [
@@ -15,7 +15,7 @@
     "BBB"
   ],
   "result": {
-    "item": "dragnloextras:antibiotic_ointment"
+    "item": "dragnloextras:antiparasitic_ointment"
   },
   "show_notification": true
 }

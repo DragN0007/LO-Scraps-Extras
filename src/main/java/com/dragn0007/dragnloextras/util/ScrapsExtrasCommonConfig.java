@@ -15,6 +15,7 @@ public class ScrapsExtrasCommonConfig {
     public static final ForgeConfigSpec.BooleanValue FEEDING_SYSTEM;
     public static final ForgeConfigSpec.BooleanValue HUNGRY_IMMUNITY_DAMPER;
     public static final ForgeConfigSpec.ConfigValue<Integer> HUNGRY_IMMUNITY_DAMPER_TICK;
+    public static final ForgeConfigSpec.BooleanValue GRAZING;
     public static final ForgeConfigSpec.BooleanValue HORSE_FOOD;
     public static final ForgeConfigSpec.ConfigValue<Integer> HORSE_FEED_TICK;
     public static final ForgeConfigSpec.BooleanValue DOG_FOOD;
@@ -78,6 +79,8 @@ public class ScrapsExtrasCommonConfig {
                 .define("Starving Immunity Damper", true);
         HUNGRY_IMMUNITY_DAMPER_TICK = BUILDER.comment("The amount of time at which an animal's immune system becomes dampened from starving. Default is 72000 ticks.")
                 .define("Starving Immunity Damper Tick", 72000);
+        GRAZING = BUILDER.comment("Should grazing animals, such as horses for example, be able to \"graze\" on grass so they don't starve?")
+                .define("Herbivores Can Graze", true);
         HORSE_FOOD = BUILDER.define("Horses Need Food", true);
         HORSE_FEED_TICK = BUILDER.comment("The amount of time at which a horse needs to be fed. Default is 48000 ticks.")
                 .define("Horse Feed Tick", 48000);

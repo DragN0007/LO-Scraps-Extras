@@ -36,15 +36,15 @@ versionRange = "[3.6,)"
 ordering="NONE"
 side="BOTH"
 [[dependencies.dragnloextras]]
-modId="jade"
-mandatory=true
-versionRange = "[11.11.1,)"
-ordering="NONE"
-side="BOTH"
-[[dependencies.dragnloextras]]
 modId="dragnpets"
 mandatory=true
 versionRange = "[2.0,)"
+ordering="NONE"
+side="BOTH"
+[[dependencies.dragnloextras]]
+modId="jade"
+mandatory=false
+versionRange = "[11.11.1,)"
 ordering="NONE"
 side="BOTH"
 [[mixins]]
