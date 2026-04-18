@@ -1,13 +1,22 @@
 package com.dragn0007.dragnloextras.common.event;
 
+import com.dragn0007.dragnlivestock.entities.camel.OCamel;
+import com.dragn0007.dragnlivestock.entities.caribou.Caribou;
+import com.dragn0007.dragnlivestock.entities.donkey.ODonkey;
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
+import com.dragn0007.dragnlivestock.entities.mule.OMule;
 import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
 import com.dragn0007.dragnloextras.capabilities.*;
 import com.dragn0007.dragnloextras.effects.SEEffects;
 import com.dragn0007.dragnloextras.items.SEItems;
+import com.dragn0007.dragnloextras.mixin.ODogMixin;
 import com.dragn0007.dragnloextras.network.*;
 import com.dragn0007.dragnloextras.util.ISleepAsLeaderHolder;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
+import com.dragn0007.dragnpets.entities.cat.OCat;
+import com.dragn0007.dragnpets.entities.dog.ODog;
+import com.dragn0007.dragnpets.entities.ocelot.OOcelot;
+import com.dragn0007.dragnpets.entities.wolf.OWolf;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -95,26 +104,28 @@ public class ForgeEvent {
 
     @SubscribeEvent
     public static void attach(final AttachCapabilitiesEvent<Entity> event) {
-        //horses
-        if (event.getObject() instanceof OHorse && event.getObject().getClass() == OHorse.class) {
-            if (!event.getObject().getCapability(SECapabilities.DIRTY_CAPABILITY).isPresent()) {
-                DirtyCapabilityAttacher.attach(event);
-                if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
-                    System.out.println("Attached the Dirty Capability NBT to " + event.getObject().getName());
+        //attach general caps
+        if ((event.getObject() instanceof OHorse && event.getObject().getClass() == OHorse.class) ||
+            (event.getObject() instanceof ODog && event.getObject().getClass() == ODog.class) ||
+            (event.getObject() instanceof OWolf && event.getObject().getClass() == OWolf.class) ||
+            (event.getObject() instanceof ODonkey && event.getObject().getClass() == ODonkey.class) ||
+            (event.getObject() instanceof OMule && event.getObject().getClass() == OMule.class) ||
+            (event.getObject() instanceof OCamel && event.getObject().getClass() == OCamel.class) ||
+            (event.getObject() instanceof OCat && event.getObject().getClass() == OCat.class) ||
+            (event.getObject() instanceof OOcelot && event.getObject().getClass() == OOcelot.class) ||
+            (event.getObject() instanceof Caribou && event.getObject().getClass() == Caribou.class)) {
+
+            //cats and ocelots dont get the dirty capability since they clean themselves
+            if (!(event.getObject() instanceof OCat && event.getObject().getClass() == OCat.class) &&
+                    !(event.getObject() instanceof OOcelot && event.getObject().getClass() == OOcelot.class)) {
+                if (!event.getObject().getCapability(SECapabilities.DIRTY_CAPABILITY).isPresent()) {
+                    DirtyCapabilityAttacher.attach(event);
+                    if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
+                        System.out.println("Attached the Dirty Capability NBT to " + event.getObject().getName());
+                    }
                 }
             }
-            if (!event.getObject().getCapability(SECapabilities.HALTER_CAPABILITY).isPresent()) {
-                HalterCapabilityAttacher.attach(event);
-                if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
-                    System.out.println("Attached the Halter Capability NBT to " + event.getObject().getName());
-                }
-            }
-            if (!event.getObject().getCapability(SECapabilities.HALTER_COLOR_CAPABILITY).isPresent()) {
-                HalterColorCapabilityAttacher.attach(event);
-                if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
-                    System.out.println("Attached the Halter Color Capability NBT to " + event.getObject().getName());
-                }
-            }
+
             if (!event.getObject().getCapability(SECapabilities.TRAIT_CAPABILITY).isPresent()) {
                 TraitCapabilityAttacher.attach(event);
                 if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
@@ -133,16 +144,27 @@ public class ForgeEvent {
                     System.out.println("Attached the Sleeping Capability NBT to " + event.getObject().getName());
                 }
             }
-        }
 
-        //camels
-        //caribou
-        //donkeys
-        //mules
-        //dogs
-        //wolves
-        //cats
-        //ocelots
+            //only equines and caribou get halters
+            if ((event.getObject() instanceof OHorse && event.getObject().getClass() == OHorse.class) ||
+                    (event.getObject() instanceof OMule && event.getObject().getClass() == OMule.class) ||
+                    (event.getObject() instanceof ODonkey && event.getObject().getClass() == ODonkey.class) ||
+                    (event.getObject() instanceof Caribou && event.getObject().getClass() == Caribou.class)) {
+
+                if (!event.getObject().getCapability(SECapabilities.HALTER_CAPABILITY).isPresent()) {
+                    HalterCapabilityAttacher.attach(event);
+                    if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
+                        System.out.println("Attached the Halter Capability NBT to " + event.getObject().getName());
+                    }
+                }
+                if (!event.getObject().getCapability(SECapabilities.HALTER_COLOR_CAPABILITY).isPresent()) {
+                    HalterColorCapabilityAttacher.attach(event);
+                    if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
+                        System.out.println("Attached the Halter Color Capability NBT to " + event.getObject().getName());
+                    }
+                }
+            }
+        }
     }
 
     @SubscribeEvent

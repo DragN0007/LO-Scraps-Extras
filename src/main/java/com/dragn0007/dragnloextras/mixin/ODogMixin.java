@@ -1,15 +1,14 @@
 package com.dragn0007.dragnloextras.mixin;
 
 import com.dragn0007.dragnloextras.capabilities.DirtyCapabilityInterface;
-import com.dragn0007.dragnloextras.capabilities.ImmunityCapabilityInterface;
 import com.dragn0007.dragnloextras.capabilities.SECapabilities;
 import com.dragn0007.dragnloextras.capabilities.TraitCapabilityInterface;
 import com.dragn0007.dragnloextras.effects.SEEffects;
 import com.dragn0007.dragnloextras.entity.ai.FleeRainGoal;
 import com.dragn0007.dragnloextras.entity.ai.SleepGoal;
+import com.dragn0007.dragnloextras.entity.ai.VaulterLeapAtTargetGoal;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.network.SyncDirtyLayerPacket;
-import com.dragn0007.dragnloextras.network.SyncImmunityPacket;
 import com.dragn0007.dragnloextras.network.SyncTraitPacket;
 import com.dragn0007.dragnloextras.util.*;
 import com.dragn0007.dragnpets.entities.POEntityTypes;
@@ -29,6 +28,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.npc.Villager;
@@ -47,7 +47,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
+import software.bernie.geckolib.core.animation.Animation;
+import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 
 import java.util.List;
@@ -57,18 +60,20 @@ import java.util.Random;
 @Mixin(ODog.class)
 public abstract class ODogMixin extends TamableAnimal implements DirtyCapabilityInterface, ITraitByBreedTypeHolder, IHungerHolder, ISickModHolder {
 
-    //todo: spiked collars, sleep anim
+    //todo: spiked collars, sleep anim, dirt layer renderer
 
-    @Shadow public abstract boolean isGuardDog();
-    @Shadow public abstract boolean isLivestockGuardian();
-    @Shadow public abstract boolean isHuntingDog();
-    @Shadow public abstract boolean isHerdingDog();
-    @Shadow public abstract boolean isBigGameHunter();
+    //stop remapping my shit bitch i aint ask you to do all that. piss me off
+    @Shadow(remap = false) public abstract boolean isGuardDog();
+    @Shadow(remap = false) public abstract boolean isLivestockGuardian();
+    @Shadow(remap = false) public abstract boolean isHuntingDog();
+    @Shadow(remap = false) public abstract boolean isHerdingDog();
+    @Shadow(remap = false) public abstract boolean isBigGameHunter();
 
-    @Shadow public abstract int getVariant();
-    @Shadow public abstract int getOverlayVariant();
-    @Shadow public abstract int getBreed();
-    @Shadow public abstract int getFluff();
+    @Shadow(remap = false) public abstract int getVariant();
+    @Shadow(remap = false) public abstract int getOverlayVariant();
+    @Shadow(remap = false) public abstract int getBreed();
+    @Shadow(remap = false) public abstract int getFluff();
+    @Shadow(remap = false) public abstract boolean isWagging();
 
     @Unique
     public boolean hungry = false;
@@ -109,6 +114,7 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
         ODog self = (ODog) (Object) this;
         this.goalSelector.addGoal(0, new SleepGoal(self));
         this.goalSelector.addGoal(1, new FleeRainGoal(self, 1.2F));
+        this.goalSelector.addGoal(3, new VaulterLeapAtTargetGoal(this, 0.4F));
         this.goalSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10, true, false, entity ->
                 entity instanceof Player && !this.isBaby() && this.hasEffect(SEEffects.RABIES.get())
         ));
@@ -314,9 +320,8 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
         }
     }
 
-
-    @Override
-    public InteractionResult mobInteract(Player player, InteractionHand hand) {
+    @Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true)
+    public void mobInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         ItemStack itemstack = player.getItemInHand(hand);
         Item item = itemstack.getItem();
 
@@ -331,7 +336,7 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
                     this.removeEffect(SEEffects.DIRTY.get());
                 }
                 this.playSound(SoundEvents.BRUSH_GENERIC, 0.5f, 1f);
-                return InteractionResult.sidedSuccess(this.level().isClientSide);
+                cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
             }
 
             if (this.isHungry() || this.hasEffect(SEEffects.HUNGER.get())) {
@@ -343,7 +348,7 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
                     if (!player.getAbilities().instabuild) {
                         itemstack.shrink(1);
                     }
-                    return InteractionResult.sidedSuccess(this.level().isClientSide);
+                    cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
                 }
 
                 if (itemstack.is(SEItems.HEARTY_KIBBLE.get())) {
@@ -361,18 +366,16 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
                     if (!player.getAbilities().instabuild) {
                         itemstack.shrink(1);
                     }
-                    return InteractionResult.sidedSuccess(this.level().isClientSide);
+                    cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
                 }
             }
 
             if (itemstack.is(SEItems.HEARTWORM_MEDICINE.get())) {
                 livestockOverhaulScraps$heartwormMedTick = ScrapsExtrasCommonConfig.HEARTWORM_MED_GRACE.get();
-                return InteractionResult.sidedSuccess(this.level().isClientSide);
+                cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
             }
 
         }
-
-        return super.mobInteract(player, hand);
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
@@ -404,123 +407,8 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
     @Inject(method = "finalizeSpawn", at = @At("TAIL"))
     private void spawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, SpawnGroupData data, CompoundTag tag, CallbackInfoReturnable<SpawnGroupData> cir) {
         Random random = new Random();
-        TraitCapabilityInterface traitCap = this.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
-        ImmunityCapabilityInterface immunityCap = this.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
-
-        if (ScrapsExtrasCommonConfig.TRAITS_SYSTEM.get()) {
-            if (ScrapsExtrasCommonConfig.TRAITS_BY_BREED.get()) {
-                if (ScrapsExtrasCommonConfig.GOOD_TRAITS_ONLY.get()) {
-                    do {
-                        ((ITraitByBreedTypeHolder) this).setTraitByBreedType();
-                    } while (traitCap.getTrait() == 7 || traitCap.getTrait() == 8 || traitCap.getTrait() == 9 ||
-                            traitCap.getTrait() == 10 || traitCap.getTrait() == 11 || traitCap.getTrait() == 12);
-                } else {
-                    ((ITraitByBreedTypeHolder) this).setTraitByBreedType();
-                }
-            } else {
-                int trait = random.nextInt(Trait.values().length);
-                if (ScrapsExtrasCommonConfig.GOOD_TRAITS_ONLY.get()) {
-                    do {
-                        traitCap.setTrait(trait);
-                        SyncTraitPacket.syncToTracking(this, trait);
-                    } while (traitCap.getTrait() == 7 || traitCap.getTrait() == 8 || traitCap.getTrait() == 9 ||
-                            traitCap.getTrait() == 10 || traitCap.getTrait() == 11 || traitCap.getTrait() == 12);
-                } else {
-                    traitCap.setTrait(trait);
-                    SyncTraitPacket.syncToTracking(this, trait);
-                }
-            }
-
-            switch (traitCap.getTrait()) {
-                case 0:
-                    this.addEffect(new MobEffectInstance(SEEffects.BRAVE.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                    break;
-                case 1:
-                    this.addEffect(new MobEffectInstance(SEEffects.IMMUNOCOMPETENT.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                    break;
-                case 2:
-                    this.addEffect(new MobEffectInstance(SEEffects.SWIFT.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                    break;
-                case 3:
-                    this.addEffect(new MobEffectInstance(SEEffects.VAULTER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                    break;
-                case 4:
-                    this.addEffect(new MobEffectInstance(SEEffects.CLIMBER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                    break;
-                case 5:
-                    this.addEffect(new MobEffectInstance(SEEffects.BUSTER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                    break;
-                case 6:
-                    this.addEffect(new MobEffectInstance(SEEffects.STURDY.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                    break;
-                case 7:
-                    this.addEffect(new MobEffectInstance(SEEffects.COWARDLY.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                    break;
-                case 8:
-                    this.addEffect(new MobEffectInstance(SEEffects.IMMUNOSUPPRESSED.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                    break;
-                case 9:
-                    this.addEffect(new MobEffectInstance(SEEffects.STUBBORN.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                    break;
-                case 10:
-                    this.addEffect(new MobEffectInstance(SEEffects.LAGGARD.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                    break;
-                case 11:
-                    this.addEffect(new MobEffectInstance(SEEffects.FRAIL.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                    break;
-                case 12:
-                    this.addEffect(new MobEffectInstance(SEEffects.MEAN.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                    break;
-            }
-        }
-
-        if (ScrapsExtrasCommonConfig.AILMENT_SYSTEM.get()) {
-            int baseImmunity = random.nextInt(1, 50);
-            immunityCap.setImmunity(random.nextInt(baseImmunity));
-            SyncImmunityPacket.syncToTracking(this, random.nextInt(baseImmunity));
-
-            int traitImmunityAdditionMajor = random.nextInt(1, 50) + 25;
-            int traitImmunityAdditionMinor = random.nextInt(1, 25);
-            if (traitCap.getTrait() == 1) { //immunocompetent (major)
-                if (immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMajor) < 100) {
-                    immunityCap.setImmunity(immunityCap.getImmunity() + random.nextInt(traitImmunityAdditionMajor));
-                    SyncImmunityPacket.syncToTracking(this, immunityCap.getImmunity() + random.nextInt(traitImmunityAdditionMajor));
-                } else {
-                    immunityCap.setImmunity(100);
-                    SyncImmunityPacket.syncToTracking(this, 100);
-                }
-            } else if (traitCap.getTrait() == 8) { //immunosuppressed (major)
-                int result = Math.max(1, immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMajor));
-                immunityCap.setImmunity(result);
-                SyncImmunityPacket.syncToTracking(this, result);
-                immunityCap.setImmunity(immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMajor));
-                SyncImmunityPacket.syncToTracking(this, immunityCap.getImmunity() - (random.nextInt(traitImmunityAdditionMajor)));
-            } else if (traitCap.getTrait() == 6) { //sturdy (minor)
-                if (immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMajor) < 100) {
-                    immunityCap.setImmunity(immunityCap.getImmunity() + random.nextInt(traitImmunityAdditionMinor));
-                    SyncImmunityPacket.syncToTracking(this, immunityCap.getImmunity() + random.nextInt(traitImmunityAdditionMinor));
-                } else {
-                    immunityCap.setImmunity(100);
-                    SyncImmunityPacket.syncToTracking(this, 100);
-                }
-            } else if (traitCap.getTrait() == 11) { //frail (minor)
-                int result = Math.max(1, immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMinor));
-                immunityCap.setImmunity(result);
-                SyncImmunityPacket.syncToTracking(this, result);
-                immunityCap.setImmunity(immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMinor));
-                SyncImmunityPacket.syncToTracking(this, immunityCap.getImmunity() - (random.nextInt(traitImmunityAdditionMinor)));
-            }
-
-            if (immunityCap.getImmunity() > 100) {
-                immunityCap.setImmunity(100);
-                SyncImmunityPacket.syncToTracking(this, 100);
-            } else if (immunityCap.getImmunity() < 1) {
-                immunityCap.setImmunity(1);
-                SyncImmunityPacket.syncToTracking(this, 1);
-            }
-
-            ((ISickModHolder) this).setSickChance(100 - immunityCap.getImmunity());
-        }
+        BaseImmunityHelper.setBaseImmunity(this);
+        BaseTraitHelper.setBaseTrait(this);
     }
 
     @Unique
@@ -602,7 +490,35 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
 
     @Inject(method = "predicate", at = @At("HEAD"), remap = false, cancellable = true)
     private <T extends GeoAnimatable> void predicate(AnimationState<T> tAnimationState, CallbackInfoReturnable<PlayState> cir) {
+        double currentSpeed = this.getDeltaMovement().lengthSqr();
+        double speedThreshold = 0.02;
+        double movementSpeed = this.getAttributeBaseValue(Attributes.MOVEMENT_SPEED);
+        double animationSpeed = Math.max(0.1, movementSpeed);
 
+        AnimationController<T> controller = tAnimationState.getController();
+
+        if (tAnimationState.isMoving()) {
+            if (currentSpeed > speedThreshold) {
+                controller.setAnimation(RawAnimation.begin().then("run", Animation.LoopType.LOOP));
+                controller.setAnimationSpeed(Math.max(0.1, 0.8 * controller.getAnimationSpeed() + animationSpeed));
+            } else {
+                controller.setAnimation(RawAnimation.begin().then("walk", Animation.LoopType.LOOP));
+                controller.setAnimationSpeed(Math.max(0.1, 0.8 * controller.getAnimationSpeed() + animationSpeed));
+            }
+        } else {
+            if (this.isSleeping()) {
+                controller.setAnimation(RawAnimation.begin().then("sleep", Animation.LoopType.LOOP));
+                controller.setAnimationSpeed(1.0);
+            } else if (isInSittingPose()) {
+                controller.setAnimation(RawAnimation.begin().then("sit", Animation.LoopType.LOOP));
+                controller.setAnimationSpeed(1.0);
+            } else if (this.isWagging()) {
+                controller.setAnimation(RawAnimation.begin().then("wag", Animation.LoopType.LOOP));
+                controller.setAnimationSpeed(1.0);
+            } else {
+                controller.setAnimation(RawAnimation.begin().then("idle", Animation.LoopType.LOOP));
+            }
+        }
         cir.setReturnValue(PlayState.CONTINUE);
     }
 
