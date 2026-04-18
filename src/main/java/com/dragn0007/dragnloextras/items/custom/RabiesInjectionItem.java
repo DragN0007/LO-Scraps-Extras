@@ -20,7 +20,7 @@ public class RabiesInjectionItem extends Item {
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         if (ScrapsExtrasCommonConfig.TREATMENTS.get()) {
-            pTooltipComponents.add(Component.translatable("Cures Rabies in animals, as long as they haven't become too sick.").withStyle(ChatFormatting.GRAY));
+            pTooltipComponents.add(Component.translatable("Cures Rabies in animals, as long as they haven't already become too sick.").withStyle(ChatFormatting.GRAY));
         } else {
             pTooltipComponents.add(Component.translatable("tooltip.dragnloextras.medicals_disabled.tooltip").withStyle(ChatFormatting.GRAY));
         }
