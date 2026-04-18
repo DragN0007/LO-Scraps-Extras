@@ -15,7 +15,7 @@ public class ClimberEffect extends MobEffect {
     }
 
     public static final UUID STEP_MOD_UUID = UUID.fromString("0cf380e4-1053-436c-b386-4fe0caf7acbc");
-    public static final AttributeModifier STEP_MOD = new AttributeModifier(STEP_MOD_UUID, "Step mod", 2D, AttributeModifier.Operation.MULTIPLY_TOTAL);
+    public static final AttributeModifier STEP_MOD = new AttributeModifier(STEP_MOD_UUID, "Step mod", 2F, AttributeModifier.Operation.MULTIPLY_TOTAL);
 
     @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {

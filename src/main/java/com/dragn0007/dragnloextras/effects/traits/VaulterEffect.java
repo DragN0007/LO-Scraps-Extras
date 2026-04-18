@@ -1,5 +1,9 @@
 package com.dragn0007.dragnloextras.effects.traits;
 
+import com.dragn0007.dragnlivestock.entities.caribou.Caribou;
+import com.dragn0007.dragnlivestock.entities.donkey.ODonkey;
+import com.dragn0007.dragnlivestock.entities.horse.OHorse;
+import com.dragn0007.dragnlivestock.entities.mule.OMule;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,10 +24,11 @@ public class VaulterEffect extends MobEffect {
     @Override
     public void applyEffectTick(LivingEntity entity, int amplifier) {
         if (!entity.level().isClientSide) {
-            AttributeInstance movementSpeed = entity.getAttribute(Attributes.JUMP_STRENGTH);
-
-            if (!movementSpeed.hasModifier(VAULTER_MOD))
-            movementSpeed.addTransientModifier(VAULTER_MOD);
+            if (entity instanceof OHorse || entity instanceof OMule || entity instanceof ODonkey || entity instanceof Caribou) {
+                AttributeInstance jumpstrength = entity.getAttribute(Attributes.JUMP_STRENGTH);
+                if (!jumpstrength.hasModifier(VAULTER_MOD))
+                    jumpstrength.addTransientModifier(VAULTER_MOD);
+            }
         }
     }
 
