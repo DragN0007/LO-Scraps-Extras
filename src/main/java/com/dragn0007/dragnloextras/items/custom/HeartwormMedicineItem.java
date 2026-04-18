@@ -20,7 +20,7 @@ public class HeartwormMedicineItem extends Item {
     @Override
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
         if (ScrapsExtrasCommonConfig.TREATMENTS.get()) {
-            pTooltipComponents.add(Component.translatable("Cures Heartworms in animals.").withStyle(ChatFormatting.GRAY));
+            pTooltipComponents.add(Component.translatable("Cures and prevents Heartworms in animals.").withStyle(ChatFormatting.GRAY));
         } else {
             pTooltipComponents.add(Component.translatable("tooltip.dragnloextras.medicals_disabled.tooltip").withStyle(ChatFormatting.GRAY));
         }
