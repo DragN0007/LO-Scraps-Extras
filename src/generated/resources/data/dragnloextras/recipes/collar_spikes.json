@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:iron_nugget"
+    }
+  },
+  "pattern": [
+    " AA",
+    "AA "
+  ],
+  "result": {
+    "item": "dragnloextras:collar_spikes"
+  },
+  "show_notification": true
+}
