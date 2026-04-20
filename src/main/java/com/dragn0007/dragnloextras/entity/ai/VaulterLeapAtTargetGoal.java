@@ -1,15 +1,12 @@
 package com.dragn0007.dragnloextras.entity.ai;
 
-import java.util.EnumSet;
-
-import com.dragn0007.dragnloextras.capabilities.SECapabilities;
-import com.dragn0007.dragnloextras.capabilities.TraitCapabilityInterface;
 import com.dragn0007.dragnloextras.effects.SEEffects;
-import com.dragn0007.dragnpets.entities.dog.DogBase;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.EnumSet;
 
 public class VaulterLeapAtTargetGoal extends Goal {
    private final Mob mob;

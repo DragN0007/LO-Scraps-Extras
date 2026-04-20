@@ -1,6 +1,5 @@
 package com.dragn0007.dragnloextras.items.custom;
 
-import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;

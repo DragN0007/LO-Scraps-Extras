@@ -10,7 +10,6 @@ import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
 import com.dragn0007.dragnloextras.capabilities.*;
 import com.dragn0007.dragnloextras.effects.SEEffects;
 import com.dragn0007.dragnloextras.items.SEItems;
-import com.dragn0007.dragnloextras.mixin.ODogMixin;
 import com.dragn0007.dragnloextras.network.*;
 import com.dragn0007.dragnloextras.util.ISleepAsLeaderHolder;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
