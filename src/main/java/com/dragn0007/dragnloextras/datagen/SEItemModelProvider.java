@@ -38,6 +38,8 @@ public class SEItemModelProvider extends ItemModelProvider {
         simpleItem(SEItems.KIBBLE);
         simpleItem(SEItems.HEARTY_KIBBLE);
 
+        simpleItem(SEItems.COLLAR_SPIKES);
+
         simpleItem(SEItems.BLACK_HALTER);
         simpleItem(SEItems.BLUE_HALTER);
         simpleItem(SEItems.BROWN_HALTER);

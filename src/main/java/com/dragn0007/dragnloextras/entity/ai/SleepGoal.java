@@ -1,11 +1,16 @@
 package com.dragn0007.dragnloextras.entity.ai;
 
+import com.dragn0007.dragnlivestock.entities.cow.OCow;
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnloextras.capabilities.SECapabilities;
 import com.dragn0007.dragnloextras.capabilities.SleepingCapabilityInterface;
 import com.dragn0007.dragnloextras.network.SyncSleepingPacket;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
+import com.dragn0007.dragnpets.entities.cat.OCat;
 import com.dragn0007.dragnpets.entities.dog.ODog;
+import com.dragn0007.dragnpets.entities.ocelot.OOcelot;
+import com.dragn0007.dragnpets.entities.wolf.OWolf;
+import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.animal.Animal;
 
@@ -34,7 +39,15 @@ public class SleepGoal extends Goal {
          return false;
       } else if (mob.level().isDay()) {
          return false;
-      } else if (this.mob.getClass() != OHorse.class && this.mob.getClass() != ODog.class) {
+//      } else if (this.mob.getClass() != OHorse.class && this.mob.getClass() != ODog.class) {
+//         return false;
+      } else if (this.mob instanceof ODog tamable && (!tamable.wasToldToWander() && tamable.isTame() && !tamable.isOrderedToSit())) {
+         return false;
+      } else if (this.mob instanceof OWolf tamable && (!tamable.wasToldToWander() && tamable.isTame() && !tamable.isOrderedToSit())) {
+         return false;
+      } else if (this.mob instanceof OCat tamable && (!tamable.wasToldToWander() && tamable.isTame() && !tamable.isOrderedToSit())) {
+         return false;
+      } else if (this.mob instanceof OOcelot tamable && (!tamable.wasToldToWander() && tamable.isTame() && !tamable.isOrderedToSit())) {
          return false;
       } else if (!ScrapsExtrasCommonConfig.SLEEPING.get()) {
          return false;
@@ -42,15 +55,19 @@ public class SleepGoal extends Goal {
    }
 
    public void start() {
-      SleepingCapabilityInterface sleepingCap = this.mob.getCapability(SECapabilities.SLEEPING_CAPABILITY).orElse(null);
-      this.mob.getNavigation().stop();
-      sleepingCap.setSleeping(true);
-      SyncSleepingPacket.syncToTracking(this.mob, true);
+      if (this.mob.getCapability(SECapabilities.SLEEPING_CAPABILITY).isPresent()) {
+         SleepingCapabilityInterface sleepingCap = this.mob.getCapability(SECapabilities.SLEEPING_CAPABILITY).orElse(null);
+         this.mob.getNavigation().stop();
+         sleepingCap.setSleeping(true);
+         SyncSleepingPacket.syncToTracking(this.mob, true);
+      }
    }
 
    public void stop() {
+      if (this.mob.getCapability(SECapabilities.SLEEPING_CAPABILITY).isPresent()) {
       SleepingCapabilityInterface sleepingCap = this.mob.getCapability(SECapabilities.SLEEPING_CAPABILITY).orElse(null);
       sleepingCap.setSleeping(false);
       SyncSleepingPacket.syncToTracking(this.mob, false);
+      }
    }
 }

@@ -5,6 +5,7 @@ import com.dragn0007.dragnlivestock.entities.caribou.Caribou;
 import com.dragn0007.dragnlivestock.entities.donkey.ODonkey;
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnlivestock.entities.mule.OMule;
+import com.dragn0007.dragnlivestock.entities.unicorn.Unicorn;
 import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
 import com.dragn0007.dragnloextras.capabilities.*;
 import com.dragn0007.dragnloextras.effects.SEEffects;
@@ -99,6 +100,13 @@ public class ForgeEvent {
                 );
             }
 
+            target.getCapability(SECapabilities.SPIKE_COLLAR_CAPABILITY).ifPresent(cap -> {
+                SENetwork.INSTANCE.send(
+                        PacketDistributor.PLAYER.with(() -> (ServerPlayer) event.getEntity()),
+                        new SyncSpikeCollarLayerPacket(target.getId(), cap.hasSpikeCollar())
+                );
+            });
+
         }
     }
 
@@ -106,6 +114,7 @@ public class ForgeEvent {
     public static void attach(final AttachCapabilitiesEvent<Entity> event) {
         //attach general caps
         if ((event.getObject() instanceof OHorse && event.getObject().getClass() == OHorse.class) ||
+            (event.getObject() instanceof Unicorn && event.getObject().getClass() == Unicorn.class) ||
             (event.getObject() instanceof ODog && event.getObject().getClass() == ODog.class) ||
             (event.getObject() instanceof OWolf && event.getObject().getClass() == OWolf.class) ||
             (event.getObject() instanceof ODonkey && event.getObject().getClass() == ODonkey.class) ||
@@ -115,9 +124,10 @@ public class ForgeEvent {
             (event.getObject() instanceof OOcelot && event.getObject().getClass() == OOcelot.class) ||
             (event.getObject() instanceof Caribou && event.getObject().getClass() == Caribou.class)) {
 
-            //cats and ocelots dont get the dirty capability since they clean themselves
+            //cats, ocelots, unicorns dont get the dirty capability since they clean themselves
             if (!(event.getObject() instanceof OCat && event.getObject().getClass() == OCat.class) &&
-                    !(event.getObject() instanceof OOcelot && event.getObject().getClass() == OOcelot.class)) {
+                    !(event.getObject() instanceof OOcelot && event.getObject().getClass() == OOcelot.class) &&
+                    !(event.getObject() instanceof Unicorn && event.getObject().getClass() == Unicorn.class)) {
                 if (!event.getObject().getCapability(SECapabilities.DIRTY_CAPABILITY).isPresent()) {
                     DirtyCapabilityAttacher.attach(event);
                     if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
@@ -145,8 +155,9 @@ public class ForgeEvent {
                 }
             }
 
-            //only equines and caribou get halters
+            //only equines, caribou get halters
             if ((event.getObject() instanceof OHorse && event.getObject().getClass() == OHorse.class) ||
+                    (event.getObject() instanceof Unicorn && event.getObject().getClass() == Unicorn.class) ||
                     (event.getObject() instanceof OMule && event.getObject().getClass() == OMule.class) ||
                     (event.getObject() instanceof ODonkey && event.getObject().getClass() == ODonkey.class) ||
                     (event.getObject() instanceof Caribou && event.getObject().getClass() == Caribou.class)) {
@@ -161,6 +172,18 @@ public class ForgeEvent {
                     HalterColorCapabilityAttacher.attach(event);
                     if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
                         System.out.println("Attached the Halter Color Capability NBT to " + event.getObject().getName());
+                    }
+                }
+            }
+
+            //only canines get spike collars
+            if ((event.getObject() instanceof ODog && event.getObject().getClass() == ODog.class) ||
+                    (event.getObject() instanceof OWolf && event.getObject().getClass() == OWolf.class)) {
+
+                if (!event.getObject().getCapability(SECapabilities.SPIKE_COLLAR_CAPABILITY).isPresent()) {
+                    SpikeCollarCapabilityAttacher.attach(event);
+                    if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
+                        System.out.println("Attached the Spike Collar Capability NBT to " + event.getObject().getName());
                     }
                 }
             }

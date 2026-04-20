@@ -40,6 +40,7 @@ public class SENetwork {
             INSTANCE.registerMessage(4, SyncImmunityPacket.class, SyncImmunityPacket::encode, SyncImmunityPacket::decode, SyncImmunityPacket::handle);
             INSTANCE.registerMessage(5, SyncSleepingPacket.class, SyncSleepingPacket::encode, SyncSleepingPacket::decode, SyncSleepingPacket::handle);
             INSTANCE.registerMessage(6, SyncSleepingAsLeaderPacket.class, SyncSleepingAsLeaderPacket::encode, SyncSleepingAsLeaderPacket::decode, SyncSleepingAsLeaderPacket::handle);
+            INSTANCE.registerMessage(7, SyncSpikeCollarLayerPacket.class, SyncSpikeCollarLayerPacket::encode, SyncSpikeCollarLayerPacket::decode, SyncSpikeCollarLayerPacket::handle);
         });
     }
 }

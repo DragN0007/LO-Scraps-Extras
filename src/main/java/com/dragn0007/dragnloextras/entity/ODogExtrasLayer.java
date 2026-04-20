@@ -2,10 +2,7 @@ package com.dragn0007.dragnloextras.entity;
 
 import com.dragn0007.dragnlivestock.LivestockOverhaul;
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
-import com.dragn0007.dragnloextras.capabilities.DirtyCapabilityInterface;
-import com.dragn0007.dragnloextras.capabilities.HalterCapabilityInterface;
-import com.dragn0007.dragnloextras.capabilities.HalterColorCapabilityInterface;
-import com.dragn0007.dragnloextras.capabilities.SECapabilities;
+import com.dragn0007.dragnloextras.capabilities.*;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasClientConfig;
 import com.dragn0007.dragnpets.PetsOverhaul;
 import com.dragn0007.dragnpets.entities.dog.ODog;
@@ -31,6 +28,32 @@ public class ODogExtrasLayer extends GeoRenderLayer<ODog> {
     @Override
     public void render(PoseStack poseStack, ODog animatable, BakedGeoModel bakedModel, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
         ResourceLocation resourceLocation;
+
+        if (!ScrapsExtrasClientConfig.RENDER_DIRT.get() && !ScrapsExtrasClientConfig.RENDER_SPIKES.get()) {
+            return;
+        }
+
+        if (ScrapsExtrasClientConfig.RENDER_SPIKES.get()) {
+            if (animatable.getCapability(SECapabilities.SPIKE_COLLAR_CAPABILITY).isPresent()) {
+                SpikeCollarCapabilityInterface cap = animatable.getCapability(SECapabilities.SPIKE_COLLAR_CAPABILITY).orElse(null);
+                if (cap.hasSpikeCollar()) {
+                    resourceLocation = new ResourceLocation(PetsOverhaul.MODID, "textures/entity/dog/collar/collar_spikes.png");
+
+                    RenderType renderType1 = RenderType.entityCutout(resourceLocation);
+                    poseStack.pushPose();
+                    poseStack.scale(1.0f, 1.0f, 1.0f);
+                    poseStack.translate(0.0d, 0.0d, 0.0d);
+                    poseStack.popPose();
+                    getRenderer().reRender(getDefaultBakedModel(animatable),
+                            poseStack,
+                            bufferSource,
+                            animatable,
+                            renderType1,
+                            bufferSource.getBuffer(renderType1), partialTick, packedLight, OverlayTexture.NO_OVERLAY,
+                            1, 1, 1, 1);
+                }
+            }
+        }
 
         if (ScrapsExtrasClientConfig.RENDER_DIRT.get()) {
             if (animatable.getCapability(SECapabilities.DIRTY_CAPABILITY).isPresent()) {

@@ -49,24 +49,30 @@ public class OHorseExtrasLayer extends GeoRenderLayer<OHorse> {
     public void render(PoseStack poseStack, OHorse animatable, BakedGeoModel bakedModel, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
         ResourceLocation resourceLocation;
 
-        if (animatable.getCapability(SECapabilities.HALTER_CAPABILITY).isPresent()) {
-            HalterCapabilityInterface cap = animatable.getCapability(SECapabilities.HALTER_CAPABILITY).orElse(null);
-            HalterColorCapabilityInterface colorcap = animatable.getCapability(SECapabilities.HALTER_COLOR_CAPABILITY).orElse(null);
-            if (cap.hasHalter()) {
-                resourceLocation = HALTER_LOCATION[colorcap.getHalterColor().getId()];
+        if (!ScrapsExtrasClientConfig.RENDER_DIRT.get() && !ScrapsExtrasClientConfig.RENDER_HALTER.get()) {
+            return;
+        }
 
-                RenderType renderType1 = RenderType.entityCutout(resourceLocation);
-                poseStack.pushPose();
-                poseStack.scale(1.0f, 1.0f, 1.0f);
-                poseStack.translate(0.0d, 0.0d, 0.0d);
-                poseStack.popPose();
-                getRenderer().reRender(getDefaultBakedModel(animatable),
-                        poseStack,
-                        bufferSource,
-                        animatable,
-                        renderType1,
-                        bufferSource.getBuffer(renderType1), partialTick, packedLight, OverlayTexture.NO_OVERLAY,
-                        1, 1, 1, 1);
+        if (ScrapsExtrasClientConfig.RENDER_HALTER.get()) {
+            if (animatable.getCapability(SECapabilities.HALTER_CAPABILITY).isPresent()) {
+                HalterCapabilityInterface cap = animatable.getCapability(SECapabilities.HALTER_CAPABILITY).orElse(null);
+                HalterColorCapabilityInterface colorcap = animatable.getCapability(SECapabilities.HALTER_COLOR_CAPABILITY).orElse(null);
+                if (cap.hasHalter()) {
+                    resourceLocation = HALTER_LOCATION[colorcap.getHalterColor().getId()];
+
+                    RenderType renderType1 = RenderType.entityCutout(resourceLocation);
+                    poseStack.pushPose();
+                    poseStack.scale(1.0f, 1.0f, 1.0f);
+                    poseStack.translate(0.0d, 0.0d, 0.0d);
+                    poseStack.popPose();
+                    getRenderer().reRender(getDefaultBakedModel(animatable),
+                            poseStack,
+                            bufferSource,
+                            animatable,
+                            renderType1,
+                            bufferSource.getBuffer(renderType1), partialTick, packedLight, OverlayTexture.NO_OVERLAY,
+                            1, 1, 1, 1);
+                }
             }
         }
 

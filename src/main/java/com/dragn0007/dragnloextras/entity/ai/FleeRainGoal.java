@@ -1,8 +1,14 @@
 package com.dragn0007.dragnloextras.entity.ai;
 
+import com.dragn0007.dragnpets.entities.cat.OCat;
+import com.dragn0007.dragnpets.entities.dog.DogBase;
+import com.dragn0007.dragnpets.entities.dog.ODog;
+import com.dragn0007.dragnpets.entities.ocelot.OOcelot;
+import com.dragn0007.dragnpets.entities.wolf.OWolf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -31,6 +37,18 @@ public class FleeRainGoal extends Goal {
       } else if (!this.level.isRaining()) {
          return false;
       } else if (this.mob.isOnFire()) {
+         return false;
+      } else if (this.mob.isAggressive()) {
+         return false;
+      } else if (this.mob instanceof TamableAnimal tamable && (tamable.isInSittingPose() || tamable.isOrderedToSit())) {
+         return false;
+      } else if (this.mob instanceof ODog tamable && (!tamable.wasToldToWander() && tamable.isTame())) {
+         return false;
+      } else if (this.mob instanceof OWolf tamable && (!tamable.wasToldToWander() && tamable.isTame())) {
+         return false;
+      } else if (this.mob instanceof OCat tamable && (!tamable.wasToldToWander() && tamable.isTame())) {
+         return false;
+      } else if (this.mob instanceof OOcelot tamable && ((!tamable.wasToldToWander() && tamable.isTame()))) {
          return false;
       } else if (!this.level.canSeeSky(this.mob.blockPosition())) {
          return false;

@@ -32,6 +32,14 @@ public class SERecipeMaker extends RecipeProvider implements IConditionBuilder {
     }
 
     public void buildCommonRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.COLLAR_SPIKES.get())
+                .define('A', Items.IRON_NUGGET)
+                .pattern(" AA")
+                .pattern("AA ")
+                .unlockedBy("has_iron", inventoryTrigger(ItemPredicate.Builder.item()
+                        .of(Items.IRON_NUGGET).build()))
+                .save(pFinishedRecipeConsumer);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.HOOF_PICK.get())
                 .define('B', ItemTags.PLANKS)
                 .define('A', Items.IRON_NUGGET)
@@ -497,6 +505,16 @@ public class SERecipeMaker extends RecipeProvider implements IConditionBuilder {
     }
 
     public void buildTFCRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
+//        ConditionalRecipe.builder()
+//                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
+//                .addRecipe(
+//        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.COLLAR_SPIKES.get())
+//                .define('A', TFCItems.METAL_ITEMS.get(Metal.Default.COPPER).get(Metal.ItemType.INGOT).get())
+//                .pattern("AA")
+//                .unlockedBy("has_iron", has(Items.IRON_INGOT))
+//                ::save).build
+//                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COLLAR_SPIKES.get() + "_tfc"));
+//
 //        ConditionalRecipe.builder()
 //                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
 //                .addRecipe(

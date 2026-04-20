@@ -2,6 +2,7 @@ package com.dragn0007.dragnloextras.mixin;
 
 import com.dragn0007.dragnloextras.capabilities.DirtyCapabilityInterface;
 import com.dragn0007.dragnloextras.capabilities.SECapabilities;
+import com.dragn0007.dragnloextras.capabilities.SleepingCapabilityInterface;
 import com.dragn0007.dragnloextras.capabilities.TraitCapabilityInterface;
 import com.dragn0007.dragnloextras.effects.SEEffects;
 import com.dragn0007.dragnloextras.entity.ai.FleeRainGoal;
@@ -9,6 +10,7 @@ import com.dragn0007.dragnloextras.entity.ai.SleepGoal;
 import com.dragn0007.dragnloextras.entity.ai.VaulterLeapAtTargetGoal;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.network.SyncDirtyLayerPacket;
+import com.dragn0007.dragnloextras.network.SyncSpikeCollarLayerPacket;
 import com.dragn0007.dragnloextras.network.SyncTraitPacket;
 import com.dragn0007.dragnloextras.util.*;
 import com.dragn0007.dragnpets.entities.POEntityTypes;
@@ -24,6 +26,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -38,6 +41,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.common.Tags;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -60,8 +64,6 @@ import java.util.Random;
 @Mixin(ODog.class)
 public abstract class ODogMixin extends TamableAnimal implements DirtyCapabilityInterface, ITraitByBreedTypeHolder, IHungerHolder, ISickModHolder {
 
-    //todo: spiked collars, sleep anim, dirt layer renderer
-
     //stop remapping my shit bitch i aint ask you to do all that. piss me off
     @Shadow(remap = false) public abstract boolean isGuardDog();
     @Shadow(remap = false) public abstract boolean isLivestockGuardian();
@@ -75,6 +77,11 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
     @Shadow(remap = false) public abstract int getFluff();
     @Shadow(remap = false) public abstract boolean isWagging();
 
+    @Shadow public abstract boolean isCollared();
+
+    @Shadow public abstract InteractionResult mobInteract(Player player, InteractionHand hand);
+
+    @Shadow public SimpleContainer inventory;
     @Unique
     public boolean hungry = false;
     @Unique
@@ -116,7 +123,7 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
         this.goalSelector.addGoal(1, new FleeRainGoal(self, 1.2F));
         this.goalSelector.addGoal(3, new VaulterLeapAtTargetGoal(this, 0.4F));
         this.goalSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10, true, false, entity ->
-                entity instanceof Player && !this.isBaby() && this.hasEffect(SEEffects.RABIES.get())
+                (entity instanceof Player || entity instanceof Villager || entity instanceof Animal) && !this.isBaby() && this.hasEffect(SEEffects.RABIES.get())
         ));
         this.goalSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10, true, false, entity ->
                 (entity instanceof Player || entity instanceof Villager || entity instanceof Animal) &&
@@ -130,7 +137,6 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
     @Unique public int livestockOverhaulScraps$sickTick;
     @Unique public int livestockOverhaulScraps$sickModDissipateTick = 72000;
     @Unique public int livestockOverhaulScraps$heartwormMedTick;
-    @Unique public int livestockOverhaulScraps$hoofPickTick;
 
     @Inject(method = "tick", at = @At("HEAD"))
     protected void onTick(CallbackInfo ci) {
@@ -169,9 +175,6 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
                         if (target.hasEffect(SEEffects.MANGE.get()) && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
                             this.addEffect(new MobEffectInstance(SEEffects.MANGE.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
                         }
-                        if (target.hasEffect(SEEffects.BOTFLY_INFESTATION.get()) && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
-                            this.addEffect(new MobEffectInstance(SEEffects.BOTFLY_INFESTATION.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                        }
                         if (target.hasEffect(SEEffects.FLEA_INFESTATION.get()) && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
                             this.addEffect(new MobEffectInstance(SEEffects.FLEA_INFESTATION.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
                         }
@@ -200,14 +203,6 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
                     }
                 }
 
-                if (ScrapsExtrasCommonConfig.BOTFLY_INFESTATION.get()) {
-                    if (livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
-                        if (random.nextDouble() <= 0.05) {
-                            this.addEffect(new MobEffectInstance(SEEffects.BOTFLY_INFESTATION.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                        }
-                    }
-                }
-
                 if (ScrapsExtrasCommonConfig.FLEA_INFESTATION.get()) {
                     if (livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
                         if (random.nextDouble() <= 0.05) {
@@ -232,18 +227,6 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
                             livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
                         if (random.nextDouble() <= 0.05) {
                             this.addEffect(new MobEffectInstance(SEEffects.HEARTWORMS.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                        }
-                    }
-                }
-
-                if (ScrapsExtrasCommonConfig.HOOF_ABSCESS.get()) {
-                    if (livestockOverhaulScraps$hoofPickTick >= 0)
-                        livestockOverhaulScraps$hoofPickTick--;
-
-                    if (livestockOverhaulScraps$hoofPickTick < ScrapsExtrasCommonConfig.HOOF_PICK_GRACE.get() &&
-                            livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
-                        if (random.nextDouble() <= 0.50) {
-                            this.addEffect(new MobEffectInstance(SEEffects.HOOF_ABSCESS.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
                         }
                     }
                 }
@@ -299,6 +282,21 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
     public void hurt(DamageSource damageSource, float dmg, CallbackInfoReturnable<Boolean> cir) {
         super.hurt(damageSource, dmg);
 
+        if (ScrapsExtrasCommonConfig.SPIKE_COLLAR.get()) {
+            if (damageSource.getEntity() instanceof Mob mob) {
+                this.getCapability(SECapabilities.SPIKE_COLLAR_CAPABILITY).ifPresent(cap -> {
+                    if (cap.hasSpikeCollar()) {
+                        if (mob instanceof OWolf) {
+                            mob.hurt(this.damageSources().thorns(this), (float) 8 + this.random.nextInt(12));
+                        } else {
+                            mob.hurt(this.damageSources().thorns(this), (float) 2 + this.random.nextInt(8));
+                        }
+                        this.playSound(SoundEvents.THORNS_HIT, 0.5F, 1.0F);
+                    }
+                });
+            }
+        }
+
         if (ScrapsExtrasCommonConfig.AILMENT_SYSTEM.get()) {
             if (livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
 
@@ -313,6 +311,9 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
                     //animals with higher immunity are less likely to get rabies from a bite. this is not realistic.
                     //do not go around getting bit by animals even if you've never had the flu. not a good idea
                     if (damageSource.getEntity() instanceof Animal && random.nextDouble() <= 0.02) {
+                        this.addEffect(new MobEffectInstance(SEEffects.RABIES.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    }
+                    if (damageSource.getEntity() instanceof Animal animal && animal.hasEffect(SEEffects.RABIES.get())) {
                         this.addEffect(new MobEffectInstance(SEEffects.RABIES.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
                     }
                 }
@@ -337,6 +338,26 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
                 }
                 this.playSound(SoundEvents.BRUSH_GENERIC, 0.5f, 1f);
                 cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
+            } else if (itemstack.is(SEItems.COLLAR_SPIKES.get()) && this.isCollared()) {
+                System.out.println("isCollared, itemstack is Collar Spikes");
+                this.getCapability(SECapabilities.SPIKE_COLLAR_CAPABILITY).ifPresent(cap -> {
+                    System.out.println("Applied Spikes");
+                    cap.setSpikeCollared(true); //                                                                          this value
+                    SyncSpikeCollarLayerPacket.syncToTracking(this, true); //always make sure this value matches
+                });
+                this.playSound(SoundEvents.ARMOR_EQUIP_GENERIC, 0.5f, 1f);
+                cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
+            } else if (itemstack.is(Tags.Items.SHEARS)) {
+                this.getCapability(SECapabilities.SPIKE_COLLAR_CAPABILITY).ifPresent(cap -> {
+                    if (cap.hasSpikeCollar()) {
+                        cap.setSpikeCollared(false); //                                                                          this value
+                        SyncSpikeCollarLayerPacket.syncToTracking(this, false); //always make sure this value matches
+                    }
+                });
+                this.spawnAtLocation(SEItems.COLLAR_SPIKES.get());
+                this.playSound(SoundEvents.SHEEP_SHEAR, 0.5f, 1f);
+                cir.setReturnValue(super.mobInteract(player, hand));
+//                cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
             }
 
             if (this.isHungry() || this.hasEffect(SEEffects.HUNGER.get())) {
@@ -349,9 +370,7 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
                         itemstack.shrink(1);
                     }
                     cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
-                }
-
-                if (itemstack.is(SEItems.HEARTY_KIBBLE.get())) {
+                } else if (itemstack.is(SEItems.HEARTY_KIBBLE.get())) {
                     this.setHungry(false);
                     if (this.hasEffect(SEEffects.HUNGER.get())) {
                         this.removeEffect(SEEffects.HUNGER.get());
@@ -374,8 +393,9 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
                 livestockOverhaulScraps$heartwormMedTick = ScrapsExtrasCommonConfig.HEARTWORM_MED_GRACE.get();
                 cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
             }
-
         }
+
+//        cir.setReturnValue(super.mobInteract(player, hand));
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
@@ -497,6 +517,11 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
 
         AnimationController<T> controller = tAnimationState.getController();
 
+        SleepingCapabilityInterface sleepingCap = null;
+        if (this.getCapability(SECapabilities.SLEEPING_CAPABILITY).isPresent()) {
+            sleepingCap = this.getCapability(SECapabilities.SLEEPING_CAPABILITY).orElse(null);
+        }
+
         if (tAnimationState.isMoving()) {
             if (currentSpeed > speedThreshold) {
                 controller.setAnimation(RawAnimation.begin().then("run", Animation.LoopType.LOOP));
@@ -506,7 +531,7 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
                 controller.setAnimationSpeed(Math.max(0.1, 0.8 * controller.getAnimationSpeed() + animationSpeed));
             }
         } else {
-            if (this.isSleeping()) {
+            if (sleepingCap.isSleeping()) {
                 controller.setAnimation(RawAnimation.begin().then("sleep", Animation.LoopType.LOOP));
                 controller.setAnimationSpeed(1.0);
             } else if (isInSittingPose()) {

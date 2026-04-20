@@ -7,6 +7,7 @@ import com.dragn0007.dragnlivestock.entities.horse.HorseBreed;
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnlivestock.entities.horse.OHorseModel;
 import com.dragn0007.dragnlivestock.entities.mule.OMuleModel;
+import com.dragn0007.dragnlivestock.entities.unicorn.Unicorn;
 import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
 import com.dragn0007.dragnlivestock.entities.util.marking_layer.EquineEyeColorOverlay;
 import com.dragn0007.dragnlivestock.entities.util.marking_layer.EquineMarkingOverlay;
@@ -21,6 +22,7 @@ import com.dragn0007.dragnloextras.items.custom.HalterItem;
 import com.dragn0007.dragnloextras.items.custom.TurnoutBlanketItem;
 import com.dragn0007.dragnloextras.network.*;
 import com.dragn0007.dragnloextras.util.*;
+import com.dragn0007.dragnpets.entities.dog.ODog;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -146,7 +148,7 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
         this.goalSelector.addGoal(1, new FleeRainGoal(self, 1.2F));
         this.goalSelector.addGoal(2, new HorseFollowOwnerGoal(self, 1.0D, 2.0F, 2.0F, false));
         this.goalSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10, true, false, entity ->
-                entity instanceof Player && !this.isBaby() && this.hasEffect(SEEffects.RABIES.get())
+                (entity instanceof Player || entity instanceof Villager || entity instanceof Animal) && !this.isBaby() && this.hasEffect(SEEffects.RABIES.get())
         ));
         this.goalSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10, true, false, entity ->
                 (entity instanceof Player || entity instanceof Villager || entity instanceof Animal) &&
@@ -379,6 +381,9 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
                     if (damageSource.getEntity() instanceof Animal && random.nextDouble() <= 0.02) {
                         this.addEffect(new MobEffectInstance(SEEffects.RABIES.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
                     }
+                    if (damageSource.getEntity() instanceof Animal animal && animal.hasEffect(SEEffects.RABIES.get())) {
+                        this.addEffect(new MobEffectInstance(SEEffects.RABIES.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    }
                 }
             }
         }
@@ -554,123 +559,10 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
 
     @Inject(method = "finalizeSpawn", at = @At("TAIL"))
     private void spawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, SpawnGroupData data, CompoundTag tag, CallbackInfoReturnable<SpawnGroupData> cir) {
-        Random random = new Random();
-        TraitCapabilityInterface traitCap = this.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
-        ImmunityCapabilityInterface immunityCap = this.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
-
-        if (ScrapsExtrasCommonConfig.TRAITS_SYSTEM.get()) {
-            if (ScrapsExtrasCommonConfig.TRAITS_BY_BREED.get()) {
-                if (ScrapsExtrasCommonConfig.GOOD_TRAITS_ONLY.get()) {
-                    do {
-                        ((ITraitByBreedTypeHolder) this).setTraitByBreedType();
-                    } while (traitCap.getTrait() == 7 || traitCap.getTrait() == 8 || traitCap.getTrait() == 9 ||
-                            traitCap.getTrait() == 10 || traitCap.getTrait() == 11 || traitCap.getTrait() == 12);
-                } else {
-                    ((ITraitByBreedTypeHolder) this).setTraitByBreedType();
-                }
-            } else {
-                int trait = random.nextInt(Trait.values().length);
-                if (ScrapsExtrasCommonConfig.GOOD_TRAITS_ONLY.get()) {
-                    do {
-                        traitCap.setTrait(trait);
-                        SyncTraitPacket.syncToTracking(this, trait);
-                    } while (traitCap.getTrait() == 7 || traitCap.getTrait() == 8 || traitCap.getTrait() == 9 ||
-                            traitCap.getTrait() == 10 || traitCap.getTrait() == 11 || traitCap.getTrait() == 12);
-                } else {
-                    traitCap.setTrait(trait);
-                    SyncTraitPacket.syncToTracking(this, trait);
-                }
-            }
-
-            switch (traitCap.getTrait()) {
-                case 0:
-                    this.addEffect(new MobEffectInstance(SEEffects.BRAVE.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                    break;
-                case 1:
-                    this.addEffect(new MobEffectInstance(SEEffects.IMMUNOCOMPETENT.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                    break;
-                case 2:
-                    this.addEffect(new MobEffectInstance(SEEffects.SWIFT.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                    break;
-                case 3:
-                    this.addEffect(new MobEffectInstance(SEEffects.VAULTER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                    break;
-                case 4:
-                    this.addEffect(new MobEffectInstance(SEEffects.CLIMBER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                    break;
-                case 5:
-                    this.addEffect(new MobEffectInstance(SEEffects.BUSTER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                    break;
-                case 6:
-                    this.addEffect(new MobEffectInstance(SEEffects.STURDY.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                    break;
-                case 7:
-                    this.addEffect(new MobEffectInstance(SEEffects.COWARDLY.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                    break;
-                case 8:
-                    this.addEffect(new MobEffectInstance(SEEffects.IMMUNOSUPPRESSED.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                    break;
-                case 9:
-                    this.addEffect(new MobEffectInstance(SEEffects.STUBBORN.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                    break;
-                case 10:
-                    this.addEffect(new MobEffectInstance(SEEffects.LAGGARD.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                    break;
-                case 11:
-                    this.addEffect(new MobEffectInstance(SEEffects.FRAIL.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                    break;
-                case 12:
-                    this.addEffect(new MobEffectInstance(SEEffects.MEAN.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                    break;
-            }
-        }
-
-        if (ScrapsExtrasCommonConfig.AILMENT_SYSTEM.get()) {
-            int baseImmunity = random.nextInt(1, 50);
-            immunityCap.setImmunity(random.nextInt(baseImmunity));
-            SyncImmunityPacket.syncToTracking(this, random.nextInt(baseImmunity));
-
-            int traitImmunityAdditionMajor = random.nextInt(1, 50) + 25;
-            int traitImmunityAdditionMinor = random.nextInt(1, 25);
-            if (traitCap.getTrait() == 1) { //immunocompetent (major)
-                if (immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMajor) < 100) {
-                    immunityCap.setImmunity(immunityCap.getImmunity() + random.nextInt(traitImmunityAdditionMajor));
-                    SyncImmunityPacket.syncToTracking(this, immunityCap.getImmunity() + random.nextInt(traitImmunityAdditionMajor));
-                } else {
-                    immunityCap.setImmunity(100);
-                    SyncImmunityPacket.syncToTracking(this, 100);
-                }
-            } else if (traitCap.getTrait() == 8) { //immunosuppressed (major)
-                int result = Math.max(1, immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMajor));
-                immunityCap.setImmunity(result);
-                SyncImmunityPacket.syncToTracking(this, result);
-                immunityCap.setImmunity(immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMajor));
-                SyncImmunityPacket.syncToTracking(this, immunityCap.getImmunity() - (random.nextInt(traitImmunityAdditionMajor)));
-            } else if (traitCap.getTrait() == 6) { //sturdy (minor)
-                if (immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMajor) < 100) {
-                    immunityCap.setImmunity(immunityCap.getImmunity() + random.nextInt(traitImmunityAdditionMinor));
-                    SyncImmunityPacket.syncToTracking(this, immunityCap.getImmunity() + random.nextInt(traitImmunityAdditionMinor));
-                } else {
-                    immunityCap.setImmunity(100);
-                    SyncImmunityPacket.syncToTracking(this, 100);
-                }
-            } else if (traitCap.getTrait() == 11) { //frail (minor)
-                int result = Math.max(1, immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMinor));
-                immunityCap.setImmunity(result);
-                SyncImmunityPacket.syncToTracking(this, result);
-                immunityCap.setImmunity(immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMinor));
-                SyncImmunityPacket.syncToTracking(this, immunityCap.getImmunity() - (random.nextInt(traitImmunityAdditionMinor)));
-            }
-
-            if (immunityCap.getImmunity() > 100) {
-                immunityCap.setImmunity(100);
-                SyncImmunityPacket.syncToTracking(this, 100);
-            } else if (immunityCap.getImmunity() < 1) {
-                immunityCap.setImmunity(1);
-                SyncImmunityPacket.syncToTracking(this, 1);
-            }
-
-            ((ISickModHolder) this).setSickChance(100 - immunityCap.getImmunity());
+        OHorse self = (OHorse) (Object) this;
+        if (self.getClass() == OHorse.class || self.getClass() == Unicorn.class) {
+            BaseImmunityHelper.setBaseImmunity(this);
+            BaseTraitHelper.setBaseTrait(this);
         }
     }
 

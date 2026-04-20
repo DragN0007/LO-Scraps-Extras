@@ -14,10 +14,10 @@
     {
       "type": "patchouli:spotlight",
       "item": {
-        "item": "dragnloextras:pink_halter"
+        "item": "dragnloextras:collar_spikes"
       },
-      "title": "Spiked Collars (WIP)",
-      "text": "A Spiked Collar can be used on a dog or wolf as a fashionable accessory. Not only that, but a dog with a spiked collar will inflict a \"Thorns\" effect on enemies."
+      "title": "Collar Spikes",
+      "text": "Collar Spikes can be used on a dog or wolf's collar as a fashionable accessory. Not only that, but a dog with a spiked collar will inflict a \"Thorns\" effect on enemies."
     },
     {
       "type": "patchouli:spotlight",

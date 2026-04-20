@@ -54,6 +54,9 @@ public class SEItems {
             () -> new KibbleItem(new Item.Properties().stacksTo(64)));
     public static final RegistryObject<Item> HEARTY_KIBBLE = ITEMS.register("hearty_kibble",
             () -> new HeartyKibbleItem(new Item.Properties().stacksTo(64)));
+
+    public static final RegistryObject<Item> COLLAR_SPIKES = ITEMS.register("collar_spikes",
+            () -> new CollarSpikesItem(new Item.Properties()));
     
     public static final RegistryObject<Item> BLACK_HALTER = ITEMS.register("black_halter",
             () -> new HalterItem(DyeColor.BLACK, new Item.Properties()));
