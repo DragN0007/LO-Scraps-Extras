@@ -2,6 +2,7 @@ package com.dragn0007.dragnloextras.common.event;
 
 import com.dragn0007.dragnloextras.ScrapsExtras;
 import com.dragn0007.dragnloextras.entity.SEEntityTypes;
+import com.dragn0007.dragnloextras.entity.butchering.CowCorpse;
 import com.dragn0007.dragnloextras.entity.mannequin.HorseMannequin;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -14,6 +15,7 @@ public class ScrapsExtrasEvent {
     @SubscribeEvent
     public static void entityAttrbiuteCreationEvent(EntityAttributeCreationEvent event) {
         event.put(SEEntityTypes.HORSE_MANNEQUIN_ENTITY.get(), HorseMannequin.createAttributes().build());
+        event.put(SEEntityTypes.COW_CORPSE.get(), CowCorpse.createAttributes().build());
     }
 
 }

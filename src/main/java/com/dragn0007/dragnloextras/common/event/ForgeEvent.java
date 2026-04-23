@@ -2,6 +2,7 @@ package com.dragn0007.dragnloextras.common.event;
 
 import com.dragn0007.dragnlivestock.entities.camel.OCamel;
 import com.dragn0007.dragnlivestock.entities.caribou.Caribou;
+import com.dragn0007.dragnlivestock.entities.cow.OCow;
 import com.dragn0007.dragnlivestock.entities.donkey.ODonkey;
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnlivestock.entities.mule.OMule;
@@ -9,6 +10,8 @@ import com.dragn0007.dragnlivestock.entities.unicorn.Unicorn;
 import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
 import com.dragn0007.dragnloextras.capabilities.*;
 import com.dragn0007.dragnloextras.effects.SEEffects;
+import com.dragn0007.dragnloextras.entity.SEEntityTypes;
+import com.dragn0007.dragnloextras.entity.butchering.CowCorpse;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.network.*;
 import com.dragn0007.dragnloextras.util.ISleepAsLeaderHolder;
@@ -24,8 +27,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -195,8 +200,6 @@ public class ForgeEvent {
             Player player = event.getEntity();
             ItemStack stack = event.getItemStack();
 
-            //TODO: all ailment cures
-
             if (player.isSecondaryUseActive()) {
                 if (stack.is(SEItems.ANTIBIOTIC_INJECTION.get())) {
                     if (entity.hasEffect(SEEffects.INFECTION.get())) {
@@ -205,13 +208,8 @@ public class ForgeEvent {
                         if (!player.getAbilities().instabuild) {
                             stack.shrink(1);
                         }
-
                         player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
-                    } else {
-                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.no_ailment.tooltip").withStyle(ChatFormatting.YELLOW), true);
-                    }
-
-                    if (entity.hasEffect(SEEffects.HOOF_ABSCESS.get())) {
+                    } else if (entity.hasEffect(SEEffects.HOOF_ABSCESS.get())) {
                         entity.removeEffect(SEEffects.HOOF_ABSCESS.get());
                         if (!player.getAbilities().instabuild) {
                             stack.shrink(1);
@@ -241,11 +239,7 @@ public class ForgeEvent {
                             stack.shrink(1);
                         }
                         player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
-                    } else {
-                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.no_ailment.tooltip").withStyle(ChatFormatting.YELLOW), true);
-                    }
-
-                    if (entity.hasEffect(SEEffects.FLEA_INFESTATION.get())) {
+                    } else if (entity.hasEffect(SEEffects.FLEA_INFESTATION.get())) {
                         entity.removeEffect(SEEffects.FLEA_INFESTATION.get());
                         if (!player.getAbilities().instabuild) {
                             stack.shrink(1);
@@ -263,21 +257,13 @@ public class ForgeEvent {
                             stack.shrink(1);
                         }
                         player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
-                    } else {
-                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.no_ailment.tooltip").withStyle(ChatFormatting.YELLOW), true);
-                    }
-
-                    if (entity.hasEffect(SEEffects.BOTFLY_INFESTATION.get())) {
+                    } else if (entity.hasEffect(SEEffects.BOTFLY_INFESTATION.get())) {
                         entity.removeEffect(SEEffects.BOTFLY_INFESTATION.get());
                         if (!player.getAbilities().instabuild) {
                             stack.shrink(1);
                         }
                         player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
-                    } else {
-                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.no_ailment.tooltip").withStyle(ChatFormatting.YELLOW), true);
-                    }
-
-                    if (entity.hasEffect(SEEffects.RINGWORM.get())) {
+                    } else if (entity.hasEffect(SEEffects.RINGWORM.get())) {
                         entity.removeEffect(SEEffects.RINGWORM.get());
                         if (!player.getAbilities().instabuild) {
                             stack.shrink(1);
@@ -307,11 +293,7 @@ public class ForgeEvent {
                             stack.shrink(1);
                         }
                         player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
-                    } else {
-                        player.displayClientMessage(Component.translatable("tooltip.dragnloextras.no_ailment.tooltip").withStyle(ChatFormatting.YELLOW), true);
-                    }
-
-                    if (entity.hasEffect(SEEffects.ABRASION.get())) {
+                    } else if (entity.hasEffect(SEEffects.ABRASION.get())) {
                         entity.removeEffect(SEEffects.ABRASION.get());
                         if (!player.getAbilities().instabuild) {
                             stack.shrink(1);
@@ -440,5 +422,28 @@ public class ForgeEvent {
             case 13 -> "Trait: None \nThis animal seems to have no notable personality or physical trait.\n";
             default -> "Trait: Unknown\n";
         };
+    }
+
+    @SubscribeEvent
+    public static void onEntityDeath(LivingDeathEvent event) {
+        LivingEntity deceased = event.getEntity();
+        Level level = deceased.level();
+
+        if (deceased instanceof OCow animal) {
+            if (!level.isClientSide()) {
+                CowCorpse corpse = new CowCorpse(SEEntityTypes.COW_CORPSE.get(), level);
+                corpse.setQuality(animal.getQuality());
+                corpse.setVariant(animal.getVariant());
+                if (animal.isMeatBreed()) {
+                    corpse.setMeatBreed(true);
+                } else if (animal.isMiniBreed()) {
+                    corpse.setMiniBreed(true);
+                } else {
+                    corpse.setNormalBreed(true);
+                }
+                corpse.moveTo(deceased.getX(), deceased.getY(), deceased.getZ(), deceased.getYRot(), deceased.getXRot());
+                level.addFreshEntity(corpse);
+            }
+        }
     }
 }

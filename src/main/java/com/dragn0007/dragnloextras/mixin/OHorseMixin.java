@@ -227,7 +227,7 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
 
                 if (ScrapsExtrasCommonConfig.MANGE.get()) {
                     if (livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
-                        if (random.nextDouble() <= 0.05) {
+                        if (random.nextDouble() <= 0.03) {
                             this.addEffect(new MobEffectInstance(SEEffects.MANGE.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
                         }
                     }
@@ -251,7 +251,7 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
 
                 if (ScrapsExtrasCommonConfig.RINGWORM.get()) {
                     if (livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
-                        if (random.nextDouble() <= 0.05) {
+                        if (random.nextDouble() <= 0.03) {
                             this.addEffect(new MobEffectInstance(SEEffects.RINGWORM.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
                         }
                     }
@@ -263,7 +263,7 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
 
                     if (livestockOverhaulScraps$heartwormMedTick < ScrapsExtrasCommonConfig.HEARTWORM_MED_GRACE.get() &&
                             livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
-                        if (random.nextDouble() <= 0.05) {
+                        if (random.nextDouble() <= 0.02) {
                             this.addEffect(new MobEffectInstance(SEEffects.HEARTWORMS.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
                         }
                     }
@@ -772,17 +772,15 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
 
             foal = EntityTypes.O_MULE_ENTITY.get().create(serverLevel);
 
-            int overlayChance = this.random.nextInt(10);
+            int overlayChance = this.random.nextInt(100);
             int overlay;
-            if (overlayChance < 4) {
+            if (overlayChance < ((100 - LivestockOverhaulCommonConfig.MARKING_CHANCE.get()) / 2)) {
                 overlay = this.getOverlayVariant();
-            } else if (overlayChance < 8) {
+            } else if (overlayChance < (100 - LivestockOverhaulCommonConfig.MARKING_CHANCE.get())) {
                 overlay = partnerDonkey.getOverlayVariant();
             } else {
                 overlay = this.random.nextInt(EquineMarkingOverlay.values().length);
             }
-            foal.setVariant(overlay);
-
             foal.setOverlayVariant(overlay);
             foal.setVariant(random.nextInt(OMuleModel.Variant.values().length));
 
@@ -806,9 +804,13 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
             TraitCapabilityInterface partnertraitCap = partner.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
             TraitCapabilityInterface foaltraitCap = foal.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
 
-            int breedChance = this.random.nextInt(5);
+            int breedChance = this.random.nextInt(100);
             int breed;
-            if (breedChance == 0) {
+            if (breedChance < ((100 - LivestockOverhaulCommonConfig.BREED_CHANCE.get()) / 2)) {
+                breed = this.getBreed();
+            } else if (breedChance < (100 - LivestockOverhaulCommonConfig.BREED_CHANCE.get())) {
+                breed = partner.getBreed();
+            } else {
                 if (!ModList.get().isLoaded("deadlydinos")) {
                     int[] breeds = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16, 17, 18, 19, 20, 21};
                     int randomIndex = new Random().nextInt(breeds.length);
@@ -816,59 +818,57 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
                 } else {
                     breed = this.random.nextInt(HorseBreed.values().length);
                 }
-            } else {
-                breed = (this.random.nextInt(2) == 0) ? this.getBreed() : partner.getBreed();
             }
             foal.setBreed(breed);
 
-            if (!(breedChance == 0)) {
-                int variantChance = this.random.nextInt(14);
+            if (!(breedChance <= LivestockOverhaulCommonConfig.BREED_CHANCE.get())) {
+                int variantChance = this.random.nextInt(100);
                 int variant;
-                if (variantChance < 6) {
+                if (variantChance < ((100 - LivestockOverhaulCommonConfig.COAT_CHANCE.get()) / 2)) {
                     variant = this.getVariant();
-                } else if (variantChance < 12) {
+                } else if (variantChance < (100 - LivestockOverhaulCommonConfig.COAT_CHANCE.get())) {
                     variant = partner.getVariant();
                 } else {
                     variant = this.random.nextInt(OHorseModel.Variant.values().length);
                 }
                 foal.setVariant(variant);
-            } else if (random.nextDouble() < 0.5) {
+            } else if (breedChance <= LivestockOverhaulCommonConfig.BREED_CHANCE.get() && random.nextDouble() < 0.5) {
                 ((OHorse) foal).setColorByBreed();
             }
 
-            if (!(breedChance == 0)) {
-                int overlayChance = this.random.nextInt(10);
+            if (!(breedChance <= LivestockOverhaulCommonConfig.BREED_CHANCE.get())) {
+                int overlayChance = this.random.nextInt(100);
                 int overlay;
-                if (overlayChance < 4) {
+                if (overlayChance < ((100 - LivestockOverhaulCommonConfig.MARKING_CHANCE.get()) / 2)) {
                     overlay = this.getOverlayVariant();
-                } else if (overlayChance < 8) {
+                } else if (overlayChance < (100 - LivestockOverhaulCommonConfig.MARKING_CHANCE.get())) {
                     overlay = partner.getOverlayVariant();
                 } else {
                     overlay = this.random.nextInt(EquineMarkingOverlay.values().length);
                 }
                 foal.setOverlayVariant(overlay);
-            } else if (random.nextDouble() < 0.5) {
+            } else if (breedChance <= LivestockOverhaulCommonConfig.BREED_CHANCE.get() && random.nextDouble() < 0.5) {
                 ((OHorse) foal).setMarkingByBreed();
             }
 
-            int eyeColorChance = this.random.nextInt(11);
+            int eyeColorChance = this.random.nextInt(100);
             int eyes;
-            if (eyeColorChance < 5) {
+            if (eyeColorChance < ((100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get()) / 2)) {
                 eyes = this.getEyeVariant();
-            } else if (eyeColorChance < 10) {
+            } else if (eyeColorChance < (100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get())) {
                 eyes = partner.getEyeVariant();
             } else {
                 eyes = this.random.nextInt(EquineEyeColorOverlay.values().length);
             }
             ((OHorse) foal).setEyeVariant(eyes);
 
-            int traitChance = this.random.nextInt(12);
+            int traitChance = this.random.nextInt(100);
             int trait;
-            if (traitChance < 5) {
+            if (traitChance < ((100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get()) / 2)) {
                 trait = traitCap.getTrait();
                 foaltraitCap.setTrait(trait);
                 SyncTraitPacket.syncToTracking(foal, trait);
-            } else if (traitChance < 10) {
+            } else if (traitChance < (100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get())) {
                 trait = partnertraitCap.getTrait();
                 foaltraitCap.setTrait(trait);
                 SyncTraitPacket.syncToTracking(foal, trait);
@@ -876,9 +876,9 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
                 ((ITraitByBreedTypeHolder) foal).setTraitByBreedType();
             }
 
-            int immunityChance = this.random.nextInt(12);
+            int immunityChance = this.random.nextInt(100);
             int immunity;
-            if (immunityChance < 5) {
+            if (immunityChance < ((100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get()) / 2)) {
                 immunity = immunityCap.getImmunity();
                 if (random.nextDouble() < 0.25) {
                     foalimmunityCap.setImmunity(immunity + random.nextInt(1,25));
@@ -887,7 +887,7 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
                     foalimmunityCap.setImmunity(immunity);
                     SyncImmunityPacket.syncToTracking(foal, immunity);
                 }
-            } else if (immunityChance < 10) {
+            } else if (immunityChance < (100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get())) {
                 immunity = partnerimmunityCap.getImmunity();
                 if (random.nextDouble() < 0.25) {
                     foalimmunityCap.setImmunity(immunity + random.nextInt(1,25));

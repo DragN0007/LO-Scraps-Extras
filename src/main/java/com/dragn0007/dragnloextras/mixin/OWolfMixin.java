@@ -285,14 +285,11 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
 
                 double abrasionChance = dmg / 10;
 
-                //abrasions happen sometimes, but they're no big deal
                 if (random.nextDouble() <= abrasionChance) {
                     this.addEffect(new MobEffectInstance(SEEffects.ABRASION.get(), ScrapsExtrasCommonConfig.INFECTION_TICK.get() + 20, 0, false, false));
                 }
 
                 if (ScrapsExtrasCommonConfig.RABIES.get()) {
-                    //animals with higher immunity are less likely to get rabies from a bite. this is not realistic.
-                    //do not go around getting bit by animals even if you've never had the flu. not a good idea
                     if (damageSource.getEntity() instanceof Animal && random.nextDouble() <= 0.02) {
                         this.addEffect(new MobEffectInstance(SEEffects.RABIES.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
                     }
@@ -313,8 +310,8 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
             if (itemstack.is(SEItems.BRUSH.get())) {
                 livestockOverhaulScraps$dirtyTick = 0;
                 this.getCapability(SECapabilities.DIRTY_CAPABILITY).ifPresent(cap -> {
-                    cap.setDirty(false); //                                                                            this value
-                    SyncDirtyLayerPacket.syncToTracking(this, false); //always make sure this value matches
+                    cap.setDirty(false);
+                    SyncDirtyLayerPacket.syncToTracking(this, false);
                 });
                 if (this.hasEffect(SEEffects.DIRTY.get())) {
                     this.removeEffect(SEEffects.DIRTY.get());
@@ -322,19 +319,17 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
                 this.playSound(SoundEvents.BRUSH_GENERIC, 0.5f, 1f);
                 cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
             } else if (itemstack.is(SEItems.COLLAR_SPIKES.get()) && this.isCollared()) {
-                System.out.println("isCollared, itemstack is Collar Spikes");
                 this.getCapability(SECapabilities.SPIKE_COLLAR_CAPABILITY).ifPresent(cap -> {
-                    System.out.println("Applied Spikes");
-                    cap.setSpikeCollared(true); //                                                                          this value
-                    SyncSpikeCollarLayerPacket.syncToTracking(this, true); //always make sure this value matches
+                    cap.setSpikeCollared(true);
+                    SyncSpikeCollarLayerPacket.syncToTracking(this, true);
                 });
                 this.playSound(SoundEvents.ARMOR_EQUIP_GENERIC, 0.5f, 1f);
                 cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
             } else if (itemstack.is(Tags.Items.SHEARS)) {
                 this.getCapability(SECapabilities.SPIKE_COLLAR_CAPABILITY).ifPresent(cap -> {
                     if (cap.hasSpikeCollar()) {
-                        cap.setSpikeCollared(false); //                                                                          this value
-                        SyncSpikeCollarLayerPacket.syncToTracking(this, false); //always make sure this value matches
+                        cap.setSpikeCollared(false);
+                        SyncSpikeCollarLayerPacket.syncToTracking(this, false);
                     }
                 });
                 this.spawnAtLocation(SEItems.COLLAR_SPIKES.get());

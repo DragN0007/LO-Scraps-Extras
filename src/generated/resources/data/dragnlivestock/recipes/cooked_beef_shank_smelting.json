@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "food",
+  "cookingtime": 200,
+  "experience": 0.35,
+  "ingredient": {
+    "item": "dragnloextras:beef_shank"
+  },
+  "result": "dragnloextras:cooked_beef_shank"
+}

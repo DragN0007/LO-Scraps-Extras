@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "dragnloextras:cooked_beef_brisket",
+    "dragnloextras:cooked_beef_chuck",
+    "dragnloextras:cooked_beef_rib",
+    "dragnloextras:cooked_beef_shank"
+  ]
+}

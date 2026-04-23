@@ -4,6 +4,7 @@ import com.dragn0007.dragnloextras.ScrapsExtras;
 import com.dragn0007.dragnloextras.client.gui.MannequinScreen;
 import com.dragn0007.dragnloextras.common.gui.SEMenuTypes;
 import com.dragn0007.dragnloextras.entity.SEEntityTypes;
+import com.dragn0007.dragnloextras.entity.butchering.CowCorpseRender;
 import com.dragn0007.dragnloextras.entity.mannequin.HorseMannequinRender;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.entity.EntityRenderers;
@@ -19,6 +20,7 @@ public class ScrapsExtrasClientEvent {
     @SubscribeEvent
     public static void clientSetupEvent(FMLClientSetupEvent event) {
         EntityRenderers.register(SEEntityTypes.HORSE_MANNEQUIN_ENTITY.get(), HorseMannequinRender::new);
+        EntityRenderers.register(SEEntityTypes.COW_CORPSE.get(), CowCorpseRender::new);
 
         MenuScreens.register(SEMenuTypes.MANNEQUIN_MENU.get(), MannequinScreen::new);
     }

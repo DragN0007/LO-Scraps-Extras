@@ -60,15 +60,12 @@ public class HorseMannequin extends AbstractOMount implements GeoEntity {
 	}
 
 	protected final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
-
 	@Override
 	public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
 		controllers.add(new AnimationController<>(this, "controller", 2, this::predicate));
 	}
-
 	private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> tAnimationState) {
 		AnimationController<T> controller = tAnimationState.getController();
-
 		if (this.getStandPose() == 0) {
 			controller.setAnimation(RawAnimation.begin().then("default", Animation.LoopType.LOOP));
 		} else if (this.getStandPose() == 1) {
@@ -80,10 +77,8 @@ public class HorseMannequin extends AbstractOMount implements GeoEntity {
 		} else if (this.getStandPose() == 4) {
 			controller.setAnimation(RawAnimation.begin().then("eat", Animation.LoopType.LOOP));
 		}
-
 		return PlayState.CONTINUE;
 	}
-
 	@Override
 	public AnimatableInstanceCache getAnimatableInstanceCache() {
 		return this.geoCache;

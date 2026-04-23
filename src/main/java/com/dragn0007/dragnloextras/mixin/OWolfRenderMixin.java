@@ -1,6 +1,5 @@
 package com.dragn0007.dragnloextras.mixin;
 
-import com.dragn0007.dragnloextras.entity.ODogExtrasLayer;
 import com.dragn0007.dragnloextras.entity.OWolfExtrasLayer;
 import com.dragn0007.dragnpets.entities.wolf.OWolfRender;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

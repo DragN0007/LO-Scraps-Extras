@@ -1,15 +1,13 @@
 package com.dragn0007.dragnloextras.mixin;
 
-import com.dragn0007.dragnloextras.capabilities.DirtyCapabilityInterface;
-import com.dragn0007.dragnloextras.capabilities.SECapabilities;
-import com.dragn0007.dragnloextras.capabilities.SleepingCapabilityInterface;
-import com.dragn0007.dragnloextras.capabilities.TraitCapabilityInterface;
+import com.dragn0007.dragnloextras.capabilities.*;
 import com.dragn0007.dragnloextras.effects.SEEffects;
 import com.dragn0007.dragnloextras.entity.ai.FleeRainGoal;
 import com.dragn0007.dragnloextras.entity.ai.SleepGoal;
 import com.dragn0007.dragnloextras.entity.ai.VaulterLeapAtTargetGoal;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.network.SyncDirtyLayerPacket;
+import com.dragn0007.dragnloextras.network.SyncImmunityPacket;
 import com.dragn0007.dragnloextras.network.SyncSpikeCollarLayerPacket;
 import com.dragn0007.dragnloextras.network.SyncTraitPacket;
 import com.dragn0007.dragnloextras.util.*;
@@ -213,7 +211,7 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
 
                 if (ScrapsExtrasCommonConfig.RINGWORM.get()) {
                     if (livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
-                        if (random.nextDouble() <= 0.05) {
+                        if (random.nextDouble() <= 0.03) {
                             this.addEffect(new MobEffectInstance(SEEffects.RINGWORM.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
                         }
                     }
@@ -302,14 +300,11 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
 
                 double abrasionChance = dmg / 10;
 
-                //abrasions happen sometimes, but they're no big deal
                 if (random.nextDouble() <= abrasionChance) {
                     this.addEffect(new MobEffectInstance(SEEffects.ABRASION.get(), ScrapsExtrasCommonConfig.INFECTION_TICK.get() + 20, 0, false, false));
                 }
 
                 if (ScrapsExtrasCommonConfig.RABIES.get()) {
-                    //animals with higher immunity are less likely to get rabies from a bite. this is not realistic.
-                    //do not go around getting bit by animals even if you've never had the flu. not a good idea
                     if (damageSource.getEntity() instanceof Animal && random.nextDouble() <= 0.02) {
                         this.addEffect(new MobEffectInstance(SEEffects.RABIES.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
                     }
@@ -330,8 +325,8 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
             if (itemstack.is(SEItems.BRUSH.get())) {
                 livestockOverhaulScraps$dirtyTick = 0;
                 this.getCapability(SECapabilities.DIRTY_CAPABILITY).ifPresent(cap -> {
-                    cap.setDirty(false); //                                                                            this value
-                    SyncDirtyLayerPacket.syncToTracking(this, false); //always make sure this value matches
+                    cap.setDirty(false);
+                    SyncDirtyLayerPacket.syncToTracking(this, false);
                 });
                 if (this.hasEffect(SEEffects.DIRTY.get())) {
                     this.removeEffect(SEEffects.DIRTY.get());
@@ -339,19 +334,17 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
                 this.playSound(SoundEvents.BRUSH_GENERIC, 0.5f, 1f);
                 cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
             } else if (itemstack.is(SEItems.COLLAR_SPIKES.get()) && this.isCollared()) {
-                System.out.println("isCollared, itemstack is Collar Spikes");
                 this.getCapability(SECapabilities.SPIKE_COLLAR_CAPABILITY).ifPresent(cap -> {
-                    System.out.println("Applied Spikes");
-                    cap.setSpikeCollared(true); //                                                                          this value
-                    SyncSpikeCollarLayerPacket.syncToTracking(this, true); //always make sure this value matches
+                    cap.setSpikeCollared(true);
+                    SyncSpikeCollarLayerPacket.syncToTracking(this, true);
                 });
                 this.playSound(SoundEvents.ARMOR_EQUIP_GENERIC, 0.5f, 1f);
                 cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
             } else if (itemstack.is(Tags.Items.SHEARS)) {
                 this.getCapability(SECapabilities.SPIKE_COLLAR_CAPABILITY).ifPresent(cap -> {
                     if (cap.hasSpikeCollar()) {
-                        cap.setSpikeCollared(false); //                                                                          this value
-                        SyncSpikeCollarLayerPacket.syncToTracking(this, false); //always make sure this value matches
+                        cap.setSpikeCollared(false);
+                        SyncSpikeCollarLayerPacket.syncToTracking(this, false);
                     }
                 });
                 this.spawnAtLocation(SEItems.COLLAR_SPIKES.get());
@@ -555,6 +548,8 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
     public AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
         ODog pup;
         pup = POEntityTypes.O_DOG_ENTITY.get().create(serverLevel);
+        ImmunityCapabilityInterface immunityCap = this.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
+        TraitCapabilityInterface traitCap = this.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
         if (ageableMob instanceof OWolf) {
             pup.setBreed(25);
 
@@ -581,6 +576,10 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
 
         } else {
             ODog partner = (ODog) ageableMob;
+            ImmunityCapabilityInterface partnerimmunityCap = partner.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
+            ImmunityCapabilityInterface pupimmunityCap = pup.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
+            TraitCapabilityInterface partnertraitCap = partner.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
+            TraitCapabilityInterface puptraitCap = pup.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
 
             int breedChance = this.random.nextInt(100);
             int breed;
@@ -635,6 +634,46 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
                 pup.setOverlayVariant(overlay);
             } else if (breedChance == 0 && random.nextDouble() < 0.25) {
                 pup.setMarking();
+            }
+
+            int traitChance = this.random.nextInt(12);
+            int trait;
+            if (traitChance < 5) {
+                trait = traitCap.getTrait();
+                puptraitCap.setTrait(trait);
+                SyncTraitPacket.syncToTracking(pup, trait);
+            } else if (traitChance < 10) {
+                trait = partnertraitCap.getTrait();
+                puptraitCap.setTrait(trait);
+                SyncTraitPacket.syncToTracking(pup, trait);
+            } else {
+                ((ITraitByBreedTypeHolder) pup).setTraitByBreedType();
+            }
+
+            int immunityChance = this.random.nextInt(12);
+            int immunity;
+            if (immunityChance < 5) {
+                immunity = immunityCap.getImmunity();
+                if (random.nextDouble() < 0.25) {
+                    pupimmunityCap.setImmunity(immunity + random.nextInt(1,25));
+                    SyncImmunityPacket.syncToTracking(pup, immunity);
+                } else {
+                    pupimmunityCap.setImmunity(immunity);
+                    SyncImmunityPacket.syncToTracking(pup, immunity);
+                }
+            } else if (immunityChance < 10) {
+                immunity = partnerimmunityCap.getImmunity();
+                if (random.nextDouble() < 0.25) {
+                    pupimmunityCap.setImmunity(immunity + random.nextInt(1,25));
+                    SyncImmunityPacket.syncToTracking(pup, immunity);
+                } else {
+                    pupimmunityCap.setImmunity(immunity);
+                    SyncImmunityPacket.syncToTracking(pup, immunity);
+                }
+            } else {
+                int baseImmunity = random.nextInt(1, 100);
+                pupimmunityCap.setImmunity(random.nextInt(baseImmunity));
+                SyncImmunityPacket.syncToTracking(pup, random.nextInt(baseImmunity));
             }
 
             int fluffyChance = this.random.nextInt(10);

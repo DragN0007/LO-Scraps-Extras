@@ -1,0 +1,19 @@
+{
+  "name": "Butchering",
+  "icon": "dragnloextras:beef_shank",
+  "category": "dragnloextras:major_category",
+  "pages": [
+    {
+      "type": "patchouli:text",
+      "text": "The new Butchering system allows for more meat and drops per animal, at the cost of a bit more work. To process an animal, kill it and shift-use an Axe on it's body to begin butchering it."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "dragnloextras:cooked_beef_brisket"
+      },
+      "title": "Processing",
+      "text": "Animals generally drop different cuts of meat per body part, and some animals, such as higher-quality ones or those that are Meat breed types, may drop even more meat per part."
+    }
+  ]
+}

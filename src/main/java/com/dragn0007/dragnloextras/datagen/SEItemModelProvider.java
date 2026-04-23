@@ -74,6 +74,56 @@ public class SEItemModelProvider extends ItemModelProvider {
         simpleItem(SEItems.WHITE_TURNOUT_BLANKET);
         simpleItem(SEItems.YELLOW_TURNOUT_BLANKET);
 
+        simpleItem(SEItems.BEEF_BRISKET);
+        simpleItem(SEItems.BEEF_CHUCK);
+        simpleItem(SEItems.BEEF_RIB);
+        simpleItem(SEItems.BEEF_SHANK);
+        simpleItem(SEItems.COOKED_BEEF_BRISKET);
+        simpleItem(SEItems.COOKED_BEEF_CHUCK);
+        simpleItem(SEItems.COOKED_BEEF_RIB);
+        simpleItem(SEItems.COOKED_BEEF_SHANK);
+
+        simpleItem(SEItems.HORSE_RIB_STEAK);
+        simpleItem(SEItems.HORSE_SIRLOIN_STEAK);
+        simpleItem(SEItems.COOKED_HORSE_RIB_STEAK);
+        simpleItem(SEItems.COOKED_HORSE_SIRLOIN_STEAK);
+        simpleItem(SEItems.LLAMA_RIB);
+        simpleItem(SEItems.LLAMA_LOIN);
+        simpleItem(SEItems.COOKED_LLAMA_RIB);
+        simpleItem(SEItems.COOKED_LLAMA_LOIN);
+        simpleItem(SEItems.MUTTON_LOIN);
+        simpleItem(SEItems.MUTTON_RIB);
+        simpleItem(SEItems.COOKED_MUTTON_LOIN);
+        simpleItem(SEItems.COOKED_MUTTON_RIB);
+        simpleItem(SEItems.CHEVON_RIB);
+        simpleItem(SEItems.CHEVON_LOIN);
+        simpleItem(SEItems.COOKED_CHEVON_LOIN);
+        simpleItem(SEItems.COOKED_CHEVON_RIB);
+        simpleItem(SEItems.PORK_TENDERLOIN);
+        simpleItem(SEItems.PORK_RIB_CHOP);
+        simpleItem(SEItems.COOKED_PORK_TENDERLOIN);
+        simpleItem(SEItems.COOKED_PORK_RIB_CHOP);
+        simpleItem(SEItems.CAMEL_RIB);
+        simpleItem(SEItems.CAMEL_LOIN);
+        simpleItem(SEItems.COOKED_CAMEL_RIB);
+        simpleItem(SEItems.COOKED_CAMEL_LOIN);
+        simpleItem(SEItems.CHICKEN_THIGH);
+        simpleItem(SEItems.COOKED_CHICKEN_THIGH);
+        simpleItem(SEItems.RABBIT_THIGH);
+        simpleItem(SEItems.COOKED_RABBIT_THIGH);
+        simpleItem(SEItems.SALMON_FILLET);
+        simpleItem(SEItems.COD_FILLET);
+        simpleItem(SEItems.COOKED_SALMON_FILLET);
+        simpleItem(SEItems.COOKED_COD_FILLET);
+        advancedItem(SEItems.CARIBOU_RIB_STEAK, "horse_rib_steak");
+        advancedItem(SEItems.CARIBOU_SIRLOIN_STEAK, "horse_sirloin_steak");
+        advancedItem(SEItems.COOKED_CARIBOU_RIB_STEAK, "cooked_horse_rib_steak");
+        advancedItem(SEItems.COOKED_CARIBOU_SIRLOIN_STEAK, "cooked_horse_sirloin_steak");
+        simpleItem(SEItems.UNICORN_RIB_STEAK);
+        simpleItem(SEItems.UNICORN_SIRLOIN_STEAK);
+        simpleItem(SEItems.COOKED_UNICORN_RIB_STEAK);
+        simpleItem(SEItems.COOKED_UNICORN_SIRLOIN_STEAK);
+
         simpleItem(SEItems.LOGO);
     }
 
@@ -81,5 +131,11 @@ public class SEItemModelProvider extends ItemModelProvider {
         return withExistingParent(item.getId().getPath(),
                 new ResourceLocation("item/generated")).texture("layer0",
                 new ResourceLocation(ScrapsExtras.MODID,"item/" + item.getId().getPath()));
+    }
+
+    private ItemModelBuilder advancedItem(RegistryObject<Item> item, String getTextureName) {
+        return withExistingParent(item.getId().getPath(),
+                new ResourceLocation("item/generated")).texture("layer0",
+                new ResourceLocation(ScrapsExtras.MODID,"item/" + getTextureName));
     }
 }

@@ -54,6 +54,7 @@ public class ScrapsExtrasCommonConfig {
     public static final ForgeConfigSpec.BooleanValue TRAITS_SYSTEM;
     public static final ForgeConfigSpec.BooleanValue TRAITS_BY_BREED;
     public static final ForgeConfigSpec.BooleanValue GOOD_TRAITS_ONLY;
+    public static final ForgeConfigSpec.BooleanValue BUTCHERING;
     public static final ForgeConfigSpec.BooleanValue HALTER;
     public static final ForgeConfigSpec.BooleanValue SPIKE_COLLAR;
     public static final ForgeConfigSpec.BooleanValue SLEEPING;
@@ -147,6 +148,7 @@ public class ScrapsExtrasCommonConfig {
         BUILDER.pop();
 
         BUILDER.push("Misc");
+        BUTCHERING = BUILDER.define("Butchering System Enabled", true);
         HALTER = BUILDER.define("Halter Owner Following Enabled", true);
         SPIKE_COLLAR = BUILDER.define("Spike Collar Thorns Enabled", true);
         SLEEPING = BUILDER.define("Animals Sleep at Night", true);
