@@ -1,11 +1,37 @@
 package com.dragn0007.dragnloextras.mixin;
 
 import com.dragn0007.dragnlivestock.entities.EntityTypes;
+import com.dragn0007.dragnlivestock.entities.cow.CowBreed;
+import com.dragn0007.dragnlivestock.entities.cow.OCow;
+import com.dragn0007.dragnlivestock.entities.cow.OCowModel;
+import com.dragn0007.dragnlivestock.entities.cow.moobloom.azalea.AzaleaMoobloom;
+import com.dragn0007.dragnlivestock.entities.cow.moobloom.azalea.AzaleaMoobloomModel;
+import com.dragn0007.dragnlivestock.entities.cow.moobloom.beetroot.BeetrootMoobloom;
+import com.dragn0007.dragnlivestock.entities.cow.moobloom.beetroot.BeetrootMoobloomModel;
+import com.dragn0007.dragnlivestock.entities.cow.moobloom.carrot.CarrotMoobloom;
+import com.dragn0007.dragnlivestock.entities.cow.moobloom.carrot.CarrotMoobloomModel;
+import com.dragn0007.dragnlivestock.entities.cow.moobloom.flowering.FloweringMoobloom;
+import com.dragn0007.dragnlivestock.entities.cow.moobloom.flowering.FloweringMoobloomModel;
+import com.dragn0007.dragnlivestock.entities.cow.moobloom.glow_berry.GlowBerryMoobloom;
+import com.dragn0007.dragnlivestock.entities.cow.moobloom.glow_berry.GlowBerryMoobloomModel;
+import com.dragn0007.dragnlivestock.entities.cow.moobloom.melon.MelonMoobloom;
+import com.dragn0007.dragnlivestock.entities.cow.moobloom.melon.MelonMoobloomModel;
+import com.dragn0007.dragnlivestock.entities.cow.moobloom.peach.PeachMoobloom;
+import com.dragn0007.dragnlivestock.entities.cow.moobloom.peach.PeachMoobloomModel;
+import com.dragn0007.dragnlivestock.entities.cow.moobloom.potato.PotatoMoobloom;
+import com.dragn0007.dragnlivestock.entities.cow.moobloom.potato.PotatoMoobloomModel;
+import com.dragn0007.dragnlivestock.entities.cow.moobloom.pumpkin.PumpkinMoobloom;
+import com.dragn0007.dragnlivestock.entities.cow.moobloom.pumpkin.PumpkinMoobloomModel;
+import com.dragn0007.dragnlivestock.entities.cow.moobloom.sweet_berry.SweetBerryMoobloom;
+import com.dragn0007.dragnlivestock.entities.cow.moobloom.sweet_berry.SweetBerryMoobloomModel;
+import com.dragn0007.dragnlivestock.entities.cow.moobloom.wheat.WheatMoobloom;
+import com.dragn0007.dragnlivestock.entities.cow.moobloom.wheat.WheatMoobloomModel;
 import com.dragn0007.dragnlivestock.entities.horse.HorseBreed;
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnlivestock.entities.horse.OHorseModel;
 import com.dragn0007.dragnlivestock.entities.horse.headlesshorseman.HeadlessHorseman;
 import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
+import com.dragn0007.dragnlivestock.entities.util.marking_layer.BovineMarkingOverlay;
 import com.dragn0007.dragnlivestock.entities.util.marking_layer.EquineEyeColorOverlay;
 import com.dragn0007.dragnlivestock.entities.util.marking_layer.EquineMarkingOverlay;
 import com.dragn0007.dragnlivestock.spawn.SpawnReplacer;
@@ -13,7 +39,9 @@ import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
 import com.dragn0007.dragnloextras.util.*;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.animal.Cow;
 import net.minecraft.world.entity.animal.horse.Horse;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.fml.ModList;
@@ -176,6 +204,83 @@ public class SpawnReplacerMixin implements ISickModHolder {
                         }
                         oHorse.remove(Entity.RemovalReason.DISCARDED);
                     }
+
+                    event.setCanceled(true);
+                }
+            }
+        }
+
+        //Cow
+        if (!LivestockOverhaulCommonConfig.FAILSAFE_REPLACER.get() && LivestockOverhaulCommonConfig.REPLACE_COWS.get() && event.getEntity() instanceof Cow vanillacow) {
+
+            if (event.getEntity().getClass() == Cow.class && (((!(vanillacow.getSpawnType() == MobSpawnType.SPAWN_EGG)) && !LivestockOverhaulCommonConfig.REPLACE_SPAWN_EGG_ANIMALS.get()) || LivestockOverhaulCommonConfig.REPLACE_SPAWN_EGG_ANIMALS.get())) {
+
+                if (event.getLevel().isClientSide) {
+                    return;
+                }
+
+                OCow oCow = EntityTypes.O_COW_ENTITY.get().create(event.getLevel());
+                if (oCow != null) {
+                    if (LivestockOverhaulCommonConfig.SPAWN_BY_BREED.get()) {
+                        if (event.getLevel().getBiome(event.getEntity().blockPosition()).is(Tags.Biomes.IS_HOT_OVERWORLD)) {
+                            if (random.nextDouble() < 0.20) {
+                                oCow.setBreed(random.nextInt(CowBreed.Breed.values().length));
+                            } else {
+                                int[] variants = {1, 2, 4, 5};
+                                int randomIndex = new Random().nextInt(variants.length);
+                                oCow.setBreed(variants[randomIndex]);
+                            }
+                        } else if (event.getLevel().getBiome(event.getEntity().blockPosition()).is(Tags.Biomes.IS_COLD_OVERWORLD)) {
+                            if (random.nextDouble() < 0.20) {
+                                oCow.setBreed(random.nextInt(CowBreed.Breed.values().length));
+                            } else {
+                                oCow.setBreed(9);
+                            }
+                        } else {
+                            int[] variants = {0, 6, 7, 8};
+                            int randomIndex = new Random().nextInt(variants.length);
+                            oCow.setBreed(variants[randomIndex]);
+                        }
+                    } else {
+                        oCow.setBreed(random.nextInt(CowBreed.Breed.values().length));
+                    }
+
+                    BaseImmunityHelper.setBaseImmunity(oCow);
+
+                    oCow.copyPosition(vanillacow);
+                    oCow.setGender(random.nextInt(OCow.Gender.values().length));
+                    if (LivestockOverhaulCommonConfig.QUALITY.get()) {
+                        oCow.setQuality(random.nextInt(30));
+                    }
+
+                    if (LivestockOverhaulCommonConfig.SPAWN_BY_BREED.get()) {
+                        oCow.setColorByBreed();
+                        oCow.setMarkingByBreed();
+                        oCow.setHornsByBreed();
+                    } else {
+                        oCow.setVariant(random.nextInt(OCowModel.Variant.values().length));
+                        oCow.setOverlayVariant(random.nextInt(BovineMarkingOverlay.values().length));
+                        oCow.setHornVariant(random.nextInt(OCow.BreedHorns.values().length));
+                    }
+
+                    if (event.getLevel().isClientSide) {
+                        vanillacow.remove(Entity.RemovalReason.DISCARDED);
+                    }
+
+                    event.getLevel().addFreshEntity(oCow);
+                    vanillacow.remove(Entity.RemovalReason.DISCARDED);
+
+                    if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
+                        System.out.println("[DragN's Livestock Overhaul!]: Replaced a vanilla cow with an O-Cow at: " + oCow.getOnPos());
+                    }
+
+                    if (random.nextDouble() <= LivestockOverhaulCommonConfig.SPAWN_PREVENTION_PERCENT.get() && (!(oCow.getSpawnType() == MobSpawnType.SPAWN_EGG)) && (!(vanillacow.getSpawnType() == MobSpawnType.SPAWN_EGG))) {
+                        if (event.getLevel().isClientSide) {
+                            oCow.remove(Entity.RemovalReason.DISCARDED);
+                        }
+                        oCow.remove(Entity.RemovalReason.DISCARDED);
+                    }
+
 
                     event.setCanceled(true);
                 }

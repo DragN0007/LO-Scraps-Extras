@@ -62,9 +62,9 @@ public class SleepGoal extends Goal {
 
    public void stop() {
       if (this.mob.getCapability(SECapabilities.SLEEPING_CAPABILITY).isPresent()) {
-      SleepingCapabilityInterface sleepingCap = this.mob.getCapability(SECapabilities.SLEEPING_CAPABILITY).orElse(null);
-      sleepingCap.setSleeping(false);
-      SyncSleepingPacket.syncToTracking(this.mob, false);
+         SleepingCapabilityInterface sleepingCap = this.mob.getCapability(SECapabilities.SLEEPING_CAPABILITY).orElse(null);
+         sleepingCap.setSleeping(false);
+         SyncSleepingPacket.syncToTracking(this.mob, false);
       }
    }
 }

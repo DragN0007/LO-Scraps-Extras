@@ -434,7 +434,7 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
                 controller.setAnimationSpeed(1.3);
             }
         } else {
-            if (sleepingCap.isSleeping()) {
+            if (sleepingCap != null && sleepingCap.isSleeping()) {
                 controller.setAnimation(RawAnimation.begin().then("sleep", Animation.LoopType.LOOP));
                 controller.setAnimationSpeed(1.0);
             } else if (isInSittingPose()) {
@@ -484,13 +484,13 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
                 ((ODog) pup).setMarking();
             }
 
-            int traitChance = this.random.nextInt(12);
+            int traitChance = this.random.nextInt(100);
             int trait;
-            if (traitChance < 5) {
+            if (traitChance < ((100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get()) / 2)) {
                 trait = traitCap.getTrait();
                 puptraitCap.setTrait(trait);
                 SyncTraitPacket.syncToTracking(pup, trait);
-            } else if (traitChance < 10) {
+            } else if (traitChance < (100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get())) {
                 trait = partnertraitCap.getTrait();
                 puptraitCap.setTrait(trait);
                 SyncTraitPacket.syncToTracking(pup, trait);
@@ -498,9 +498,9 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
                 ((ITraitByBreedTypeHolder) pup).setTraitByBreedType();
             }
 
-            int immunityChance = this.random.nextInt(12);
+            int immunityChance = this.random.nextInt(100);
             int immunity;
-            if (immunityChance < 5) {
+            if (immunityChance < ((100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get()) / 2)) {
                 immunity = immunityCap.getImmunity();
                 if (random.nextDouble() < 0.25) {
                     pupimmunityCap.setImmunity(immunity + random.nextInt(1,25));
@@ -509,7 +509,7 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
                     pupimmunityCap.setImmunity(immunity);
                     SyncImmunityPacket.syncToTracking(pup, immunity);
                 }
-            } else if (immunityChance < 10) {
+            } else if (immunityChance < (100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get())) {
                 immunity = partnerimmunityCap.getImmunity();
                 if (random.nextDouble() < 0.25) {
                     pupimmunityCap.setImmunity(immunity + random.nextInt(1,25));

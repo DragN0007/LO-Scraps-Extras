@@ -4,6 +4,8 @@ import com.dragn0007.dragnlivestock.entities.EntityTypes;
 import com.dragn0007.dragnlivestock.entities.cow.CowBreed;
 import com.dragn0007.dragnlivestock.entities.cow.OCow;
 import com.dragn0007.dragnlivestock.entities.cow.OCowModel;
+import com.dragn0007.dragnlivestock.entities.horse.OHorse;
+import com.dragn0007.dragnlivestock.entities.unicorn.Unicorn;
 import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
 import com.dragn0007.dragnlivestock.entities.util.marking_layer.BovineMarkingOverlay;
 import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
@@ -215,7 +217,10 @@ public abstract class OCowMixin extends AbstractOMount implements DirtyCapabilit
 
     @Inject(method = "finalizeSpawn", at = @At("TAIL"))
     private void spawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, SpawnGroupData data, CompoundTag tag, CallbackInfoReturnable<SpawnGroupData> cir) {
-        BaseImmunityHelper.setBaseImmunity(this);
+        OCow self = (OCow) (Object) this;
+        if (self.getClass() == OCow.class) {
+            BaseImmunityHelper.setBaseImmunity(this);
+        }
     }
 
     @Inject(method = "predicate", at = @At("HEAD"), remap = false, cancellable = true)
@@ -252,7 +257,7 @@ public abstract class OCowMixin extends AbstractOMount implements DirtyCapabilit
             } else {
                 if (this.isAggressive()) {
                     controller.setAnimation(RawAnimation.begin().then("posture", Animation.LoopType.LOOP));
-                } else if (sleepingCap.isSleeping()) {
+                } else if (sleepingCap != null && sleepingCap.isSleeping()) {
                     controller.setAnimation(RawAnimation.begin().then("sleep", Animation.LoopType.LOOP));
                 } else {
                     controller.setAnimation(RawAnimation.begin().then("idle", Animation.LoopType.LOOP));
