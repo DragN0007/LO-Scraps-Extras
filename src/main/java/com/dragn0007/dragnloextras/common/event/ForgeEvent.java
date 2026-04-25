@@ -118,6 +118,7 @@ public class ForgeEvent {
     public static void attach(final AttachCapabilitiesEvent<Entity> event) {
         //attach general caps
         if ((event.getObject() instanceof OHorse && event.getObject().getClass() == OHorse.class) ||
+            (event.getObject() instanceof OCow && event.getObject().getClass() == OCow.class) ||
             (event.getObject() instanceof Unicorn && event.getObject().getClass() == Unicorn.class) ||
             (event.getObject() instanceof ODog && event.getObject().getClass() == ODog.class) ||
             (event.getObject() instanceof OWolf && event.getObject().getClass() == OWolf.class) ||
@@ -131,7 +132,8 @@ public class ForgeEvent {
             //cats, ocelots, unicorns dont get the dirty capability since they clean themselves
             if (!(event.getObject() instanceof OCat && event.getObject().getClass() == OCat.class) &&
                     !(event.getObject() instanceof OOcelot && event.getObject().getClass() == OOcelot.class) &&
-                    !(event.getObject() instanceof Unicorn && event.getObject().getClass() == Unicorn.class)) {
+                    !(event.getObject() instanceof Unicorn && event.getObject().getClass() == Unicorn.class) &&
+                    !(event.getObject() instanceof OCow && event.getObject().getClass() == OCow.class)) {
                 if (!event.getObject().getCapability(SECapabilities.DIRTY_CAPABILITY).isPresent()) {
                     DirtyCapabilityAttacher.attach(event);
                     if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
@@ -140,12 +142,16 @@ public class ForgeEvent {
                 }
             }
 
-            if (!event.getObject().getCapability(SECapabilities.TRAIT_CAPABILITY).isPresent()) {
-                TraitCapabilityAttacher.attach(event);
-                if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
-                    System.out.println("Attached the Trait Capability NBT to " + event.getObject().getName());
+            //cows, in gameplay, cannot have traits. because that would be useless
+            if (!(event.getObject() instanceof OCow && event.getObject().getClass() == OCow.class)) {
+                if (!event.getObject().getCapability(SECapabilities.TRAIT_CAPABILITY).isPresent()) {
+                    TraitCapabilityAttacher.attach(event);
+                    if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
+                        System.out.println("Attached the Trait Capability NBT to " + event.getObject().getName());
+                    }
                 }
             }
+
             if (!event.getObject().getCapability(SECapabilities.IMMUNITY_CAPABILITY).isPresent()) {
                 ImmunityCapabilityAttacher.attach(event);
                 if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
@@ -183,7 +189,6 @@ public class ForgeEvent {
             //only canines get spike collars
             if ((event.getObject() instanceof ODog && event.getObject().getClass() == ODog.class) ||
                     (event.getObject() instanceof OWolf && event.getObject().getClass() == OWolf.class)) {
-
                 if (!event.getObject().getCapability(SECapabilities.SPIKE_COLLAR_CAPABILITY).isPresent()) {
                     SpikeCollarCapabilityAttacher.attach(event);
                     if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
@@ -425,24 +430,26 @@ public class ForgeEvent {
     }
 
     @SubscribeEvent
-    public static void onEntityDeath(LivingDeathEvent event) {
+    public static void corpseOnEntityDeath(LivingDeathEvent event) {
         LivingEntity deceased = event.getEntity();
         Level level = deceased.level();
 
-        if (deceased instanceof OCow animal) {
-            if (!level.isClientSide()) {
-                CowCorpse corpse = new CowCorpse(SEEntityTypes.COW_CORPSE.get(), level);
-                corpse.setQuality(animal.getQuality());
-                corpse.setVariant(animal.getVariant());
-                if (animal.isMeatBreed()) {
-                    corpse.setMeatBreed(true);
-                } else if (animal.isMiniBreed()) {
-                    corpse.setMiniBreed(true);
-                } else {
-                    corpse.setNormalBreed(true);
+        if (!deceased.isBaby()) {
+            if (deceased instanceof OCow animal) {
+                if (!level.isClientSide()) {
+                    CowCorpse corpse = new CowCorpse(SEEntityTypes.COW_CORPSE.get(), level);
+                    corpse.setQuality(animal.getQuality());
+                    corpse.setVariant(animal.getVariant());
+                    if (animal.isMeatBreed()) {
+                        corpse.setMeatBreed(true);
+                    } else if (animal.isMiniBreed()) {
+                        corpse.setMiniBreed(true);
+                    } else {
+                        corpse.setNormalBreed(true);
+                    }
+                    corpse.moveTo(deceased.getX(), deceased.getY(), deceased.getZ(), deceased.getYRot(), deceased.getXRot());
+                    level.addFreshEntity(corpse);
                 }
-                corpse.moveTo(deceased.getX(), deceased.getY(), deceased.getZ(), deceased.getYRot(), deceased.getXRot());
-                level.addFreshEntity(corpse);
             }
         }
     }

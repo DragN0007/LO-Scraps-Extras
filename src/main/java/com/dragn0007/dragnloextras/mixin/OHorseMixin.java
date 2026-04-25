@@ -169,193 +169,195 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
     protected void onTick(CallbackInfo ci) {
         if (!this.level().isClientSide) {
 
-            if (ScrapsExtrasCommonConfig.AILMENT_SYSTEM.get()) {
-                if (livestockOverhaulScraps$becomeSickChanceMod != 0) {
-                    livestockOverhaulScraps$sickModDissipateTick--;
-                    if (livestockOverhaulScraps$sickModDissipateTick <= 0) {
-                        livestockOverhaulScraps$becomeSickChance = livestockOverhaulScraps$becomeSickChance - livestockOverhaulScraps$becomeSickChanceMod;
-                        livestockOverhaulScraps$becomeSickChanceMod = 0;
-                        livestockOverhaulScraps$sickModDissipateTick = 72000;
-                    }
-                }
-
-                if (livestockOverhaulScraps$becomeSickChance < 0) {
-                    livestockOverhaulScraps$becomeSickChance = 0;
-                } else if (livestockOverhaulScraps$becomeSickChance > 100) {
-                    livestockOverhaulScraps$becomeSickChance = 100;
-                }
-
-                livestockOverhaulScraps$sickTick++;
-                if (livestockOverhaulScraps$sickTick >= 72000) {
-                    if (livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
-                        livestockOverhaulScraps$sickTick = 0;
-                    }
-                }
-
-                double range = 5.0;
-                AABB searchBox = this.getBoundingBox().inflate(range);
-                List<LivingEntity> nearbyEntities = this.level().getEntitiesOfClass(LivingEntity.class, searchBox);
-
-                for (LivingEntity target : nearbyEntities) {
-                    if (target == this) continue;
-                    if (random.nextDouble() <= 0.001) {
-                        if (target.hasEffect(SEEffects.MANGE.get()) && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
-                            this.addEffect(new MobEffectInstance(SEEffects.MANGE.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                        }
-                        if (target.hasEffect(SEEffects.BOTFLY_INFESTATION.get()) && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
-                            this.addEffect(new MobEffectInstance(SEEffects.BOTFLY_INFESTATION.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                        }
-                        if (target.hasEffect(SEEffects.FLEA_INFESTATION.get()) && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
-                            this.addEffect(new MobEffectInstance(SEEffects.FLEA_INFESTATION.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                        }
-                        if (target.hasEffect(SEEffects.RINGWORM.get()) && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
-                            this.addEffect(new MobEffectInstance(SEEffects.RINGWORM.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                        }
-                        if (target.hasEffect(SEEffects.RABIES.get()) && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
-                            this.addEffect(new MobEffectInstance(SEEffects.RABIES.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+            if (!this.isTamed()) {
+                if (ScrapsExtrasCommonConfig.AILMENT_SYSTEM.get()) {
+                    if (livestockOverhaulScraps$becomeSickChanceMod != 0) {
+                        livestockOverhaulScraps$sickModDissipateTick--;
+                        if (livestockOverhaulScraps$sickModDissipateTick <= 0) {
+                            livestockOverhaulScraps$becomeSickChance = livestockOverhaulScraps$becomeSickChance - livestockOverhaulScraps$becomeSickChanceMod;
+                            livestockOverhaulScraps$becomeSickChanceMod = 0;
+                            livestockOverhaulScraps$sickModDissipateTick = 72000;
                         }
                     }
-                }
 
-                if (ScrapsExtrasCommonConfig.EAR_INFECTION.get()) {
-                    if (livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
-                        if (random.nextDouble() <= 0.05) {
-                            this.addEffect(new MobEffectInstance(SEEffects.EAR_INFECTION.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    if (livestockOverhaulScraps$becomeSickChance < 0) {
+                        livestockOverhaulScraps$becomeSickChance = 0;
+                    } else if (livestockOverhaulScraps$becomeSickChance > 100) {
+                        livestockOverhaulScraps$becomeSickChance = 100;
+                    }
+
+                    livestockOverhaulScraps$sickTick++;
+                    if (livestockOverhaulScraps$sickTick >= 72000) {
+                        if (livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                            livestockOverhaulScraps$sickTick = 0;
                         }
                     }
-                }
 
-                if (ScrapsExtrasCommonConfig.MANGE.get()) {
-                    if (livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
-                        if (random.nextDouble() <= 0.03) {
-                            this.addEffect(new MobEffectInstance(SEEffects.MANGE.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                        }
-                    }
-                }
+                    double range = 5.0;
+                    AABB searchBox = this.getBoundingBox().inflate(range);
+                    List<LivingEntity> nearbyEntities = this.level().getEntitiesOfClass(LivingEntity.class, searchBox);
 
-                if (ScrapsExtrasCommonConfig.BOTFLY_INFESTATION.get()) {
-                    if (livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
-                        if (random.nextDouble() <= 0.05) {
-                            this.addEffect(new MobEffectInstance(SEEffects.BOTFLY_INFESTATION.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                        }
-                    }
-                }
-
-                if (ScrapsExtrasCommonConfig.FLEA_INFESTATION.get()) {
-                    if (livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
-                        if (random.nextDouble() <= 0.05) {
-                            this.addEffect(new MobEffectInstance(SEEffects.FLEA_INFESTATION.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                        }
-                    }
-                }
-
-                if (ScrapsExtrasCommonConfig.RINGWORM.get()) {
-                    if (livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
-                        if (random.nextDouble() <= 0.03) {
-                            this.addEffect(new MobEffectInstance(SEEffects.RINGWORM.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                        }
-                    }
-                }
-
-                if (ScrapsExtrasCommonConfig.HEARTWORMS.get()) {
-                    if (livestockOverhaulScraps$heartwormMedTick >= 0)
-                    livestockOverhaulScraps$heartwormMedTick--;
-
-                    if (livestockOverhaulScraps$heartwormMedTick < ScrapsExtrasCommonConfig.HEARTWORM_MED_GRACE.get() &&
-                            livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
-                        if (random.nextDouble() <= 0.02) {
-                            this.addEffect(new MobEffectInstance(SEEffects.HEARTWORMS.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                        }
-                    }
-                }
-
-                if (ScrapsExtrasCommonConfig.HOOF_ABSCESS.get()) {
-                    if (livestockOverhaulScraps$hoofPickTick >= 0)
-                        livestockOverhaulScraps$hoofPickTick--;
-
-                    if (livestockOverhaulScraps$hoofPickTick < ScrapsExtrasCommonConfig.HOOF_PICK_GRACE.get() &&
-                            livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
-                        if (random.nextDouble() <= 0.50) {
-                            this.addEffect(new MobEffectInstance(SEEffects.HOOF_ABSCESS.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                        }
-                    }
-                }
-
-                if (ScrapsExtrasCommonConfig.SADDLE_SORE.get()) {
-                    if (this.isSaddled()) {
-                        livestockOverhaulScraps$saddleSoreTick++;
-                        if (livestockOverhaulScraps$saddleSoreTick >= 24000) {
-                            if (random.nextDouble() <= 0.75) {
-                                this.addEffect(new MobEffectInstance(SEEffects.SADDLE_SORE.get(), 48000, 0, false, false));
+                    for (LivingEntity target : nearbyEntities) {
+                        if (target == this) continue;
+                        if (random.nextDouble() <= 0.001) {
+                            if (target.hasEffect(SEEffects.MANGE.get()) && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                                this.addEffect(new MobEffectInstance(SEEffects.MANGE.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
                             }
+                            if (target.hasEffect(SEEffects.BOTFLY_INFESTATION.get()) && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                                this.addEffect(new MobEffectInstance(SEEffects.BOTFLY_INFESTATION.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                            }
+                            if (target.hasEffect(SEEffects.FLEA_INFESTATION.get()) && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                                this.addEffect(new MobEffectInstance(SEEffects.FLEA_INFESTATION.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                            }
+                            if (target.hasEffect(SEEffects.RINGWORM.get()) && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                                this.addEffect(new MobEffectInstance(SEEffects.RINGWORM.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                            }
+                            if (target.hasEffect(SEEffects.RABIES.get()) && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                                this.addEffect(new MobEffectInstance(SEEffects.RABIES.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                            }
+                        }
+                    }
+
+                    if (ScrapsExtrasCommonConfig.EAR_INFECTION.get()) {
+                        if (livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                            if (random.nextDouble() <= 0.05) {
+                                this.addEffect(new MobEffectInstance(SEEffects.EAR_INFECTION.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                            }
+                        }
+                    }
+
+                    if (ScrapsExtrasCommonConfig.MANGE.get()) {
+                        if (livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                            if (random.nextDouble() <= 0.03) {
+                                this.addEffect(new MobEffectInstance(SEEffects.MANGE.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                            }
+                        }
+                    }
+
+                    if (ScrapsExtrasCommonConfig.BOTFLY_INFESTATION.get()) {
+                        if (livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                            if (random.nextDouble() <= 0.05) {
+                                this.addEffect(new MobEffectInstance(SEEffects.BOTFLY_INFESTATION.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                            }
+                        }
+                    }
+
+                    if (ScrapsExtrasCommonConfig.FLEA_INFESTATION.get()) {
+                        if (livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                            if (random.nextDouble() <= 0.05) {
+                                this.addEffect(new MobEffectInstance(SEEffects.FLEA_INFESTATION.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                            }
+                        }
+                    }
+
+                    if (ScrapsExtrasCommonConfig.RINGWORM.get()) {
+                        if (livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                            if (random.nextDouble() <= 0.03) {
+                                this.addEffect(new MobEffectInstance(SEEffects.RINGWORM.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                            }
+                        }
+                    }
+
+                    if (ScrapsExtrasCommonConfig.HEARTWORMS.get()) {
+                        if (livestockOverhaulScraps$heartwormMedTick >= 0)
+                            livestockOverhaulScraps$heartwormMedTick--;
+
+                        if (livestockOverhaulScraps$heartwormMedTick < ScrapsExtrasCommonConfig.HEARTWORM_MED_GRACE.get() &&
+                                livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                            if (random.nextDouble() <= 0.02) {
+                                this.addEffect(new MobEffectInstance(SEEffects.HEARTWORMS.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                            }
+                        }
+                    }
+
+                    if (ScrapsExtrasCommonConfig.HOOF_ABSCESS.get()) {
+                        if (livestockOverhaulScraps$hoofPickTick >= 0)
+                            livestockOverhaulScraps$hoofPickTick--;
+
+                        if (livestockOverhaulScraps$hoofPickTick < ScrapsExtrasCommonConfig.HOOF_PICK_GRACE.get() &&
+                                livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                            if (random.nextDouble() <= 0.50) {
+                                this.addEffect(new MobEffectInstance(SEEffects.HOOF_ABSCESS.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                            }
+                        }
+                    }
+
+                    if (ScrapsExtrasCommonConfig.SADDLE_SORE.get()) {
+                        if (this.isSaddled()) {
+                            livestockOverhaulScraps$saddleSoreTick++;
+                            if (livestockOverhaulScraps$saddleSoreTick >= 24000) {
+                                if (random.nextDouble() <= 0.75) {
+                                    this.addEffect(new MobEffectInstance(SEEffects.SADDLE_SORE.get(), 48000, 0, false, false));
+                                }
+                                livestockOverhaulScraps$saddleSoreTick = 0;
+                            }
+                        } else {
                             livestockOverhaulScraps$saddleSoreTick = 0;
                         }
-                    } else {
-                        livestockOverhaulScraps$saddleSoreTick = 0;
                     }
-                }
 
-                if (ScrapsExtrasCommonConfig.RAIN_ROT.get()) {
-                    if (this.level().isRaining() && this.level().canSeeSky(this.blockPosition())) {
-                        livestockOverhaulScraps$rainRotTick++;
-                        if (livestockOverhaulScraps$rainRotTick >= (random.nextInt(3000) + 12000)) {
-                            if (random.nextDouble() <= 0.75 && !(this.getArmor().getItem() instanceof TurnoutBlanketItem)) {
-                                this.addEffect(new MobEffectInstance(SEEffects.RAIN_ROT.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                    if (ScrapsExtrasCommonConfig.RAIN_ROT.get()) {
+                        if (this.level().isRaining() && this.level().canSeeSky(this.blockPosition())) {
+                            livestockOverhaulScraps$rainRotTick++;
+                            if (livestockOverhaulScraps$rainRotTick >= (random.nextInt(3000) + 12000)) {
+                                if (random.nextDouble() <= 0.75 && !(this.getArmor().getItem() instanceof TurnoutBlanketItem)) {
+                                    this.addEffect(new MobEffectInstance(SEEffects.RAIN_ROT.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                                }
+                                livestockOverhaulScraps$rainRotTick = 0;
                             }
+                        } else {
                             livestockOverhaulScraps$rainRotTick = 0;
                         }
-                    } else {
-                        livestockOverhaulScraps$rainRotTick = 0;
                     }
                 }
-            }
 
-            if (ScrapsExtrasCommonConfig.FEEDING_SYSTEM.get()) {
-                if (!this.isHungry()) {
-                    BlockPos blockpos = this.blockPosition();
-                    BlockPos blockpos1 = blockpos.below();
-                    if (ScrapsExtrasCommonConfig.GRAZING.get() && (!this.level().getBlockState(blockpos1).is(Blocks.GRASS_BLOCK) && !this.isGroundTied()) && this.isTamed()) {
-                        livestockOverhaulScraps$hungryTick++;
-                        if (livestockOverhaulScraps$hungryTick >= ScrapsExtrasCommonConfig.HORSE_FEED_TICK.get()) {
-                            this.setHungry(true);
-                            this.addEffect(new MobEffectInstance(SEEffects.HUNGER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                            livestockOverhaulScraps$hungryTick = 0;
-                        }
-                    }
-                }
-            }
-
-            TraitCapabilityInterface traitCap = this.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
-            if (ScrapsExtrasCommonConfig.TRAITS_SYSTEM.get() && this.hasEffect(SEEffects.MEAN.get()) && traitCap.getTrait() == 12) {
-                livestockOverhaulScraps$beMeanTick++;
-                if (livestockOverhaulScraps$beMeanTick >= livestockOverhaulScraps$beMeanTargetTick) {
-                    livestockOverhaulScraps$beMeanTick = 0;
-                }
-            }
-
-            if (ScrapsExtrasCommonConfig.HYGIENE_SYSTEM.get()) {
-                if (this.isTamed())
-                livestockOverhaulScraps$dirtyTick++;
-
-                if (livestockOverhaulScraps$dirtyTick >= ScrapsExtrasCommonConfig.DIRTY_TICK.get() && this.hasEffect(SEEffects.DIRTY.get())) {
-                    this.getCapability(SECapabilities.DIRTY_CAPABILITY).ifPresent(cap -> {
-                        if (cap.isDirty()) {
-                            int amp = Objects.requireNonNull(this.getEffect(SEEffects.DIRTY.get())).getAmplifier();
-                            if (amp <= 4) {
-                                this.addEffect(new MobEffectInstance(SEEffects.DIRTY.get(), MobEffectInstance.INFINITE_DURATION, amp + 1, false, false));
+                if (ScrapsExtrasCommonConfig.FEEDING_SYSTEM.get()) {
+                    if (!this.isHungry()) {
+                        BlockPos blockpos = this.blockPosition();
+                        BlockPos blockpos1 = blockpos.below();
+                        if (ScrapsExtrasCommonConfig.GRAZING.get() && (!this.level().getBlockState(blockpos1).is(Blocks.GRASS_BLOCK) && !this.isGroundTied()) && this.isTamed()) {
+                            livestockOverhaulScraps$hungryTick++;
+                            if (livestockOverhaulScraps$hungryTick >= ScrapsExtrasCommonConfig.HORSE_FEED_TICK.get()) {
+                                this.setHungry(true);
+                                this.addEffect(new MobEffectInstance(SEEffects.HUNGER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                                livestockOverhaulScraps$hungryTick = 0;
                             }
                         }
-                    });
+                    }
                 }
 
-                if (livestockOverhaulScraps$dirtyTick >= ScrapsExtrasCommonConfig.DIRTY_TICK.get()) {
-                    this.getCapability(SECapabilities.DIRTY_CAPABILITY).ifPresent(cap -> {
-                        cap.setDirty(true);
-                        SyncDirtyLayerPacket.syncToTracking(this, true);
-                    });
-                    this.addEffect(new MobEffectInstance(SEEffects.DIRTY.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                    livestockOverhaulScraps$dirtyTick = 0;
+                if (ScrapsExtrasCommonConfig.HYGIENE_SYSTEM.get()) {
+                    if (this.isTamed())
+                        livestockOverhaulScraps$dirtyTick++;
+
+                    if (livestockOverhaulScraps$dirtyTick >= ScrapsExtrasCommonConfig.DIRTY_TICK.get() && this.hasEffect(SEEffects.DIRTY.get())) {
+                        this.getCapability(SECapabilities.DIRTY_CAPABILITY).ifPresent(cap -> {
+                            if (cap.isDirty()) {
+                                int amp = Objects.requireNonNull(this.getEffect(SEEffects.DIRTY.get())).getAmplifier();
+                                if (amp <= 4) {
+                                    this.addEffect(new MobEffectInstance(SEEffects.DIRTY.get(), MobEffectInstance.INFINITE_DURATION, amp + 1, false, false));
+                                }
+                            }
+                        });
+                    }
+
+                    if (livestockOverhaulScraps$dirtyTick >= ScrapsExtrasCommonConfig.DIRTY_TICK.get()) {
+                        this.getCapability(SECapabilities.DIRTY_CAPABILITY).ifPresent(cap -> {
+                            cap.setDirty(true);
+                            SyncDirtyLayerPacket.syncToTracking(this, true);
+                        });
+                        this.addEffect(new MobEffectInstance(SEEffects.DIRTY.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        livestockOverhaulScraps$dirtyTick = 0;
+                    }
                 }
+            }
+        }
+
+        TraitCapabilityInterface traitCap = this.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
+        if (ScrapsExtrasCommonConfig.TRAITS_SYSTEM.get() && this.hasEffect(SEEffects.MEAN.get()) && traitCap.getTrait() == 12) {
+            livestockOverhaulScraps$beMeanTick++;
+            if (livestockOverhaulScraps$beMeanTick >= livestockOverhaulScraps$beMeanTargetTick) {
+                livestockOverhaulScraps$beMeanTick = 0;
             }
         }
     }
@@ -561,7 +563,7 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
         OHorse self = (OHorse) (Object) this;
         if (self.getClass() == OHorse.class || self.getClass() == Unicorn.class) {
             BaseImmunityHelper.setBaseImmunity(this);
-            BaseTraitHelper.setBaseTrait(this);
+            BaseTraitHelper.setBaseTrait(this, true);
         }
     }
 
@@ -902,6 +904,7 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
                 SyncImmunityPacket.syncToTracking(foal, random.nextInt(baseImmunity));
             }
 
+            BabyTraitHelper.setTraitEffect(foal);
             foal.setGender(random.nextInt(Gender.values().length));
             ((OHorse) foal).setFeatheringByBreed();
             ((OHorse) foal).setManeType(3);
@@ -913,34 +916,6 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
             } else if (immunityCap.getImmunity() < 1) {
                 immunityCap.setImmunity(1);
                 SyncImmunityPacket.syncToTracking(this, 1);
-            }
-
-            if (foaltraitCap.getTrait() == 0) {
-                foal.addEffect(new MobEffectInstance(SEEffects.BRAVE.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-            } else if (foaltraitCap.getTrait() == 1) {
-                foal.addEffect(new MobEffectInstance(SEEffects.IMMUNOCOMPETENT.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-            } else if (foaltraitCap.getTrait() == 2) {
-                foal.addEffect(new MobEffectInstance(SEEffects.SWIFT.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-            } else if (foaltraitCap.getTrait() == 3) {
-                foal.addEffect(new MobEffectInstance(SEEffects.VAULTER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-            } else if (foaltraitCap.getTrait() == 4) {
-                foal.addEffect(new MobEffectInstance(SEEffects.CLIMBER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-            } else if (foaltraitCap.getTrait() == 5) {
-                foal.addEffect(new MobEffectInstance(SEEffects.BUSTER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-            } else if (foaltraitCap.getTrait() == 6) {
-                foal.addEffect(new MobEffectInstance(SEEffects.STURDY.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-            } else if (foaltraitCap.getTrait() == 7) {
-                foal.addEffect(new MobEffectInstance(SEEffects.COWARDLY.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-            } else if (foaltraitCap.getTrait() == 8) {
-                foal.addEffect(new MobEffectInstance(SEEffects.IMMUNOSUPPRESSED.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-            } else if (foaltraitCap.getTrait() == 9) {
-                foal.addEffect(new MobEffectInstance(SEEffects.LAGGARD.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-            } else if (foaltraitCap.getTrait() == 10) {
-                foal.addEffect(new MobEffectInstance(SEEffects.FRAIL.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-            } else if (foaltraitCap.getTrait() == 11) {
-                foal.addEffect(new MobEffectInstance(SEEffects.FRAIL.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-            } else if (foaltraitCap.getTrait() == 12) {
-                foal.addEffect(new MobEffectInstance(SEEffects.MEAN.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
             }
 
             if (this.random.nextInt(3) >= 1) {

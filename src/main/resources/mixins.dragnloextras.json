@@ -9,6 +9,8 @@
     "ODogMixin",
     "OHorseMixin",
     "OHorseRenderMixin",
+    "OWolfMixin",
+    "PSpawnReplacerMixin",
     "SpawnReplacerMixin"
   ],
   "injectors": {

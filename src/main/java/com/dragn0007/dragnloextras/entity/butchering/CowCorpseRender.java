@@ -15,7 +15,15 @@ public class CowCorpseRender extends GeoEntityRenderer<CowCorpse> {
 
     @Override
     public void preRender(PoseStack poseStack, CowCorpse entity, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        if (entity.getButcherStage() == 1) {
+        if (entity.getButcherStage() == 0) {
+            model.getBone("head").ifPresent(b -> b.setHidden(false));
+            model.getBone("neck").ifPresent(b -> b.setHidden(false));
+            model.getBone("fat").ifPresent(b -> b.setHidden(false));
+            model.getBone("front_left_leg").ifPresent(b -> b.setHidden(false));
+            model.getBone("front_right_leg").ifPresent(b -> b.setHidden(false));
+            model.getBone("back_left_leg").ifPresent(b -> b.setHidden(false));
+            model.getBone("back_right_leg").ifPresent(b -> b.setHidden(false));
+        } else if (entity.getButcherStage() == 1) {
             model.getBone("head").ifPresent(b -> b.setHidden(true));
             model.getBone("neck").ifPresent(b -> b.setHidden(true));
             model.getBone("fat").ifPresent(b -> b.setHidden(true));
@@ -56,12 +64,18 @@ public class CowCorpseRender extends GeoEntityRenderer<CowCorpse> {
             model.getBone("back_left_leg").ifPresent(b -> b.setHidden(true));
             model.getBone("back_right_leg").ifPresent(b -> b.setHidden(true));
         } else {
-            model.getBone("body").ifPresent(b -> b.setHidden(false));
+            model.getBone("head").ifPresent(b -> b.setHidden(false));
+            model.getBone("neck").ifPresent(b -> b.setHidden(false));
+            model.getBone("fat").ifPresent(b -> b.setHidden(false));
+            model.getBone("front_left_leg").ifPresent(b -> b.setHidden(false));
+            model.getBone("front_right_leg").ifPresent(b -> b.setHidden(false));
+            model.getBone("back_left_leg").ifPresent(b -> b.setHidden(false));
+            model.getBone("back_right_leg").ifPresent(b -> b.setHidden(false));
         }
 
         if (entity.isMeatBreed()) {
             poseStack.scale(1.2F, 1.2F, 1.2F);
-        } else if(entity.isMiniBreed()) {
+        } else if (entity.isMiniBreed()) {
             poseStack.scale(0.6F, 0.6F, 0.6F);
         } else {
             poseStack.scale(1.0F, 1.0F, 1.0F);
