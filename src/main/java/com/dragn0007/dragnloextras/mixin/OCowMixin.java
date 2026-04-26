@@ -88,9 +88,8 @@ public abstract class OCowMixin extends AbstractOMount implements DirtyCapabilit
     public void getDefaultLootTable(CallbackInfoReturnable<ResourceLocation> cir) {
         if (ScrapsExtrasCommonConfig.BUTCHERING.get() && !LivestockOverhaulCommonConfig.USE_VANILLA_LOOT.get()) {
             cir.setReturnValue(BuiltInLootTables.EMPTY);
-        } else {
-            super.getDefaultLootTable();
         }
+//        super.getDefaultLootTable();
     }
 
     @Inject(method = "registerGoals", at = @At("HEAD"))

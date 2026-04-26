@@ -11,6 +11,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -50,6 +51,31 @@ public class CowCorpse extends Mob implements GeoEntity {
 	@Override
 	public boolean canBeLeashed(Player p_21418_) {
 		return true;
+	}
+
+	@Override
+	public void tick() {
+		super.tick();
+		if (this.isLeashed() && this.getLeashHolder() != null) {
+			Entity holder = this.getLeashHolder();
+			double distance = this.distanceTo(holder);
+			double holderX = holder.getX() - this.getX();
+			double holderZ = holder.getZ() - this.getZ();
+			float y = (float)(Math.atan2(holderZ, holderX) * (180D / Math.PI)) - 90.0F;
+			if (distance > 3.0D) {
+				this.setYBodyRot(y);
+				this.getNavigation().moveTo(holder, 0.3D);
+				if (distance > 15.0D) {
+					this.getNavigation().stop();
+					this.dropLeash(true, true);
+				} else if (distance > 10.0D) {
+					this.setYBodyRot(y);
+					this.getNavigation().moveTo(holder, 1.0D);
+				}
+			} else {
+				this.getNavigation().stop();
+			}
+		}
 	}
 
 	protected final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
