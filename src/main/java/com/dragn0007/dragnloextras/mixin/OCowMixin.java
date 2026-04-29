@@ -34,12 +34,15 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.fml.ModList;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -55,15 +58,25 @@ import software.bernie.geckolib.core.object.PlayState;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Random;
 
 @Mixin(OCow.class)
 public abstract class OCowMixin extends AbstractOMount implements DirtyCapabilityInterface, ITraitByBreedTypeHolder, IHungerHolder, ISleepAsLeaderHolder, ISickModHolder {
 
     @Shadow @Nullable public abstract SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, @org.jetbrains.annotations.Nullable SpawnGroupData data, @org.jetbrains.annotations.Nullable CompoundTag tag);
-    @Shadow public abstract @NotNull ResourceLocation getDefaultLootTable();
     @Shadow public abstract int getHornVariant();
     @Shadow public abstract int getQuality();
     @Shadow public abstract boolean isHarnessed();
+
+    @Shadow public abstract boolean isMeatBreed();
+
+    @Shadow public abstract boolean isNormalBreed();
+
+    @Shadow public abstract boolean isExquisiteQuality();
+
+    @Shadow public abstract boolean isFantasticQuality();
+
+    @Shadow public abstract boolean isGreatQuality();
 
     @Unique
     int livestockOverhaulScraps$becomeSickChanceMod = 0;
@@ -84,12 +97,21 @@ public abstract class OCowMixin extends AbstractOMount implements DirtyCapabilit
         super(entityType, level);
     }
 
-    @Inject(method = "getDefaultLootTable", at = @At("HEAD"), cancellable = true)
-    public void getDefaultLootTable(CallbackInfoReturnable<ResourceLocation> cir) {
-        if (ScrapsExtrasCommonConfig.BUTCHERING.get() && !LivestockOverhaulCommonConfig.USE_VANILLA_LOOT.get()) {
-            cir.setReturnValue(BuiltInLootTables.EMPTY);
+    /**
+     * @author who do you think
+     * @reason cuz i can
+     */
+    @Overwrite
+    public ResourceLocation getDefaultLootTable() {
+        if (ScrapsExtrasCommonConfig.BUTCHERING.get()) {
+            return BuiltInLootTables.EMPTY;
+        } else if (ModList.get().isLoaded("tfc")) {
+            return OCow.TFC_LOOT_TABLE;
+        } else if (LivestockOverhaulCommonConfig.USE_VANILLA_LOOT.get()) {
+            return OCow.VANILLA_LOOT_TABLE;
+        } else {
+            return OCow.LOOT_TABLE;
         }
-//        super.getDefaultLootTable();
     }
 
     @Inject(method = "registerGoals", at = @At("HEAD"))
@@ -385,6 +407,51 @@ public abstract class OCowMixin extends AbstractOMount implements DirtyCapabilit
 
         calf.setAttackDamage();
         return calf;
+    }
+
+    /**
+     * @author DragN0007
+     * @reason cuz
+     */
+    @Overwrite
+    public void dropCustomDeathLoot(DamageSource p_33574_, int p_33575_, boolean p_33576_) {
+        super.dropCustomDeathLoot(p_33574_, p_33575_, p_33576_);
+        Random random = new Random();
+
+        if (!ScrapsExtrasCommonConfig.BUTCHERING.get() &&
+            !LivestockOverhaulCommonConfig.USE_VANILLA_LOOT.get() &&
+            !ModList.get().isLoaded("tfc")) {
+
+            if (this.isMeatBreed()) {
+                if (random.nextDouble() < 0.40) {
+                    this.spawnAtLocation(new ItemStack(Items.BEEF, 2), 0F);
+                    this.spawnAtLocation(new ItemStack(Items.LEATHER, 2), 0F);
+                } else if (random.nextDouble() > 0.40) {
+                    this.spawnAtLocation(new ItemStack(Items.BEEF, 1), 0F);
+                    this.spawnAtLocation(new ItemStack(Items.LEATHER, 1), 0F);
+                }
+            }
+
+            if (this.isNormalBreed()) {
+                if (random.nextDouble() < 0.15) {
+                    this.spawnAtLocation(new ItemStack(Items.BEEF, 1), 0F);
+                    this.spawnAtLocation(new ItemStack(Items.LEATHER, 1), 0F);
+                }
+            }
+
+            if (LivestockOverhaulCommonConfig.QUALITY.get()) {
+                if (this.isExquisiteQuality()) {
+                    this.spawnAtLocation(new ItemStack(Items.BEEF, 3), 0F);
+                    this.spawnAtLocation(new ItemStack(Items.LEATHER, 3), 0F);
+                } else if (this.isFantasticQuality()) {
+                    this.spawnAtLocation(new ItemStack(Items.BEEF, 2), 0F);
+                    this.spawnAtLocation(new ItemStack(Items.LEATHER, 2), 0F);
+                } else if (this.isGreatQuality()) {
+                    this.spawnAtLocation(new ItemStack(Items.BEEF, 1), 0F);
+                    this.spawnAtLocation(new ItemStack(Items.LEATHER, 1), 0F);
+                }
+            }
+        }
     }
 
 }

@@ -136,13 +136,13 @@ public class SEItems {
     public static final RegistryObject<Item> BEEF_SHANK = ITEMS.register("beef_shank",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(3).meat().saturationMod(1).build())));
     public static final RegistryObject<Item> COOKED_BEEF_BRISKET = ITEMS.register("cooked_beef_brisket",
-            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(6).meat().saturationMod(0.7F).build())));
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(6).meat().saturationMod(0.8F).build())));
     public static final RegistryObject<Item> COOKED_BEEF_CHUCK = ITEMS.register("cooked_beef_chuck",
-            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(6).meat().saturationMod(0.5F).build())));
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(6).meat().saturationMod(0.4F).build())));
     public static final RegistryObject<Item> COOKED_BEEF_RIB = ITEMS.register("cooked_beef_rib",
-            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(5).meat().saturationMod(0.4F).build())));
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(5).meat().saturationMod(0.6F).build())));
     public static final RegistryObject<Item> COOKED_BEEF_SHANK = ITEMS.register("cooked_beef_shank",
-            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(7).meat().saturationMod(0.3F).build())));
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(7).meat().saturationMod(0.4F).build())));
 
     public static final RegistryObject<Item> HORSE_RIB_STEAK = ITEMS.register("horse_rib_steak",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(1).build())));

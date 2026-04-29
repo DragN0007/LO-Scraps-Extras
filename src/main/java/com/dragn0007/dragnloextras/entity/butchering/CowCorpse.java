@@ -21,6 +21,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.registries.ForgeRegistries;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -116,23 +118,36 @@ public class CowCorpse extends Mob implements GeoEntity {
         return InteractionResult.sidedSuccess(this.level().isClientSide);
     }
 
+	Item beef;
+	Item remains;
 	public void dropButcheredItems() {
+		if (ModList.get().isLoaded("tfc")) {
+			beef = ForgeRegistries.ITEMS.getValue(new ResourceLocation("tfc", "food/beef"));
+		} else {
+			beef = Items.BEEF;
+		}
+		if (ModList.get().isLoaded("tfc")) {
+			remains = Items.BONE;
+		} else {
+			remains = Items.LEATHER;
+		}
+
 		if (this.getButcherStage() == 1) {
-			this.spawnAtLocation(new ItemStack(Items.BEEF, random.nextInt(1, 2)), 0F);
-			this.spawnAtLocation(new ItemStack(Items.LEATHER, random.nextInt(1, 2)), 0F);
+			this.spawnAtLocation(new ItemStack(beef, random.nextInt(1, 2)), 0F);
+			this.spawnAtLocation(new ItemStack(remains, random.nextInt(1, 2)), 0F);
 			this.spawnAtLocation(new ItemStack(SEItems.BEEF_BRISKET.get(), 1), 0F);
 			if (this.isGreatQuality()) {
-				this.spawnAtLocation(new ItemStack(Items.BEEF, random.nextInt(1, 2)), 0F);
-				this.spawnAtLocation(new ItemStack(Items.LEATHER, random.nextInt(1, 2)), 0F);
+				this.spawnAtLocation(new ItemStack(beef, random.nextInt(1, 2)), 0F);
+				this.spawnAtLocation(new ItemStack(remains, random.nextInt(1, 2)), 0F);
 			} else if (this.isFantasticQuality()) {
-				this.spawnAtLocation(new ItemStack(Items.BEEF, random.nextInt(1, 3)), 0F);
-				this.spawnAtLocation(new ItemStack(Items.LEATHER, random.nextInt(1, 3)), 0F);
+				this.spawnAtLocation(new ItemStack(beef, random.nextInt(1, 3)), 0F);
+				this.spawnAtLocation(new ItemStack(remains, random.nextInt(1, 3)), 0F);
 			} else if (this.isExquisiteQuality()) {
-				this.spawnAtLocation(new ItemStack(Items.BEEF, random.nextInt(1, 4)), 0F);
-				this.spawnAtLocation(new ItemStack(Items.LEATHER, random.nextInt(1, 4)), 0F);
+				this.spawnAtLocation(new ItemStack(beef, random.nextInt(1, 4)), 0F);
+				this.spawnAtLocation(new ItemStack(remains, random.nextInt(1, 4)), 0F);
 			}
 			if (this.isMeatBreed()) {
-				this.spawnAtLocation(new ItemStack(Items.BEEF, random.nextInt(1, 2)), 0F);
+				this.spawnAtLocation(new ItemStack(beef, random.nextInt(1, 2)), 0F);
 			}
 		} else if (this.getButcherStage() == 2 || this.getButcherStage() == 3 || this.getButcherStage() == 4 || this.getButcherStage() == 5) {
 			this.spawnAtLocation(new ItemStack(Items.BONE, random.nextInt(1, 2)), 0F);
@@ -147,35 +162,39 @@ public class CowCorpse extends Mob implements GeoEntity {
 				this.spawnAtLocation(new ItemStack(SEItems.BEEF_SHANK.get(), random.nextInt(1, 2)), 0F);
 			}
 			if (this.isMeatBreed()) {
-				this.spawnAtLocation(new ItemStack(Items.BEEF, random.nextInt(2)), 0F);
+				this.spawnAtLocation(new ItemStack(beef, random.nextInt(2)), 0F);
 			}
 		} else if (this.getButcherStage() == 6) {
 			this.spawnAtLocation(new ItemStack(Items.BONE, random.nextInt(1, 2)), 0F);
-			this.spawnAtLocation(new ItemStack(Items.LEATHER, random.nextInt(1, 2)), 0F);
-			this.spawnAtLocation(new ItemStack(Items.BEEF, random.nextInt(1, 4)), 0F);
+			this.spawnAtLocation(new ItemStack(remains, random.nextInt(1, 2)), 0F);
+			this.spawnAtLocation(new ItemStack(beef, random.nextInt(1, 4)), 0F);
 			this.spawnAtLocation(new ItemStack(SEItems.BEEF_RIB.get(), random.nextInt(1, 4)), 0F);
 			this.spawnAtLocation(new ItemStack(SEItems.BEEF_CHUCK.get(), random.nextInt(1, 2)), 0F);
 			if (this.isGreatQuality()) {
 				this.spawnAtLocation(new ItemStack(Items.BONE, random.nextInt(1, 2)), 0F);
-				this.spawnAtLocation(new ItemStack(Items.LEATHER, random.nextInt(1, 2)), 0F);
-				this.spawnAtLocation(new ItemStack(Items.BEEF, random.nextInt(1)), 0F);
+				this.spawnAtLocation(new ItemStack(remains, random.nextInt(1, 2)), 0F);
+				this.spawnAtLocation(new ItemStack(beef, random.nextInt(1)), 0F);
 				this.spawnAtLocation(new ItemStack(SEItems.BEEF_RIB.get(), random.nextInt(1)), 0F);
 				this.spawnAtLocation(new ItemStack(SEItems.BEEF_CHUCK.get(), random.nextInt(1)), 0F);
 			} else if (this.isFantasticQuality()) {
 				this.spawnAtLocation(new ItemStack(Items.BONE, random.nextInt(1, 3)), 0F);
-				this.spawnAtLocation(new ItemStack(Items.LEATHER, random.nextInt(1, 3)), 0F);
-				this.spawnAtLocation(new ItemStack(Items.BEEF, random.nextInt(1, 2)), 0F);
+				this.spawnAtLocation(new ItemStack(remains, random.nextInt(1, 3)), 0F);
+				this.spawnAtLocation(new ItemStack(beef, random.nextInt(1, 2)), 0F);
 				this.spawnAtLocation(new ItemStack(SEItems.BEEF_RIB.get(), random.nextInt(1, 2)), 0F);
 				this.spawnAtLocation(new ItemStack(SEItems.BEEF_CHUCK.get(), random.nextInt(1)), 0F);
 			} else if (this.isExquisiteQuality()) {
 				this.spawnAtLocation(new ItemStack(Items.BONE, random.nextInt(1, 4)), 0F);
-				this.spawnAtLocation(new ItemStack(Items.LEATHER, random.nextInt(1, 4)), 0F);
-				this.spawnAtLocation(new ItemStack(Items.BEEF, random.nextInt(1, 3)), 0F);
+				this.spawnAtLocation(new ItemStack(remains, random.nextInt(1, 4)), 0F);
+				this.spawnAtLocation(new ItemStack(beef, random.nextInt(1, 3)), 0F);
 				this.spawnAtLocation(new ItemStack(SEItems.BEEF_RIB.get(), random.nextInt(2)), 0F);
 				this.spawnAtLocation(new ItemStack(SEItems.BEEF_CHUCK.get(), random.nextInt(2)), 0F);
 			}
 			if (this.isMeatBreed()) {
-				this.spawnAtLocation(new ItemStack(Items.BEEF, random.nextInt(1, 4)), 0F);
+				this.spawnAtLocation(new ItemStack(beef, random.nextInt(1, 4)), 0F);
+			}
+			if (ModList.get().isLoaded("tfc")) {
+				Item hide = ForgeRegistries.ITEMS.getValue(new ResourceLocation("tfc", "large_raw_hide"));
+				this.spawnAtLocation(new ItemStack(hide, 2), 0F);
 			}
 		}
 	}
@@ -285,11 +304,26 @@ public class CowCorpse extends Mob implements GeoEntity {
 	@Override
 	protected void dropCustomDeathLoot(DamageSource p_21385_, int p_21386_, boolean p_21387_) {
 		super.dropCustomDeathLoot(p_21385_, p_21386_, p_21387_);
+		if (ModList.get().isLoaded("tfc")) {
+			beef = ForgeRegistries.ITEMS.getValue(new ResourceLocation("tfc", "food/beef"));
+		} else {
+			beef = Items.BEEF;
+		}
+		if (ModList.get().isLoaded("tfc")) {
+			remains = Items.BONE;
+		} else {
+			remains = Items.LEATHER;
+		}
+
 		//just drops basic things if killed without butchering
 		//not recommended but works okay if you're in a pinch
 		if (this.getButcherStage() < 6) {
-			this.spawnAtLocation(new ItemStack(Items.BEEF, random.nextInt(3)), 0F);
-			this.spawnAtLocation(new ItemStack(Items.LEATHER, 1), 0F);
+			this.spawnAtLocation(new ItemStack(beef, random.nextInt(3)), 0F);
+			this.spawnAtLocation(new ItemStack(remains, 1), 0F);
+			if (ModList.get().isLoaded("tfc")) {
+				Item hide = ForgeRegistries.ITEMS.getValue(new ResourceLocation("tfc", "large_rawhide"));
+				this.spawnAtLocation(new ItemStack(hide, random.nextInt(1, 4)), 0F);
+			}
 		}
 	}
 }

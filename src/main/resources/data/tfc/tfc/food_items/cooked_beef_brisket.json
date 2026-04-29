@@ -1,0 +1,9 @@
+{
+  "ingredient": {
+    "item": "dragnloextras:cooked_beef_brisket"
+  },
+  "hunger": 4,
+  "saturation": 2,
+  "decay_modifier": 1.3,
+  "protein": 2
+}

@@ -23,7 +23,7 @@ public class BaseImmunityHelper {
             immunityCap = entity.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
         }
 
-        if (ScrapsExtrasCommonConfig.AILMENT_SYSTEM.get()) {
+        if (ScrapsExtrasCommonConfig.AILMENT_SYSTEM.get() && immunityCap != null && traitCap != null) {
             int baseImmunity = random.nextInt(1, 50);
             immunityCap.setImmunity(random.nextInt(baseImmunity));
             SyncImmunityPacket.syncToTracking(entity, random.nextInt(baseImmunity));
