@@ -82,11 +82,15 @@ public class SEItemModelProvider extends ItemModelProvider {
         simpleItem(SEItems.COOKED_BEEF_CHUCK);
         simpleItem(SEItems.COOKED_BEEF_RIB);
         simpleItem(SEItems.COOKED_BEEF_SHANK);
+        simpleItem(SEItems.HORSE_BRISKET);
+        simpleItem(SEItems.HORSE_CHUCK);
+        simpleItem(SEItems.HORSE_RIB);
+        simpleItem(SEItems.HORSE_SHANK);
+        simpleItem(SEItems.COOKED_HORSE_BRISKET);
+        simpleItem(SEItems.COOKED_HORSE_CHUCK);
+        simpleItem(SEItems.COOKED_HORSE_RIB);
+        simpleItem(SEItems.COOKED_HORSE_SHANK);
 
-        simpleItem(SEItems.HORSE_RIB_STEAK);
-        simpleItem(SEItems.HORSE_SIRLOIN_STEAK);
-        simpleItem(SEItems.COOKED_HORSE_RIB_STEAK);
-        simpleItem(SEItems.COOKED_HORSE_SIRLOIN_STEAK);
         simpleItem(SEItems.LLAMA_RIB);
         simpleItem(SEItems.LLAMA_LOIN);
         simpleItem(SEItems.COOKED_LLAMA_RIB);

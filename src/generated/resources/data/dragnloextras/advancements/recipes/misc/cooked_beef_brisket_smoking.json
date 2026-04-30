@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_beef_brisket": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "dragnloextras:beef_brisket"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "dragnloextras:cooked_beef_brisket_smoking"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_beef_brisket",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "dragnloextras:cooked_beef_brisket_smoking"
+    ]
+  },
+  "sends_telemetry_event": false
+}

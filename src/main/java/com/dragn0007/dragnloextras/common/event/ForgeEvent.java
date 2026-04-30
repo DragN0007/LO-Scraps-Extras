@@ -12,6 +12,7 @@ import com.dragn0007.dragnloextras.capabilities.*;
 import com.dragn0007.dragnloextras.effects.SEEffects;
 import com.dragn0007.dragnloextras.entity.SEEntityTypes;
 import com.dragn0007.dragnloextras.entity.butchering.CowCorpse;
+import com.dragn0007.dragnloextras.entity.butchering.HorseCorpse;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.network.*;
 import com.dragn0007.dragnloextras.util.ISleepAsLeaderHolder;
@@ -447,6 +448,14 @@ public class ForgeEvent {
                     } else {
                         corpse.setNormalBreed(true);
                     }
+                    corpse.moveTo(deceased.getX(), deceased.getY(), deceased.getZ(), deceased.getYRot(), deceased.getXRot());
+                    level.addFreshEntity(corpse);
+                }
+            }
+            if (deceased instanceof OHorse animal) {
+                if (!level.isClientSide()) {
+                    HorseCorpse corpse = new HorseCorpse(SEEntityTypes.HORSE_CORPSE.get(), level);
+                    corpse.setVariant(animal.getVariant());
                     corpse.moveTo(deceased.getX(), deceased.getY(), deceased.getZ(), deceased.getYRot(), deceased.getXRot());
                     level.addFreshEntity(corpse);
                 }

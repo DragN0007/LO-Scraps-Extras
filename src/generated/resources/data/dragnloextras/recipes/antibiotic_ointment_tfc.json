@@ -1,0 +1,33 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "dragnloextras:tfc_condition"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "category": "misc",
+        "key": {
+          "B": {
+            "item": "minecraft:clay"
+          },
+          "C": {
+            "item": "tfc:metal/ingot/copper"
+          }
+        },
+        "pattern": [
+          " B ",
+          "BCB",
+          "BBB"
+        ],
+        "result": {
+          "item": "dragnloextras:antibiotic_ointment"
+        },
+        "show_notification": true
+      }
+    }
+  ]
+}

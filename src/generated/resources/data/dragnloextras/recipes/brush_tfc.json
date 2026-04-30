@@ -1,0 +1,32 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "dragnloextras:tfc_condition"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "category": "misc",
+        "key": {
+          "A": {
+            "tag": "tfc:firepit_logs"
+          },
+          "B": {
+            "item": "tfc:wool_yarn"
+          }
+        },
+        "pattern": [
+          "AA",
+          "BB"
+        ],
+        "result": {
+          "item": "dragnloextras:brush"
+        },
+        "show_notification": true
+      }
+    }
+  ]
+}

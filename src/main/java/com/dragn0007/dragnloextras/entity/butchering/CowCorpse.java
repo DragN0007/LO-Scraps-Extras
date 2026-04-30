@@ -7,16 +7,11 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -24,13 +19,8 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animation.*;
-import software.bernie.geckolib.core.object.PlayState;
-import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class CowCorpse extends Mob implements GeoEntity {
+public class CowCorpse extends Corpse implements GeoEntity {
 
 	public CowCorpse(EntityType<? extends CowCorpse> type, Level level) {
 		super(type, level);
@@ -41,90 +31,13 @@ public class CowCorpse extends Mob implements GeoEntity {
 		return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 20.0D);
 	}
 
-	@Override
-	protected void registerGoals() {
-	}
-
-	@Override
-	public boolean isPushable() {
-		return true;
-	}
-
-	@Override
-	public boolean canBeLeashed(Player p_21418_) {
-		return true;
-	}
-
-	@Override
-	public void tick() {
-		super.tick();
-		if (this.isLeashed() && this.getLeashHolder() != null) {
-			Entity holder = this.getLeashHolder();
-			double distance = this.distanceTo(holder);
-			double holderX = holder.getX() - this.getX();
-			double holderZ = holder.getZ() - this.getZ();
-			float y = (float)(Math.atan2(holderZ, holderX) * (180D / Math.PI)) - 90.0F;
-			if (distance > 3.0D) {
-				this.setYBodyRot(y);
-				this.getNavigation().moveTo(holder, 0.3D);
-				if (distance > 15.0D) {
-					this.getNavigation().stop();
-					this.dropLeash(true, true);
-				} else if (distance > 10.0D) {
-					this.setYBodyRot(y);
-					this.getNavigation().moveTo(holder, 1.0D);
-				}
-			} else {
-				this.getNavigation().stop();
-			}
-		}
-	}
-
-	protected final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
-	@Override
-	public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-		controllers.add(new AnimationController<>(this, "controller", 2, this::predicate));
-	}
-	private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> tAnimationState) {
-		AnimationController<T> controller = tAnimationState.getController();
-		controller.setAnimation(RawAnimation.begin().then("dead", Animation.LoopType.LOOP));
-		return PlayState.CONTINUE;
-	}
-	@Override
-	public AnimatableInstanceCache getAnimatableInstanceCache() {
-		return this.geoCache;
-	}
-
-	@Override
-	public InteractionResult mobInteract(Player player, InteractionHand hand) {
-		ItemStack itemStack = player.getItemInHand(hand);
-		Item item = itemStack.getItem();
-
-		if (itemStack.is(ItemTags.AXES) && player.isShiftKeyDown()) {
-			ButcherStage stage = ButcherStage.values()[this.getButcherStage()];
-			ButcherStage nextStage = stage.next();
-			this.setButcherStage(nextStage.ordinal());
-			if (this.getButcherStage() == 6) {
-				this.kill();
-				this.remove(RemovalReason.DISCARDED);
-				if (this.level().isClientSide) {
-					this.remove(RemovalReason.DISCARDED);
-				}
-			}
-			dropButcheredItems();
-			return InteractionResult.sidedSuccess(this.level().isClientSide);
-		}
-
-        return InteractionResult.sidedSuccess(this.level().isClientSide);
-    }
-
-	Item beef;
+	Item baseMeat;
 	Item remains;
 	public void dropButcheredItems() {
 		if (ModList.get().isLoaded("tfc")) {
-			beef = ForgeRegistries.ITEMS.getValue(new ResourceLocation("tfc", "food/beef"));
+			baseMeat = ForgeRegistries.ITEMS.getValue(new ResourceLocation("tfc", "food/beef"));
 		} else {
-			beef = Items.BEEF;
+			baseMeat = Items.BEEF;
 		}
 		if (ModList.get().isLoaded("tfc")) {
 			remains = Items.BONE;
@@ -133,21 +46,21 @@ public class CowCorpse extends Mob implements GeoEntity {
 		}
 
 		if (this.getButcherStage() == 1) {
-			this.spawnAtLocation(new ItemStack(beef, random.nextInt(1, 2)), 0F);
+			this.spawnAtLocation(new ItemStack(baseMeat, random.nextInt(1, 2)), 0F);
 			this.spawnAtLocation(new ItemStack(remains, random.nextInt(1, 2)), 0F);
 			this.spawnAtLocation(new ItemStack(SEItems.BEEF_BRISKET.get(), 1), 0F);
 			if (this.isGreatQuality()) {
-				this.spawnAtLocation(new ItemStack(beef, random.nextInt(1, 2)), 0F);
+				this.spawnAtLocation(new ItemStack(baseMeat, random.nextInt(1, 2)), 0F);
 				this.spawnAtLocation(new ItemStack(remains, random.nextInt(1, 2)), 0F);
 			} else if (this.isFantasticQuality()) {
-				this.spawnAtLocation(new ItemStack(beef, random.nextInt(1, 3)), 0F);
+				this.spawnAtLocation(new ItemStack(baseMeat, random.nextInt(1, 3)), 0F);
 				this.spawnAtLocation(new ItemStack(remains, random.nextInt(1, 3)), 0F);
 			} else if (this.isExquisiteQuality()) {
-				this.spawnAtLocation(new ItemStack(beef, random.nextInt(1, 4)), 0F);
+				this.spawnAtLocation(new ItemStack(baseMeat, random.nextInt(1, 4)), 0F);
 				this.spawnAtLocation(new ItemStack(remains, random.nextInt(1, 4)), 0F);
 			}
 			if (this.isMeatBreed()) {
-				this.spawnAtLocation(new ItemStack(beef, random.nextInt(1, 2)), 0F);
+				this.spawnAtLocation(new ItemStack(baseMeat, random.nextInt(1, 2)), 0F);
 			}
 		} else if (this.getButcherStage() == 2 || this.getButcherStage() == 3 || this.getButcherStage() == 4 || this.getButcherStage() == 5) {
 			this.spawnAtLocation(new ItemStack(Items.BONE, random.nextInt(1, 2)), 0F);
@@ -162,54 +75,40 @@ public class CowCorpse extends Mob implements GeoEntity {
 				this.spawnAtLocation(new ItemStack(SEItems.BEEF_SHANK.get(), random.nextInt(1, 2)), 0F);
 			}
 			if (this.isMeatBreed()) {
-				this.spawnAtLocation(new ItemStack(beef, random.nextInt(2)), 0F);
+				this.spawnAtLocation(new ItemStack(baseMeat, random.nextInt(2)), 0F);
 			}
 		} else if (this.getButcherStage() == 6) {
 			this.spawnAtLocation(new ItemStack(Items.BONE, random.nextInt(1, 2)), 0F);
 			this.spawnAtLocation(new ItemStack(remains, random.nextInt(1, 2)), 0F);
-			this.spawnAtLocation(new ItemStack(beef, random.nextInt(1, 4)), 0F);
+			this.spawnAtLocation(new ItemStack(baseMeat, random.nextInt(1, 4)), 0F);
 			this.spawnAtLocation(new ItemStack(SEItems.BEEF_RIB.get(), random.nextInt(1, 4)), 0F);
 			this.spawnAtLocation(new ItemStack(SEItems.BEEF_CHUCK.get(), random.nextInt(1, 2)), 0F);
 			if (this.isGreatQuality()) {
 				this.spawnAtLocation(new ItemStack(Items.BONE, random.nextInt(1, 2)), 0F);
 				this.spawnAtLocation(new ItemStack(remains, random.nextInt(1, 2)), 0F);
-				this.spawnAtLocation(new ItemStack(beef, random.nextInt(1)), 0F);
+				this.spawnAtLocation(new ItemStack(baseMeat, random.nextInt(1)), 0F);
 				this.spawnAtLocation(new ItemStack(SEItems.BEEF_RIB.get(), random.nextInt(1)), 0F);
 				this.spawnAtLocation(new ItemStack(SEItems.BEEF_CHUCK.get(), random.nextInt(1)), 0F);
 			} else if (this.isFantasticQuality()) {
 				this.spawnAtLocation(new ItemStack(Items.BONE, random.nextInt(1, 3)), 0F);
 				this.spawnAtLocation(new ItemStack(remains, random.nextInt(1, 3)), 0F);
-				this.spawnAtLocation(new ItemStack(beef, random.nextInt(1, 2)), 0F);
+				this.spawnAtLocation(new ItemStack(baseMeat, random.nextInt(1, 2)), 0F);
 				this.spawnAtLocation(new ItemStack(SEItems.BEEF_RIB.get(), random.nextInt(1, 2)), 0F);
 				this.spawnAtLocation(new ItemStack(SEItems.BEEF_CHUCK.get(), random.nextInt(1)), 0F);
 			} else if (this.isExquisiteQuality()) {
 				this.spawnAtLocation(new ItemStack(Items.BONE, random.nextInt(1, 4)), 0F);
 				this.spawnAtLocation(new ItemStack(remains, random.nextInt(1, 4)), 0F);
-				this.spawnAtLocation(new ItemStack(beef, random.nextInt(1, 3)), 0F);
+				this.spawnAtLocation(new ItemStack(baseMeat, random.nextInt(1, 3)), 0F);
 				this.spawnAtLocation(new ItemStack(SEItems.BEEF_RIB.get(), random.nextInt(2)), 0F);
 				this.spawnAtLocation(new ItemStack(SEItems.BEEF_CHUCK.get(), random.nextInt(2)), 0F);
 			}
 			if (this.isMeatBreed()) {
-				this.spawnAtLocation(new ItemStack(beef, random.nextInt(1, 4)), 0F);
+				this.spawnAtLocation(new ItemStack(baseMeat, random.nextInt(1, 4)), 0F);
 			}
 			if (ModList.get().isLoaded("tfc")) {
 				Item hide = ForgeRegistries.ITEMS.getValue(new ResourceLocation("tfc", "large_raw_hide"));
-				this.spawnAtLocation(new ItemStack(hide, 2), 0F);
+				this.spawnAtLocation(new ItemStack(hide, 1), 0F);
 			}
-		}
-	}
-
-	public enum ButcherStage {
-		NONE, //default
-		NECK, //removed neck & head
-		FRONT_LEFT, //removed front leg
-		FRONT_RIGHT, //removed front leg
-		BACK_LEFT, //removed back leg
-		BACK_RIGHT, //removed back leg
-		BODY; //removed all (processed body)
-
-		public ButcherStage next() {
-			return ButcherStage.values()[(this.ordinal() + 1) % ButcherStage.values().length];
 		}
 	}
 
@@ -234,41 +133,11 @@ public class CowCorpse extends Mob implements GeoEntity {
 		this.mini = breed;
 	}
 
-	public boolean isGreatQuality() {
-		return this.getQuality() > 25 && this.getQuality() <= 50;
-	}
-	public boolean isFantasticQuality() {
-		return this.getQuality() > 50 && this.getQuality() <= 75;
-	}
-	public boolean isExquisiteQuality() {
-		return this.getQuality() > 75 && this.getQuality() <= 100;
-	}
-
 	public static final EntityDataAccessor<Integer> BUTCHER_STAGE = SynchedEntityData.defineId(CowCorpse.class, EntityDataSerializers.INT);
-	public int getButcherStage() {
-		return this.entityData.get(BUTCHER_STAGE);
-	}
-	public void setButcherStage(int pose) {
-		this.entityData.set(BUTCHER_STAGE, pose);
-	}
-
 	public static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(CowCorpse.class, EntityDataSerializers.INT);
+	public static final EntityDataAccessor<Integer> QUALITY = SynchedEntityData.defineId(CowCorpse.class, EntityDataSerializers.INT);
 	public ResourceLocation getTextureLocation() {
 		return OCowModel.Variant.variantFromOrdinal(getVariant()).resourceLocation;
-	}
-	public int getVariant() {
-		return this.entityData.get(VARIANT);
-	}
-	public void setVariant(int variant) {
-		this.entityData.set(VARIANT, variant);
-	}
-
-	public static final EntityDataAccessor<Integer> QUALITY = SynchedEntityData.defineId(CowCorpse.class, EntityDataSerializers.INT);
-	public int getQuality() {
-		return this.entityData.get(QUALITY);
-	}
-	public void setQuality(int i) {
-		this.entityData.set(QUALITY, i);
 	}
 
 	@Override
@@ -282,32 +151,20 @@ public class CowCorpse extends Mob implements GeoEntity {
 	@Override
 	public void readAdditionalSaveData(CompoundTag tag) {
 		super.readAdditionalSaveData(tag);
-		if (tag.contains("ButcherStage")) {
-			this.setButcherStage(tag.getInt("ButcherStage"));
-		}
-		if (tag.contains("Variant")) {
-			this.setVariant(tag.getInt("Variant"));
-		}
-		if(tag.contains("Quality")) {
-			this.setQuality(tag.getInt("Quality"));
-		}
 	}
 
 	@Override
 	public void addAdditionalSaveData(CompoundTag tag) {
 		super.addAdditionalSaveData(tag);
-		tag.putInt("ButcherStage", this.getButcherStage());
-		tag.putInt("Variant", this.getVariant());
-		tag.putInt("Quality", this.getQuality());
 	}
 
 	@Override
 	protected void dropCustomDeathLoot(DamageSource p_21385_, int p_21386_, boolean p_21387_) {
 		super.dropCustomDeathLoot(p_21385_, p_21386_, p_21387_);
 		if (ModList.get().isLoaded("tfc")) {
-			beef = ForgeRegistries.ITEMS.getValue(new ResourceLocation("tfc", "food/beef"));
+			baseMeat = ForgeRegistries.ITEMS.getValue(new ResourceLocation("tfc", "food/beef"));
 		} else {
-			beef = Items.BEEF;
+			baseMeat = Items.BEEF;
 		}
 		if (ModList.get().isLoaded("tfc")) {
 			remains = Items.BONE;
@@ -318,11 +175,11 @@ public class CowCorpse extends Mob implements GeoEntity {
 		//just drops basic things if killed without butchering
 		//not recommended but works okay if you're in a pinch
 		if (this.getButcherStage() < 6) {
-			this.spawnAtLocation(new ItemStack(beef, random.nextInt(3)), 0F);
+			this.spawnAtLocation(new ItemStack(baseMeat, random.nextInt(3)), 0F);
 			this.spawnAtLocation(new ItemStack(remains, 1), 0F);
 			if (ModList.get().isLoaded("tfc")) {
-				Item hide = ForgeRegistries.ITEMS.getValue(new ResourceLocation("tfc", "large_rawhide"));
-				this.spawnAtLocation(new ItemStack(hide, random.nextInt(1, 4)), 0F);
+				Item hide = ForgeRegistries.ITEMS.getValue(new ResourceLocation("tfc", "large_raw_hide"));
+				this.spawnAtLocation(new ItemStack(hide, random.nextInt(1)), 0F);
 			}
 		}
 	}

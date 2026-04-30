@@ -2,6 +2,7 @@ package com.dragn0007.dragnloextras.mixin;
 
 import com.dragn0007.dragnlivestock.client.event.LivestockOverhaulClientEvent;
 import com.dragn0007.dragnlivestock.entities.EntityTypes;
+import com.dragn0007.dragnlivestock.entities.cow.OCow;
 import com.dragn0007.dragnlivestock.entities.donkey.ODonkey;
 import com.dragn0007.dragnlivestock.entities.horse.HorseBreed;
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
@@ -24,6 +25,7 @@ import com.dragn0007.dragnloextras.network.*;
 import com.dragn0007.dragnloextras.util.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
@@ -45,6 +47,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.fml.ModList;
 import org.spongepowered.asm.mixin.Mixin;
@@ -113,6 +116,23 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
 //    public void setPregnant(boolean pregnant) {
 //        this.pregnant = pregnant;
 //    }
+
+    /**
+     * @author who do you think
+     * @reason cuz i can
+     */
+    @Overwrite
+    public ResourceLocation getDefaultLootTable() {
+        if (ScrapsExtrasCommonConfig.BUTCHERING.get()) {
+            return BuiltInLootTables.EMPTY;
+        } else if (ModList.get().isLoaded("tfc")) {
+            return OHorse.TFC_LOOT_TABLE;
+        } else if (LivestockOverhaulCommonConfig.USE_VANILLA_LOOT.get()) {
+            return OHorse.VANILLA_LOOT_TABLE;
+        } else {
+            return OHorse.LOOT_TABLE;
+        }
+    }
 
     @Unique
     int livestockOverhaulScraps$becomeSickChanceMod = 0;
@@ -966,5 +986,13 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
 //        this.level().addFreshEntity(baby);
 //        this.livestockOverhaulScraps$pregnantTick = 0;
 //    }
+
+    @Inject(method = "dropCustomDeathLoot", at = @At("HEAD"), remap = false)
+    public void dropCustomDeathLoot(DamageSource p_33574_, int p_33575_, boolean p_33576_, CallbackInfo ci) {
+        super.dropCustomDeathLoot(p_33574_, p_33575_, p_33576_);
+        if (ScrapsExtrasCommonConfig.BUTCHERING.get()) {
+            return;
+        }
+    }
 
 }

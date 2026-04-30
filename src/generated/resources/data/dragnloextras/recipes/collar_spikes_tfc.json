@@ -1,0 +1,28 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "dragnloextras:tfc_condition"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "category": "misc",
+        "key": {
+          "A": {
+            "item": "tfc:metal/ingot/copper"
+          }
+        },
+        "pattern": [
+          "AA"
+        ],
+        "result": {
+          "item": "dragnloextras:collar_spikes"
+        },
+        "show_notification": true
+      }
+    }
+  ]
+}

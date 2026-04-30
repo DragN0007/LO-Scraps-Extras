@@ -1,0 +1,9 @@
+{
+  "ingredient": {
+    "item": "dragnloextras:cooked_horse_chuck"
+  },
+  "hunger": 5,
+  "saturation": 1.3,
+  "decay_modifier": 1.3,
+  "protein": 2.5
+}

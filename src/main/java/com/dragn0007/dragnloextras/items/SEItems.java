@@ -144,14 +144,23 @@ public class SEItems {
     public static final RegistryObject<Item> COOKED_BEEF_SHANK = ITEMS.register("cooked_beef_shank",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(7).meat().saturationMod(0.4F).build())));
 
-    public static final RegistryObject<Item> HORSE_RIB_STEAK = ITEMS.register("horse_rib_steak",
-            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(1).build())));
-    public static final RegistryObject<Item> HORSE_SIRLOIN_STEAK = ITEMS.register("horse_sirloin_steak",
-            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(1).build())));
-    public static final RegistryObject<Item> COOKED_HORSE_RIB_STEAK = ITEMS.register("cooked_horse_rib_steak",
-            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(10).saturationMod(1).build())));
-    public static final RegistryObject<Item> COOKED_HORSE_SIRLOIN_STEAK = ITEMS.register("cooked_horse_sirloin_steak",
-            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(10).saturationMod(1).build())));
+    public static final RegistryObject<Item> HORSE_BRISKET = ITEMS.register("horse_brisket",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).meat().saturationMod(1).build())));
+    public static final RegistryObject<Item> HORSE_CHUCK = ITEMS.register("horse_chuck",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).meat().saturationMod(1).build())));
+    public static final RegistryObject<Item> HORSE_RIB = ITEMS.register("horse_rib",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).meat().saturationMod(1).build())));
+    public static final RegistryObject<Item> HORSE_SHANK = ITEMS.register("horse_shank",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).meat().saturationMod(1).build())));
+    public static final RegistryObject<Item> COOKED_HORSE_BRISKET = ITEMS.register("cooked_horse_brisket",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(7).meat().saturationMod(0.8F).build())));
+    public static final RegistryObject<Item> COOKED_HORSE_CHUCK = ITEMS.register("cooked_horse_chuck",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(7).meat().saturationMod(0.4F).build())));
+    public static final RegistryObject<Item> COOKED_HORSE_RIB = ITEMS.register("cooked_horse_rib",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(6).meat().saturationMod(0.6F).build())));
+    public static final RegistryObject<Item> COOKED_HORSE_SHANK = ITEMS.register("cooked_horse_shank",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(8).meat().saturationMod(0.4F).build())));
+
     public static final RegistryObject<Item> LLAMA_RIB = ITEMS.register("llama_rib",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(1).build())));
     public static final RegistryObject<Item> LLAMA_LOIN = ITEMS.register("llama_loin",
