@@ -64,16 +64,13 @@ public abstract class OCowMixin extends AbstractOMount implements DirtyCapabilit
     @Shadow public abstract int getHornVariant();
     @Shadow public abstract int getQuality();
     @Shadow public abstract boolean isHarnessed();
-
     @Shadow public abstract boolean isMeatBreed();
-
     @Shadow public abstract boolean isNormalBreed();
-
     @Shadow public abstract boolean isExquisiteQuality();
-
     @Shadow public abstract boolean isFantasticQuality();
-
     @Shadow public abstract boolean isGreatQuality();
+
+    @Shadow public abstract void registerGoals();
 
     @Unique
     int livestockOverhaulScraps$becomeSickChanceMod = 0;
@@ -406,48 +403,11 @@ public abstract class OCowMixin extends AbstractOMount implements DirtyCapabilit
         return calf;
     }
 
-    /**
-     * @author DragN0007
-     * @reason cuz
-     */
-    @Overwrite
-    public void dropCustomDeathLoot(DamageSource p_33574_, int p_33575_, boolean p_33576_) {
+    @Inject(method = "dropCustomDeathLoot", at = @At("HEAD"), remap = false)
+    public void dropCustomDeathLoot(DamageSource p_33574_, int p_33575_, boolean p_33576_, CallbackInfo ci) {
         super.dropCustomDeathLoot(p_33574_, p_33575_, p_33576_);
-        Random random = new Random();
-
-        if (!ScrapsExtrasCommonConfig.BUTCHERING.get() &&
-            !LivestockOverhaulCommonConfig.USE_VANILLA_LOOT.get() &&
-            !ModList.get().isLoaded("tfc")) {
-
-            if (this.isMeatBreed()) {
-                if (random.nextDouble() < 0.40) {
-                    this.spawnAtLocation(new ItemStack(Items.BEEF, 2), 0F);
-                    this.spawnAtLocation(new ItemStack(Items.LEATHER, 2), 0F);
-                } else if (random.nextDouble() > 0.40) {
-                    this.spawnAtLocation(new ItemStack(Items.BEEF, 1), 0F);
-                    this.spawnAtLocation(new ItemStack(Items.LEATHER, 1), 0F);
-                }
-            }
-
-            if (this.isNormalBreed()) {
-                if (random.nextDouble() < 0.15) {
-                    this.spawnAtLocation(new ItemStack(Items.BEEF, 1), 0F);
-                    this.spawnAtLocation(new ItemStack(Items.LEATHER, 1), 0F);
-                }
-            }
-
-            if (LivestockOverhaulCommonConfig.QUALITY.get()) {
-                if (this.isExquisiteQuality()) {
-                    this.spawnAtLocation(new ItemStack(Items.BEEF, 3), 0F);
-                    this.spawnAtLocation(new ItemStack(Items.LEATHER, 3), 0F);
-                } else if (this.isFantasticQuality()) {
-                    this.spawnAtLocation(new ItemStack(Items.BEEF, 2), 0F);
-                    this.spawnAtLocation(new ItemStack(Items.LEATHER, 2), 0F);
-                } else if (this.isGreatQuality()) {
-                    this.spawnAtLocation(new ItemStack(Items.BEEF, 1), 0F);
-                    this.spawnAtLocation(new ItemStack(Items.LEATHER, 1), 0F);
-                }
-            }
+        if (ScrapsExtrasCommonConfig.BUTCHERING.get()) {
+            return;
         }
     }
 
