@@ -435,7 +435,7 @@ public class ForgeEvent {
         LivingEntity deceased = event.getEntity();
         Level level = deceased.level();
 
-        if (!deceased.isBaby()) {
+        if (!deceased.isBaby() && ScrapsExtrasCommonConfig.BUTCHERING.get()) {
             if (deceased instanceof OCow animal) {
                 if (!level.isClientSide()) {
                     CowCorpse corpse = new CowCorpse(SEEntityTypes.COW_CORPSE.get(), level);
