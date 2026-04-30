@@ -25,7 +25,8 @@ DragN0007 - Producer, Assets, Code
 
 ## Livestock Overhaul: Extras & Scraps
 LO:E&S is an *addon mod* to the original Livestock Overhaul and LO: Pets that includes previously scrapped and totally new extras to certain animals. The features included in this addon simply don’t fit into LO’s basic “no heavy maintenance” rules, and therefore, were placed within their own mod instead.
--# *This mod requires the base **Livestock Overhaul** and **Livestock Overhaul: Pets**.*
+
+*This mod requires the base **Livestock Overhaul** and **Livestock Overhaul: Pets**.*
 
 ### New Features:
 - **Animal Welfare**

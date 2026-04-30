@@ -2,7 +2,6 @@ package com.dragn0007.dragnloextras.util;
 
 import com.dragn0007.dragnloextras.capabilities.ImmunityCapabilityInterface;
 import com.dragn0007.dragnloextras.capabilities.SECapabilities;
-import com.dragn0007.dragnloextras.capabilities.SleepingCapabilityInterface;
 import com.dragn0007.dragnloextras.capabilities.TraitCapabilityInterface;
 import com.dragn0007.dragnloextras.network.SyncImmunityPacket;
 import net.minecraft.world.entity.LivingEntity;

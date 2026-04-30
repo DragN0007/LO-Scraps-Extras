@@ -3,7 +3,6 @@ package com.dragn0007.dragnloextras.util;
 import com.dragn0007.dragnloextras.capabilities.SECapabilities;
 import com.dragn0007.dragnloextras.capabilities.TraitCapabilityInterface;
 import com.dragn0007.dragnloextras.effects.SEEffects;
-import com.dragn0007.dragnloextras.network.SyncSpikeCollarLayerPacket;
 import com.dragn0007.dragnloextras.network.SyncTraitPacket;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
