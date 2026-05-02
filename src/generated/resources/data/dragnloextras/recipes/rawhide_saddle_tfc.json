@@ -1,0 +1,32 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "dragnloextras:tfc_condition"
+        }
+      ],
+      "recipe": {
+        "type": "minecraft:crafting_shaped",
+        "category": "misc",
+        "key": {
+          "A": {
+            "item": "tfc:large_raw_hide"
+          },
+          "B": {
+            "item": "tfc:jute_fiber"
+          }
+        },
+        "pattern": [
+          "BAB",
+          "B B"
+        ],
+        "result": {
+          "item": "dragnloextras:rawhide_saddle"
+        },
+        "show_notification": true
+      }
+    }
+  ]
+}
