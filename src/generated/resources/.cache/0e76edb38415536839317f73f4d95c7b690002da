@@ -1,4 +1,4 @@
-// 1.20.1	2026-04-30T01:35:17.5094699	Item Models: dragnloextras
+// 1.20.1	2026-05-01T19:39:13.2353502	Item Models: dragnloextras
 4d58d8777a803ce3c6f0c80907de9579c019ac6c assets/dragnloextras/models/item/antibiotic_eardrops.json
 5f7dd1f99481a3aa4a46c7658b52b3f9655da8dd assets/dragnloextras/models/item/antibiotic_injection.json
 c76280cffd2fe708ec18ee2e9ee876ddc90b9199 assets/dragnloextras/models/item/antibiotic_ointment.json
@@ -90,6 +90,7 @@ f7a8c5e7bc7e65aa0fd4f6e93d52fbdaeb68e7c0 assets/dragnloextras/models/item/orange
 c18a0c91d74730e3d72eeac45db63e82e4848a29 assets/dragnloextras/models/item/purple_turnout_blanket.json
 9f1e1d847709a190345ecff52cef77e054cc6cef assets/dragnloextras/models/item/rabbit_thigh.json
 f05adba42b23e3005e46e7e7e0d1bab758727494 assets/dragnloextras/models/item/rabies_shot.json
+fc05709efc1ab24c0814ac6e3ab6d5449f43f086 assets/dragnloextras/models/item/rawhide_saddle.json
 15fbefc17359e21c0d5bb4d76239fdec8daf0ac2 assets/dragnloextras/models/item/red_halter.json
 fb1146f6abce6b0485bf5112f108be84e7bfbc73 assets/dragnloextras/models/item/red_turnout_blanket.json
 d516057e35b2a49412ee85690ad8d3a8e13b628b assets/dragnloextras/models/item/salmon_fillet.json

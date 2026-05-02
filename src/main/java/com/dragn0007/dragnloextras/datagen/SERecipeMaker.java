@@ -7,6 +7,7 @@ import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.util.SETags;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.items.Food;
+import net.dries007.tfc.common.items.HideItemType;
 import net.dries007.tfc.common.items.Powder;
 import net.dries007.tfc.common.items.TFCItems;
 import net.dries007.tfc.util.Metal;
@@ -805,6 +806,18 @@ public class SERecipeMaker extends RecipeProvider implements IConditionBuilder {
                                 .unlockedBy("has_wool", has(ItemTags.WOOL))
                                 ::save).build
                         (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.HORSE_MANNEQUIN.get() + "_tfc"));
+
+        ConditionalRecipe.builder()
+                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
+                .addRecipe(
+                        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.RAWHIDE_SADDLE.get())
+                                .define('A', TFCItems.HIDES.get(HideItemType.RAW).get(HideItemType.Size.LARGE).get())
+                                .define('B', TFCItems.JUTE_FIBER.get())
+                                .pattern("BAB")
+                                .pattern("B B")
+                                .unlockedBy("has_jute_fiber", has(ItemTags.WOOL))
+                                ::save).build
+                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.RAWHIDE_SADDLE.get() + "_tfc"));
 
     }
 }

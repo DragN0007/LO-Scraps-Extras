@@ -60,6 +60,14 @@ public class SleepGoal extends Goal {
       }
    }
 
+   @Override
+   public void tick() {
+      super.tick();
+      if (!canUse()) {
+         stop();
+      }
+   }
+
    public void stop() {
       if (this.mob.getCapability(SECapabilities.SLEEPING_CAPABILITY).isPresent()) {
          SleepingCapabilityInterface sleepingCap = this.mob.getCapability(SECapabilities.SLEEPING_CAPABILITY).orElse(null);

@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
-
+    {
+      "id": "tfc:hide/large_sheepskin",
+      "required": false
+    }
   ]
 }

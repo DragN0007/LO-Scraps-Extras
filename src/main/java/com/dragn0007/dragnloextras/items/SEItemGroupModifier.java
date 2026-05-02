@@ -42,6 +42,8 @@ public class SEItemGroupModifier {
                         output.accept(SEItems.HORSE_MANNEQUIN.get());
                         output.accept(SEItems.COLLAR_SPIKES.get());
 
+                        output.accept(SEItems.RAWHIDE_SADDLE.get());
+
                         output.accept(SEItems.BLACK_HALTER.get());
                         output.accept(SEItems.BLUE_HALTER.get());
                         output.accept(SEItems.BROWN_HALTER.get());

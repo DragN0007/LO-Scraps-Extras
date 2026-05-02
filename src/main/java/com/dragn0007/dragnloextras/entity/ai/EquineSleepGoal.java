@@ -63,6 +63,14 @@ public class EquineSleepGoal extends Goal implements ISleepAsLeaderHolder {
       }
    }
 
+   @Override
+   public void tick() {
+      super.tick();
+      if (!canUse()) {
+         stop();
+      }
+   }
+
    public void stop() {
       SleepingCapabilityInterface sleepingCap = this.mob.getCapability(SECapabilities.SLEEPING_CAPABILITY).orElse(null);
       sleepingCap.setSleeping(false);

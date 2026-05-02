@@ -403,9 +403,8 @@ public abstract class OCowMixin extends AbstractOMount implements DirtyCapabilit
         return calf;
     }
 
-    @Inject(method = "dropCustomDeathLoot", at = @At("HEAD"), remap = false)
+    @Inject(method = "dropCustomDeathLoot", at = @At("HEAD"))
     public void dropCustomDeathLoot(DamageSource p_33574_, int p_33575_, boolean p_33576_, CallbackInfo ci) {
-        super.dropCustomDeathLoot(p_33574_, p_33575_, p_33576_);
         if (ScrapsExtrasCommonConfig.BUTCHERING.get()) {
             return;
         }

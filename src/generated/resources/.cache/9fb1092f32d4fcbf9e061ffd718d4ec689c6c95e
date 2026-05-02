@@ -1,4 +1,4 @@
-// 1.20.1	2026-04-30T01:35:17.5074757	Recipes
+// 1.20.1	2026-05-01T19:37:53.8834664	Recipes
 7fbd4f2cb67732d3f61aa07374ee82f7f51f9a30 data/dragnloextras/advancements/recipes/misc/antibiotic_eardrops.json
 03bde1dcaa1a6725659af8a0741177b30db44556 data/dragnloextras/advancements/recipes/misc/antibiotic_injection.json
 58fe78d41209be12b2b3d880ef1da18b05dc37e7 data/dragnloextras/advancements/recipes/misc/antibiotic_ointment.json
@@ -173,6 +173,7 @@ c38a971d05d9aca0cc655766b8a664e275b96b48 data/dragnloextras/recipes/purple_halte
 489507178f76f25b9165820642aa8232d6beab5b data/dragnloextras/recipes/purple_turnout_blanket.json
 c50385587233046a7b10ccbb8fce573ffeff687b data/dragnloextras/recipes/rabies_shot.json
 f0cb9ba8d5d9e5fefcc2675386a4852c10015108 data/dragnloextras/recipes/rabies_shot_tfc.json
+f7763b35acd35320e288ce9599694813c295bd43 data/dragnloextras/recipes/rawhide_saddle_tfc.json
 ebb65d5aab50aaa5eb3c5a7607edfa9f09e0d668 data/dragnloextras/recipes/red_halter.json
 9c2c530564d2c604e4dd0f1f3b041c0e74adb5ff data/dragnloextras/recipes/red_turnout_blanket.json
 a7776b8c1dc8907b7c3206e2e5c3c7409f4b4018 data/dragnloextras/recipes/salmon_fillet.json

@@ -1,0 +1,29 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "tfc:large_raw_hide",
+      "required": false
+    },
+    {
+      "id": "tfc:medium_raw_hide",
+      "required": false
+    },
+    {
+      "id": "tfc:small_raw_hide",
+      "required": false
+    },
+    {
+      "id": "tfc:large_sheepskin_hide",
+      "required": false
+    },
+    {
+      "id": "tfc:medium_sheepskin_hide",
+      "required": false
+    },
+    {
+      "id": "tfc:small_sheepskin_hide",
+      "required": false
+    }
+  ]
+}

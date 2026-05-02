@@ -8,6 +8,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.SaddleItem;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -59,6 +60,9 @@ public class SEItems {
 
     public static final RegistryObject<Item> COLLAR_SPIKES = ITEMS.register("collar_spikes",
             () -> new CollarSpikesItem(new Item.Properties()));
+
+    public static final RegistryObject<Item> RAWHIDE_SADDLE = ITEMS.register("rawhide_saddle",
+            () -> new SaddleItem(new Item.Properties()));
     
     public static final RegistryObject<Item> BLACK_HALTER = ITEMS.register("black_halter",
             () -> new HalterItem(DyeColor.BLACK, new Item.Properties()));
