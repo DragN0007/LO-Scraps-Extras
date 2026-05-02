@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
-
+    "dragnloextras:horse_brisket",
+    "dragnloextras:horse_chuck",
+    "dragnloextras:horse_rib",
+    "dragnloextras:horse_shank"
   ]
 }

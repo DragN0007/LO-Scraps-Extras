@@ -1,9 +1,7 @@
 {
   "replace": false,
   "values": [
-    {
-      "id": "tfc:hide/large_sheepskin",
-      "required": false
-    }
+    "dragnloextras:cod_fillet",
+    "dragnloextras:salmon_fillet"
   ]
 }
