@@ -36,8 +36,6 @@ public class SleepGoal extends Goal {
          return false;
       } else if (mob.level().isDay()) {
          return false;
-//      } else if (this.mob.getClass() != OHorse.class && this.mob.getClass() != ODog.class) {
-//         return false;
       } else if (this.mob instanceof ODog tamable && (!tamable.wasToldToWander() && tamable.isTame() && !tamable.isOrderedToSit())) {
          return false;
       } else if (this.mob instanceof OWolf tamable && (!tamable.wasToldToWander() && tamable.isTame() && !tamable.isOrderedToSit())) {

@@ -26,13 +26,13 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
@@ -55,7 +55,6 @@ import software.bernie.geckolib.core.object.PlayState;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Random;
 
 @Mixin(OCow.class)
 public abstract class OCowMixin extends AbstractOMount implements DirtyCapabilityInterface, ITraitByBreedTypeHolder, IHungerHolder, ISleepAsLeaderHolder, ISickModHolder {
@@ -64,11 +63,6 @@ public abstract class OCowMixin extends AbstractOMount implements DirtyCapabilit
     @Shadow public abstract int getHornVariant();
     @Shadow public abstract int getQuality();
     @Shadow public abstract boolean isHarnessed();
-    @Shadow public abstract boolean isMeatBreed();
-    @Shadow public abstract boolean isNormalBreed();
-    @Shadow public abstract boolean isExquisiteQuality();
-    @Shadow public abstract boolean isFantasticQuality();
-    @Shadow public abstract boolean isGreatQuality();
 
     @Shadow public abstract void registerGoals();
 
@@ -126,6 +120,16 @@ public abstract class OCowMixin extends AbstractOMount implements DirtyCapabilit
     @Inject(method = "tick", at = @At("HEAD"))
     protected void onTick(CallbackInfo ci) {
         if (!this.level().isClientSide) {
+
+            if (ScrapsExtrasCommonConfig.SLEEPING.get()) {
+                SleepingCapabilityInterface sleepingCap;
+                if (this.getCapability(SECapabilities.SLEEPING_CAPABILITY).isPresent()) {
+                    sleepingCap = this.getCapability(SECapabilities.SLEEPING_CAPABILITY).orElse(null);
+                    if (sleepingCap != null && sleepingCap.isSleeping()) {
+                        this.goalSelector.getAvailableGoals().removeIf(goal -> goal.getGoal() instanceof LookAtPlayerGoal);
+                    }
+                }
+            }
 
             if (ScrapsExtrasCommonConfig.AILMENT_SYSTEM.get()) {
                 if (livestockOverhaulScraps$becomeSickChanceMod != 0) {

@@ -15,13 +15,13 @@
             "item": "tfc:metal/ingot/copper"
           },
           "B": {
-            "item": "tfc:metal/ingot/cast_iron"
+            "item": "tfc:jute_fiber"
           }
         },
         "pattern": [
-          "A A",
-          " A ",
-          "  B"
+          "B B",
+          " B ",
+          "  A"
         ],
         "result": {
           "item": "dragnloextras:stethoscope"

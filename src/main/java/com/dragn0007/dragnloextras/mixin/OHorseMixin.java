@@ -2,7 +2,6 @@ package com.dragn0007.dragnloextras.mixin;
 
 import com.dragn0007.dragnlivestock.client.event.LivestockOverhaulClientEvent;
 import com.dragn0007.dragnlivestock.entities.EntityTypes;
-import com.dragn0007.dragnlivestock.entities.cow.OCow;
 import com.dragn0007.dragnlivestock.entities.donkey.ODonkey;
 import com.dragn0007.dragnlivestock.entities.horse.HorseBreed;
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
@@ -36,6 +35,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.npc.Villager;
@@ -191,6 +191,16 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
     @Inject(method = "tick", at = @At("HEAD"))
     protected void onTick(CallbackInfo ci) {
         if (!this.level().isClientSide) {
+
+            if (ScrapsExtrasCommonConfig.SLEEPING.get()) {
+                SleepingCapabilityInterface sleepingCap = null;
+                if (this.getCapability(SECapabilities.SLEEPING_CAPABILITY).isPresent()) {
+                    sleepingCap = this.getCapability(SECapabilities.SLEEPING_CAPABILITY).orElse(null);
+                    if (sleepingCap != null && sleepingCap.isSleeping()) {
+                        this.goalSelector.getAvailableGoals().removeIf(goal -> goal.getGoal() instanceof LookAtPlayerGoal);
+                    }
+                }
+            }
 
             if (!this.isTamed()) {
                 if (ScrapsExtrasCommonConfig.AILMENT_SYSTEM.get()) {

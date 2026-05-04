@@ -1,4 +1,4 @@
-// 1.20.1	2026-05-01T19:37:53.8834664	Recipes
+// 1.20.1	2026-05-03T00:03:09.1843566	Recipes
 7fbd4f2cb67732d3f61aa07374ee82f7f51f9a30 data/dragnloextras/advancements/recipes/misc/antibiotic_eardrops.json
 03bde1dcaa1a6725659af8a0741177b30db44556 data/dragnloextras/advancements/recipes/misc/antibiotic_injection.json
 58fe78d41209be12b2b3d880ef1da18b05dc37e7 data/dragnloextras/advancements/recipes/misc/antibiotic_ointment.json
@@ -178,7 +178,7 @@ ebb65d5aab50aaa5eb3c5a7607edfa9f09e0d668 data/dragnloextras/recipes/red_halter.j
 9c2c530564d2c604e4dd0f1f3b041c0e74adb5ff data/dragnloextras/recipes/red_turnout_blanket.json
 a7776b8c1dc8907b7c3206e2e5c3c7409f4b4018 data/dragnloextras/recipes/salmon_fillet.json
 a5dbf66a136088da40690bce55c0309f4a5ad6fa data/dragnloextras/recipes/stethoscope.json
-584376d0a882c494a39a67bc8ee2f23484b48aae data/dragnloextras/recipes/stethoscope_tfc.json
+18281da3c3c86f78bd5ce519761b922e5f1e9d02 data/dragnloextras/recipes/stethoscope_tfc.json
 95443cc91f61ca4131d8ee2d0cbb18ccc64d1955 data/dragnloextras/recipes/veterinary_bandage.json
 df429cf978711c23efde2d0e0637b912ab28b2bb data/dragnloextras/recipes/veterinary_bandage_tfc.json
 9b099459c9637a34c1060da9b24cc862659b7e5d data/dragnloextras/recipes/white_halter.json

@@ -1,8 +1,8 @@
 package com.dragn0007.dragnloextras.datagen;
 
-import com.dragn0007.dragnloextras.datagen.conditions.TFCCondition;
 import com.dragn0007.dragnlivestock.util.LOTags;
 import com.dragn0007.dragnloextras.ScrapsExtras;
+import com.dragn0007.dragnloextras.datagen.conditions.TFCCondition;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.util.SETags;
 import net.dries007.tfc.common.TFCTags;
@@ -785,10 +785,10 @@ public class SERecipeMaker extends RecipeProvider implements IConditionBuilder {
                 .addRecipe(
                         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.STETHOSCOPE.get())
                                 .define('A', TFCItems.METAL_ITEMS.get(Metal.Default.COPPER).get(Metal.ItemType.INGOT).get())
-                                .define('B', TFCItems.METAL_ITEMS.get(Metal.Default.CAST_IRON).get(Metal.ItemType.INGOT).get())
-                                .pattern("A A")
-                                .pattern(" A ")
-                                .pattern("  B")
+                                .define('B', TFCItems.JUTE_FIBER.get())
+                                .pattern("B B")
+                                .pattern(" B ")
+                                .pattern("  A")
                                 .unlockedBy("has_iron", has(Items.IRON_INGOT))
                                 ::save).build
                         (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.STETHOSCOPE.get() + "_tfc"));

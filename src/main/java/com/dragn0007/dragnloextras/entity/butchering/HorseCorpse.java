@@ -1,7 +1,5 @@
 package com.dragn0007.dragnloextras.entity.butchering;
 
-import com.dragn0007.dragnlivestock.entities.cow.OCowModel;
-import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnlivestock.entities.horse.OHorseModel;
 import com.dragn0007.dragnlivestock.items.LOItems;
 import com.dragn0007.dragnloextras.items.SEItems;

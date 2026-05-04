@@ -31,6 +31,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.npc.Villager;
@@ -140,6 +141,16 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
     @Inject(method = "tick", at = @At("HEAD"))
     protected void onTick(CallbackInfo ci) {
         if (!this.level().isClientSide) {
+
+            if (ScrapsExtrasCommonConfig.SLEEPING.get()) {
+                SleepingCapabilityInterface sleepingCap = null;
+                if (this.getCapability(SECapabilities.SLEEPING_CAPABILITY).isPresent()) {
+                    sleepingCap = this.getCapability(SECapabilities.SLEEPING_CAPABILITY).orElse(null);
+                    if (sleepingCap != null && sleepingCap.isSleeping()) {
+                        this.goalSelector.getAvailableGoals().removeIf(goal -> goal.getGoal() instanceof LookAtPlayerGoal);
+                    }
+                }
+            }
 
             if (this.isTame()) {
                 if (ScrapsExtrasCommonConfig.AILMENT_SYSTEM.get()) {
