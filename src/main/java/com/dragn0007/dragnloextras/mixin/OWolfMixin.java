@@ -13,6 +13,9 @@ import com.dragn0007.dragnloextras.network.SyncSpikeCollarLayerPacket;
 import com.dragn0007.dragnloextras.network.SyncTraitPacket;
 import com.dragn0007.dragnloextras.util.*;
 import com.dragn0007.dragnpets.entities.POEntityTypes;
+import com.dragn0007.dragnpets.entities.ai.CanineFollowPackLeaderGoal;
+import com.dragn0007.dragnpets.entities.ai.DogFollowPackLeaderGoal;
+import com.dragn0007.dragnpets.entities.ai.WolfFollowOwnerGoal;
 import com.dragn0007.dragnpets.entities.dog.DogBase;
 import com.dragn0007.dragnpets.entities.dog.ODog;
 import com.dragn0007.dragnpets.entities.wolf.OWolf;
@@ -130,11 +133,12 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
         if (!this.level().isClientSide) {
 
             if (ScrapsExtrasCommonConfig.SLEEPING.get()) {
-                SleepingCapabilityInterface sleepingCap = null;
+                SleepingCapabilityInterface sleepingCap;
                 if (this.getCapability(SECapabilities.SLEEPING_CAPABILITY).isPresent()) {
                     sleepingCap = this.getCapability(SECapabilities.SLEEPING_CAPABILITY).orElse(null);
                     if (sleepingCap != null && sleepingCap.isSleeping()) {
                         this.goalSelector.getAvailableGoals().removeIf(goal -> goal.getGoal() instanceof LookAtPlayerGoal);
+                        this.goalSelector.getAvailableGoals().removeIf(goal -> goal.getGoal() instanceof CanineFollowPackLeaderGoal);
                     }
                 }
             }

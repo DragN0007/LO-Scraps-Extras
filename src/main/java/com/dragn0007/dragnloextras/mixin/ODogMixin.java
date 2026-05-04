@@ -1,5 +1,6 @@
 package com.dragn0007.dragnloextras.mixin;
 
+import com.dragn0007.dragnlivestock.entities.ai.HorseFollowHerdLeaderGoal;
 import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
 import com.dragn0007.dragnloextras.capabilities.*;
 import com.dragn0007.dragnloextras.effects.SEEffects;
@@ -13,6 +14,8 @@ import com.dragn0007.dragnloextras.network.SyncSpikeCollarLayerPacket;
 import com.dragn0007.dragnloextras.network.SyncTraitPacket;
 import com.dragn0007.dragnloextras.util.*;
 import com.dragn0007.dragnpets.entities.POEntityTypes;
+import com.dragn0007.dragnpets.entities.ai.DogFollowOwnerGoal;
+import com.dragn0007.dragnpets.entities.ai.DogFollowPackLeaderGoal;
 import com.dragn0007.dragnpets.entities.dog.DogBreed;
 import com.dragn0007.dragnpets.entities.dog.DogMarkingOverlay;
 import com.dragn0007.dragnpets.entities.dog.ODog;
@@ -143,11 +146,12 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
         if (!this.level().isClientSide) {
 
             if (ScrapsExtrasCommonConfig.SLEEPING.get()) {
-                SleepingCapabilityInterface sleepingCap = null;
+                SleepingCapabilityInterface sleepingCap;
                 if (this.getCapability(SECapabilities.SLEEPING_CAPABILITY).isPresent()) {
                     sleepingCap = this.getCapability(SECapabilities.SLEEPING_CAPABILITY).orElse(null);
                     if (sleepingCap != null && sleepingCap.isSleeping()) {
                         this.goalSelector.getAvailableGoals().removeIf(goal -> goal.getGoal() instanceof LookAtPlayerGoal);
+                        this.goalSelector.getAvailableGoals().removeIf(goal -> goal.getGoal() instanceof DogFollowPackLeaderGoal);
                     }
                 }
             }

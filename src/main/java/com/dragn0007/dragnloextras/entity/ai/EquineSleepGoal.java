@@ -38,8 +38,6 @@ public class EquineSleepGoal extends Goal implements ISleepAsLeaderHolder {
          return false;
       } else if (this.mob.isVehicle()) {
          return false;
-      } else if (this.mob.getHealth() < this.mob.getMaxHealth()) {
-         return false;
       } else if (mob.level().isDay()) {
          return false;
       } else if (this.mob.getClass() != OHorse.class) {
@@ -63,11 +61,19 @@ public class EquineSleepGoal extends Goal implements ISleepAsLeaderHolder {
       }
    }
 
+   public int regenHealthCounter = 0;
+
    @Override
    public void tick() {
       super.tick();
       if (!canUse()) {
          stop();
+      } else {
+         regenHealthCounter++;
+         if (this.mob.getHealth() < this.mob.getMaxHealth() && regenHealthCounter >= 300 && this.mob.isAlive()) {
+            this.mob.setHealth(this.mob.getHealth() + 4);
+            regenHealthCounter = 0;
+         }
       }
    }
 

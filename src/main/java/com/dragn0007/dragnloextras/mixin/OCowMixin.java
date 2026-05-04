@@ -1,6 +1,7 @@
 package com.dragn0007.dragnloextras.mixin;
 
 import com.dragn0007.dragnlivestock.entities.EntityTypes;
+import com.dragn0007.dragnlivestock.entities.ai.CattleFollowHerdLeaderGoal;
 import com.dragn0007.dragnlivestock.entities.cow.CowBreed;
 import com.dragn0007.dragnlivestock.entities.cow.OCow;
 import com.dragn0007.dragnlivestock.entities.cow.OCowModel;
@@ -17,6 +18,7 @@ import com.dragn0007.dragnloextras.entity.ai.SleepGoal;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.network.SyncImmunityPacket;
 import com.dragn0007.dragnloextras.util.*;
+import com.dragn0007.dragnpets.entities.ai.CanineFollowPackLeaderGoal;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -127,6 +129,7 @@ public abstract class OCowMixin extends AbstractOMount implements DirtyCapabilit
                     sleepingCap = this.getCapability(SECapabilities.SLEEPING_CAPABILITY).orElse(null);
                     if (sleepingCap != null && sleepingCap.isSleeping()) {
                         this.goalSelector.getAvailableGoals().removeIf(goal -> goal.getGoal() instanceof LookAtPlayerGoal);
+                        this.goalSelector.getAvailableGoals().removeIf(goal -> goal.getGoal() instanceof CattleFollowHerdLeaderGoal);
                     }
                 }
             }

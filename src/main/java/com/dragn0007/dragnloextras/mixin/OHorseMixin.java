@@ -2,6 +2,7 @@ package com.dragn0007.dragnloextras.mixin;
 
 import com.dragn0007.dragnlivestock.client.event.LivestockOverhaulClientEvent;
 import com.dragn0007.dragnlivestock.entities.EntityTypes;
+import com.dragn0007.dragnlivestock.entities.ai.HorseFollowHerdLeaderGoal;
 import com.dragn0007.dragnlivestock.entities.donkey.ODonkey;
 import com.dragn0007.dragnlivestock.entities.horse.HorseBreed;
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
@@ -193,11 +194,12 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
         if (!this.level().isClientSide) {
 
             if (ScrapsExtrasCommonConfig.SLEEPING.get()) {
-                SleepingCapabilityInterface sleepingCap = null;
+                SleepingCapabilityInterface sleepingCap;
                 if (this.getCapability(SECapabilities.SLEEPING_CAPABILITY).isPresent()) {
                     sleepingCap = this.getCapability(SECapabilities.SLEEPING_CAPABILITY).orElse(null);
-                    if (sleepingCap != null && sleepingCap.isSleeping()) {
+                    if (sleepingCap != null && (sleepingCap.isSleeping() || this.isSleepingAsLeader())) {
                         this.goalSelector.getAvailableGoals().removeIf(goal -> goal.getGoal() instanceof LookAtPlayerGoal);
+                        this.goalSelector.getAvailableGoals().removeIf(goal -> goal.getGoal() instanceof HorseFollowHerdLeaderGoal);
                     }
                 }
             }

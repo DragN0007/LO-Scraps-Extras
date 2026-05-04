@@ -1,0 +1,23 @@
+{
+  "name": "Sleeping",
+  "icon": "minecraft:white_bed",
+  "category": "dragnloextras:minor_category",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecraft:white_bed"
+      },
+      "title": "Sleeping Animals",
+      "text": "Animals now lay down and sleep at night. This is mainly cosmetic, however, animals do heal slowly while sleeping, allowing for a nice way to heal."
+    },
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecraft:saddle"
+      },
+      "title": "Sleeping Horses",
+      "text": "Horses sleep in a special fashion. When O-Horses sleep, one horse (the leader) will almost always remain standing, and the others in the herd will lay down. Don't worry, the leader will still get resting benefits (healing)."
+    }
+  ]
+}
