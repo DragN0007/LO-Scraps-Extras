@@ -14,8 +14,6 @@ import com.dragn0007.dragnloextras.network.SyncTraitPacket;
 import com.dragn0007.dragnloextras.util.*;
 import com.dragn0007.dragnpets.entities.POEntityTypes;
 import com.dragn0007.dragnpets.entities.ai.CanineFollowPackLeaderGoal;
-import com.dragn0007.dragnpets.entities.ai.DogFollowPackLeaderGoal;
-import com.dragn0007.dragnpets.entities.ai.WolfFollowOwnerGoal;
 import com.dragn0007.dragnpets.entities.dog.DogBase;
 import com.dragn0007.dragnpets.entities.dog.ODog;
 import com.dragn0007.dragnpets.entities.wolf.OWolf;

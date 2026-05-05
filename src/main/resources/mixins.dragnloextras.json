@@ -9,6 +9,7 @@
     "ODogMixin",
     "OHorseMixin",
     "OHorseRenderMixin",
+    "OSheepMixin",
     "OWolfMixin",
     "PSpawnReplacerMixin",
     "SpawnReplacerMixin"

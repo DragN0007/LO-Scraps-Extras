@@ -2,6 +2,7 @@ package com.dragn0007.dragnloextras.entity;
 
 import com.dragn0007.dragnloextras.entity.butchering.CowCorpse;
 import com.dragn0007.dragnloextras.entity.butchering.HorseCorpse;
+import com.dragn0007.dragnloextras.entity.butchering.SheepCorpse;
 import com.dragn0007.dragnloextras.entity.mannequin.HorseMannequin;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -34,5 +35,11 @@ public class SEEntityTypes {
                             MobCategory.CREATURE)
                     .sized(1.5f,1.0f)
                     .build(new ResourceLocation(MODID,"horse_corpse").toString()));
+
+    public static final RegistryObject<EntityType<SheepCorpse>> SHEEP_CORPSE = ENTITY_TYPES.register("sheep_corpse",
+            () -> EntityType.Builder.of(SheepCorpse::new,
+                            MobCategory.CREATURE)
+                    .sized(1.5f,1.0f)
+                    .build(new ResourceLocation(MODID,"sheep_corpse").toString()));
 }
 

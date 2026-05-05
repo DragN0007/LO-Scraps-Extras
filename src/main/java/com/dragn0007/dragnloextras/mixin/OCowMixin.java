@@ -8,7 +8,6 @@ import com.dragn0007.dragnlivestock.entities.cow.OCowModel;
 import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
 import com.dragn0007.dragnlivestock.entities.util.marking_layer.BovineMarkingOverlay;
 import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
-import com.dragn0007.dragnloextras.capabilities.DirtyCapabilityInterface;
 import com.dragn0007.dragnloextras.capabilities.ImmunityCapabilityInterface;
 import com.dragn0007.dragnloextras.capabilities.SECapabilities;
 import com.dragn0007.dragnloextras.capabilities.SleepingCapabilityInterface;
@@ -17,8 +16,9 @@ import com.dragn0007.dragnloextras.entity.ai.FleeRainGoal;
 import com.dragn0007.dragnloextras.entity.ai.SleepGoal;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.network.SyncImmunityPacket;
-import com.dragn0007.dragnloextras.util.*;
-import com.dragn0007.dragnpets.entities.ai.CanineFollowPackLeaderGoal;
+import com.dragn0007.dragnloextras.util.BaseImmunityHelper;
+import com.dragn0007.dragnloextras.util.ISickModHolder;
+import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -59,7 +59,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 @Mixin(OCow.class)
-public abstract class OCowMixin extends AbstractOMount implements DirtyCapabilityInterface, ITraitByBreedTypeHolder, IHungerHolder, ISleepAsLeaderHolder, ISickModHolder {
+public abstract class OCowMixin extends AbstractOMount implements ISickModHolder {
 
     @Shadow @Nullable public abstract SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, @org.jetbrains.annotations.Nullable SpawnGroupData data, @org.jetbrains.annotations.Nullable CompoundTag tag);
     @Shadow public abstract int getHornVariant();

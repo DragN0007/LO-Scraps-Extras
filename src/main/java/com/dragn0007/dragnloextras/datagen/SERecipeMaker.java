@@ -570,6 +570,25 @@ public class SERecipeMaker extends RecipeProvider implements IConditionBuilder {
         SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.HORSE_SHANK.get()), RecipeCategory.MISC, SEItems.COOKED_HORSE_SHANK.get(), 0.35F, 600)
                 .unlockedBy("has_horse_shank", has(SEItems.HORSE_SHANK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_HORSE_SHANK.get() + "_campfire_cooking"));
 
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.MUTTON_FLANK.get()), RecipeCategory.MISC, SEItems.COOKED_MUTTON_FLANK.get(), 0.35F, 100)
+                .unlockedBy("has_mutton_flank", has(SEItems.MUTTON_FLANK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_MUTTON_FLANK.get() + "_smoking"));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.MUTTON_FLANK.get()), RecipeCategory.MISC, SEItems.COOKED_MUTTON_FLANK.get(), 0.35F, 200)
+                .unlockedBy("has_mutton_flank", has(SEItems.MUTTON_FLANK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_MUTTON_FLANK.get() + "_smelting"));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.MUTTON_FLANK.get()), RecipeCategory.MISC, SEItems.COOKED_MUTTON_FLANK.get(), 0.35F, 600)
+                .unlockedBy("has_mutton_flank", has(SEItems.MUTTON_FLANK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_MUTTON_FLANK.get() + "_campfire_cooking"));
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.MUTTON_RIB.get()), RecipeCategory.MISC, SEItems.COOKED_MUTTON_RIB.get(), 0.35F, 100)
+                .unlockedBy("has_mutton_rib", has(SEItems.MUTTON_RIB.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_MUTTON_RIB.get() + "_smoking"));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.MUTTON_RIB.get()), RecipeCategory.MISC, SEItems.COOKED_MUTTON_RIB.get(), 0.35F, 200)
+                .unlockedBy("has_mutton_rib", has(SEItems.MUTTON_RIB.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_MUTTON_RIB.get() + "_smelting"));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.MUTTON_RIB.get()), RecipeCategory.MISC, SEItems.COOKED_MUTTON_RIB.get(), 0.35F, 600)
+                .unlockedBy("has_mutton_rib", has(SEItems.MUTTON_RIB.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_MUTTON_RIB.get() + "_campfire_cooking"));
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.MUTTON_LEG.get()), RecipeCategory.MISC, SEItems.COOKED_MUTTON_LEG.get(), 0.35F, 100)
+                .unlockedBy("has_mutton_leg", has(SEItems.MUTTON_LEG.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_MUTTON_LEG.get() + "_smoking"));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.MUTTON_LEG.get()), RecipeCategory.MISC, SEItems.COOKED_MUTTON_LEG.get(), 0.35F, 200)
+                .unlockedBy("has_mutton_leg", has(SEItems.MUTTON_LEG.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_MUTTON_LEG.get() + "_smelting"));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.MUTTON_LEG.get()), RecipeCategory.MISC, SEItems.COOKED_MUTTON_LEG.get(), 0.35F, 600)
+                .unlockedBy("has_mutton_leg", has(SEItems.MUTTON_LEG.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_MUTTON_LEG.get() + "_campfire_cooking"));
+
         SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.CHICKEN_THIGH.get()), RecipeCategory.MISC, SEItems.COOKED_CHICKEN_THIGH.get(), 0.35F, 100)
                 .unlockedBy("has_chicken_thigh", has(SEItems.CHICKEN_THIGH.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, "cooked_chicken_thigh_smoking"));
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.CHICKEN_THIGH.get()), RecipeCategory.MISC, SEItems.COOKED_CHICKEN_THIGH.get(), 0.35F, 200)

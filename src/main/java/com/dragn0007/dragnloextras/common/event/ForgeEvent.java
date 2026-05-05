@@ -6,6 +6,7 @@ import com.dragn0007.dragnlivestock.entities.cow.OCow;
 import com.dragn0007.dragnlivestock.entities.donkey.ODonkey;
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnlivestock.entities.mule.OMule;
+import com.dragn0007.dragnlivestock.entities.sheep.OSheep;
 import com.dragn0007.dragnlivestock.entities.unicorn.Unicorn;
 import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
 import com.dragn0007.dragnloextras.capabilities.*;
@@ -13,6 +14,7 @@ import com.dragn0007.dragnloextras.effects.SEEffects;
 import com.dragn0007.dragnloextras.entity.SEEntityTypes;
 import com.dragn0007.dragnloextras.entity.butchering.CowCorpse;
 import com.dragn0007.dragnloextras.entity.butchering.HorseCorpse;
+import com.dragn0007.dragnloextras.entity.butchering.SheepCorpse;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.network.*;
 import com.dragn0007.dragnloextras.util.ISleepAsLeaderHolder;
@@ -120,6 +122,7 @@ public class ForgeEvent {
         //attach general caps
         if ((event.getObject() instanceof OHorse && event.getObject().getClass() == OHorse.class) ||
             (event.getObject() instanceof OCow && event.getObject().getClass() == OCow.class) ||
+            (event.getObject() instanceof OSheep && event.getObject().getClass() == OSheep.class) ||
             (event.getObject() instanceof Unicorn && event.getObject().getClass() == Unicorn.class) ||
             (event.getObject() instanceof ODog && event.getObject().getClass() == ODog.class) ||
             (event.getObject() instanceof OWolf && event.getObject().getClass() == OWolf.class) ||
@@ -153,12 +156,15 @@ public class ForgeEvent {
                 }
             }
 
-            if (!event.getObject().getCapability(SECapabilities.IMMUNITY_CAPABILITY).isPresent()) {
-                ImmunityCapabilityAttacher.attach(event);
-                if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
-                    System.out.println("Attached the Immunity Capability NBT to " + event.getObject().getName());
+            if (!(event.getObject() instanceof OSheep && event.getObject().getClass() == OSheep.class)) {
+                if (!event.getObject().getCapability(SECapabilities.IMMUNITY_CAPABILITY).isPresent()) {
+                    ImmunityCapabilityAttacher.attach(event);
+                    if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
+                        System.out.println("Attached the Immunity Capability NBT to " + event.getObject().getName());
+                    }
                 }
             }
+
             if (!event.getObject().getCapability(SECapabilities.SLEEPING_CAPABILITY).isPresent()) {
                 SleepingCapabilityAttacher.attach(event);
                 if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
@@ -455,6 +461,14 @@ public class ForgeEvent {
             if (deceased instanceof OHorse animal) {
                 if (!level.isClientSide()) {
                     HorseCorpse corpse = new HorseCorpse(SEEntityTypes.HORSE_CORPSE.get(), level);
+                    corpse.setVariant(animal.getVariant());
+                    corpse.moveTo(deceased.getX(), deceased.getY(), deceased.getZ(), deceased.getYRot(), deceased.getXRot());
+                    level.addFreshEntity(corpse);
+                }
+            }
+            if (deceased instanceof OSheep animal) {
+                if (!level.isClientSide()) {
+                    SheepCorpse corpse = new SheepCorpse(SEEntityTypes.SHEEP_CORPSE.get(), level);
                     corpse.setVariant(animal.getVariant());
                     corpse.moveTo(deceased.getX(), deceased.getY(), deceased.getZ(), deceased.getYRot(), deceased.getXRot());
                     level.addFreshEntity(corpse);

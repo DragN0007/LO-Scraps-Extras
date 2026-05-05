@@ -90,6 +90,12 @@ public class SEItemGroupModifier {
                         output.accept(SEItems.COOKED_HORSE_CHUCK.get());
                         output.accept(SEItems.COOKED_HORSE_RIB.get());
                         output.accept(SEItems.COOKED_HORSE_SHANK.get());
+                        output.accept(SEItems.MUTTON_FLANK.get());
+                        output.accept(SEItems.MUTTON_RIB.get());
+                        output.accept(SEItems.MUTTON_LEG.get());
+                        output.accept(SEItems.COOKED_MUTTON_FLANK.get());
+                        output.accept(SEItems.COOKED_MUTTON_RIB.get());
+                        output.accept(SEItems.COOKED_MUTTON_LEG.get());
                         output.accept(SEItems.CHICKEN_THIGH.get());
                         output.accept(SEItems.COOKED_CHICKEN_THIGH.get());
                         output.accept(SEItems.RABBIT_THIGH.get());
