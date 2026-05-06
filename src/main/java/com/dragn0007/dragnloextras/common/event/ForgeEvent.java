@@ -147,7 +147,8 @@ public class ForgeEvent {
             }
 
             //cows, in gameplay, cannot have traits. because that would be useless
-            if (!(event.getObject() instanceof OCow && event.getObject().getClass() == OCow.class)) {
+            if (!(event.getObject() instanceof OCow && event.getObject().getClass() == OCow.class) ||
+                    !(event.getObject() instanceof OSheep && event.getObject().getClass() == OSheep.class)) {
                 if (!event.getObject().getCapability(SECapabilities.TRAIT_CAPABILITY).isPresent()) {
                     TraitCapabilityAttacher.attach(event);
                     if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {

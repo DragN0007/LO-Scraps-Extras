@@ -8,6 +8,7 @@ import com.dragn0007.dragnpets.entities.dog.ODog;
 import com.dragn0007.dragnpets.entities.ocelot.OOcelot;
 import com.dragn0007.dragnpets.entities.wolf.OWolf;
 import com.dragn0007.dragnpets.spawn.SpawnReplacer;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -43,8 +44,12 @@ public class PSpawnReplacerMixin implements ISickModHolder {
                 if (event.getLevel().isClientSide) {
                     return;
                 }
-                BaseImmunityHelper.setBaseImmunity(oWolf);
-                BaseTraitHelper.setBaseTrait(oWolf, false);
+                CompoundTag nbt = oWolf.getPersistentData();
+                if (!nbt.getBoolean("loextras_initialized")) {
+                    BaseImmunityHelper.setBaseImmunity(oWolf);
+                    BaseTraitHelper.setBaseTrait(oWolf, false);
+                    nbt.putBoolean("loextras_initialized", true);
+                }
             }
         }
 
@@ -54,8 +59,12 @@ public class PSpawnReplacerMixin implements ISickModHolder {
                 if (event.getLevel().isClientSide) {
                     return;
                 }
-                BaseImmunityHelper.setBaseImmunity(oDog);
-                BaseTraitHelper.setBaseTrait(oDog, true);
+                CompoundTag nbt = oDog.getPersistentData();
+                if (!nbt.getBoolean("loextras_initialized")) {
+                    BaseImmunityHelper.setBaseImmunity(oDog);
+                    BaseTraitHelper.setBaseTrait(oDog, true);
+                    nbt.putBoolean("loextras_initialized", true);
+                }
             }
         }
 
@@ -65,8 +74,12 @@ public class PSpawnReplacerMixin implements ISickModHolder {
                 if (event.getLevel().isClientSide) {
                     return;
                 }
-                BaseImmunityHelper.setBaseImmunity(oCat);
-                BaseTraitHelper.setBaseTrait(oCat, false);
+                CompoundTag nbt = oCat.getPersistentData();
+                if (!nbt.getBoolean("loextras_initialized")) {
+                    BaseImmunityHelper.setBaseImmunity(oCat);
+                    BaseTraitHelper.setBaseTrait(oCat, false);
+                    nbt.putBoolean("loextras_initialized", true);
+                }
             }
         }
 
@@ -76,8 +89,12 @@ public class PSpawnReplacerMixin implements ISickModHolder {
                 if (event.getLevel().isClientSide) {
                     return;
                 }
-                BaseImmunityHelper.setBaseImmunity(oOcelot);
-                BaseTraitHelper.setBaseTrait(oOcelot, false);
+                CompoundTag nbt = oOcelot.getPersistentData();
+                if (!nbt.getBoolean("loextras_initialized")) {
+                    BaseImmunityHelper.setBaseImmunity(oOcelot);
+                    BaseTraitHelper.setBaseTrait(oOcelot, false);
+                    nbt.putBoolean("loextras_initialized", true);
+                }
             }
         }
     }

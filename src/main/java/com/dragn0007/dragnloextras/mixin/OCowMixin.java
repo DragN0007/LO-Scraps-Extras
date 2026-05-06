@@ -16,9 +16,7 @@ import com.dragn0007.dragnloextras.entity.ai.FleeRainGoal;
 import com.dragn0007.dragnloextras.entity.ai.SleepGoal;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.network.SyncImmunityPacket;
-import com.dragn0007.dragnloextras.util.BaseImmunityHelper;
-import com.dragn0007.dragnloextras.util.ISickModHolder;
-import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
+import com.dragn0007.dragnloextras.util.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -241,7 +239,11 @@ public abstract class OCowMixin extends AbstractOMount implements ISickModHolder
     private void spawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, SpawnGroupData data, CompoundTag tag, CallbackInfoReturnable<SpawnGroupData> cir) {
         OCow self = (OCow) (Object) this;
         if (self.getClass() == OCow.class) {
-            BaseImmunityHelper.setBaseImmunity(this);
+            CompoundTag nbt = this.getPersistentData();
+            if (!nbt.getBoolean("loextras_initialized")) {
+                BaseImmunityHelper.setBaseImmunity(this);
+                nbt.putBoolean("loextras_initialized", true);
+            }
         }
     }
 
@@ -289,79 +291,14 @@ public abstract class OCowMixin extends AbstractOMount implements ISickModHolder
         cir.setReturnValue(PlayState.CONTINUE);
     }
 
-    /**
-     * @author DragN0007
-     * @reason why are you asking me this on my own fucking code. i hate robots
-     */
-    public AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
+    @Inject(method = "getBreedOffspring", at = @At("TAIL"))
+    public void getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob, CallbackInfoReturnable<AgeableMob> cir) {
         OCow calf;
         OCow partner = (OCow) ageableMob;
         calf = EntityTypes.O_COW_ENTITY.get().create(serverLevel);
         ImmunityCapabilityInterface immunityCap = this.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
         ImmunityCapabilityInterface partnerimmunityCap = partner.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
         ImmunityCapabilityInterface calfimmunityCap = calf.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
-
-        int breedChance = this.random.nextInt(100);
-        int breed;
-        if (breedChance < ((100 - LivestockOverhaulCommonConfig.BREED_CHANCE.get()) / 2)) {
-            breed = this.getBreed();
-        } else if (breedChance < (100 - LivestockOverhaulCommonConfig.BREED_CHANCE.get())) {
-            breed = partner.getBreed();
-        } else {
-            breed = this.random.nextInt(CowBreed.Breed.values().length);
-        }
-        calf.setBreed(breed);
-
-        if (!(breedChance <= LivestockOverhaulCommonConfig.BREED_CHANCE.get())) {
-            int variantChance = this.random.nextInt(100);
-            int variant;
-            if (variantChance < ((100 - LivestockOverhaulCommonConfig.COAT_CHANCE.get()) / 2)) {
-                variant = this.getVariant();
-            } else if (variantChance < (100 - LivestockOverhaulCommonConfig.COAT_CHANCE.get())) {
-                variant = partner.getVariant();
-            } else {
-                variant = this.random.nextInt(OCowModel.Variant.values().length);
-            }
-            calf.setVariant(variant);
-        } else if (random.nextDouble() < 0.5) {
-            calf.setColorByBreed();
-        }
-
-        if (!(breedChance <= LivestockOverhaulCommonConfig.BREED_CHANCE.get())) {
-            int overlayChance = this.random.nextInt(100);
-            int overlay;
-            if (overlayChance < ((100 - LivestockOverhaulCommonConfig.MARKING_CHANCE.get()) / 2)) {
-                overlay = this.getOverlayVariant();
-            } else if (overlayChance < (100 - LivestockOverhaulCommonConfig.MARKING_CHANCE.get())) {
-                overlay = partner.getOverlayVariant();
-            } else {
-                overlay = this.random.nextInt(BovineMarkingOverlay.values().length);
-            }
-            calf.setOverlayVariant(overlay);
-        } else if (random.nextDouble() < 0.5) {
-            calf.setMarkingByBreed();
-        }
-
-        if (!(breedChance <= LivestockOverhaulCommonConfig.BREED_CHANCE.get())) {
-            int hornsChance = this.random.nextInt(100);
-            int hornType;
-            if (hornsChance < ((100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get()) / 2)) {
-                hornType = this.getHornVariant();
-            } else if (hornsChance < (100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get())) {
-                hornType = partner.getHornVariant();
-            } else {
-                hornType = this.random.nextInt(OCow.BreedHorns.values().length);
-            }
-            calf.setHornVariant(hornType);
-        } else if (random.nextDouble() < 0.5) {
-            calf.setHornsByBreed();
-        }
-
-        if (calf.getBreed() == 10) {
-            calf.setGender(1);
-        } else {
-            calf.setGender(random.nextInt(OCow.Gender.values().length));
-        }
 
         int immunityChance = this.random.nextInt(100);
         int immunity;
@@ -389,25 +326,18 @@ public abstract class OCowMixin extends AbstractOMount implements ISickModHolder
             SyncImmunityPacket.syncToTracking(calf, random.nextInt(baseImmunity));
         }
 
-        if (LivestockOverhaulCommonConfig.QUALITY.get()) {
-            int qual_avg = (this.getQuality() + partner.getQuality()) / 2;
-            if (random.nextDouble() <= 0.05) {
-                calf.setQuality(qual_avg + random.nextInt(50));
-            } else if (random.nextDouble() >= 0.05 && random.nextDouble() <= 0.25) {
-                calf.setQuality(qual_avg + random.nextInt(25));
-            } else if (random.nextDouble() >= 0.25 && random.nextDouble() <= 0.60) {
-                calf.setQuality(qual_avg + random.nextInt(10));
-            } else {
-                calf.setQuality(qual_avg + random.nextInt(5));
-            }
+        BabyTraitHelper.setTraitEffect(calf);
+        ((ISickModHolder) calf).setSickChance(100 - calfimmunityCap.getImmunity());
+        if (immunityCap.getImmunity() > 100) {
+            immunityCap.setImmunity(100);
+            SyncImmunityPacket.syncToTracking(this, 100);
+        } else if (immunityCap.getImmunity() < 1) {
+            immunityCap.setImmunity(1);
+            SyncImmunityPacket.syncToTracking(this, 1);
         }
 
-        if (calf.getQuality() > 100) {
-            calf.setQuality(100);
-        }
-
-        calf.setAttackDamage();
-        return calf;
+        CompoundTag nbt = this.getPersistentData();
+        nbt.putBoolean("loextras_initialized", true);
     }
 
     @Inject(method = "dropCustomDeathLoot", at = @At("HEAD"))

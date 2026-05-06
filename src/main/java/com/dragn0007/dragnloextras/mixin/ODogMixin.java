@@ -71,14 +71,12 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
     @Shadow(remap = false) public abstract boolean isHuntingDog();
     @Shadow(remap = false) public abstract boolean isHerdingDog();
     @Shadow(remap = false) public abstract boolean isBigGameHunter();
-
     @Shadow(remap = false) public abstract int getVariant();
     @Shadow(remap = false) public abstract int getOverlayVariant();
     @Shadow(remap = false) public abstract int getBreed();
     @Shadow(remap = false) public abstract int getFluff();
     @Shadow(remap = false) public abstract boolean isWagging();
-
-    @Shadow public abstract boolean isCollared();
+    @Shadow(remap = false) public abstract boolean isCollared();
 
     @Shadow public abstract InteractionResult mobInteract(Player player, InteractionHand hand);
 
@@ -435,9 +433,12 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
 
     @Inject(method = "finalizeSpawn", at = @At("TAIL"))
     private void spawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, SpawnGroupData data, CompoundTag tag, CallbackInfoReturnable<SpawnGroupData> cir) {
-        Random random = new Random();
-        BaseImmunityHelper.setBaseImmunity(this);
-        BaseTraitHelper.setBaseTrait(this, true);
+        CompoundTag nbt = this.getPersistentData();
+        if (!nbt.getBoolean("loextras_initialized")) {
+            BaseImmunityHelper.setBaseImmunity(this);
+            BaseTraitHelper.setBaseTrait(this, true);
+            nbt.putBoolean("loextras_initialized", true);
+        }
     }
 
     @Unique
@@ -556,12 +557,8 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
         cir.setReturnValue(PlayState.CONTINUE);
     }
 
-    /**
-     * @author DragN0007
-     * @reason why are you asking me this on my own fucking code. i hate robots
-     */
-    @Overwrite
-    public AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
+    @Inject(method = "getBreedOffspring", at = @At("TAIL"))
+    public void getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob, CallbackInfoReturnable<AgeableMob> cir) {
         ODog pup;
         pup = POEntityTypes.O_DOG_ENTITY.get().create(serverLevel);
         ImmunityCapabilityInterface immunityCap = this.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
@@ -569,25 +566,8 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
         ImmunityCapabilityInterface pupimmunityCap = pup.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
         TraitCapabilityInterface puptraitCap = pup.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
         if (ageableMob instanceof OWolf partner) {
-            pup.setBreed(25);
             ImmunityCapabilityInterface partnerimmunityCap = partner.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
             TraitCapabilityInterface partnertraitCap = partner.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
-
-            int variantChance = this.random.nextInt(100);
-            if (variantChance < 50) {
-                pup.setVariant(this.getVariant());
-            } else {
-                pup.setColor();
-            }
-
-            int overlayChance = this.random.nextInt(100);
-            if (overlayChance < 40) {
-                pup.setOverlayVariant(this.getOverlayVariant());
-            } else if (overlayChance < 80) {
-                pup.setOverlayVariant(20);
-            } else {
-                pup.setMarking();
-            }
 
             int traitChance = this.random.nextInt(100);
             int trait;
@@ -630,70 +610,10 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
             }
 
             BabyTraitHelper.setTraitEffect(pup);
-            pup.setCropped(1);
-            pup.setFluffChance();
-            pup.setGender(random.nextInt(ODog.Gender.values().length));
-            pup.setODogAttributes();
-
         } else {
             ODog partner = (ODog) ageableMob;
             ImmunityCapabilityInterface partnerimmunityCap = partner.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
             TraitCapabilityInterface partnertraitCap = partner.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
-
-            int breedChance = this.random.nextInt(100);
-            int breed;
-            if (this.getBreed() == partner.getBreed()) {
-                if (breedChance < 40) {
-                    breed = this.getBreed();
-                } else if (breedChance < 80) {
-                    breed = partner.getBreed();
-                } else if (breedChance < 95) {
-                    breed = 0;
-                } else {
-                    breed = this.random.nextInt(DogBreed.values().length);
-                }
-            } else {
-                if (breedChance < 20) {
-                    breed = this.getBreed();
-                } else if (breedChance < 40) {
-                    breed = partner.getBreed();
-                } else if (breedChance < 95) {
-                    breed = 0;
-                } else {
-                    breed = this.random.nextInt(DogBreed.values().length);
-                }
-            }
-            pup.setBreed(breed);
-
-            if (!(breedChance == 0)) {
-                int variantChance = this.random.nextInt(100);
-                int variant;
-                if (variantChance < 40) {
-                    variant = this.getVariant();
-                } else if (variantChance < 80) {
-                    variant = partner.getVariant();
-                } else {
-                    variant = this.random.nextInt(ODogModel.Variant.values().length);
-                }
-                pup.setVariant(variant);
-            } else if (breedChance == 0 && random.nextDouble() < 0.25) {
-                pup.setColor();
-            }
-
-            if (!(breedChance == 0)) {
-                int overlayChance = this.random.nextInt(100);
-                int overlay;
-                if (overlayChance < 40) {
-                    overlay = this.getOverlayVariant();
-                } else if (overlayChance < 80) {
-                    overlay = partner.getOverlayVariant();
-                } else {
-                    overlay = this.random.nextInt(DogMarkingOverlay.values().length);
-                }
-                pup.setOverlayVariant(overlay);
-            } else if (breedChance == 0 && random.nextDouble() < 0.25) {
-                pup.setMarking();
-            }
 
             int traitChance = this.random.nextInt(100);
             int trait;
@@ -734,27 +654,20 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
                 pupimmunityCap.setImmunity(random.nextInt(baseImmunity));
                 SyncImmunityPacket.syncToTracking(pup, random.nextInt(baseImmunity));
             }
-
-            int fluffyChance = this.random.nextInt(10);
-            int fluff;
-            if (fluffyChance < 5) {
-                fluff = this.getFluff();
-            } else {
-                fluff = partner.getFluff();
-            }
-            pup.setFluff(fluff);
-        }
-
-        if (PetsOverhaulCommonConfig.ALLOW_CROPPED_DOG_SPAWNS.get()) {
-            pup.setCropChance();
-        } else {
-            pup.setCropped(0);
         }
 
         BabyTraitHelper.setTraitEffect(pup);
-        pup.setGender(random.nextInt(ODog.Gender.values().length));
-        pup.setODogAttributes();
-        return pup;
+        ((ISickModHolder) pup).setSickChance(100 - pupimmunityCap.getImmunity());
+        if (immunityCap.getImmunity() > 100) {
+            immunityCap.setImmunity(100);
+            SyncImmunityPacket.syncToTracking(this, 100);
+        } else if (immunityCap.getImmunity() < 1) {
+            immunityCap.setImmunity(1);
+            SyncImmunityPacket.syncToTracking(this, 1);
+        }
+
+        CompoundTag nbt = this.getPersistentData();
+        nbt.putBoolean("loextras_initialized", true);
     }
 
 }

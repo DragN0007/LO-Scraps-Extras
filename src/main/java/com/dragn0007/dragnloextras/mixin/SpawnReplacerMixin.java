@@ -58,11 +58,11 @@ public class SpawnReplacerMixin implements ISickModHolder {
                 if (event.getLevel().isClientSide) {
                     return;
                 }
-                CompoundTag data = oHorse.getPersistentData();
-                if (!data.getBoolean("loextras_initialized")) {
+                CompoundTag nbt = oHorse.getPersistentData();
+                if (!nbt.getBoolean("loextras_initialized")) {
                     BaseImmunityHelper.setBaseImmunity(oHorse);
                     BaseTraitHelper.setBaseTrait(oHorse, true);
-                    data.putBoolean("loextras_initialized", true);
+                    nbt.putBoolean("loextras_initialized", true);
                 }
             }
         }
@@ -73,11 +73,11 @@ public class SpawnReplacerMixin implements ISickModHolder {
                 if (event.getLevel().isClientSide) {
                     return;
                 }
-                CompoundTag data = oMule.getPersistentData();
-                if (!data.getBoolean("loextras_initialized")) {
+                CompoundTag nbt = oMule.getPersistentData();
+                if (!nbt.getBoolean("loextras_initialized")) {
                     BaseImmunityHelper.setBaseImmunity(oMule);
                     BaseTraitHelper.setBaseTrait(oMule, false);
-                    data.putBoolean("loextras_initialized", true);
+                    nbt.putBoolean("loextras_initialized", true);
                 }
             }
         }
@@ -87,10 +87,10 @@ public class SpawnReplacerMixin implements ISickModHolder {
             if (event.getEntity().getClass() == OCow.class) {
                 if (event.getLevel().isClientSide) {
                     return;
-                }CompoundTag data = oCow.getPersistentData();
-                if (!data.getBoolean("loextras_initialized")) {
+                }CompoundTag nbt = oCow.getPersistentData();
+                if (!nbt.getBoolean("loextras_initialized")) {
                     BaseImmunityHelper.setBaseImmunity(oCow);
-                    data.putBoolean("loextras_initialized", true);
+                    nbt.putBoolean("loextras_initialized", true);
                 }
             }
         }

@@ -29,7 +29,8 @@ public class BaseTraitHelper {
                             }
                         } while (traitCap.getTrait() == 7 || traitCap.getTrait() == 8 || traitCap.getTrait() == 9 ||
                                 traitCap.getTrait() == 10 || traitCap.getTrait() == 11 || traitCap.getTrait() == 12);
-                    } else if (!byBreed) {
+                    } else
+                        if (!byBreed) {
                         int trait = random.nextInt(Trait.values().length);
                         traitCap.setTrait(trait);
                         SyncTraitPacket.syncToTracking(entity, trait);

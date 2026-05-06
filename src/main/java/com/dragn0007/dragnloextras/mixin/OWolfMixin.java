@@ -66,8 +66,8 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
     @Shadow(remap = false) public abstract int getVariant();
     @Shadow(remap = false) public abstract int getOverlayVariant();
     @Shadow(remap = false) public abstract boolean isWagging();
+    @Shadow(remap = false) public abstract boolean isCollared();
 
-    @Shadow public abstract boolean isCollared();
     @Shadow public abstract InteractionResult mobInteract(Player player, InteractionHand hand);
 
     @Unique
@@ -423,8 +423,12 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
     @Inject(method = "finalizeSpawn", at = @At("TAIL"))
     private void spawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, SpawnGroupData data, CompoundTag tag, CallbackInfoReturnable<SpawnGroupData> cir) {
         Random random = new Random();
-        BaseImmunityHelper.setBaseImmunity(this);
-        BaseTraitHelper.setBaseTrait(this, false);
+        CompoundTag nbt = this.getPersistentData();
+        if (!nbt.getBoolean("loextras_initialized")) {
+            BaseImmunityHelper.setBaseImmunity(this);
+            BaseTraitHelper.setBaseTrait(this, false);
+            nbt.putBoolean("loextras_initialized", true);
+        }
     }
 
     @Inject(method = "predicate", at = @At("HEAD"), remap = false, cancellable = true)
@@ -614,9 +618,20 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
                 pupimmunityCap.setImmunity(random.nextInt(baseImmunity));
                 SyncImmunityPacket.syncToTracking(pup, random.nextInt(baseImmunity));
             }
+
+            BabyTraitHelper.setTraitEffect(pup);
+            ((ISickModHolder) pup).setSickChance(100 - pupimmunityCap.getImmunity());
+            if (immunityCap.getImmunity() > 100) {
+                immunityCap.setImmunity(100);
+                SyncImmunityPacket.syncToTracking(this, 100);
+            } else if (immunityCap.getImmunity() < 1) {
+                immunityCap.setImmunity(1);
+                SyncImmunityPacket.syncToTracking(this, 1);
+            }
         }
 
-        BabyTraitHelper.setTraitEffect(pup);
+        CompoundTag nbt = this.getPersistentData();
+        nbt.putBoolean("loextras_initialized", true);
         pup.setGender(random.nextInt(DogBase.Gender.values().length));
         return pup;
     }

@@ -1,10 +1,8 @@
 package com.dragn0007.dragnloextras.entity.ai;
 
-import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
 import com.dragn0007.dragnloextras.capabilities.HalterCapabilityInterface;
 import com.dragn0007.dragnloextras.capabilities.SECapabilities;
-import com.dragn0007.dragnloextras.mixin.AbstractOMountMixin;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;

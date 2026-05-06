@@ -70,8 +70,6 @@ import java.util.Objects;
 @Mixin(OMule.class)
 public abstract class OMuleMixin extends AbstractOMount implements DirtyCapabilityInterface, IHungerHolder, ISickModHolder {
 
-    @Shadow public abstract int getEyeVariant();
-
     @Shadow @Nullable public abstract SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, @org.jetbrains.annotations.Nullable SpawnGroupData data, @org.jetbrains.annotations.Nullable CompoundTag tag);
 
     @Shadow public abstract void registerGoals();
@@ -554,8 +552,12 @@ public abstract class OMuleMixin extends AbstractOMount implements DirtyCapabili
     private void spawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, SpawnGroupData data, CompoundTag tag, CallbackInfoReturnable<SpawnGroupData> cir) {
         OHorse self = (OHorse) (Object) this;
         if (self.getClass() == OHorse.class || self.getClass() == Unicorn.class) {
-            BaseImmunityHelper.setBaseImmunity(this);
-            BaseTraitHelper.setBaseTrait(this, false);
+            CompoundTag nbt = this.getPersistentData();
+            if (!nbt.getBoolean("loextras_initialized")) {
+                BaseImmunityHelper.setBaseImmunity(this);
+                BaseTraitHelper.setBaseTrait(this, false);
+                nbt.putBoolean("loextras_initialized", true);
+            }
         }
     }
 

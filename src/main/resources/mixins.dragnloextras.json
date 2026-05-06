@@ -11,6 +11,7 @@
     "OHorseMixin",
     "OHorseRenderMixin",
     "OMuleMixin",
+    "OOcelotMixin",
     "OSheepMixin",
     "OWolfMixin",
     "PSpawnReplacerMixin",
@@ -20,6 +21,7 @@
     "defaultRequire": 1
   },
   "client": [
-    "ODogRenderMixin"
+    "ODogRenderMixin",
+    "OMuleRenderMixin"
   ]
 }

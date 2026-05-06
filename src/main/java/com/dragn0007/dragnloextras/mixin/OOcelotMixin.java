@@ -11,7 +11,6 @@ import com.dragn0007.dragnloextras.network.SyncTraitPacket;
 import com.dragn0007.dragnloextras.util.*;
 import com.dragn0007.dragnpets.entities.POEntityTypes;
 import com.dragn0007.dragnpets.entities.ai.DogFollowPackLeaderGoal;
-import com.dragn0007.dragnpets.entities.cat.OCat;
 import com.dragn0007.dragnpets.entities.ocelot.OOcelot;
 import com.dragn0007.dragnpets.entities.ocelot.OOcelotEyeLayer;
 import com.dragn0007.dragnpets.entities.ocelot.OOcelotMarkingLayer;
@@ -59,7 +58,7 @@ public abstract class OOcelotMixin extends TamableAnimal implements DirtyCapabil
     @Shadow(remap = false) public abstract int getVariant();
     @Shadow(remap = false) public abstract int getOverlayVariant();
     @Shadow(remap = false) public abstract boolean isWagging();
-    @Shadow public abstract int getEyes();
+    @Shadow(remap = false) public abstract int getEyes();
 
     @Shadow public abstract InteractionResult mobInteract(Player player, InteractionHand hand);
 
@@ -99,7 +98,7 @@ public abstract class OOcelotMixin extends TamableAnimal implements DirtyCapabil
     @Inject(method = "registerGoals", at = @At("HEAD"))
     public void registerGoals(CallbackInfo ci) {
         super.registerGoals();
-        OCat self = (OCat) (Object) this;
+        OOcelot self = (OOcelot) (Object) this;
         this.goalSelector.addGoal(0, new SleepGoal(self));
         this.goalSelector.addGoal(1, new FleeRainGoal(self, 1.2F));
         this.goalSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10, true, false, entity ->
@@ -344,8 +343,12 @@ public abstract class OOcelotMixin extends TamableAnimal implements DirtyCapabil
     @Inject(method = "finalizeSpawn", at = @At("TAIL"))
     private void spawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, SpawnGroupData data, CompoundTag tag, CallbackInfoReturnable<SpawnGroupData> cir) {
         Random random = new Random();
-        BaseImmunityHelper.setBaseImmunity(this);
-        BaseTraitHelper.setBaseTrait(this, false);
+        CompoundTag nbt = this.getPersistentData();
+        if (!nbt.getBoolean("loextras_initialized")) {
+            BaseImmunityHelper.setBaseImmunity(this);
+            BaseTraitHelper.setBaseTrait(this, false);
+            nbt.putBoolean("loextras_initialized", true);
+        }
     }
 
     @Inject(method = "predicate", at = @At("HEAD"), remap = false, cancellable = true)
@@ -477,7 +480,17 @@ public abstract class OOcelotMixin extends TamableAnimal implements DirtyCapabil
             SyncImmunityPacket.syncToTracking(kitten, random.nextInt(baseImmunity));
         }
 
-        kitten.setGender(random.nextInt(OCat.Gender.values().length));
+        BabyTraitHelper.setTraitEffect(kitten);
+        ((ISickModHolder) kitten).setSickChance(100 - kittenimmunityCap.getImmunity());
+        if (immunityCap.getImmunity() > 100) {
+            immunityCap.setImmunity(100);
+            SyncImmunityPacket.syncToTracking(this, 100);
+        } else if (immunityCap.getImmunity() < 1) {
+            immunityCap.setImmunity(1);
+            SyncImmunityPacket.syncToTracking(this, 1);
+        }
+
+        kitten.setGender(random.nextInt(OOcelot.Gender.values().length));
         return kitten;
     }
 

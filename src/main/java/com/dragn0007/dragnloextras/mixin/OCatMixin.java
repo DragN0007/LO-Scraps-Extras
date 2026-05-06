@@ -60,7 +60,7 @@ public abstract class OCatMixin extends TamableAnimal implements DirtyCapability
     @Shadow(remap = false) public abstract int getOverlayVariant();
     @Shadow(remap = false) public abstract int getBreed();
     @Shadow(remap = false) public abstract boolean isWagging();
-    @Shadow public abstract int getEyes();
+    @Shadow(remap = false) public abstract int getEyes();
 
     @Shadow public abstract InteractionResult mobInteract(Player player, InteractionHand hand);
 
@@ -272,7 +272,7 @@ public abstract class OCatMixin extends TamableAnimal implements DirtyCapability
         }
     }
 
-    @Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "mobInteract", at = @At("TAIL"), cancellable = true)
     public void mobInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         ItemStack itemstack = player.getItemInHand(hand);
         Item item = itemstack.getItem();
@@ -345,8 +345,12 @@ public abstract class OCatMixin extends TamableAnimal implements DirtyCapability
     @Inject(method = "finalizeSpawn", at = @At("TAIL"))
     private void spawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, SpawnGroupData data, CompoundTag tag, CallbackInfoReturnable<SpawnGroupData> cir) {
         Random random = new Random();
-        BaseImmunityHelper.setBaseImmunity(this);
-        BaseTraitHelper.setBaseTrait(this, false);
+        CompoundTag nbt = this.getPersistentData();
+        if (!nbt.getBoolean("loextras_initialized")) {
+            BaseImmunityHelper.setBaseImmunity(this);
+            BaseTraitHelper.setBaseTrait(this, false);
+            nbt.putBoolean("loextras_initialized", true);
+        }
     }
 
     @Inject(method = "predicate", at = @At("HEAD"), remap = false, cancellable = true)
@@ -386,12 +390,8 @@ public abstract class OCatMixin extends TamableAnimal implements DirtyCapability
         cir.setReturnValue(PlayState.CONTINUE);
     }
 
-    /**
-     * @author DragN0007
-     * @reason why are you asking me this on my own fucking code. i hate robots
-     */
-    @Overwrite
-    public AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
+    @Inject(method = "getBreedOffspring", at = @At("TAIL"))
+    public void getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob, CallbackInfoReturnable<AgeableMob> cir) {
         OCat kitten;
         OCat partner = (OCat) ageableMob;
         kitten = POEntityTypes.O_CAT_ENTITY.get().create(serverLevel);
@@ -402,64 +402,6 @@ public abstract class OCatMixin extends TamableAnimal implements DirtyCapability
         TraitCapabilityInterface partnertraitCap = partner.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
         ImmunityCapabilityInterface kittenimmunityCap = kitten.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
         TraitCapabilityInterface kittentraitCap = kitten.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
-
-        int breedChance = this.random.nextInt(100);
-        int breed;
-        if (this.getBreed() == partner.getBreed()) {
-            if (breedChance < ((100 - LivestockOverhaulCommonConfig.BREED_CHANCE.get()) / 2)) {
-                breed = this.getBreed();
-            } else if (breedChance < (100 - LivestockOverhaulCommonConfig.BREED_CHANCE.get())) {
-                breed = partner.getBreed();
-            } else if (breedChance < (100 - (LivestockOverhaulCommonConfig.BREED_CHANCE.get() / 2))) {
-                breed = 0;
-            } else {
-                breed = this.random.nextInt(DogBreed.values().length);
-            }
-        } else {
-            if (breedChance < 20) {
-                breed = this.getBreed();
-            } else if (breedChance < 40) {
-                breed = partner.getBreed();
-            } else if (breedChance < 95) {
-                breed = 0;
-            } else {
-                breed = this.random.nextInt(DogBreed.values().length);
-            }
-        }
-        kitten.setBreed(breed);
-
-        int variantChance = this.random.nextInt(100);
-        int variant;
-        if (variantChance < ((100 - LivestockOverhaulCommonConfig.COAT_CHANCE.get()) / 2)) {
-            variant = this.getVariant();
-        } else if (variantChance < (100 - LivestockOverhaulCommonConfig.COAT_CHANCE.get())) {
-            variant = partner.getVariant();
-        } else {
-            variant = this.random.nextInt(OCatModel.Variant.values().length);
-        }
-        kitten.setVariant(variant);
-
-        int overlayChance = this.random.nextInt(100);
-        int overlay;
-        if (overlayChance < ((100 - LivestockOverhaulCommonConfig.MARKING_CHANCE.get()) / 2)) {
-            overlay = this.getOverlayVariant();
-        } else if (overlayChance < (100 - LivestockOverhaulCommonConfig.MARKING_CHANCE.get())) {
-            overlay = partner.getOverlayVariant();
-        } else {
-            overlay = this.random.nextInt(CatMarkingOverlay.values().length);
-        }
-        kitten.setOverlayVariant(overlay);
-
-        int eyeChance = this.random.nextInt(100);
-        int eyes;
-        if (eyeChance < ((100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get()) / 2)) {
-            eyes = this.getEyes();
-        } else if (eyeChance < (100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get())) {
-            eyes = partner.getEyes();
-        } else {
-            eyes = this.random.nextInt(OCatEyeLayer.Eyes.values().length);
-        }
-        kitten.setEyes(eyes);
 
         int traitChance = this.random.nextInt(100);
         int trait;
@@ -503,8 +445,18 @@ public abstract class OCatMixin extends TamableAnimal implements DirtyCapability
             SyncImmunityPacket.syncToTracking(kitten, random.nextInt(baseImmunity));
         }
 
-        kitten.setGender(random.nextInt(OCat.Gender.values().length));
-        return kitten;
+        BabyTraitHelper.setTraitEffect(kitten);
+        ((ISickModHolder) kitten).setSickChance(100 - kittenimmunityCap.getImmunity());
+        if (immunityCap.getImmunity() > 100) {
+            immunityCap.setImmunity(100);
+            SyncImmunityPacket.syncToTracking(this, 100);
+        } else if (immunityCap.getImmunity() < 1) {
+            immunityCap.setImmunity(1);
+            SyncImmunityPacket.syncToTracking(this, 1);
+        }
+
+        CompoundTag nbt = this.getPersistentData();
+        nbt.putBoolean("loextras_initialized", true);
     }
 
 }
