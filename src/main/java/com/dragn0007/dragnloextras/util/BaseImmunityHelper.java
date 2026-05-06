@@ -22,13 +22,13 @@ public class BaseImmunityHelper {
             immunityCap = entity.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
         }
 
-        if (ScrapsExtrasCommonConfig.AILMENT_SYSTEM.get() && immunityCap != null && traitCap != null) {
+        if (ScrapsExtrasCommonConfig.AILMENT_SYSTEM.get() && immunityCap != null) {
             int baseImmunity = random.nextInt(1, 50);
             immunityCap.setImmunity(random.nextInt(baseImmunity));
             SyncImmunityPacket.syncToTracking(entity, random.nextInt(baseImmunity));
 
-            if (entity.getCapability(SECapabilities.TRAIT_CAPABILITY).isPresent()) {
-                int traitImmunityAdditionMajor = random.nextInt(1, 50) + 25;
+            if (entity.getCapability(SECapabilities.TRAIT_CAPABILITY).isPresent() && traitCap != null) {
+                int traitImmunityAdditionMajor = random.nextInt(25, 50);
                 int traitImmunityAdditionMinor = random.nextInt(1, 25);
                 if (traitCap.getTrait() == 1) { //immunocompetent (major)
                     if (immunityCap.getImmunity() - random.nextInt(traitImmunityAdditionMajor) < 100) {

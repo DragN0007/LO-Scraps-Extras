@@ -20,15 +20,21 @@ public class BaseTraitHelper {
                 if (ScrapsExtrasCommonConfig.TRAITS_BY_BREED.get()) {
                     if (ScrapsExtrasCommonConfig.GOOD_TRAITS_ONLY.get()) {
                         do {
-                            ((ITraitByBreedTypeHolder) entity).setTraitByBreedType();
+                            if (!byBreed) {
+                                int trait = random.nextInt(Trait.values().length);
+                                traitCap.setTrait(trait);
+                                SyncTraitPacket.syncToTracking(entity, trait);
+                            } else {
+                                ((ITraitByBreedTypeHolder) entity).setTraitByBreedType();
+                            }
                         } while (traitCap.getTrait() == 7 || traitCap.getTrait() == 8 || traitCap.getTrait() == 9 ||
                                 traitCap.getTrait() == 10 || traitCap.getTrait() == 11 || traitCap.getTrait() == 12);
-                    } else if (byBreed) {
-                        ((ITraitByBreedTypeHolder) entity).setTraitByBreedType();
-                    } else {
+                    } else if (!byBreed) {
                         int trait = random.nextInt(Trait.values().length);
                         traitCap.setTrait(trait);
                         SyncTraitPacket.syncToTracking(entity, trait);
+                    } else {
+                        ((ITraitByBreedTypeHolder) entity).setTraitByBreedType();
                     }
                 } else {
                     int trait = random.nextInt(Trait.values().length);

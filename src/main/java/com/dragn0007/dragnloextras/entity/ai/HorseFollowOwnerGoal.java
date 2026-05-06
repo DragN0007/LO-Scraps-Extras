@@ -1,8 +1,10 @@
 package com.dragn0007.dragnloextras.entity.ai;
 
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
+import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
 import com.dragn0007.dragnloextras.capabilities.HalterCapabilityInterface;
 import com.dragn0007.dragnloextras.capabilities.SECapabilities;
+import com.dragn0007.dragnloextras.mixin.AbstractOMountMixin;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -15,7 +17,7 @@ import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import java.util.EnumSet;
 
 public class HorseFollowOwnerGoal extends Goal {
-   public final OHorse tamable;
+   public final AbstractOMount tamable;
    public LivingEntity owner;
    public final LevelReader level;
    public final double speedModifier;
@@ -26,7 +28,7 @@ public class HorseFollowOwnerGoal extends Goal {
    public float oldWaterCost;
    public final boolean canFly;
 
-   public HorseFollowOwnerGoal(OHorse p_25294_, double v, float dist, float stopDist, boolean p_25298_) {
+   public HorseFollowOwnerGoal(AbstractOMount p_25294_, double v, float dist, float stopDist, boolean p_25298_) {
       this.tamable = p_25294_;
       this.level = p_25294_.level();
       this.speedModifier = 2.0D;
