@@ -53,6 +53,15 @@ public class BabyTraitHelper {
                     case 12:
                         entity.addEffect(new MobEffectInstance(SEEffects.MEAN.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
                         break;
+                    case 13:
+                        //no trait
+                        break;
+                    case 14:
+                        entity.addEffect(new MobEffectInstance(SEEffects.SWIMMER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        break;
+                    case 15:
+                        entity.addEffect(new MobEffectInstance(SEEffects.SINKER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        break;
             }
         });
     }

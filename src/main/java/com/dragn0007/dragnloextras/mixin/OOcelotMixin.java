@@ -397,46 +397,12 @@ public abstract class OOcelotMixin extends TamableAnimal implements DirtyCapabil
         OOcelot kitten;
         OOcelot partner = (OOcelot) ageableMob;
         kitten = POEntityTypes.O_OCELOT_ENTITY.get().create(serverLevel);
-
         ImmunityCapabilityInterface immunityCap = this.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
         TraitCapabilityInterface traitCap = this.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
         ImmunityCapabilityInterface partnerimmunityCap = partner.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
         TraitCapabilityInterface partnertraitCap = partner.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
         ImmunityCapabilityInterface kittenimmunityCap = kitten.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
         TraitCapabilityInterface kittentraitCap = kitten.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
-
-        int variantChance = this.random.nextInt(100);
-        int variant;
-        if (variantChance < ((100 - LivestockOverhaulCommonConfig.COAT_CHANCE.get()) / 2)) {
-            variant = this.getVariant();
-        } else if (variantChance < (100 - LivestockOverhaulCommonConfig.COAT_CHANCE.get())) {
-            variant = partner.getVariant();
-        } else {
-            variant = this.random.nextInt(OOcelotModel.Variant.values().length);
-        }
-        kitten.setVariant(variant);
-
-        int overlayChance = this.random.nextInt(100);
-        int overlay;
-        if (overlayChance < ((100 - LivestockOverhaulCommonConfig.MARKING_CHANCE.get()) / 2)) {
-            overlay = this.getOverlayVariant();
-        } else if (overlayChance < (100 - LivestockOverhaulCommonConfig.MARKING_CHANCE.get())) {
-            overlay = partner.getOverlayVariant();
-        } else {
-            overlay = this.random.nextInt(OOcelotMarkingLayer.Overlay.values().length);
-        }
-        kitten.setOverlayVariant(overlay);
-
-        int eyeChance = this.random.nextInt(100);
-        int eyes;
-        if (eyeChance < ((100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get()) / 2)) {
-            eyes = this.getEyes();
-        } else if (eyeChance < (100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get())) {
-            eyes = partner.getEyes();
-        } else {
-            eyes = this.random.nextInt(OOcelotEyeLayer.Eyes.values().length);
-        }
-        kitten.setEyes(eyes);
 
         int traitChance = this.random.nextInt(100);
         int trait;

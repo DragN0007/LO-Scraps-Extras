@@ -395,7 +395,6 @@ public abstract class OCatMixin extends TamableAnimal implements DirtyCapability
         OCat kitten;
         OCat partner = (OCat) ageableMob;
         kitten = POEntityTypes.O_CAT_ENTITY.get().create(serverLevel);
-
         ImmunityCapabilityInterface immunityCap = this.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
         TraitCapabilityInterface traitCap = this.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
         ImmunityCapabilityInterface partnerimmunityCap = partner.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);

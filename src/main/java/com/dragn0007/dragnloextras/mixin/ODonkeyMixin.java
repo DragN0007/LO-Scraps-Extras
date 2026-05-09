@@ -677,24 +677,206 @@ public abstract class ODonkeyMixin extends AbstractOMount implements DirtyCapabi
         }
     }
 
-    //todo
-    @Inject(method = "getBreedOffspring", at = @At("TAIL"))
-    public void getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob, CallbackInfoReturnable<AgeableMob> cir) {
+    /**
+     * @author DragN0007
+     * @reason why are you asking me this on my own fucking code. i hate robots
+     */
+    @Overwrite
+    public AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
         AbstractOMount foal;
+        ImmunityCapabilityInterface immunityCap = this.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
+        TraitCapabilityInterface traitCap = this.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
 
         if (ageableMob instanceof OHorse partnerHorse) {
             foal = EntityTypes.O_MULE_ENTITY.get().create(serverLevel);
+            ImmunityCapabilityInterface partnerimmunityCap = partnerHorse.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
+            ImmunityCapabilityInterface foalimmunityCap = foal.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
+            TraitCapabilityInterface partnertraitCap = partnerHorse.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
+            TraitCapabilityInterface foaltraitCap = foal.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
 
+            int overlayChance = this.random.nextInt(100);
+            int overlay;
+            if (overlayChance < ((100 - LivestockOverhaulCommonConfig.MARKING_CHANCE.get()) / 2)) {
+                overlay = this.getOverlayVariant();
+            } else if (overlayChance < (100 - LivestockOverhaulCommonConfig.MARKING_CHANCE.get())) {
+                overlay = partnerHorse.getOverlayVariant();
+            } else {
+                overlay = this.random.nextInt(EquineMarkingOverlay.values().length);
+            }
+
+            foal.setOverlayVariant(overlay);
+            foal.setVariant(random.nextInt(OMuleModel.Variant.values().length));
+
+            if (partnerHorse.isStockBreed() || partnerHorse.isWarmbloodedBreed() || partnerHorse.isRacingBreed()) {
+                foal.setBreed(0);
+            }
+            if (partnerHorse.isPonyBreed()) {
+                foal.setBreed(1);
+            }
+            if (partnerHorse.isDraftBreed()) {
+                foal.setBreed(2);
+            }
+
+            int traitChance = this.random.nextInt(100);
+            int trait;
+            if (traitChance < ((100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get()) / 2)) {
+                trait = traitCap.getTrait();
+                foaltraitCap.setTrait(trait);
+                SyncTraitPacket.syncToTracking(foal, trait);
+            } else if (traitChance < (100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get())) {
+                trait = partnertraitCap.getTrait();
+                foaltraitCap.setTrait(trait);
+                SyncTraitPacket.syncToTracking(foal, trait);
+            } else {
+                ((ITraitByBreedTypeHolder) foal).setTraitByBreedType();
+            }
+
+            int immunityChance = this.random.nextInt(100);
+            int immunity;
+            if (immunityChance < ((100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get()) / 2)) {
+                immunity = immunityCap.getImmunity();
+                if (random.nextDouble() < 0.25) {
+                    foalimmunityCap.setImmunity(immunity + random.nextInt(1,25));
+                    SyncImmunityPacket.syncToTracking(foal, immunity);
+                } else {
+                    foalimmunityCap.setImmunity(immunity);
+                    SyncImmunityPacket.syncToTracking(foal, immunity);
+                }
+            } else if (immunityChance < (100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get())) {
+                immunity = partnerimmunityCap.getImmunity();
+                if (random.nextDouble() < 0.25) {
+                    foalimmunityCap.setImmunity(immunity + random.nextInt(1,25));
+                    SyncImmunityPacket.syncToTracking(foal, immunity);
+                } else {
+                    foalimmunityCap.setImmunity(immunity);
+                    SyncImmunityPacket.syncToTracking(foal, immunity);
+                }
+            } else {
+                int baseImmunity = random.nextInt(1, 100);
+                foalimmunityCap.setImmunity(random.nextInt(baseImmunity));
+                SyncImmunityPacket.syncToTracking(foal, random.nextInt(baseImmunity));
+            }
+
+            BabyTraitHelper.setTraitEffect(foal);
+            ((ISickModHolder) foal).setSickChance(100 - foalimmunityCap.getImmunity());
+            if (immunityCap.getImmunity() > 100) {
+                immunityCap.setImmunity(100);
+                SyncImmunityPacket.syncToTracking(this, 100);
+            } else if (immunityCap.getImmunity() < 1) {
+                immunityCap.setImmunity(1);
+                SyncImmunityPacket.syncToTracking(this, 1);
+            }
+
+            foal.setGender(random.nextInt(Gender.values().length));
 
         } else {
             ODonkey partner = (ODonkey) ageableMob;
             foal = EntityTypes.O_DONKEY_ENTITY.get().create(serverLevel);
+            ImmunityCapabilityInterface partnerimmunityCap = partner.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
+            ImmunityCapabilityInterface foalimmunityCap = foal.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
+            TraitCapabilityInterface partnertraitCap = partner.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
+            TraitCapabilityInterface foaltraitCap = foal.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
 
+            int variantChance = this.random.nextInt(100);
+            int variant;
+            if (variantChance < ((100 - LivestockOverhaulCommonConfig.COAT_CHANCE.get()) / 2)) {
+                variant = this.getVariant();
+            } else if (variantChance < (100 - LivestockOverhaulCommonConfig.COAT_CHANCE.get())) {
+                variant = partner.getVariant();
+            } else {
+                variant = this.random.nextInt(OHorseModel.Variant.values().length);
+            }
+            foal.setVariant(variant);
 
+            int overlayChance = this.random.nextInt(100);
+            int overlay;
+            if (overlayChance < ((100 - LivestockOverhaulCommonConfig.MARKING_CHANCE.get()) / 2)) {
+                overlay = this.getOverlayVariant();
+            } else if (overlayChance < (100 - LivestockOverhaulCommonConfig.MARKING_CHANCE.get())) {
+                overlay = partner.getOverlayVariant();
+            } else {
+                overlay = this.random.nextInt(EquineMarkingOverlay.values().length);
+            }
+            foal.setOverlayVariant(overlay);
+
+            int eyeColorChance = this.random.nextInt(100);
+            int eyes;
+            if (eyeColorChance < ((100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get()) / 2)) {
+                eyes = this.getEyeVariant();
+            } else if (eyeColorChance < (100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get())) {
+                eyes = partner.getEyeVariant();
+            } else {
+                eyes = this.random.nextInt(EquineEyeColorOverlay.values().length);
+            }
+            ((ODonkey) foal).setEyeVariant(eyes);
+
+            int traitChance = this.random.nextInt(100);
+            int trait;
+            if (traitChance < ((100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get()) / 2)) {
+                trait = traitCap.getTrait();
+                foaltraitCap.setTrait(trait);
+                SyncTraitPacket.syncToTracking(foal, trait);
+            } else if (traitChance < (100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get())) {
+                trait = partnertraitCap.getTrait();
+                foaltraitCap.setTrait(trait);
+                SyncTraitPacket.syncToTracking(foal, trait);
+            } else {
+                ((ITraitByBreedTypeHolder) foal).setTraitByBreedType();
+            }
+
+            int immunityChance = this.random.nextInt(100);
+            int immunity;
+            if (immunityChance < ((100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get()) / 2)) {
+                immunity = immunityCap.getImmunity();
+                if (random.nextDouble() < 0.25) {
+                    foalimmunityCap.setImmunity(immunity + random.nextInt(1,25));
+                    SyncImmunityPacket.syncToTracking(foal, immunity);
+                } else {
+                    foalimmunityCap.setImmunity(immunity);
+                    SyncImmunityPacket.syncToTracking(foal, immunity);
+                }
+            } else if (immunityChance < (100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get())) {
+                immunity = partnerimmunityCap.getImmunity();
+                if (random.nextDouble() < 0.25) {
+                    foalimmunityCap.setImmunity(immunity + random.nextInt(1,25));
+                    SyncImmunityPacket.syncToTracking(foal, immunity);
+                } else {
+                    foalimmunityCap.setImmunity(immunity);
+                    SyncImmunityPacket.syncToTracking(foal, immunity);
+                }
+            } else {
+                int baseImmunity = random.nextInt(1, 100);
+                foalimmunityCap.setImmunity(random.nextInt(baseImmunity));
+                SyncImmunityPacket.syncToTracking(foal, random.nextInt(baseImmunity));
+            }
+
+            BabyTraitHelper.setTraitEffect(foal);
+            ((ISickModHolder) foal).setSickChance(100 - foalimmunityCap.getImmunity());
+            if (immunityCap.getImmunity() > 100) {
+                immunityCap.setImmunity(100);
+                SyncImmunityPacket.syncToTracking(this, 100);
+            } else if (immunityCap.getImmunity() < 1) {
+                immunityCap.setImmunity(1);
+                SyncImmunityPacket.syncToTracking(this, 1);
+            }
+
+            foal.setGender(random.nextInt(Gender.values().length));
+
+            if (this.random.nextInt(3) >= 1) {
+                ((ODonkey) foal).generateRandomJumpStrength();
+
+                int betterSpeed = (int) Math.max(partner.getSpeed(), this.random.nextInt(10) + 20);
+                foal.setSpeed(betterSpeed);
+
+                int betterHealth = (int) Math.max(partner.getHealth(), this.random.nextInt(20) + 40);
+                foal.setHealth(betterHealth);
+            }
         }
-
         CompoundTag nbt = this.getPersistentData();
         nbt.putBoolean("loextras_initialized", true);
+
+        this.setOffspringAttributes(ageableMob, foal);
+        return foal;
     }
 
 }

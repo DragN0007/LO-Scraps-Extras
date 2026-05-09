@@ -706,10 +706,10 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
             sleepingCap = this.getCapability(SECapabilities.SLEEPING_CAPABILITY).orElse(null);
         }
 
-        if ((!this.isTamed() || this.isWearingRodeoHarness()) && this.isVehicle() && !this.isJumping()) {
+        if ((!this.isTamed() || this.isWearingRodeoHarness()) && this.isVehicle() && !this.isJumping() && !this.isInWater()) {
             controller.setAnimation(RawAnimation.begin().then("buck", Animation.LoopType.LOOP));
             controller.setAnimationSpeed(1.3);
-        } else if (this.isJumping()) {
+        } else if (this.isJumping() && !this.isInWater()) {
             controller.setAnimation(RawAnimation.begin().then("jump", Animation.LoopType.PLAY_ONCE));
             controller.setAnimationSpeed(1.0);
         } else {
@@ -729,6 +729,10 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
                             controller.setAnimation(RawAnimation.begin().then("trot", Animation.LoopType.LOOP));
                             controller.setAnimationSpeed(Math.max(0.1, 0.82 * controller.getAnimationSpeed() + animationSpeed));
                         }
+
+                    } else if (this.isInWater() && !this.onGround()) {
+                        controller.setAnimation(RawAnimation.begin().then("swim", Animation.LoopType.LOOP));
+                        controller.setAnimationSpeed(Math.max(0.1, 0.60 * controller.getAnimationSpeed() + animationSpeed));
 
                     } else if (this.isAggressive() || (this.isVehicle() && this.getAttribute(Attributes.MOVEMENT_SPEED).hasModifier(SPRINT_SPEED_MOD)) || (!this.isVehicle() && currentSpeed > speedThreshold)) {
                         controller.setAnimation(RawAnimation.begin().then("sprint", Animation.LoopType.LOOP));
@@ -775,16 +779,22 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
             } else {
                 if (this.isGroundTied() && LivestockOverhaulCommonConfig.GROUND_TIE.get()) {
                     controller.setAnimation(RawAnimation.begin().then("ground_tie", Animation.LoopType.LOOP));
+                    controller.setAnimationSpeed(1.0);
+                } else if (this.isInWater() && !this.onGround()) {
+                    controller.setAnimation(RawAnimation.begin().then("swim", Animation.LoopType.LOOP));
+                    controller.setAnimationSpeed(Math.max(0.1, 0.60 * controller.getAnimationSpeed() + animationSpeed));
                 } else if (sleepingCap != null && sleepingCap.isSleeping()) {
                     if (this.isSleepingAsLeader()) {
                         controller.setAnimation(RawAnimation.begin().then("relax", Animation.LoopType.LOOP));
+                        controller.setAnimationSpeed(1.0);
                     } else {
                         controller.setAnimation(RawAnimation.begin().then("sleep", Animation.LoopType.LOOP));
+                        controller.setAnimationSpeed(1.0);
                     }
                 } else {
                     controller.setAnimation(RawAnimation.begin().then("idle", Animation.LoopType.LOOP));
+                    controller.setAnimationSpeed(1.0);
                 }
-                controller.setAnimationSpeed(1.0);
             }
         }
         cir.setReturnValue(PlayState.CONTINUE);
@@ -811,6 +821,8 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
             foal = EntityTypes.O_MULE_ENTITY.get().create(serverLevel);
             ImmunityCapabilityInterface partnerimmunityCap = partnerDonkey.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
             ImmunityCapabilityInterface foalimmunityCap = foal.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
+            TraitCapabilityInterface partnertraitCap = partnerDonkey.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
+            TraitCapabilityInterface foaltraitCap = foal.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
 
             int overlayChance = this.random.nextInt(100);
             int overlay;
@@ -832,6 +844,20 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
             }
             if (this.isDraftBreed()) {
                 foal.setBreed(2);
+            }
+
+            int traitChance = this.random.nextInt(100);
+            int trait;
+            if (traitChance < ((100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get()) / 2)) {
+                trait = traitCap.getTrait();
+                foaltraitCap.setTrait(trait);
+                SyncTraitPacket.syncToTracking(foal, trait);
+            } else if (traitChance < (100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get())) {
+                trait = partnertraitCap.getTrait();
+                foaltraitCap.setTrait(trait);
+                SyncTraitPacket.syncToTracking(foal, trait);
+            } else {
+                ((ITraitByBreedTypeHolder) foal).setTraitByBreedType();
             }
 
             int immunityChance = this.random.nextInt(100);
@@ -861,7 +887,6 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
             }
 
             BabyTraitHelper.setTraitEffect(foal);
-            foal.setGender(random.nextInt(Gender.values().length));
             ((ISickModHolder) foal).setSickChance(100 - foalimmunityCap.getImmunity());
             if (immunityCap.getImmunity() > 100) {
                 immunityCap.setImmunity(100);
@@ -980,10 +1005,6 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
             }
 
             BabyTraitHelper.setTraitEffect(foal);
-            foal.setGender(random.nextInt(Gender.values().length));
-            ((OHorse) foal).setFeatheringByBreed();
-            ((OHorse) foal).setManeType(3);
-            ((OHorse) foal).setTailType(2);
             ((ISickModHolder) foal).setSickChance(100 - foalimmunityCap.getImmunity());
             if (immunityCap.getImmunity() > 100) {
                 immunityCap.setImmunity(100);
@@ -992,6 +1013,11 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
                 immunityCap.setImmunity(1);
                 SyncImmunityPacket.syncToTracking(this, 1);
             }
+
+            foal.setGender(random.nextInt(Gender.values().length));
+            ((OHorse) foal).setFeatheringByBreed();
+            ((OHorse) foal).setManeType(3);
+            ((OHorse) foal).setTailType(2);
 
             if (this.random.nextInt(3) >= 1) {
                 ((OHorse) foal).generateRandomOHorseJumpStrength();

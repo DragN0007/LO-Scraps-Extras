@@ -58,8 +58,12 @@ public class ScrapsExtrasCommonConfig {
     public static final ForgeConfigSpec.BooleanValue HALTER;
     public static final ForgeConfigSpec.BooleanValue SPIKE_COLLAR;
     public static final ForgeConfigSpec.BooleanValue SLEEPING;
+    public static final ForgeConfigSpec.BooleanValue SWIMMING;
 
     static {
+        BUILDER.comment("Welcome to Scraps & Extras! Here, you can configure this entire mod to your liking. " +
+                "\nKeep in mind these configs and features only apply to specific O-Animals; not vanilla or other modded ones.");
+
         BUILDER.push("Hygiene & Welfare");
         HYGIENE_SYSTEM = BUILDER.define("Hygiene System Enabled", true);
         DIRTY_TICK = BUILDER.comment("The amount of time at which an animal becomes dirty. Default is 72000 ticks.")
@@ -152,6 +156,7 @@ public class ScrapsExtrasCommonConfig {
         HALTER = BUILDER.define("Halter Owner Following Enabled", true);
         SPIKE_COLLAR = BUILDER.define("Spike Collar Thorns Enabled", true);
         SLEEPING = BUILDER.define("Animals Sleep at Night", true);
+        SWIMMING = BUILDER.define("Mounts Can Swim", true);
         BUILDER.pop();
 
         SPEC = BUILDER.build();

@@ -28,7 +28,7 @@ public class BaseTraitHelper {
                                 ((ITraitByBreedTypeHolder) entity).setTraitByBreedType();
                             }
                         } while (traitCap.getTrait() == 7 || traitCap.getTrait() == 8 || traitCap.getTrait() == 9 ||
-                                traitCap.getTrait() == 10 || traitCap.getTrait() == 11 || traitCap.getTrait() == 12);
+                                traitCap.getTrait() == 10 || traitCap.getTrait() == 11 || traitCap.getTrait() == 12 || traitCap.getTrait() == 14);
                     } else
                         if (!byBreed) {
                         int trait = random.nextInt(Trait.values().length);
@@ -44,7 +44,7 @@ public class BaseTraitHelper {
                             traitCap.setTrait(trait);
                             SyncTraitPacket.syncToTracking(entity, trait);
                         } while (traitCap.getTrait() == 7 || traitCap.getTrait() == 8 || traitCap.getTrait() == 9 ||
-                                traitCap.getTrait() == 10 || traitCap.getTrait() == 11 || traitCap.getTrait() == 12);
+                                traitCap.getTrait() == 10 || traitCap.getTrait() == 11 || traitCap.getTrait() == 12 || traitCap.getTrait() == 14);
                     } else {
                         traitCap.setTrait(trait);
                         SyncTraitPacket.syncToTracking(entity, trait);
@@ -90,6 +90,15 @@ public class BaseTraitHelper {
                         break;
                     case 12:
                         entity.addEffect(new MobEffectInstance(SEEffects.MEAN.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        break;
+                    case 13:
+                        //no trait
+                        break;
+                    case 14:
+                        entity.addEffect(new MobEffectInstance(SEEffects.SWIMMER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                        break;
+                    case 15:
+                        entity.addEffect(new MobEffectInstance(SEEffects.SINKER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
                         break;
                 }
             }

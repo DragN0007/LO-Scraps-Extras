@@ -664,11 +664,4 @@ public abstract class OMuleMixin extends AbstractOMount implements DirtyCapabili
         cir.setReturnValue(PlayState.CONTINUE);
     }
 
-    @Inject(method = "canMate", at = @At("HEAD"), cancellable = true)
-    public void canMate(Animal animal, CallbackInfoReturnable<Boolean> cir) {
-        if (this.isHungry() || livestockOverhaulScraps$pregnantTick > 0) {
-            cir.setReturnValue(false);
-        }
-    }
-
 }

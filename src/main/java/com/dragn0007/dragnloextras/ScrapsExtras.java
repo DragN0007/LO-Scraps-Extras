@@ -12,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -42,5 +43,9 @@ public class ScrapsExtras
         CraftingHelper.register(new TFCCondition.Serializer(new ResourceLocation(MODID, "tfc_condition")));
 
         MinecraftForge.EVENT_BUS.register(this);
+
+        System.out.println("[DragN's LO: Scraps and Extras] Registered Livestock Overhaul: Scraps and Extras.");
+        System.out.println("[DragN's LO: Scraps and Extras] This mod may work strangely on worlds and O-Animals that already exist!");
+        System.out.println("[DragN's LO: Scraps and Extras] Hello Livestock Overhaul and LO: Pets!");
     }
 }

@@ -76,19 +76,23 @@ public class SEEffects {
             () -> new BusterEffect(MobEffectCategory.BENEFICIAL, 0x5c0d12));
     public static final RegistryObject<MobEffect> STURDY = MOB_EFFECTS.register("sturdy",
             () -> new SturdyEffect(MobEffectCategory.BENEFICIAL, 0x5c0d12));
+    public static final RegistryObject<MobEffect> SWIMMER = MOB_EFFECTS.register("swimmer",
+            () -> new UnusedTraitEffect(MobEffectCategory.BENEFICIAL, 0x5c0d12));
 
     public static final RegistryObject<MobEffect> COWARDLY = MOB_EFFECTS.register("cowardly",
-            () -> new BraveEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
+            () -> new CowardlyEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
     public static final RegistryObject<MobEffect> IMMUNOSUPPRESSED = MOB_EFFECTS.register("immunosuppressed",
             () -> new ImmunosuppressedEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
     public static final RegistryObject<MobEffect> STUBBORN = MOB_EFFECTS.register("stubborn",
-            () -> new BraveEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
+            () -> new StubbornEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
     public static final RegistryObject<MobEffect> LAGGARD = MOB_EFFECTS.register("laggard",
             () -> new LaggardEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
     public static final RegistryObject<MobEffect> FRAIL = MOB_EFFECTS.register("frail",
-            () -> new BraveEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
+            () -> new UnusedTraitEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
     public static final RegistryObject<MobEffect> MEAN = MOB_EFFECTS.register("mean",
-            () -> new BraveEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
+            () -> new UnusedTraitEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
+    public static final RegistryObject<MobEffect> SINKER = MOB_EFFECTS.register("sinker",
+            () -> new UnusedTraitEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
 
     public static void register(IEventBus eventBus) {
         MOB_EFFECTS.register(eventBus);
