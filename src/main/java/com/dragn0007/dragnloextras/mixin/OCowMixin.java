@@ -60,8 +60,6 @@ import java.util.List;
 public abstract class OCowMixin extends AbstractOMount implements ISickModHolder {
 
     @Shadow(remap = false) @Nullable public abstract SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, @org.jetbrains.annotations.Nullable SpawnGroupData data, @org.jetbrains.annotations.Nullable CompoundTag tag);
-    @Shadow(remap = false) public abstract int getHornVariant();
-    @Shadow(remap = false) public abstract int getQuality();
     @Shadow(remap = false) public abstract boolean isHarnessed();
 
     @Shadow(remap = false) public abstract void registerGoals();

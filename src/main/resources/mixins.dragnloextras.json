@@ -10,7 +10,6 @@
     "OCowMixin",
     "ODogMixin",
     "OHorseMixin",
-    "OHorseRenderMixin",
     "OMuleMixin",
     "OOcelotMixin",
     "OSheepMixin",
@@ -22,6 +21,7 @@
     "defaultRequire": 1
   },
   "client": [
+    "OHorseRenderMixin",
     "ODogRenderMixin",
     "OMuleRenderMixin"
   ]
