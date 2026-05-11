@@ -74,18 +74,16 @@ import java.util.Random;
 @Mixin(OHorse.class)
 public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabilityInterface, ITraitByBreedTypeHolder, IHungerHolder, ISleepAsLeaderHolder, ISickModHolder {
 
-    @Shadow public abstract boolean isDraftBreed();
-    @Shadow public abstract boolean isWarmbloodedBreed();
-    @Shadow public abstract boolean isRacingBreed();
-    @Shadow public abstract boolean isPonyBreed();
-    @Shadow public abstract boolean isStockBreed();
+    @Shadow(remap = false) public abstract boolean isDraftBreed();
+    @Shadow(remap = false) public abstract boolean isWarmbloodedBreed();
+    @Shadow(remap = false) public abstract boolean isRacingBreed();
+    @Shadow(remap = false) public abstract boolean isPonyBreed();
+    @Shadow(remap = false) public abstract boolean isStockBreed();
+    @Shadow(remap = false) public abstract int getEyeVariant();
 
     @Shadow @Nullable public abstract SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, @org.jetbrains.annotations.Nullable SpawnGroupData data, @org.jetbrains.annotations.Nullable CompoundTag tag);
 
-    @Shadow public abstract int getEyeVariant();
-
     @Shadow public OHorse leader;
-
     @Shadow public abstract void registerGoals();
 
     @Unique

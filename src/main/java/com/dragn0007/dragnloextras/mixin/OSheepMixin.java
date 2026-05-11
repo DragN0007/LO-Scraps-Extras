@@ -46,13 +46,13 @@ import java.util.Random;
 @Mixin(OSheep.class)
 public abstract class OSheepMixin extends Animal implements ISickModHolder {
 
-    @Shadow public abstract void registerGoals();
-    @Shadow public abstract boolean isSheared();
-    @Shadow public abstract int getBreed();
-    @Shadow public abstract void dropWoolByColorAndMarking();
-    @Shadow public abstract boolean isExquisiteQuality();
-    @Shadow public abstract boolean isFantasticQuality();
-    @Shadow public abstract boolean isGreatQuality();
+    @Shadow(remap = false) public abstract void registerGoals();
+    @Shadow(remap = false) public abstract boolean isSheared();
+    @Shadow(remap = false) public abstract int getBreed();
+    @Shadow(remap = false) public abstract void dropWoolByColorAndMarking();
+    @Shadow(remap = false) public abstract boolean isExquisiteQuality();
+    @Shadow(remap = false) public abstract boolean isFantasticQuality();
+    @Shadow(remap = false) public abstract boolean isGreatQuality();
 
     public OSheepMixin(EntityType<? extends OSheepMixin> entityType, Level level) {
         super(entityType, level);

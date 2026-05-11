@@ -53,6 +53,8 @@ public class OHorseExtrasLayer extends GeoRenderLayer<OHorse> {
             return;
         }
 
+        //TODO: Add dirt layer to simple models
+
         if (ScrapsExtrasClientConfig.RENDER_HALTER.get()) {
             if (animatable.getCapability(SECapabilities.HALTER_CAPABILITY).isPresent()) {
                 HalterCapabilityInterface cap = animatable.getCapability(SECapabilities.HALTER_CAPABILITY).orElse(null);

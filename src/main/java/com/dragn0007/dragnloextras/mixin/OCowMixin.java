@@ -2,11 +2,8 @@ package com.dragn0007.dragnloextras.mixin;
 
 import com.dragn0007.dragnlivestock.entities.EntityTypes;
 import com.dragn0007.dragnlivestock.entities.ai.CattleFollowHerdLeaderGoal;
-import com.dragn0007.dragnlivestock.entities.cow.CowBreed;
 import com.dragn0007.dragnlivestock.entities.cow.OCow;
-import com.dragn0007.dragnlivestock.entities.cow.OCowModel;
 import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
-import com.dragn0007.dragnlivestock.entities.util.marking_layer.BovineMarkingOverlay;
 import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
 import com.dragn0007.dragnloextras.capabilities.ImmunityCapabilityInterface;
 import com.dragn0007.dragnloextras.capabilities.SECapabilities;
@@ -16,7 +13,10 @@ import com.dragn0007.dragnloextras.entity.ai.FleeRainGoal;
 import com.dragn0007.dragnloextras.entity.ai.SleepGoal;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.network.SyncImmunityPacket;
-import com.dragn0007.dragnloextras.util.*;
+import com.dragn0007.dragnloextras.util.BabyTraitHelper;
+import com.dragn0007.dragnloextras.util.BaseImmunityHelper;
+import com.dragn0007.dragnloextras.util.ISickModHolder;
+import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -59,12 +59,12 @@ import java.util.List;
 @Mixin(OCow.class)
 public abstract class OCowMixin extends AbstractOMount implements ISickModHolder {
 
-    @Shadow @Nullable public abstract SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, @org.jetbrains.annotations.Nullable SpawnGroupData data, @org.jetbrains.annotations.Nullable CompoundTag tag);
-    @Shadow public abstract int getHornVariant();
-    @Shadow public abstract int getQuality();
-    @Shadow public abstract boolean isHarnessed();
+    @Shadow(remap = false) @Nullable public abstract SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, @org.jetbrains.annotations.Nullable SpawnGroupData data, @org.jetbrains.annotations.Nullable CompoundTag tag);
+    @Shadow(remap = false) public abstract int getHornVariant();
+    @Shadow(remap = false) public abstract int getQuality();
+    @Shadow(remap = false) public abstract boolean isHarnessed();
 
-    @Shadow public abstract void registerGoals();
+    @Shadow(remap = false) public abstract void registerGoals();
 
     @Unique
     int livestockOverhaulScraps$becomeSickChanceMod = 0;

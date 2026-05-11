@@ -7,7 +7,6 @@ import com.dragn0007.dragnlivestock.spawn.SpawnReplacer;
 import com.dragn0007.dragnloextras.util.BaseImmunityHelper;
 import com.dragn0007.dragnloextras.util.BaseTraitHelper;
 import com.dragn0007.dragnloextras.util.ISickModHolder;
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;

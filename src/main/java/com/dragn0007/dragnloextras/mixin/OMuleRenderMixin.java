@@ -1,8 +1,6 @@
 package com.dragn0007.dragnloextras.mixin;
 
-import com.dragn0007.dragnlivestock.entities.horse.OHorseRender;
 import com.dragn0007.dragnlivestock.entities.mule.OMuleRender;
-import com.dragn0007.dragnloextras.entity.OHorseExtrasLayer;
 import com.dragn0007.dragnloextras.entity.OMuleExtrasLayer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import org.spongepowered.asm.mixin.Mixin;

@@ -3,10 +3,8 @@ package com.dragn0007.dragnloextras.mixin;
 import com.dragn0007.dragnlivestock.client.event.LivestockOverhaulClientEvent;
 import com.dragn0007.dragnlivestock.entities.EntityTypes;
 import com.dragn0007.dragnlivestock.entities.donkey.ODonkey;
-import com.dragn0007.dragnlivestock.entities.horse.HorseBreed;
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnlivestock.entities.horse.OHorseModel;
-import com.dragn0007.dragnlivestock.entities.mule.OMule;
 import com.dragn0007.dragnlivestock.entities.mule.OMuleModel;
 import com.dragn0007.dragnlivestock.entities.unicorn.Unicorn;
 import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
@@ -69,16 +67,15 @@ import software.bernie.geckolib.core.object.PlayState;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 @Mixin(ODonkey.class)
 public abstract class ODonkeyMixin extends AbstractOMount implements DirtyCapabilityInterface, IHungerHolder, ISickModHolder {
 
-    @Shadow public abstract int getEyeVariant();
+    @Shadow(remap = false) public abstract int getEyeVariant();
 
     @Shadow @Nullable public abstract SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, @org.jetbrains.annotations.Nullable SpawnGroupData data, @org.jetbrains.annotations.Nullable CompoundTag tag);
 
-    @Shadow public abstract void registerGoals();
+    @Shadow(remap = false) public abstract void registerGoals();
 
     @Unique
     public boolean hungry = false;
