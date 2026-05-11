@@ -157,12 +157,14 @@
   "effect.dragnloextras.climber": "Trait: Climber",
   "effect.dragnloextras.buster": "Trait: Buster",
   "effect.dragnloextras.sturdy": "Trait: Sturdy",
+  "effect.dragnloextras.swimmer": "Trait: Swimmer",
   "effect.dragnloextras.cowardly": "Trait: Cowardly",
   "effect.dragnloextras.immunosuppressed": "Trait: Immunosuppressed",
   "effect.dragnloextras.stubborn": "Trait: Stubborn",
   "effect.dragnloextras.laggard": "Trait: Laggard",
   "effect.dragnloextras.frail": "Trait: Frail",
   "effect.dragnloextras.mean": "Trait: Hot-Headed",
+  "effect.dragnloextras.sinker": "Trait: Sinker",
   
   
   "tooltip.dragnloextras.medicals_disabled.tooltip": "Animal Treatments have been disabled on this server/ world.",

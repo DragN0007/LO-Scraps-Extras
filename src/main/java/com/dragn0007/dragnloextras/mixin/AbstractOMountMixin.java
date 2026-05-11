@@ -33,13 +33,13 @@ public abstract class AbstractOMountMixin extends AbstractChestedHorse implement
         if (this.isVehicle() && this.isInWater() && !this.onGround() && ScrapsExtrasCommonConfig.SWIMMING.get()) {
             double waterLevel = this.getFluidHeight(FluidTags.WATER);
             Vec3 movement = this.getDeltaMovement();
-            float swim_speed;
+            double swim_speed;
             if (this.hasEffect(SEEffects.SWIMMER.get())) {
-                swim_speed = 2.0F;
+                swim_speed = 2.0D;
             } else if (this.hasEffect(SEEffects.SINKER.get())) {
-                swim_speed = -0.5F;
+                swim_speed = -0.5D;
             } else {
-                swim_speed = 1.0F;
+                swim_speed = 1.0D;
             }
 
             if (waterLevel > 1.3) {
