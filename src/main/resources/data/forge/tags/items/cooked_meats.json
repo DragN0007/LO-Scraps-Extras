@@ -9,6 +9,10 @@
     "dragnloextras:cooked_horse_brisket",
     "dragnloextras:cooked_horse_chuck",
     "dragnloextras:cooked_horse_rib",
-    "dragnloextras:cooked_horse_shank"
+    "dragnloextras:cooked_horse_shank",
+
+    "dragnloextras:cooked_mutton_flank",
+    "dragnloextras:cooked_mutton_leg",
+    "dragnloextras:cooked_mutton_rib"
   ]
 }

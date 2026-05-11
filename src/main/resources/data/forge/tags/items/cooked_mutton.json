@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-
+    "dragnloextras:cooked_mutton_flank",
+    "dragnloextras:cooked_mutton_leg",
+    "dragnloextras:cooked_mutton_rib"
   ]
 }
