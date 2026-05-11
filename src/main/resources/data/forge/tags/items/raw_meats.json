@@ -13,6 +13,9 @@
 
     "dragnloextras:mutton_flank",
     "dragnloextras:mutton_leg",
-    "dragnloextras:mutton_rib"
+    "dragnloextras:mutton_rib",
+
+    "dragnloextras:cod_fillet",
+    "dragnloextras:salmon_fillet"
   ]
 }

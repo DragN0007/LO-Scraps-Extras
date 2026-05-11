@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-
+    "dragnloextras:cooked_cod_fillet",
+    "dragnloextras:cooked_salmon_fillet"
   ]
 }

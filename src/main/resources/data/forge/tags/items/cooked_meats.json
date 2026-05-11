@@ -13,6 +13,9 @@
 
     "dragnloextras:cooked_mutton_flank",
     "dragnloextras:cooked_mutton_leg",
-    "dragnloextras:cooked_mutton_rib"
+    "dragnloextras:cooked_mutton_rib",
+
+    "dragnloextras:cooked_cod_fillet",
+    "dragnloextras:cooked_salmon_fillet"
   ]
 }
