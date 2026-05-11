@@ -1041,7 +1041,10 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
 //        }
 
         CompoundTag nbt = this.getPersistentData();
-        nbt.putBoolean("loextras_initialized", true);
+        if (!nbt.getBoolean("loextras_initialized")) {
+            nbt.putBoolean("loextras_initialized", true);
+        }
+
         this.setOffspringAttributes(ageableMob, foal);
         return foal;
     }

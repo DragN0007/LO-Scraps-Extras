@@ -767,6 +767,9 @@ public abstract class ODonkeyMixin extends AbstractOMount implements DirtyCapabi
                 SyncImmunityPacket.syncToTracking(this, 1);
             }
 
+            CompoundTag nbt = this.getPersistentData();
+            nbt.putBoolean("loextras_initialized", true);
+
             foal.setGender(random.nextInt(Gender.values().length));
 
         } else {

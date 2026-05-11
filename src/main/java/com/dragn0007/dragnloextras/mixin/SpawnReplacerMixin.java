@@ -9,6 +9,7 @@ import com.dragn0007.dragnloextras.util.BaseTraitHelper;
 import com.dragn0007.dragnloextras.util.ISickModHolder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -34,23 +35,12 @@ public class SpawnReplacerMixin implements ISickModHolder {
         this.livestockOverhaulScraps$becomeSickChance = sickChance;
     }
 
-//    @Inject(method = "onSpawn", at = @At("TAIL"))
-//    private static void afterSpawn(EntityJoinLevelEvent event, CallbackInfo ci) {
-//        if (event.getLevel().isClientSide) return;
-//
-//        if (event.getEntity() instanceof AdvancedZombie advancedZombie) {
-//            if (event.getEntity().getClass() == AdvancedZombie.class) {
-//                if (event.getLevel().isClientSide) {
-//                    return;
-//                }
-//                advancedZombie.setHat(random.nextInt(Hats.values().length));
-//            }
-//        }
-//    }
-
     @Inject(method = "onSpawn", at = @At("TAIL"))
     private static void afterSpawn(EntityJoinLevelEvent event, CallbackInfo ci) {
         if (event.getLevel().isClientSide) return;
+
+        //for some reason when a baby is spawned with a spawn egg off of an adult,
+        //it spawns with two traits. i guess they arent considered BREEDING or SPAWN_EGG spawn types... ?
 
         //Horse
         if (event.getEntity() instanceof OHorse oHorse) {
@@ -59,7 +49,8 @@ public class SpawnReplacerMixin implements ISickModHolder {
                     return;
                 }
                 CompoundTag nbt = oHorse.getPersistentData();
-                if (!nbt.getBoolean("loextras_initialized")) {
+                if (!nbt.getBoolean("loextras_initialized") &&
+                        oHorse.getSpawnType() != MobSpawnType.BREEDING && oHorse.getSpawnType() != MobSpawnType.SPAWN_EGG) {
                     BaseImmunityHelper.setBaseImmunity(oHorse);
                     BaseTraitHelper.setBaseTrait(oHorse, true);
                     nbt.putBoolean("loextras_initialized", true);
@@ -74,7 +65,8 @@ public class SpawnReplacerMixin implements ISickModHolder {
                     return;
                 }
                 CompoundTag nbt = oMule.getPersistentData();
-                if (!nbt.getBoolean("loextras_initialized")) {
+                if (!nbt.getBoolean("loextras_initialized") &&
+                        oMule.getSpawnType() != MobSpawnType.BREEDING && oMule.getSpawnType() != MobSpawnType.SPAWN_EGG) {
                     BaseImmunityHelper.setBaseImmunity(oMule);
                     BaseTraitHelper.setBaseTrait(oMule, false);
                     nbt.putBoolean("loextras_initialized", true);
@@ -87,8 +79,10 @@ public class SpawnReplacerMixin implements ISickModHolder {
             if (event.getEntity().getClass() == OCow.class) {
                 if (event.getLevel().isClientSide) {
                     return;
-                }CompoundTag nbt = oCow.getPersistentData();
-                if (!nbt.getBoolean("loextras_initialized")) {
+                }
+                CompoundTag nbt = oCow.getPersistentData();
+                if (!nbt.getBoolean("loextras_initialized") &&
+                        oCow.getSpawnType() != MobSpawnType.BREEDING && oCow.getSpawnType() != MobSpawnType.SPAWN_EGG) {
                     BaseImmunityHelper.setBaseImmunity(oCow);
                     nbt.putBoolean("loextras_initialized", true);
                 }
