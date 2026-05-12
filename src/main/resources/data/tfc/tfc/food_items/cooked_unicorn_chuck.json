@@ -1,0 +1,9 @@
+{
+  "ingredient": {
+    "item": "dragnloextras:cooked_unicorn_chuck"
+  },
+  "hunger": 4,
+  "saturation": 1.8,
+  "decay_modifier": 1.3,
+  "protein": 2
+}
