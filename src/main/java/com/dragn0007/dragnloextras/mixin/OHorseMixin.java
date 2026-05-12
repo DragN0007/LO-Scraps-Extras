@@ -84,8 +84,6 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
     @Shadow(remap = false) public abstract int getEyeVariant();
 
     @Shadow @Nullable public abstract SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, @org.jetbrains.annotations.Nullable SpawnGroupData data, @org.jetbrains.annotations.Nullable CompoundTag tag);
-
-    @Shadow public OHorse leader;
     @Shadow public abstract void registerGoals();
 
     @Unique

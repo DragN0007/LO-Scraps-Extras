@@ -7,6 +7,7 @@ import com.dragn0007.dragnlivestock.entities.cow.OCow;
 import com.dragn0007.dragnlivestock.entities.donkey.ODonkey;
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnlivestock.entities.mule.OMule;
+import com.dragn0007.dragnlivestock.entities.rabbit.ORabbit;
 import com.dragn0007.dragnlivestock.entities.sheep.OSheep;
 import com.dragn0007.dragnlivestock.entities.unicorn.Unicorn;
 import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
@@ -17,6 +18,7 @@ import com.dragn0007.dragnloextras.entity.butchering.*;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.network.*;
 import com.dragn0007.dragnloextras.util.ISleepAsLeaderHolder;
+import com.dragn0007.dragnloextras.util.SETags;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import com.dragn0007.dragnpets.entities.cat.OCat;
 import com.dragn0007.dragnpets.entities.dog.ODog;
@@ -42,8 +44,6 @@ import net.minecraftforge.network.PacketDistributor;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeEvent {
-
-    //todo: babies shouldnt spawn instantly. maybe use event?
 
     @SubscribeEvent
     public void registerCaps(RegisterCapabilitiesEvent event) {
@@ -119,29 +119,18 @@ public class ForgeEvent {
     @SubscribeEvent
     public static void attach(final AttachCapabilitiesEvent<Entity> event) {
         //attach general caps
-        if ((event.getObject() instanceof OHorse && event.getObject().getClass() == OHorse.class) ||
-            (event.getObject() instanceof OCow && event.getObject().getClass() == OCow.class) ||
-            (event.getObject() instanceof OSheep && event.getObject().getClass() == OSheep.class) ||
-            (event.getObject() instanceof OChicken && event.getObject().getClass() == OChicken.class) ||
-            (event.getObject() instanceof Unicorn && event.getObject().getClass() == Unicorn.class) ||
-            (event.getObject() instanceof ODog && event.getObject().getClass() == ODog.class) ||
-            (event.getObject() instanceof OWolf && event.getObject().getClass() == OWolf.class) ||
-            (event.getObject() instanceof ODonkey && event.getObject().getClass() == ODonkey.class) ||
-            (event.getObject() instanceof OMule && event.getObject().getClass() == OMule.class) ||
-            (event.getObject() instanceof OCamel && event.getObject().getClass() == OCamel.class) ||
-            (event.getObject() instanceof OCat && event.getObject().getClass() == OCat.class) ||
-            (event.getObject() instanceof OOcelot && event.getObject().getClass() == OOcelot.class) ||
-            (event.getObject() instanceof Caribou && event.getObject().getClass() == Caribou.class)) {
+        if (SETags.CAPABLE.contains(event.getObject().getType())) {
 
-            //cats, ocelots, unicorns dont get the dirty capability since they clean themselves
-            if ((event.getObject() instanceof OHorse && event.getObject().getClass() == OHorse.class) ||
-                    (event.getObject() instanceof Unicorn && event.getObject().getClass() == Unicorn.class) ||
-                    (event.getObject() instanceof OMule && event.getObject().getClass() == OMule.class) ||
-                    (event.getObject() instanceof ODonkey && event.getObject().getClass() == ODonkey.class) ||
-                    (event.getObject() instanceof OCamel && event.getObject().getClass() == OCamel.class) ||
-                    (event.getObject() instanceof ODog && event.getObject().getClass() == ODog.class) ||
-                    (event.getObject() instanceof OWolf && event.getObject().getClass() == OWolf.class) ||
-                    (event.getObject() instanceof Caribou && event.getObject().getClass() == Caribou.class)) {
+            if (SETags.SLEEPABLE.contains(event.getObject().getType())) {
+                if (!event.getObject().getCapability(SECapabilities.SLEEPING_CAPABILITY).isPresent()) {
+                    SleepingCapabilityAttacher.attach(event);
+                    if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
+                        System.out.println("Attached the Sleeping Capability NBT to " + event.getObject().getName());
+                    }
+                }
+            }
+
+            if (SETags.DIRTYABLE.contains(event.getObject().getType())) {
                 if (!event.getObject().getCapability(SECapabilities.DIRTY_CAPABILITY).isPresent()) {
                     DirtyCapabilityAttacher.attach(event);
                     if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
@@ -150,9 +139,7 @@ public class ForgeEvent {
                 }
             }
 
-            //cows, in gameplay, cannot have traits. because that would be useless
-            if (!(event.getObject() instanceof OCow && event.getObject().getClass() == OCow.class) ||
-                    !(event.getObject() instanceof OSheep && event.getObject().getClass() == OSheep.class)) {
+            if (SETags.TRAITABLE.contains(event.getObject().getType())) {
                 if (!event.getObject().getCapability(SECapabilities.TRAIT_CAPABILITY).isPresent()) {
                     TraitCapabilityAttacher.attach(event);
                     if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
@@ -161,8 +148,7 @@ public class ForgeEvent {
                 }
             }
 
-            if (!(event.getObject() instanceof OSheep && event.getObject().getClass() == OSheep.class) &&
-                    !(event.getObject() instanceof OChicken && event.getObject().getClass() == OChicken.class)) {
+            if (SETags.IMMUNITYABLE.contains(event.getObject().getType())) {
                 if (!event.getObject().getCapability(SECapabilities.IMMUNITY_CAPABILITY).isPresent()) {
                     ImmunityCapabilityAttacher.attach(event);
                     if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
@@ -171,20 +157,7 @@ public class ForgeEvent {
                 }
             }
 
-            if (!event.getObject().getCapability(SECapabilities.SLEEPING_CAPABILITY).isPresent()) {
-                SleepingCapabilityAttacher.attach(event);
-                if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
-                    System.out.println("Attached the Sleeping Capability NBT to " + event.getObject().getName());
-                }
-            }
-
-            //only equines, caribou get halters
-            if ((event.getObject() instanceof OHorse && event.getObject().getClass() == OHorse.class) ||
-                    (event.getObject() instanceof Unicorn && event.getObject().getClass() == Unicorn.class) ||
-                    (event.getObject() instanceof OMule && event.getObject().getClass() == OMule.class) ||
-                    (event.getObject() instanceof ODonkey && event.getObject().getClass() == ODonkey.class) ||
-                    (event.getObject() instanceof Caribou && event.getObject().getClass() == Caribou.class)) {
-
+            if (SETags.HALTERABLE.contains(event.getObject().getType())) {
                 if (!event.getObject().getCapability(SECapabilities.HALTER_CAPABILITY).isPresent()) {
                     HalterCapabilityAttacher.attach(event);
                     if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
@@ -199,9 +172,7 @@ public class ForgeEvent {
                 }
             }
 
-            //only canines get spike collars
-            if ((event.getObject() instanceof ODog && event.getObject().getClass() == ODog.class) ||
-                    (event.getObject() instanceof OWolf && event.getObject().getClass() == OWolf.class)) {
+            if (SETags.SPIKE_COLLARABLE.contains(event.getObject().getType())) {
                 if (!event.getObject().getCapability(SECapabilities.SPIKE_COLLAR_CAPABILITY).isPresent()) {
                     SpikeCollarCapabilityAttacher.attach(event);
                     if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
@@ -221,7 +192,6 @@ public class ForgeEvent {
             if (player.isSecondaryUseActive()) {
                 if (stack.is(SEItems.ANTIBIOTIC_INJECTION.get())) {
                     if (entity.hasEffect(SEEffects.INFECTION.get())) {
-                        int duration = entity.getEffect(SEEffects.INFECTION.get()).getDuration();
                         entity.removeEffect(SEEffects.INFECTION.get());
                         if (!player.getAbilities().instabuild) {
                             stack.shrink(1);
@@ -501,6 +471,18 @@ public class ForgeEvent {
             if (deceased instanceof OChicken animal) {
                 if (!level.isClientSide()) {
                     ChickenCorpse corpse = new ChickenCorpse(SEEntityTypes.CHICKEN_CORPSE.get(), level);
+                    corpse.setVariant(animal.getVariant());
+                    corpse.setQuality(animal.getQuality());
+                    if (animal.isMeatBreed()) {
+                        corpse.setMeatBreed(true);
+                    }
+                    corpse.moveTo(deceased.getX(), deceased.getY(), deceased.getZ(), deceased.getYRot(), deceased.getXRot());
+                    level.addFreshEntity(corpse);
+                }
+            }
+            if (deceased instanceof ORabbit animal) {
+                if (!level.isClientSide()) {
+                    RabbitCorpse corpse = new RabbitCorpse(SEEntityTypes.RABBIT_CORPSE.get(), level);
                     corpse.setVariant(animal.getVariant());
                     corpse.setQuality(animal.getQuality());
                     if (animal.isMeatBreed()) {

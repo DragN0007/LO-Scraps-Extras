@@ -53,9 +53,7 @@ import java.util.Random;
 public abstract class OOcelotMixin extends TamableAnimal implements DirtyCapabilityInterface, ITraitByBreedTypeHolder, IHungerHolder, ISickModHolder {
 
     @Shadow(remap = false) public abstract int getVariant();
-    @Shadow(remap = false) public abstract int getOverlayVariant();
     @Shadow(remap = false) public abstract boolean isWagging();
-    @Shadow(remap = false) public abstract int getEyes();
 
     @Shadow public abstract InteractionResult mobInteract(Player player, InteractionHand hand);
 

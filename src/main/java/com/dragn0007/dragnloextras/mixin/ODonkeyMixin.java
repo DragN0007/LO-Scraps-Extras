@@ -75,8 +75,7 @@ public abstract class ODonkeyMixin extends AbstractOMount implements DirtyCapabi
     @Shadow(remap = false) public abstract int getEyeVariant();
 
     @Shadow @Nullable public abstract SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, @org.jetbrains.annotations.Nullable SpawnGroupData data, @org.jetbrains.annotations.Nullable CompoundTag tag);
-
-    @Shadow(remap = false) public abstract void registerGoals();
+    @Shadow public abstract void registerGoals();
 
     @Unique
     public boolean hungry = false;

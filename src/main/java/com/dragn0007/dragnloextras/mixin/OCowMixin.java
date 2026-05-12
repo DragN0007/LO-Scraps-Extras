@@ -63,18 +63,12 @@ public abstract class OCowMixin extends AbstractOMount implements ISickModHolder
 
     @Shadow(remap = false) @Nullable public abstract SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, @org.jetbrains.annotations.Nullable SpawnGroupData data, @org.jetbrains.annotations.Nullable CompoundTag tag);
     @Shadow(remap = false) public abstract boolean isHarnessed();
-
     @Shadow(remap = false) public abstract void registerGoals();
-
-    @Shadow public abstract boolean isMeatBreed();
-
-    @Shadow public abstract boolean isNormalBreed();
-
-    @Shadow public abstract boolean isExquisiteQuality();
-
-    @Shadow public abstract boolean isFantasticQuality();
-
-    @Shadow public abstract boolean isGreatQuality();
+    @Shadow(remap = false) public abstract boolean isMeatBreed();
+    @Shadow(remap = false) public abstract boolean isNormalBreed();
+    @Shadow(remap = false) public abstract boolean isExquisiteQuality();
+    @Shadow(remap = false) public abstract boolean isFantasticQuality();
+    @Shadow(remap = false) public abstract boolean isGreatQuality();
 
     @Unique
     int livestockOverhaulScraps$becomeSickChanceMod = 0;

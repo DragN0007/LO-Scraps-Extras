@@ -55,8 +55,14 @@ public class SEEntityTypes {
     public static final RegistryObject<EntityType<ChickenCorpse>> CHICKEN_CORPSE = ENTITY_TYPES.register("chicken_corpse",
             () -> EntityType.Builder.of(ChickenCorpse::new,
                             MobCategory.CREATURE)
-                    .sized(0.8f,0.8f)
+                    .sized(0.5f,0.5f)
                     .build(new ResourceLocation(MODID,"chicken_corpse").toString()));
+
+    public static final RegistryObject<EntityType<RabbitCorpse>> RABBIT_CORPSE = ENTITY_TYPES.register("rabbit_corpse",
+            () -> EntityType.Builder.of(RabbitCorpse::new,
+                            MobCategory.CREATURE)
+                    .sized(0.5f,0.5f)
+                    .build(new ResourceLocation(MODID,"rabbit_corpse").toString()));
 
     public static final RegistryObject<EntityType<UnicornCorpse>> UNICORN_CORPSE = ENTITY_TYPES.register("unicorn_corpse",
             () -> EntityType.Builder.of(UnicornCorpse::new,

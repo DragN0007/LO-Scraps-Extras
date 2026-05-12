@@ -45,7 +45,7 @@ import software.bernie.geckolib.core.object.PlayState;
 import java.util.Random;
 
 @Mixin(OChicken.class)
-public abstract class OChickenMixin extends Animal implements ISickModHolder {
+public abstract class OChickenMixin extends Animal {
 
     @Shadow(remap = false) public abstract void registerGoals();
     @Shadow(remap = false) public abstract boolean isExquisiteQuality();
@@ -107,7 +107,7 @@ public abstract class OChickenMixin extends Animal implements ISickModHolder {
         if (ScrapsExtrasCommonConfig.AILMENT_SYSTEM.get()) {
             double abrasionChance = dmg / 10;
 
-            if (random.nextDouble() <= 0.20) {
+            if (random.nextDouble() <= abrasionChance) {
                 this.addEffect(new MobEffectInstance(SEEffects.ABRASION.get(), ScrapsExtrasCommonConfig.INFECTION_TICK.get() + 20, 0, false, false));
             }
 
