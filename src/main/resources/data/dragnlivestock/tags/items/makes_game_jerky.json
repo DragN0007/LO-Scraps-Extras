@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
-
+    "dragnloextras:caribou_brisket",
+    "dragnloextras:caribou_chuck",
+    "dragnloextras:caribou_rib",
+    "dragnloextras:caribou_shank"
   ]
 }

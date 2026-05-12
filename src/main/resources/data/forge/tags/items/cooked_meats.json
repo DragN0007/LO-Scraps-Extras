@@ -11,9 +11,22 @@
     "dragnloextras:cooked_horse_rib",
     "dragnloextras:cooked_horse_shank",
 
+    "dragnloextras:cooked_caribou_brisket",
+    "dragnloextras:cooked_caribou_chuck",
+    "dragnloextras:cooked_caribou_rib",
+    "dragnloextras:cooked_caribou_shank",
+
+    "dragnloextras:cooked_unicorn_brisket",
+    "dragnloextras:cooked_unicorn_chuck",
+    "dragnloextras:cooked_unicorn_rib",
+    "dragnloextras:cooked_unicorn_shank",
+
     "dragnloextras:cooked_mutton_flank",
     "dragnloextras:cooked_mutton_leg",
     "dragnloextras:cooked_mutton_rib",
+
+    "dragnloextras:cooked_chicken_thigh",
+    "dragnloextras:cooked_chicken_wing",
 
     "dragnloextras:cooked_cod_fillet",
     "dragnloextras:cooked_salmon_fillet"

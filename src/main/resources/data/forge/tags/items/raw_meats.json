@@ -11,9 +11,22 @@
     "dragnloextras:horse_rib",
     "dragnloextras:horse_shank",
 
+    "dragnloextras:caribou_brisket",
+    "dragnloextras:caribou_chuck",
+    "dragnloextras:caribou_rib",
+    "dragnloextras:caribou_shank",
+
+    "dragnloextras:unicorn_brisket",
+    "dragnloextras:unicorn_chuck",
+    "dragnloextras:unicorn_rib",
+    "dragnloextras:unicorn_shank",
+
     "dragnloextras:mutton_flank",
     "dragnloextras:mutton_leg",
     "dragnloextras:mutton_rib",
+    
+    "dragnloextras:chicken_thigh",
+    "dragnloextras:chicken_wing",
 
     "dragnloextras:cod_fillet",
     "dragnloextras:salmon_fillet"

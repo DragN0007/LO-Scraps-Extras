@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "dragnloextras:chicken_thigh"
+    "#forge:raw_chicken"
   ]
 }

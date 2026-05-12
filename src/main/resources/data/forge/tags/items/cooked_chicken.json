@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-
+    "dragnloextras:cooked_chicken_thigh",
+    "dragnloextras:cooked_chicken_wing"
   ]
 }
