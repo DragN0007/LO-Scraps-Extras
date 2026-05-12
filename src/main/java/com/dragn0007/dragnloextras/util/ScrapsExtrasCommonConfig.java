@@ -1,5 +1,6 @@
 package com.dragn0007.dragnloextras.util;
 
+import com.dragn0007.dragnloextras.entity.butchering.Corpse;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 public class ScrapsExtrasCommonConfig {
@@ -59,6 +60,7 @@ public class ScrapsExtrasCommonConfig {
     public static final ForgeConfigSpec.BooleanValue SPIKE_COLLAR;
     public static final ForgeConfigSpec.BooleanValue SLEEPING;
     public static final ForgeConfigSpec.BooleanValue SWIMMING;
+    public static final ForgeConfigSpec.ConfigValue<Integer> CORPSE_DECOMP_TIMER;
 
     static {
         BUILDER.comment("Welcome to Scraps & Extras! Here, you can configure this entire mod to your liking. " +
@@ -157,6 +159,8 @@ public class ScrapsExtrasCommonConfig {
         SPIKE_COLLAR = BUILDER.define("Spike Collar Thorns Enabled", true);
         SLEEPING = BUILDER.define("Animals Sleep at Night", true);
         SWIMMING = BUILDER.define("Mounts Can Swim", true);
+        CORPSE_DECOMP_TIMER = BUILDER.comment("The amount of time it takes for an animal carcass to decompose (despawn). Default is 6000 ticks (5 minutes).")
+                .define("Animal Carcass Despawn Time", 6000);
         BUILDER.pop();
 
         SPEC = BUILDER.build();

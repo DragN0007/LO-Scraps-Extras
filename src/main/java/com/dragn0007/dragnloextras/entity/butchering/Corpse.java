@@ -1,5 +1,6 @@
 package com.dragn0007.dragnloextras.entity.butchering;
 
+import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -51,12 +52,23 @@ public class Corpse extends Mob implements GeoEntity {
 
 	@Override
 	public boolean removeWhenFarAway(double p_27598_) {
-		return this.tickCount > 2400;
+		return this.decomposeTimer >= ScrapsExtrasCommonConfig.CORPSE_DECOMP_TIMER.get();
 	}
+
+	public int decomposeTimer;
 
 	@Override
 	public void tick() {
 		super.tick();
+		decomposeTimer++;
+		if (this.decomposeTimer >= ScrapsExtrasCommonConfig.CORPSE_DECOMP_TIMER.get()) {
+			this.kill();
+			this.remove(RemovalReason.DISCARDED);
+			if (this.level().isClientSide) {
+				this.remove(RemovalReason.DISCARDED);
+			}
+		}
+
 		if (this.isLeashed() && this.getLeashHolder() != null) {
 			Entity holder = this.getLeashHolder();
 			double distance = this.distanceTo(holder);
@@ -188,6 +200,9 @@ public class Corpse extends Mob implements GeoEntity {
 		if(tag.contains("Quality")) {
 			this.setQuality(tag.getInt("Quality"));
 		}
+		if (tag.contains("DecomposeTime")) {
+			this.decomposeTimer = tag.getInt("DecomposeTime");
+		}
 	}
 
 	@Override
@@ -196,6 +211,7 @@ public class Corpse extends Mob implements GeoEntity {
 		tag.putInt("ButcherStage", this.getButcherStage());
 		tag.putInt("Variant", this.getVariant());
 		tag.putInt("Quality", this.getQuality());
+		tag.putInt("DecomposeTime", this.decomposeTimer);
 	}
 
 	@Override
