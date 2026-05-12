@@ -1,9 +1,13 @@
 package com.dragn0007.dragnloextras.mixin;
 
 import com.dragn0007.dragnlivestock.entities.cow.OCow;
+import com.dragn0007.dragnlivestock.entities.donkey.ODonkey;
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnlivestock.entities.mule.OMule;
+import com.dragn0007.dragnlivestock.entities.unicorn.Unicorn;
 import com.dragn0007.dragnlivestock.spawn.SpawnReplacer;
+import com.dragn0007.dragnloextras.capabilities.ImmunityCapabilityInterface;
+import com.dragn0007.dragnloextras.capabilities.SECapabilities;
 import com.dragn0007.dragnloextras.util.BaseImmunityHelper;
 import com.dragn0007.dragnloextras.util.BaseTraitHelper;
 import com.dragn0007.dragnloextras.util.ISickModHolder;
@@ -73,6 +77,22 @@ public class SpawnReplacerMixin implements ISickModHolder {
             }
         }
 
+        //Donkey
+        if (event.getEntity() instanceof ODonkey oDonkey) {
+            if (event.getEntity().getClass() == ODonkey.class) {
+                if (event.getLevel().isClientSide) {
+                    return;
+                }
+                CompoundTag nbt = oDonkey.getPersistentData();
+                if (!nbt.getBoolean("loextras_initialized") &&
+                        oDonkey.getSpawnType() != MobSpawnType.BREEDING && oDonkey.getSpawnType() != MobSpawnType.SPAWN_EGG) {
+                    BaseImmunityHelper.setBaseImmunity(oDonkey);
+                    BaseTraitHelper.setBaseTrait(oDonkey, false);
+                    nbt.putBoolean("loextras_initialized", true);
+                }
+            }
+        }
+
         //Cow
         if (event.getEntity() instanceof OCow oCow) {
             if (event.getEntity().getClass() == OCow.class) {
@@ -83,6 +103,26 @@ public class SpawnReplacerMixin implements ISickModHolder {
                 if (!nbt.getBoolean("loextras_initialized") &&
                         oCow.getSpawnType() != MobSpawnType.BREEDING && oCow.getSpawnType() != MobSpawnType.SPAWN_EGG) {
                     BaseImmunityHelper.setBaseImmunity(oCow);
+                    nbt.putBoolean("loextras_initialized", true);
+                }
+            }
+        }
+
+        //Unicorn
+        if (event.getEntity() instanceof Unicorn unicorn) {
+            if (event.getEntity().getClass() == Unicorn.class) {
+                if (event.getLevel().isClientSide) {
+                    return;
+                }
+                CompoundTag nbt = unicorn.getPersistentData();
+                if (!nbt.getBoolean("loextras_initialized") &&
+                        unicorn.getSpawnType() != MobSpawnType.BREEDING && unicorn.getSpawnType() != MobSpawnType.SPAWN_EGG) {
+                    ImmunityCapabilityInterface immunityCap = null;
+                    if (unicorn.getCapability(SECapabilities.IMMUNITY_CAPABILITY).isPresent()) {
+                        immunityCap = unicorn.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
+                    }
+                    immunityCap.setImmunity(100);
+                    BaseTraitHelper.setBaseTrait(unicorn, false);
                     nbt.putBoolean("loextras_initialized", true);
                 }
             }

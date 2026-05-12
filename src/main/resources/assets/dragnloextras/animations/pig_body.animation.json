@@ -1,0 +1,132 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"dead": {
+			"loop": true,
+			"bones": {
+				"body": {
+					"rotation": {
+						"vector": [0, 0, -90]
+					},
+					"position": {
+						"vector": [0, -8, 0]
+					}
+				},
+				"fat": {
+					"rotation": {
+						"vector": [0, 0, 20]
+					},
+					"position": {
+						"vector": [-1.6, 0, 0]
+					}
+				},
+				"utters": {
+					"rotation": {
+						"vector": [0, 0, 10]
+					},
+					"position": {
+						"vector": [-0.6, 0.5, 0]
+					}
+				},
+				"front_right_leg": {
+					"rotation": {
+						"vector": [17.5, 0, 0]
+					}
+				},
+				"front_right_calf": {
+					"rotation": {
+						"vector": [7.5, 0, 0]
+					}
+				},
+				"front_right_hoof": {
+					"rotation": {
+						"vector": [67.5, 0, 0]
+					}
+				},
+				"front_left_leg": {
+					"rotation": {
+						"vector": [-14.71924, 2.89997, 27.17586]
+					},
+					"position": {
+						"vector": [-0.6, 0, 0]
+					}
+				},
+				"front_left_calf": {
+					"rotation": {
+						"vector": [12.5, 0, 0]
+					}
+				},
+				"front_left_hoof": {
+					"rotation": {
+						"vector": [87.5, 0, 0]
+					}
+				},
+				"back_left_calf": {
+					"rotation": {
+						"vector": [-12.5, 0, 0]
+					},
+					"position": {
+						"vector": [0, 0, -1.2]
+					}
+				},
+				"back_left_hoof": {
+					"rotation": {
+						"vector": [85, 0, 0]
+					},
+					"position": {
+						"vector": [0, -0.9, 1]
+					}
+				},
+				"back_right_calf": {
+					"rotation": {
+						"vector": [3.59731, -13.4297, 24.82576]
+					}
+				},
+				"back_right_hoof": {
+					"rotation": {
+						"vector": [85, 0, 0]
+					},
+					"position": {
+						"vector": [0, -0.9, 1]
+					}
+				},
+				"neck": {
+					"rotation": {
+						"vector": [10, 12.5, 0]
+					}
+				},
+				"right_ear": {
+					"rotation": {
+						"vector": [22.5, 0, 0]
+					}
+				},
+				"left_ear": {
+					"rotation": {
+						"vector": [22.5, 0, 0]
+					}
+				},
+				"tail": {
+					"rotation": {
+						"vector": [244.06896, -9.02825, -245.9285]
+					},
+					"position": {
+						"vector": [0, -2, 0]
+					}
+				},
+				"tail_2": {
+					"rotation": {
+						"vector": [-44.26782, 4.2453, -10.4377]
+					}
+				},
+				"head": {
+					"rotation": {
+						"vector": [-26.62084, -6.61024, -6.02436]
+					},
+					"position": {
+						"vector": [0.4, 0, 0]
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "food",
+  "cookingtime": 200,
+  "experience": 0.35,
+  "ingredient": {
+    "item": "dragnloextras:caribou_chuck"
+  },
+  "result": "dragnloextras:cooked_caribou_chuck"
+}

@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "dragnloextras:cooked_unicorn_chuck_smoking"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_unicorn_chuck": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "dragnloextras:unicorn_chuck"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_unicorn_chuck",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "dragnloextras:cooked_unicorn_chuck_smoking"
+    ]
+  },
+  "sends_telemetry_event": false
+}

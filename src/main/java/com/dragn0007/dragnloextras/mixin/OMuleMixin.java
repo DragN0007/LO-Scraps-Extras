@@ -11,6 +11,7 @@ import com.dragn0007.dragnloextras.effects.SEEffects;
 import com.dragn0007.dragnloextras.entity.ai.EquineSleepGoal;
 import com.dragn0007.dragnloextras.entity.ai.FleeRainGoal;
 import com.dragn0007.dragnloextras.entity.ai.HorseFollowOwnerGoal;
+import com.dragn0007.dragnloextras.entity.ai.SleepGoal;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.items.custom.HalterItem;
 import com.dragn0007.dragnloextras.items.custom.TurnoutBlanketItem;
@@ -94,11 +95,11 @@ public abstract class OMuleMixin extends AbstractOMount implements DirtyCapabili
         if (ScrapsExtrasCommonConfig.BUTCHERING.get()) {
             return BuiltInLootTables.EMPTY;
         } else if (ModList.get().isLoaded("tfc")) {
-            return OHorse.TFC_LOOT_TABLE;
+            return OMule.TFC_LOOT_TABLE;
         } else if (LivestockOverhaulCommonConfig.USE_VANILLA_LOOT.get()) {
-            return OHorse.VANILLA_LOOT_TABLE;
+            return OMule.VANILLA_LOOT_TABLE;
         } else {
-            return OHorse.LOOT_TABLE;
+            return OMule.LOOT_TABLE;
         }
     }
 
@@ -128,8 +129,8 @@ public abstract class OMuleMixin extends AbstractOMount implements DirtyCapabili
     @Inject(method = "registerGoals", at = @At("HEAD"))
     public void registerGoals(CallbackInfo ci) {
         super.registerGoals();
-        OHorse self = (OHorse) (Object) this;
-        this.goalSelector.addGoal(0, new EquineSleepGoal(self));
+        OMule self = (OMule) (Object) this;
+        this.goalSelector.addGoal(0, new SleepGoal(self));
         this.goalSelector.addGoal(1, new FleeRainGoal(self, 1.2F));
         this.goalSelector.addGoal(2, new HorseFollowOwnerGoal(self, 1.0D, 2.0F, 2.0F, false));
         this.goalSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10, true, false, entity ->
@@ -550,14 +551,12 @@ public abstract class OMuleMixin extends AbstractOMount implements DirtyCapabili
 
     @Inject(method = "finalizeSpawn", at = @At("TAIL"))
     private void spawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, SpawnGroupData data, CompoundTag tag, CallbackInfoReturnable<SpawnGroupData> cir) {
-        OHorse self = (OHorse) (Object) this;
-        if (self.getClass() == OHorse.class || self.getClass() == Unicorn.class) {
-            CompoundTag nbt = this.getPersistentData();
-            if (!nbt.getBoolean("loextras_initialized")) {
-                BaseImmunityHelper.setBaseImmunity(this);
-                BaseTraitHelper.setBaseTrait(this, false);
-                nbt.putBoolean("loextras_initialized", true);
-            }
+        OMule self = (OMule) (Object) this;
+        CompoundTag nbt = this.getPersistentData();
+        if (!nbt.getBoolean("loextras_initialized")) {
+            BaseImmunityHelper.setBaseImmunity(this);
+            BaseTraitHelper.setBaseTrait(this, false);
+            nbt.putBoolean("loextras_initialized", true);
         }
     }
 

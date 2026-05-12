@@ -50,6 +50,11 @@ public class Corpse extends Mob implements GeoEntity {
 	}
 
 	@Override
+	public boolean removeWhenFarAway(double p_27598_) {
+		return this.tickCount > 2400;
+	}
+
+	@Override
 	public void tick() {
 		super.tick();
 		if (this.isLeashed() && this.getLeashHolder() != null) {

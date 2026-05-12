@@ -5,7 +5,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "The new Butchering system allows for more meat and drops per animal, at the cost of a bit more work. To process an animal, kill it and shift-use an Axe on it's body to begin butchering it."
+      "text": "The new Butchering system allows for more meat and drops per animal, at the cost of a bit more work. To process an animal, kill it and shift-use an Axe on it's body to begin butchering it. Animal carcasses decompose (despawn) when left behind for too long, so make sure to harvest them ASAP."
     },
     {
       "type": "patchouli:spotlight",

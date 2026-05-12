@@ -12,6 +12,7 @@ import com.dragn0007.dragnlivestock.entities.unicorn.Unicorn;
 import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
 import com.dragn0007.dragnlivestock.entities.util.marking_layer.EquineEyeColorOverlay;
 import com.dragn0007.dragnlivestock.entities.util.marking_layer.EquineMarkingOverlay;
+import com.dragn0007.dragnlivestock.items.LOItems;
 import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
 import com.dragn0007.dragnloextras.capabilities.*;
 import com.dragn0007.dragnloextras.effects.SEEffects;
@@ -51,6 +52,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.fml.ModList;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -1072,10 +1074,47 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
 //        this.livestockOverhaulScraps$pregnantTick = 0;
 //    }
 
-    @Inject(method = "dropCustomDeathLoot", at = @At("HEAD"))
-    public void dropCustomDeathLoot(DamageSource p_33574_, int p_33575_, boolean p_33576_, CallbackInfo ci) {
-        if (ScrapsExtrasCommonConfig.BUTCHERING.get()) {
-            return;
+    /**
+     * @author
+     * @reason
+     */
+    @Overwrite
+    public void dropCustomDeathLoot(DamageSource p_33574_, int p_33575_, boolean p_33576_) {
+        super.dropCustomDeathLoot(p_33574_, p_33575_, p_33576_);
+        Random random = new Random();
+
+        if (!LivestockOverhaulCommonConfig.USE_VANILLA_LOOT.get() && !ModList.get().isLoaded("tfc") && !ScrapsExtrasCommonConfig.BUTCHERING.get()) {
+            if (this.isDraftBreed()) {
+                if (random.nextDouble() < 0.40) {
+                    this.spawnAtLocation(new ItemStack(LOItems.HORSE.get(), 2), 0F);
+                    this.spawnAtLocation(new ItemStack(Items.LEATHER, 2), 0F);
+                } else if (random.nextDouble() > 0.40) {
+                    this.spawnAtLocation(new ItemStack(LOItems.HORSE.get(), 1), 0F);
+                    this.spawnAtLocation(new ItemStack(Items.LEATHER, 1), 0F);
+                }
+            }
+
+            if (this.isWarmbloodedBreed()) {
+                if (random.nextDouble() < 0.20) {
+                    this.spawnAtLocation(new ItemStack(LOItems.HORSE.get(), 1), 0F);
+                    this.spawnAtLocation(new ItemStack(Items.LEATHER, 1), 0F);
+                }
+            }
+
+            if (this.isStockBreed()) {
+                if (random.nextDouble() < 0.10) {
+                    this.spawnAtLocation(new ItemStack(LOItems.HORSE.get(), 1), 0F);
+                    this.spawnAtLocation(new ItemStack(Items.LEATHER, 1), 0F);
+                }
+            }
+
+            if (ModList.get().isLoaded("create")) {
+                ResourceLocation resourceLocation = new ResourceLocation("create", "superglue");
+                Item createSuperglue = ForgeRegistries.ITEMS.getValue(resourceLocation);
+                if (random.nextDouble() < 0.25) {
+                    this.spawnAtLocation(createSuperglue.getDefaultInstance());
+                }
+            }
         }
     }
 

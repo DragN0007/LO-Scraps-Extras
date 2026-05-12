@@ -1,8 +1,6 @@
 package com.dragn0007.dragnloextras.entity;
 
-import com.dragn0007.dragnloextras.entity.butchering.CowCorpse;
-import com.dragn0007.dragnloextras.entity.butchering.HorseCorpse;
-import com.dragn0007.dragnloextras.entity.butchering.SheepCorpse;
+import com.dragn0007.dragnloextras.entity.butchering.*;
 import com.dragn0007.dragnloextras.entity.mannequin.HorseMannequin;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -41,5 +39,23 @@ public class SEEntityTypes {
                             MobCategory.CREATURE)
                     .sized(1.5f,1.0f)
                     .build(new ResourceLocation(MODID,"sheep_corpse").toString()));
+
+    public static final RegistryObject<EntityType<MuleCorpse>> MULE_CORPSE = ENTITY_TYPES.register("mule_corpse",
+            () -> EntityType.Builder.of(MuleCorpse::new,
+                            MobCategory.CREATURE)
+                    .sized(1.5f,1.0f)
+                    .build(new ResourceLocation(MODID,"mule_corpse").toString()));
+
+    public static final RegistryObject<EntityType<DonkeyCorpse>> DONKEY_CORPSE = ENTITY_TYPES.register("donkey_corpse",
+            () -> EntityType.Builder.of(DonkeyCorpse::new,
+                            MobCategory.CREATURE)
+                    .sized(1.5f,1.0f)
+                    .build(new ResourceLocation(MODID,"donkey_corpse").toString()));
+
+    public static final RegistryObject<EntityType<UnicornCorpse>> UNICORN_CORPSE = ENTITY_TYPES.register("unicorn_corpse",
+            () -> EntityType.Builder.of(UnicornCorpse::new,
+                            MobCategory.CREATURE)
+                    .sized(1.5f,1.0f)
+                    .build(new ResourceLocation(MODID,"unicorn_corpse").toString()));
 }
 

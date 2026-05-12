@@ -78,6 +78,7 @@
   "item.dragnloextras.white_turnout_blanket": "White Turnout Blanket",
   "item.dragnloextras.yellow_turnout_blanket": "Yellow Turnout Blanket",
 
+
   "item.dragnloextras.beef_brisket": "Raw Beef Brisket",
   "item.dragnloextras.beef_chuck": "Raw Beef Chuck",
   "item.dragnloextras.beef_rib": "Raw Beef Rib",
@@ -86,6 +87,16 @@
   "item.dragnloextras.cooked_beef_chuck": "Cooked Beef Chuck",
   "item.dragnloextras.cooked_beef_rib": "Cooked Beef Rib",
   "item.dragnloextras.cooked_beef_shank": "Cooked Beef Shank",
+
+  "item.dragnloextras.caribou_brisket": "Raw Caribou Brisket",
+  "item.dragnloextras.caribou_chuck": "Raw Caribou Chuck",
+  "item.dragnloextras.caribou_rib": "Raw Caribou Rib",
+  "item.dragnloextras.caribou_shank": "Raw Caribou Shank",
+  "item.dragnloextras.cooked_caribou_brisket": "Cooked Caribou Brisket",
+  "item.dragnloextras.cooked_caribou_chuck": "Cooked Caribou Chuck",
+  "item.dragnloextras.cooked_caribou_rib": "Cooked Caribou Rib",
+  "item.dragnloextras.cooked_caribou_shank": "Cooked Caribou Shank",
+
   "item.dragnloextras.horse_brisket": "Raw Horse Brisket",
   "item.dragnloextras.horse_chuck": "Raw Horse Chuck",
   "item.dragnloextras.horse_rib": "Raw Horse Rib",
@@ -94,6 +105,16 @@
   "item.dragnloextras.cooked_horse_chuck": "Cooked Horse Chuck",
   "item.dragnloextras.cooked_horse_rib": "Cooked Horse Rib",
   "item.dragnloextras.cooked_horse_shank": "Cooked Horse Shank",
+
+  "item.dragnloextras.unicorn_brisket": "Raw Unicorn Brisket",
+  "item.dragnloextras.unicorn_chuck": "Raw Unicorn Chuck",
+  "item.dragnloextras.unicorn_rib": "Raw Unicorn Rib",
+  "item.dragnloextras.unicorn_shank": "Raw Unicorn Shank",
+  "item.dragnloextras.cooked_unicorn_brisket": "Cooked Unicorn Brisket",
+  "item.dragnloextras.cooked_unicorn_chuck": "Cooked Unicorn Chuck",
+  "item.dragnloextras.cooked_unicorn_rib": "Cooked Unicorn Rib",
+  "item.dragnloextras.cooked_unicorn_shank": "Cooked Unicorn Shank",
+
   "item.dragnloextras.mutton_flank": "Raw Mutton Flank",
   "item.dragnloextras.mutton_rib": "Raw Mutton Rib",
   "item.dragnloextras.mutton_leg": "Raw Mutton Leg",
@@ -123,12 +144,6 @@
   "item.dragnloextras.cooked_chevon": "Cooked Chevon",
   "item.dragnloextras.cooked_chevon_loin": "Cooked Chevon Loin",
   "item.dragnloextras.cooked_chevon_rib": "Cooked Chevon Rib",
-  "item.dragnloextras.caribou": "Raw Caribou",
-  "item.dragnloextras.caribou_sirloin_steak": "Raw Caribou Sirloin Steak",
-  "item.dragnloextras.caribou_rib_steak": "Raw Caribou Rib Steak",
-  "item.dragnloextras.cooked_caribou": "Cooked Caribou",
-  "item.dragnloextras.cooked_caribou_sirloin_steak": "Cooked Sirloin Steak",
-  "item.dragnloextras.cooked_caribou_rib_steak": "Cooked Caribou Rib Steak",
   "item.dragnloextras.salmon_fillet": "Raw Salmon Fillet",
   "item.dragnloextras.cod_fillet": "Raw Cod Fillet",
   "item.dragnloextras.cooked_salmon_fillet": "Cooked Salmon Fillet",
@@ -141,12 +156,7 @@
   "item.dragnloextras.cooked_frog": "Cooked Frog Legs",
   "item.dragnloextras.grub": "Raw Grub",
   "item.dragnloextras.cooked_grub": "Cooked Grub",
-  "item.dragnloextras.unicorn": "Raw Unicorn",
-  "item.dragnloextras.unicorn_sirloin_steak": "Raw Unicorn Sirloin Steak",
-  "item.dragnloextras.unicorn_rib_steak": "Raw Unicorn Rib Steak",
-  "item.dragnloextras.cooked_unicorn": "Cooked Unicorn",
-  "item.dragnloextras.cooked_unicorn_sirloin_steak": "Cooked Unicorn Sirloin Steak",
-  "item.dragnloextras.cooked_unicorn_rib_steak": "Cooked Unicorn Rib Steak",
+
 
   "effect.dragnloextras.immunocompromised": "Immunocompromised",
   "effect.dragnloextras.dirty": "Dirty",

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "dragnloextras:item/horse_rib_steak"
+    "layer0": "dragnloextras:item/cooked_unicorn_chuck"
   }
 }

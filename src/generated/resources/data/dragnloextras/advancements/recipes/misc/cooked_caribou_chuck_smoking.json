@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_caribou_chuck": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "dragnloextras:caribou_chuck"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "dragnloextras:cooked_caribou_chuck_smoking"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_caribou_chuck",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "dragnloextras:cooked_caribou_chuck_smoking"
+    ]
+  },
+  "sends_telemetry_event": false
+}

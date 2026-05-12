@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "dragnloextras:cooked_unicorn_rib_smelting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_unicorn_rib": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "dragnloextras:unicorn_rib"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_unicorn_rib",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "dragnloextras:cooked_unicorn_rib_smelting"
+    ]
+  },
+  "sends_telemetry_event": false
+}

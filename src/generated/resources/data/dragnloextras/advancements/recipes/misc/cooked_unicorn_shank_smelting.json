@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "dragnloextras:cooked_unicorn_shank_smelting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_unicorn_shank": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "dragnloextras:unicorn_shank"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_unicorn_shank",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "dragnloextras:cooked_unicorn_shank_smelting"
+    ]
+  },
+  "sends_telemetry_event": false
+}

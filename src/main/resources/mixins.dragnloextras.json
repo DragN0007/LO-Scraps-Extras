@@ -9,20 +9,24 @@
     "OCatMixin",
     "OCowMixin",
     "ODogMixin",
+    "ODonkeyMixin",
     "OHorseMixin",
     "OMuleMixin",
     "OOcelotMixin",
     "OSheepMixin",
     "OWolfMixin",
     "PSpawnReplacerMixin",
-    "SpawnReplacerMixin"
+    "SpawnReplacerMixin",
+    "UnicornMixin"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
-    "OHorseRenderMixin",
     "ODogRenderMixin",
-    "OMuleRenderMixin"
+    "ODonkeyRenderMixin",
+    "OHorseRenderMixin",
+    "OMuleRenderMixin",
+    "UnicornRenderMixin"
   ]
 }

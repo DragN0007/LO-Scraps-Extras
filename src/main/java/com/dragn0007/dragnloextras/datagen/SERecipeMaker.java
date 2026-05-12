@@ -2,8 +2,15 @@ package com.dragn0007.dragnloextras.datagen;
 
 import com.dragn0007.dragnlivestock.util.LOTags;
 import com.dragn0007.dragnloextras.ScrapsExtras;
+import com.dragn0007.dragnloextras.datagen.conditions.TFCCondition;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.util.SETags;
+import net.dries007.tfc.common.TFCTags;
+import net.dries007.tfc.common.items.Food;
+import net.dries007.tfc.common.items.HideItemType;
+import net.dries007.tfc.common.items.Powder;
+import net.dries007.tfc.common.items.TFCItems;
+import net.dries007.tfc.util.Metal;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
@@ -11,6 +18,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraftforge.common.crafting.ConditionalRecipe;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 
 import java.util.function.Consumer;
@@ -22,6 +30,7 @@ public class SERecipeMaker extends RecipeProvider implements IConditionBuilder {
 
     public void buildRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
         buildCommonRecipes(pFinishedRecipeConsumer);
+        buildFoodRecipes(pFinishedRecipeConsumer);
         buildTFCRecipes(pFinishedRecipeConsumer);
     }
 
@@ -495,9 +504,9 @@ public class SERecipeMaker extends RecipeProvider implements IConditionBuilder {
                 .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
                         .of(ItemTags.WOOL).build()))
                 .save(pFinishedRecipeConsumer);
+    }
 
-
-
+    public void buildFoodRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, SEItems.SALMON_FILLET.get(), 2)
                 .requires(Items.SALMON)
                 .unlockedBy("has_fish", inventoryTrigger(ItemPredicate.Builder.item()
@@ -581,6 +590,56 @@ public class SERecipeMaker extends RecipeProvider implements IConditionBuilder {
         SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.MUTTON_LEG.get()), RecipeCategory.MISC, SEItems.COOKED_MUTTON_LEG.get(), 0.35F, 600)
                 .unlockedBy("has_mutton_leg", has(SEItems.MUTTON_LEG.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_MUTTON_LEG.get() + "_campfire_cooking"));
 
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.CARIBOU_BRISKET.get()), RecipeCategory.MISC, SEItems.COOKED_CARIBOU_BRISKET.get(), 0.35F, 100)
+                .unlockedBy("has_caribou_brisket", has(SEItems.CARIBOU_BRISKET.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CARIBOU_BRISKET.get() + "_smoking"));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.CARIBOU_BRISKET.get()), RecipeCategory.MISC, SEItems.COOKED_CARIBOU_BRISKET.get(), 0.35F, 200)
+                .unlockedBy("has_caribou_brisket", has(SEItems.CARIBOU_BRISKET.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CARIBOU_BRISKET.get() + "_smelting"));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.CARIBOU_BRISKET.get()), RecipeCategory.MISC, SEItems.COOKED_CARIBOU_BRISKET.get(), 0.35F, 600)
+                .unlockedBy("has_caribou_brisket", has(SEItems.CARIBOU_BRISKET.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CARIBOU_BRISKET.get() + "_campfire_cooking"));
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.CARIBOU_CHUCK.get()), RecipeCategory.MISC, SEItems.COOKED_CARIBOU_CHUCK.get(), 0.35F, 100)
+                .unlockedBy("has_caribou_chuck", has(SEItems.CARIBOU_CHUCK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CARIBOU_CHUCK.get() + "_smoking"));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.CARIBOU_CHUCK.get()), RecipeCategory.MISC, SEItems.COOKED_CARIBOU_CHUCK.get(), 0.35F, 200)
+                .unlockedBy("has_caribou_chuck", has(SEItems.CARIBOU_CHUCK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CARIBOU_CHUCK.get() + "_smelting"));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.CARIBOU_CHUCK.get()), RecipeCategory.MISC, SEItems.COOKED_CARIBOU_CHUCK.get(), 0.35F, 600)
+                .unlockedBy("has_caribou_chuck", has(SEItems.CARIBOU_CHUCK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CARIBOU_CHUCK.get() + "_campfire_cooking"));
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.CARIBOU_RIB.get()), RecipeCategory.MISC, SEItems.COOKED_CARIBOU_RIB.get(), 0.35F, 100)
+                .unlockedBy("has_caribou_rib", has(SEItems.CARIBOU_RIB.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CARIBOU_RIB.get() + "_smoking"));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.CARIBOU_RIB.get()), RecipeCategory.MISC, SEItems.COOKED_CARIBOU_RIB.get(), 0.35F, 200)
+                .unlockedBy("has_caribou_rib", has(SEItems.CARIBOU_RIB.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CARIBOU_RIB.get() + "_smelting"));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.CARIBOU_RIB.get()), RecipeCategory.MISC, SEItems.COOKED_CARIBOU_RIB.get(), 0.35F, 600)
+                .unlockedBy("has_caribou_rib", has(SEItems.CARIBOU_RIB.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CARIBOU_RIB.get() + "_campfire_cooking"));
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.CARIBOU_SHANK.get()), RecipeCategory.MISC, SEItems.COOKED_CARIBOU_SHANK.get(), 0.35F, 100)
+                .unlockedBy("has_caribou_shank", has(SEItems.CARIBOU_SHANK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CARIBOU_SHANK.get() + "_smoking"));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.CARIBOU_SHANK.get()), RecipeCategory.MISC, SEItems.COOKED_CARIBOU_SHANK.get(), 0.35F, 200)
+                .unlockedBy("has_caribou_shank", has(SEItems.CARIBOU_SHANK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CARIBOU_SHANK.get() + "_smelting"));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.CARIBOU_SHANK.get()), RecipeCategory.MISC, SEItems.COOKED_CARIBOU_SHANK.get(), 0.35F, 600)
+                .unlockedBy("has_caribou_shank", has(SEItems.CARIBOU_SHANK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CARIBOU_SHANK.get() + "_campfire_cooking"));
+
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.UNICORN_BRISKET.get()), RecipeCategory.MISC, SEItems.COOKED_UNICORN_BRISKET.get(), 0.35F, 100)
+                .unlockedBy("has_unicorn_brisket", has(SEItems.UNICORN_BRISKET.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_UNICORN_BRISKET.get() + "_smoking"));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.UNICORN_BRISKET.get()), RecipeCategory.MISC, SEItems.COOKED_UNICORN_BRISKET.get(), 0.35F, 200)
+                .unlockedBy("has_unicorn_brisket", has(SEItems.UNICORN_BRISKET.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_UNICORN_BRISKET.get() + "_smelting"));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.UNICORN_BRISKET.get()), RecipeCategory.MISC, SEItems.COOKED_UNICORN_BRISKET.get(), 0.35F, 600)
+                .unlockedBy("has_unicorn_brisket", has(SEItems.UNICORN_BRISKET.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_UNICORN_BRISKET.get() + "_campfire_cooking"));
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.UNICORN_CHUCK.get()), RecipeCategory.MISC, SEItems.COOKED_UNICORN_CHUCK.get(), 0.35F, 100)
+                .unlockedBy("has_unicorn_chuck", has(SEItems.UNICORN_CHUCK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_UNICORN_CHUCK.get() + "_smoking"));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.UNICORN_CHUCK.get()), RecipeCategory.MISC, SEItems.COOKED_UNICORN_CHUCK.get(), 0.35F, 200)
+                .unlockedBy("has_unicorn_chuck", has(SEItems.UNICORN_CHUCK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_UNICORN_CHUCK.get() + "_smelting"));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.UNICORN_CHUCK.get()), RecipeCategory.MISC, SEItems.COOKED_UNICORN_CHUCK.get(), 0.35F, 600)
+                .unlockedBy("has_unicorn_chuck", has(SEItems.UNICORN_CHUCK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_UNICORN_CHUCK.get() + "_campfire_cooking"));
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.UNICORN_RIB.get()), RecipeCategory.MISC, SEItems.COOKED_UNICORN_RIB.get(), 0.35F, 100)
+                .unlockedBy("has_unicorn_rib", has(SEItems.UNICORN_RIB.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_UNICORN_RIB.get() + "_smoking"));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.UNICORN_RIB.get()), RecipeCategory.MISC, SEItems.COOKED_UNICORN_RIB.get(), 0.35F, 200)
+                .unlockedBy("has_unicorn_rib", has(SEItems.UNICORN_RIB.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_UNICORN_RIB.get() + "_smelting"));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.UNICORN_RIB.get()), RecipeCategory.MISC, SEItems.COOKED_UNICORN_RIB.get(), 0.35F, 600)
+                .unlockedBy("has_unicorn_rib", has(SEItems.UNICORN_RIB.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_UNICORN_RIB.get() + "_campfire_cooking"));
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.UNICORN_SHANK.get()), RecipeCategory.MISC, SEItems.COOKED_UNICORN_SHANK.get(), 0.35F, 100)
+                .unlockedBy("has_unicorn_shank", has(SEItems.UNICORN_SHANK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_UNICORN_SHANK.get() + "_smoking"));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.UNICORN_SHANK.get()), RecipeCategory.MISC, SEItems.COOKED_UNICORN_SHANK.get(), 0.35F, 200)
+                .unlockedBy("has_unicorn_shank", has(SEItems.UNICORN_SHANK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_UNICORN_SHANK.get() + "_smelting"));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.UNICORN_SHANK.get()), RecipeCategory.MISC, SEItems.COOKED_UNICORN_SHANK.get(), 0.35F, 600)
+                .unlockedBy("has_unicorn_shank", has(SEItems.UNICORN_SHANK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_UNICORN_SHANK.get() + "_campfire_cooking"));
+
         SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.CHICKEN_THIGH.get()), RecipeCategory.MISC, SEItems.COOKED_CHICKEN_THIGH.get(), 0.35F, 100)
                 .unlockedBy("has_chicken_thigh", has(SEItems.CHICKEN_THIGH.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, "cooked_chicken_thigh_smoking"));
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.CHICKEN_THIGH.get()), RecipeCategory.MISC, SEItems.COOKED_CHICKEN_THIGH.get(), 0.35F, 200)
@@ -604,231 +663,231 @@ public class SERecipeMaker extends RecipeProvider implements IConditionBuilder {
     }
 
     public void buildTFCRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
-//        ConditionalRecipe.builder()
-//                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
-//                .addRecipe(
-//        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.COLLAR_SPIKES.get())
-//                .define('A', TFCItems.METAL_ITEMS.get(Metal.Default.COPPER).get(Metal.ItemType.INGOT).get())
-//                .pattern("AA")
-//                .unlockedBy("has_iron", has(Items.IRON_INGOT))
-//                ::save).build
-//                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COLLAR_SPIKES.get() + "_tfc"));
-//
-//        ConditionalRecipe.builder()
-//                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
-//                .addRecipe(
-//        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.HOOF_PICK.get())
-//                .define('B', TFCTags.Items.FIREPIT_LOGS)
-//                .define('A', TFCItems.METAL_ITEMS.get(Metal.Default.COPPER).get(Metal.ItemType.INGOT).get())
-//                .pattern("  A")
-//                .pattern(" B ")
-//                .pattern("B  ")
-//                .unlockedBy("has_iron", has(Items.IRON_INGOT))
-//                ::save).build
-//                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.HOOF_PICK.get() + "_tfc"));
-//
-//        ConditionalRecipe.builder()
-//                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
-//                .addRecipe(
-//        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.BRUSH.get())
-//                .define('A', TFCTags.Items.FIREPIT_LOGS)
-//                .define('B', TFCItems.WOOL_YARN.get())
-//                .pattern("AA")
-//                .pattern("BB")
-//                .unlockedBy("has_iron", has(Items.IRON_INGOT))
-//                ::save).build
-//                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.BRUSH.get() + "_tfc"));
-//
-//        ConditionalRecipe.builder()
-//                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
-//                .addRecipe(
-//        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, SEItems.HEARTY_KIBBLE.get())
-//                .requires(TFCTags.Items.YAK_FOOD)
-//                .requires(TFCTags.Items.DOG_FOOD)
-//                .requires(Items.BONE)
-//                .requires(TFCTags.Items.COMPOST_GREENS_HIGH)
-//                .unlockedBy("has_iron", has(Items.IRON_INGOT))
-//                ::save).build
-//                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.HEARTY_KIBBLE.get() + "_tfc"));
-//
-//        ConditionalRecipe.builder()
-//                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
-//                .addRecipe(
-//        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, SEItems.HEARTY_GRAIN_FEED.get())
-//                .requires(TFCTags.Items.YAK_FOOD)
-//                .requires(TFCTags.Items.YAK_FOOD)
-//                .requires(Items.SUGAR)
-//                .requires(TFCTags.Items.COMPOST_GREENS_HIGH)
-//                .requires(TFCTags.Items.COMPOST_GREENS_HIGH)
-//                .unlockedBy("has_iron", has(Items.IRON_INGOT))
-//                ::save).build
-//                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.HEARTY_GRAIN_FEED.get() + "_tfc"));
-//
-//        ConditionalRecipe.builder()
-//                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
-//                .addRecipe(
-//        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, SEItems.KIBBLE.get())
-//                .requires(TFCTags.Items.YAK_FOOD)
-//                .requires(TFCTags.Items.DOG_FOOD)
-//                .unlockedBy("has_iron", has(Items.IRON_INGOT))
-//                ::save).build
-//                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.KIBBLE.get() + "_tfc"));
-//
-//        ConditionalRecipe.builder()
-//                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
-//                .addRecipe(
-//        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, SEItems.GRAIN_FEED.get())
-//                .requires(TFCTags.Items.YAK_FOOD)
-//                .requires(TFCTags.Items.YAK_FOOD)
-//                .requires(Items.SUGAR)
-//                .unlockedBy("has_iron", has(Items.IRON_INGOT))
-//                ::save).build
-//                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.GRAIN_FEED.get() + "_tfc"));
-//
-//        ConditionalRecipe.builder()
-//                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
-//                .addRecipe(
-//        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.VETERINARY_BANDAGE.get())
-//                .define('A', ItemTags.WOOL)
-//                .define('B', TFCItems.WOOL_YARN.get())
-//                .pattern("B ")
-//                .pattern("AB")
-//                .unlockedBy("has_iron", has(Items.IRON_INGOT))
-//                ::save).build
-//                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.VETERINARY_BANDAGE.get() + "_tfc"));
-//
-//        ConditionalRecipe.builder()
-//                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
-//                .addRecipe(
-//        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.HEARTWORM_MEDICINE.get())
-//                .define('A', Items.ROTTEN_FLESH)
-//                .define('B', TFCItems.FOOD.get(Food.BEEF).get())
-//                .define('C', TFCItems.POWDERS.get(Powder.SALT).get())
-//                .pattern("BA")
-//                .pattern("AC")
-//                .unlockedBy("has_iron", has(Items.IRON_INGOT))
-//                ::save).build
-//                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.HEARTWORM_MEDICINE.get() + "_tfc"));
-//
-//        ConditionalRecipe.builder()
-//                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
-//                .addRecipe(
-//        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.ANTIBIOTIC_OINTMENT.get())
-//                .define('C', TFCItems.METAL_ITEMS.get(Metal.Default.COPPER).get(Metal.ItemType.INGOT).get())
-//                .define('B', Items.CLAY)
-//                .pattern(" B ")
-//                .pattern("BCB")
-//                .pattern("BBB")
-//                .unlockedBy("has_iron", has(Items.IRON_INGOT))
-//                ::save).build
-//                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.ANTIBIOTIC_OINTMENT.get() + "_tfc"));
-//
-//        ConditionalRecipe.builder()
-//                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
-//                .addRecipe(
-//        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.ANTIBIOTIC_EARDROPS.get())
-//                .define('C', TFCItems.POWDERS.get(Powder.WOOD_ASH).get())
-//                .define('B', Items.CLAY)
-//                .pattern(" B ")
-//                .pattern("BCB")
-//                .pattern("BCB")
-//                .unlockedBy("has_iron", has(Items.IRON_INGOT))
-//                ::save).build
-//                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.ANTIBIOTIC_EARDROPS.get() + "_tfc"));
-//
-//        ConditionalRecipe.builder()
-//                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
-//                .addRecipe(
-//        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.ANTIPARASITIC_OINTMENT.get())
-//                .define('C', TFCItems.POWDERS.get(Powder.WOOD_ASH).get())
-//                .define('B', Items.CLAY)
-//                .pattern(" B ")
-//                .pattern("BCB")
-//                .pattern("BBB")
-//                .unlockedBy("has_iron", has(Items.IRON_INGOT))
-//                ::save).build
-//                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.ANTIPARASITIC_OINTMENT.get() + "_tfc"));
-//
-//        ConditionalRecipe.builder()
-//                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
-//                .addRecipe(
-//        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.RABIES_SHOT.get())
-//                .define('A', Items.GLASS)
-//                .define('B', TFCItems.METAL_ITEMS.get(Metal.Default.COPPER).get(Metal.ItemType.INGOT).get())
-//                .define('C', TFCItems.POWDERS.get(Powder.WOOD_ASH).get())
-//                .pattern("C  ")
-//                .pattern(" A ")
-//                .pattern("  B")
-//                .unlockedBy("has_iron", has(Items.IRON_INGOT))
-//                ::save).build
-//                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.RABIES_SHOT.get() + "_tfc"));
-//
-//        ConditionalRecipe.builder()
-//                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
-//                .addRecipe(
-//        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.ANTIPARASITIC_INJECTION.get())
-//                .define('A', Items.GLASS)
-//                .define('B', TFCItems.METAL_ITEMS.get(Metal.Default.COPPER).get(Metal.ItemType.INGOT).get())
-//                .define('C', Items.CLAY)
-//                .pattern("C  ")
-//                .pattern(" A ")
-//                .pattern("  B")
-//                .unlockedBy("has_iron", has(Items.IRON_INGOT))
-//                ::save).build
-//                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.ANTIPARASITIC_INJECTION.get() + "_tfc"));
-//
-//        ConditionalRecipe.builder()
-//                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
-//                .addRecipe(
-//                        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.ANTIBIOTIC_INJECTION.get())
-//                                .define('A', Items.GLASS)
-//                                .define('B', TFCItems.METAL_ITEMS.get(Metal.Default.COPPER).get(Metal.ItemType.INGOT).get())
-//                                .define('C', TFCItems.POWDERS.get(Powder.WOOD_ASH).get())
-//                                .pattern("C  ")
-//                                .pattern(" A ")
-//                                .pattern("  B")
-//                                .unlockedBy("has_iron", has(Items.IRON_INGOT))
-//                                ::save).build
-//                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.ANTIBIOTIC_INJECTION.get() + "_tfc"));
-//
-//        ConditionalRecipe.builder()
-//                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
-//                .addRecipe(
-//                        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.STETHOSCOPE.get())
-//                                .define('A', TFCItems.METAL_ITEMS.get(Metal.Default.COPPER).get(Metal.ItemType.INGOT).get())
-//                                .define('B', TFCItems.JUTE_FIBER.get())
-//                                .pattern("B B")
-//                                .pattern(" B ")
-//                                .pattern("  A")
-//                                .unlockedBy("has_iron", has(Items.IRON_INGOT))
-//                                ::save).build
-//                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.STETHOSCOPE.get() + "_tfc"));
-//
-//
-//        ConditionalRecipe.builder()
-//                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
-//                .addRecipe(
-//                        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.HORSE_MANNEQUIN.get())
-//                                .define('A', Items.LIGHT_GRAY_WOOL)
-//                                .define('B', TFCItems.METAL_ITEMS.get(Metal.Default.COPPER).get(Metal.ItemType.INGOT).get())
-//                                .pattern("  A")
-//                                .pattern("AAA")
-//                                .pattern("B B")
-//                                .unlockedBy("has_wool", has(ItemTags.WOOL))
-//                                ::save).build
-//                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.HORSE_MANNEQUIN.get() + "_tfc"));
-//
-//        ConditionalRecipe.builder()
-//                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
-//                .addRecipe(
-//                        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.RAWHIDE_SADDLE.get())
-//                                .define('A', TFCItems.HIDES.get(HideItemType.RAW).get(HideItemType.Size.LARGE).get())
-//                                .define('B', TFCItems.JUTE_FIBER.get())
-//                                .pattern("BAB")
-//                                .pattern("B B")
-//                                .unlockedBy("has_jute_fiber", has(ItemTags.WOOL))
-//                                ::save).build
-//                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.RAWHIDE_SADDLE.get() + "_tfc"));
+        ConditionalRecipe.builder()
+                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
+                .addRecipe(
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.COLLAR_SPIKES.get())
+                .define('A', TFCItems.METAL_ITEMS.get(Metal.Default.COPPER).get(Metal.ItemType.INGOT).get())
+                .pattern("AA")
+                .unlockedBy("has_iron", has(Items.IRON_INGOT))
+                ::save).build
+                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COLLAR_SPIKES.get() + "_tfc"));
 
+        ConditionalRecipe.builder()
+                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
+                .addRecipe(
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.HOOF_PICK.get())
+                .define('B', TFCTags.Items.FIREPIT_LOGS)
+                .define('A', TFCItems.METAL_ITEMS.get(Metal.Default.COPPER).get(Metal.ItemType.INGOT).get())
+                .pattern("  A")
+                .pattern(" B ")
+                .pattern("B  ")
+                .unlockedBy("has_iron", has(Items.IRON_INGOT))
+                ::save).build
+                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.HOOF_PICK.get() + "_tfc"));
+
+        ConditionalRecipe.builder()
+                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
+                .addRecipe(
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.BRUSH.get())
+                .define('A', TFCTags.Items.FIREPIT_LOGS)
+                .define('B', TFCItems.WOOL_YARN.get())
+                .pattern("AA")
+                .pattern("BB")
+                .unlockedBy("has_iron", has(Items.IRON_INGOT))
+                ::save).build
+                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.BRUSH.get() + "_tfc"));
+
+        ConditionalRecipe.builder()
+                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
+                .addRecipe(
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, SEItems.HEARTY_KIBBLE.get())
+                .requires(TFCTags.Items.YAK_FOOD)
+                .requires(TFCTags.Items.DOG_FOOD)
+                .requires(Items.BONE)
+                .requires(TFCTags.Items.COMPOST_GREENS_HIGH)
+                .unlockedBy("has_iron", has(Items.IRON_INGOT))
+                ::save).build
+                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.HEARTY_KIBBLE.get() + "_tfc"));
+
+        ConditionalRecipe.builder()
+                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
+                .addRecipe(
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, SEItems.HEARTY_GRAIN_FEED.get())
+                .requires(TFCTags.Items.YAK_FOOD)
+                .requires(TFCTags.Items.YAK_FOOD)
+                .requires(Items.SUGAR)
+                .requires(TFCTags.Items.COMPOST_GREENS_HIGH)
+                .requires(TFCTags.Items.COMPOST_GREENS_HIGH)
+                .unlockedBy("has_iron", has(Items.IRON_INGOT))
+                ::save).build
+                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.HEARTY_GRAIN_FEED.get() + "_tfc"));
+
+        ConditionalRecipe.builder()
+                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
+                .addRecipe(
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, SEItems.KIBBLE.get())
+                .requires(TFCTags.Items.YAK_FOOD)
+                .requires(TFCTags.Items.DOG_FOOD)
+                .unlockedBy("has_iron", has(Items.IRON_INGOT))
+                ::save).build
+                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.KIBBLE.get() + "_tfc"));
+
+        ConditionalRecipe.builder()
+                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
+                .addRecipe(
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, SEItems.GRAIN_FEED.get())
+                .requires(TFCTags.Items.YAK_FOOD)
+                .requires(TFCTags.Items.YAK_FOOD)
+                .requires(Items.SUGAR)
+                .unlockedBy("has_iron", has(Items.IRON_INGOT))
+                ::save).build
+                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.GRAIN_FEED.get() + "_tfc"));
+
+        ConditionalRecipe.builder()
+                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
+                .addRecipe(
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.VETERINARY_BANDAGE.get())
+                .define('A', ItemTags.WOOL)
+                .define('B', TFCItems.WOOL_YARN.get())
+                .pattern("B ")
+                .pattern("AB")
+                .unlockedBy("has_iron", has(Items.IRON_INGOT))
+                ::save).build
+                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.VETERINARY_BANDAGE.get() + "_tfc"));
+
+        ConditionalRecipe.builder()
+                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
+                .addRecipe(
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.HEARTWORM_MEDICINE.get())
+                .define('A', Items.ROTTEN_FLESH)
+                .define('B', TFCItems.FOOD.get(Food.BEEF).get())
+                .define('C', TFCItems.POWDERS.get(Powder.SALT).get())
+                .pattern("BA")
+                .pattern("AC")
+                .unlockedBy("has_iron", has(Items.IRON_INGOT))
+                ::save).build
+                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.HEARTWORM_MEDICINE.get() + "_tfc"));
+
+        ConditionalRecipe.builder()
+                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
+                .addRecipe(
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.ANTIBIOTIC_OINTMENT.get())
+                .define('C', TFCItems.METAL_ITEMS.get(Metal.Default.COPPER).get(Metal.ItemType.INGOT).get())
+                .define('B', Items.CLAY)
+                .pattern(" B ")
+                .pattern("BCB")
+                .pattern("BBB")
+                .unlockedBy("has_iron", has(Items.IRON_INGOT))
+                ::save).build
+                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.ANTIBIOTIC_OINTMENT.get() + "_tfc"));
+
+        ConditionalRecipe.builder()
+                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
+                .addRecipe(
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.ANTIBIOTIC_EARDROPS.get())
+                .define('C', TFCItems.POWDERS.get(Powder.WOOD_ASH).get())
+                .define('B', Items.CLAY)
+                .pattern(" B ")
+                .pattern("BCB")
+                .pattern("BCB")
+                .unlockedBy("has_iron", has(Items.IRON_INGOT))
+                ::save).build
+                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.ANTIBIOTIC_EARDROPS.get() + "_tfc"));
+
+        ConditionalRecipe.builder()
+                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
+                .addRecipe(
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.ANTIPARASITIC_OINTMENT.get())
+                .define('C', TFCItems.POWDERS.get(Powder.WOOD_ASH).get())
+                .define('B', Items.CLAY)
+                .pattern(" B ")
+                .pattern("BCB")
+                .pattern("BBB")
+                .unlockedBy("has_iron", has(Items.IRON_INGOT))
+                ::save).build
+                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.ANTIPARASITIC_OINTMENT.get() + "_tfc"));
+
+        ConditionalRecipe.builder()
+                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
+                .addRecipe(
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.RABIES_SHOT.get())
+                .define('A', Items.GLASS)
+                .define('B', TFCItems.METAL_ITEMS.get(Metal.Default.COPPER).get(Metal.ItemType.INGOT).get())
+                .define('C', TFCItems.POWDERS.get(Powder.WOOD_ASH).get())
+                .pattern("C  ")
+                .pattern(" A ")
+                .pattern("  B")
+                .unlockedBy("has_iron", has(Items.IRON_INGOT))
+                ::save).build
+                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.RABIES_SHOT.get() + "_tfc"));
+
+        ConditionalRecipe.builder()
+                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
+                .addRecipe(
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.ANTIPARASITIC_INJECTION.get())
+                .define('A', Items.GLASS)
+                .define('B', TFCItems.METAL_ITEMS.get(Metal.Default.COPPER).get(Metal.ItemType.INGOT).get())
+                .define('C', Items.CLAY)
+                .pattern("C  ")
+                .pattern(" A ")
+                .pattern("  B")
+                .unlockedBy("has_iron", has(Items.IRON_INGOT))
+                ::save).build
+                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.ANTIPARASITIC_INJECTION.get() + "_tfc"));
+
+        ConditionalRecipe.builder()
+                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
+                .addRecipe(
+                        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.ANTIBIOTIC_INJECTION.get())
+                                .define('A', Items.GLASS)
+                                .define('B', TFCItems.METAL_ITEMS.get(Metal.Default.COPPER).get(Metal.ItemType.INGOT).get())
+                                .define('C', TFCItems.POWDERS.get(Powder.WOOD_ASH).get())
+                                .pattern("C  ")
+                                .pattern(" A ")
+                                .pattern("  B")
+                                .unlockedBy("has_iron", has(Items.IRON_INGOT))
+                                ::save).build
+                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.ANTIBIOTIC_INJECTION.get() + "_tfc"));
+
+        ConditionalRecipe.builder()
+                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
+                .addRecipe(
+                        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.STETHOSCOPE.get())
+                                .define('A', TFCItems.METAL_ITEMS.get(Metal.Default.COPPER).get(Metal.ItemType.INGOT).get())
+                                .define('B', TFCItems.JUTE_FIBER.get())
+                                .pattern("B B")
+                                .pattern(" B ")
+                                .pattern("  A")
+                                .unlockedBy("has_iron", has(Items.IRON_INGOT))
+                                ::save).build
+                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.STETHOSCOPE.get() + "_tfc"));
+
+
+        ConditionalRecipe.builder()
+                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
+                .addRecipe(
+                        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.HORSE_MANNEQUIN.get())
+                                .define('A', Items.LIGHT_GRAY_WOOL)
+                                .define('B', TFCItems.METAL_ITEMS.get(Metal.Default.COPPER).get(Metal.ItemType.INGOT).get())
+                                .pattern("  A")
+                                .pattern("AAA")
+                                .pattern("B B")
+                                .unlockedBy("has_wool", has(ItemTags.WOOL))
+                                ::save).build
+                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.HORSE_MANNEQUIN.get() + "_tfc"));
+
+        ConditionalRecipe.builder()
+                .addCondition(new TFCCondition(new ResourceLocation(ScrapsExtras.MODID, "tfc_condition")))
+                .addRecipe(
+                        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.RAWHIDE_SADDLE.get())
+                                .define('A', TFCItems.HIDES.get(HideItemType.RAW).get(HideItemType.Size.LARGE).get())
+                                .define('B', TFCItems.JUTE_FIBER.get())
+                                .pattern("BAB")
+                                .pattern("B B")
+                                .unlockedBy("has_jute_fiber", has(ItemTags.WOOL))
+                                ::save).build
+                        (pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.RAWHIDE_SADDLE.get() + "_tfc"));
     }
+
 }

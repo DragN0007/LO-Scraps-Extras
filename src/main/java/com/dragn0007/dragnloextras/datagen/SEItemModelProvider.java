@@ -84,6 +84,7 @@ public class SEItemModelProvider extends ItemModelProvider {
         simpleItem(SEItems.COOKED_BEEF_CHUCK);
         simpleItem(SEItems.COOKED_BEEF_RIB);
         simpleItem(SEItems.COOKED_BEEF_SHANK);
+
         simpleItem(SEItems.HORSE_BRISKET);
         simpleItem(SEItems.HORSE_CHUCK);
         simpleItem(SEItems.HORSE_RIB);
@@ -92,6 +93,7 @@ public class SEItemModelProvider extends ItemModelProvider {
         simpleItem(SEItems.COOKED_HORSE_CHUCK);
         simpleItem(SEItems.COOKED_HORSE_RIB);
         simpleItem(SEItems.COOKED_HORSE_SHANK);
+
         simpleItem(SEItems.MUTTON_FLANK);
         simpleItem(SEItems.MUTTON_RIB);
         simpleItem(SEItems.MUTTON_LEG);
@@ -123,14 +125,24 @@ public class SEItemModelProvider extends ItemModelProvider {
         simpleItem(SEItems.COD_FILLET);
         simpleItem(SEItems.COOKED_SALMON_FILLET);
         simpleItem(SEItems.COOKED_COD_FILLET);
-        advancedItem(SEItems.CARIBOU_RIB_STEAK, "horse_rib_steak");
-        advancedItem(SEItems.CARIBOU_SIRLOIN_STEAK, "horse_sirloin_steak");
-        advancedItem(SEItems.COOKED_CARIBOU_RIB_STEAK, "cooked_horse_rib_steak");
-        advancedItem(SEItems.COOKED_CARIBOU_SIRLOIN_STEAK, "cooked_horse_sirloin_steak");
-        simpleItem(SEItems.UNICORN_RIB_STEAK);
-        simpleItem(SEItems.UNICORN_SIRLOIN_STEAK);
-        simpleItem(SEItems.COOKED_UNICORN_RIB_STEAK);
-        simpleItem(SEItems.COOKED_UNICORN_SIRLOIN_STEAK);
+
+        advancedItem(SEItems.CARIBOU_BRISKET, SEItems.HORSE_BRISKET.get().toString());
+        advancedItem(SEItems.CARIBOU_CHUCK, SEItems.HORSE_CHUCK.get().toString());
+        advancedItem(SEItems.CARIBOU_RIB, SEItems.HORSE_RIB.get().toString());
+        advancedItem(SEItems.CARIBOU_SHANK, SEItems.HORSE_SHANK.get().toString());
+        advancedItem(SEItems.COOKED_CARIBOU_BRISKET, SEItems.COOKED_HORSE_BRISKET.get().toString());
+        advancedItem(SEItems.COOKED_CARIBOU_CHUCK, SEItems.COOKED_HORSE_CHUCK.get().toString());
+        advancedItem(SEItems.COOKED_CARIBOU_RIB, SEItems.COOKED_HORSE_RIB.get().toString());
+        advancedItem(SEItems.COOKED_CARIBOU_SHANK, SEItems.COOKED_HORSE_SHANK.get().toString());
+
+        simpleItem(SEItems.UNICORN_BRISKET);
+        simpleItem(SEItems.UNICORN_CHUCK);
+        simpleItem(SEItems.UNICORN_RIB);
+        simpleItem(SEItems.UNICORN_SHANK);
+        simpleItem(SEItems.COOKED_UNICORN_BRISKET);
+        simpleItem(SEItems.COOKED_UNICORN_CHUCK);
+        simpleItem(SEItems.COOKED_UNICORN_RIB);
+        simpleItem(SEItems.COOKED_UNICORN_SHANK);
 
         simpleItem(SEItems.LOGO);
     }

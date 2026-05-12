@@ -178,6 +178,23 @@ public class SEItems {
     public static final RegistryObject<Item> COOKED_MUTTON_LEG = ITEMS.register("cooked_mutton_leg",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(8).meat().saturationMod(0.4F).build())));
 
+    public static final RegistryObject<Item> CARIBOU_BRISKET = ITEMS.register("caribou_brisket",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).meat().saturationMod(1).build())));
+    public static final RegistryObject<Item> CARIBOU_CHUCK = ITEMS.register("caribou_chuck",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).meat().saturationMod(1).build())));
+    public static final RegistryObject<Item> CARIBOU_RIB = ITEMS.register("caribou_rib",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).meat().saturationMod(1).build())));
+    public static final RegistryObject<Item> CARIBOU_SHANK = ITEMS.register("caribou_shank",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).meat().saturationMod(1).build())));
+    public static final RegistryObject<Item> COOKED_CARIBOU_BRISKET = ITEMS.register("cooked_caribou_brisket",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(7).meat().saturationMod(0.8F).build())));
+    public static final RegistryObject<Item> COOKED_CARIBOU_CHUCK = ITEMS.register("cooked_caribou_chuck",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(7).meat().saturationMod(0.4F).build())));
+    public static final RegistryObject<Item> COOKED_CARIBOU_RIB = ITEMS.register("cooked_caribou_rib",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(6).meat().saturationMod(0.6F).build())));
+    public static final RegistryObject<Item> COOKED_CARIBOU_SHANK = ITEMS.register("cooked_caribou_shank",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(8).meat().saturationMod(0.4F).build())));
+
     public static final RegistryObject<Item> LLAMA_RIB = ITEMS.register("llama_rib",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(1).build())));
     public static final RegistryObject<Item> LLAMA_LOIN = ITEMS.register("llama_loin",
@@ -226,23 +243,23 @@ public class SEItems {
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(5).build())));
     public static final RegistryObject<Item> COOKED_COD_FILLET = ITEMS.register("cooked_cod_fillet",
             () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(5).build())));
-    public static final RegistryObject<Item> CARIBOU_RIB_STEAK = ITEMS.register("caribou_rib_steak",
-            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(1).build())));
-    public static final RegistryObject<Item> CARIBOU_SIRLOIN_STEAK = ITEMS.register("caribou_sirloin_steak",
-            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(1).build())));
-    public static final RegistryObject<Item> COOKED_CARIBOU_RIB_STEAK = ITEMS.register("cooked_caribou_rib_steak",
-            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(10).saturationMod(1).build())));
-    public static final RegistryObject<Item> COOKED_CARIBOU_SIRLOIN_STEAK = ITEMS.register("cooked_caribou_sirloin_steak",
-            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(10).saturationMod(1).build())));
-    public static final RegistryObject<Item> UNICORN_RIB_STEAK = ITEMS.register("unicorn_rib_steak",
-            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(1).effect(new MobEffectInstance(MobEffects.REGENERATION, 600, 0), 0.8F).effect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 600, 0), 0.8F).build())));
-    public static final RegistryObject<Item> UNICORN_SIRLOIN_STEAK = ITEMS.register("unicorn_sirloin_steak",
-            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationMod(1).effect(new MobEffectInstance(MobEffects.REGENERATION, 600, 0), 0.8F).effect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 600, 0), 0.8F).build())));
-    public static final RegistryObject<Item> COOKED_UNICORN_RIB_STEAK = ITEMS.register("cooked_unicorn_rib_steak",
-            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(10).saturationMod(1).effect(new MobEffectInstance(MobEffects.REGENERATION, 600, 0), 0.8F).effect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 600, 0), 0.8F).build())));
-    public static final RegistryObject<Item> COOKED_UNICORN_SIRLOIN_STEAK = ITEMS.register("cooked_unicorn_sirloin_steak",
-            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(10).saturationMod(1).effect(new MobEffectInstance(MobEffects.REGENERATION, 600, 0), 0.8F).effect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 600, 0), 0.8F).build())));
 
+    public static final RegistryObject<Item> UNICORN_BRISKET = ITEMS.register("unicorn_brisket",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).meat().saturationMod(1).effect(new MobEffectInstance(MobEffects.REGENERATION, 600, 0), 0.8F).effect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 600, 0), 0.8F).build())));
+    public static final RegistryObject<Item> UNICORN_CHUCK = ITEMS.register("unicorn_chuck",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).meat().saturationMod(1).effect(new MobEffectInstance(MobEffects.REGENERATION, 600, 0), 0.8F).effect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 600, 0), 0.8F).build())));
+    public static final RegistryObject<Item> UNICORN_RIB = ITEMS.register("unicorn_rib",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).meat().saturationMod(1).effect(new MobEffectInstance(MobEffects.REGENERATION, 600, 0), 0.8F).effect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 600, 0), 0.8F).build())));
+    public static final RegistryObject<Item> UNICORN_SHANK = ITEMS.register("unicorn_shank",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).meat().saturationMod(1).effect(new MobEffectInstance(MobEffects.REGENERATION, 600, 0), 0.8F).effect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 600, 0), 0.8F).build())));
+    public static final RegistryObject<Item> COOKED_UNICORN_BRISKET = ITEMS.register("cooked_unicorn_brisket",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(7).meat().saturationMod(0.8F).effect(new MobEffectInstance(MobEffects.REGENERATION, 600, 0), 0.8F).effect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 600, 0), 0.8F).build())));
+    public static final RegistryObject<Item> COOKED_UNICORN_CHUCK = ITEMS.register("cooked_unicorn_chuck",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(7).meat().saturationMod(0.4F).effect(new MobEffectInstance(MobEffects.REGENERATION, 600, 0), 0.8F).effect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 600, 0), 0.8F).build())));
+    public static final RegistryObject<Item> COOKED_UNICORN_RIB = ITEMS.register("cooked_unicorn_rib",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(6).meat().saturationMod(0.6F).effect(new MobEffectInstance(MobEffects.REGENERATION, 600, 0), 0.8F).effect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 600, 0), 0.8F).build())));
+    public static final RegistryObject<Item> COOKED_UNICORN_SHANK = ITEMS.register("cooked_unicorn_shank",
+            () -> new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(8).meat().saturationMod(0.4F).effect(new MobEffectInstance(MobEffects.REGENERATION, 600, 0), 0.8F).effect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 600, 0), 0.8F).build())));
 
     public static final RegistryObject<Item> LOGO = ITEMS.register("logo",
             () -> new Item(new Item.Properties()));

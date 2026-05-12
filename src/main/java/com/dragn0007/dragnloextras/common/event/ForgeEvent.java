@@ -12,9 +12,7 @@ import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
 import com.dragn0007.dragnloextras.capabilities.*;
 import com.dragn0007.dragnloextras.effects.SEEffects;
 import com.dragn0007.dragnloextras.entity.SEEntityTypes;
-import com.dragn0007.dragnloextras.entity.butchering.CowCorpse;
-import com.dragn0007.dragnloextras.entity.butchering.HorseCorpse;
-import com.dragn0007.dragnloextras.entity.butchering.SheepCorpse;
+import com.dragn0007.dragnloextras.entity.butchering.*;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.network.*;
 import com.dragn0007.dragnloextras.util.ISleepAsLeaderHolder;
@@ -459,7 +457,7 @@ public class ForgeEvent {
                     level.addFreshEntity(corpse);
                 }
             }
-            if (deceased instanceof OHorse animal) {
+            if (deceased instanceof OHorse animal && animal.getClass() == OHorse.class) {
                 if (!level.isClientSide()) {
                     HorseCorpse corpse = new HorseCorpse(SEEntityTypes.HORSE_CORPSE.get(), level);
                     corpse.setVariant(animal.getVariant());
@@ -470,6 +468,30 @@ public class ForgeEvent {
             if (deceased instanceof OSheep animal) {
                 if (!level.isClientSide()) {
                     SheepCorpse corpse = new SheepCorpse(SEEntityTypes.SHEEP_CORPSE.get(), level);
+                    corpse.setVariant(animal.getVariant());
+                    corpse.moveTo(deceased.getX(), deceased.getY(), deceased.getZ(), deceased.getYRot(), deceased.getXRot());
+                    level.addFreshEntity(corpse);
+                }
+            }
+            if (deceased instanceof OMule animal) {
+                if (!level.isClientSide()) {
+                    MuleCorpse corpse = new MuleCorpse(SEEntityTypes.MULE_CORPSE.get(), level);
+                    corpse.setVariant(animal.getVariant());
+                    corpse.moveTo(deceased.getX(), deceased.getY(), deceased.getZ(), deceased.getYRot(), deceased.getXRot());
+                    level.addFreshEntity(corpse);
+                }
+            }
+            if (deceased instanceof ODonkey animal) {
+                if (!level.isClientSide()) {
+                    DonkeyCorpse corpse = new DonkeyCorpse(SEEntityTypes.DONKEY_CORPSE.get(), level);
+                    corpse.setVariant(animal.getVariant());
+                    corpse.moveTo(deceased.getX(), deceased.getY(), deceased.getZ(), deceased.getYRot(), deceased.getXRot());
+                    level.addFreshEntity(corpse);
+                }
+            }
+            if (deceased instanceof Unicorn animal) {
+                if (!level.isClientSide()) {
+                    UnicornCorpse corpse = new UnicornCorpse(SEEntityTypes.UNICORN_CORPSE.get(), level);
                     corpse.setVariant(animal.getVariant());
                     corpse.moveTo(deceased.getX(), deceased.getY(), deceased.getZ(), deceased.getYRot(), deceased.getXRot());
                     level.addFreshEntity(corpse);

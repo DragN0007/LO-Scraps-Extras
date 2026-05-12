@@ -74,6 +74,7 @@ public class SEItemGroupModifier {
                         output.accept(SEItems.WHITE_TURNOUT_BLANKET.get());
                         output.accept(SEItems.YELLOW_TURNOUT_BLANKET.get());
 
+
                         output.accept(SEItems.BEEF_BRISKET.get());
                         output.accept(SEItems.BEEF_CHUCK.get());
                         output.accept(SEItems.BEEF_RIB.get());
@@ -82,6 +83,7 @@ public class SEItemGroupModifier {
                         output.accept(SEItems.COOKED_BEEF_CHUCK.get());
                         output.accept(SEItems.COOKED_BEEF_RIB.get());
                         output.accept(SEItems.COOKED_BEEF_SHANK.get());
+
                         output.accept(SEItems.HORSE_BRISKET.get());
                         output.accept(SEItems.HORSE_CHUCK.get());
                         output.accept(SEItems.HORSE_RIB.get());
@@ -90,20 +92,42 @@ public class SEItemGroupModifier {
                         output.accept(SEItems.COOKED_HORSE_CHUCK.get());
                         output.accept(SEItems.COOKED_HORSE_RIB.get());
                         output.accept(SEItems.COOKED_HORSE_SHANK.get());
+
                         output.accept(SEItems.MUTTON_FLANK.get());
                         output.accept(SEItems.MUTTON_RIB.get());
                         output.accept(SEItems.MUTTON_LEG.get());
                         output.accept(SEItems.COOKED_MUTTON_FLANK.get());
                         output.accept(SEItems.COOKED_MUTTON_RIB.get());
                         output.accept(SEItems.COOKED_MUTTON_LEG.get());
+
                         output.accept(SEItems.CHICKEN_THIGH.get());
                         output.accept(SEItems.COOKED_CHICKEN_THIGH.get());
+
                         output.accept(SEItems.RABBIT_THIGH.get());
                         output.accept(SEItems.COOKED_RABBIT_THIGH.get());
+
                         output.accept(SEItems.SALMON_FILLET.get());
                         output.accept(SEItems.COD_FILLET.get());
                         output.accept(SEItems.COOKED_SALMON_FILLET.get());
                         output.accept(SEItems.COOKED_COD_FILLET.get());
+
+                        output.accept(SEItems.CARIBOU_BRISKET.get());
+                        output.accept(SEItems.CARIBOU_CHUCK.get());
+                        output.accept(SEItems.CARIBOU_RIB.get());
+                        output.accept(SEItems.CARIBOU_SHANK.get());
+                        output.accept(SEItems.COOKED_CARIBOU_BRISKET.get());
+                        output.accept(SEItems.COOKED_CARIBOU_CHUCK.get());
+                        output.accept(SEItems.COOKED_CARIBOU_RIB.get());
+                        output.accept(SEItems.COOKED_CARIBOU_SHANK.get());
+
+                        output.accept(SEItems.UNICORN_BRISKET.get());
+                        output.accept(SEItems.UNICORN_CHUCK.get());
+                        output.accept(SEItems.UNICORN_RIB.get());
+                        output.accept(SEItems.UNICORN_SHANK.get());
+                        output.accept(SEItems.COOKED_UNICORN_BRISKET.get());
+                        output.accept(SEItems.COOKED_UNICORN_CHUCK.get());
+                        output.accept(SEItems.COOKED_UNICORN_RIB.get());
+                        output.accept(SEItems.COOKED_UNICORN_SHANK.get());
                     }).build());
 
     public static void register(IEventBus eventBus) {

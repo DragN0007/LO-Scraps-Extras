@@ -33,6 +33,7 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
@@ -55,6 +56,7 @@ import software.bernie.geckolib.core.object.PlayState;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Random;
 
 @Mixin(OCow.class)
 public abstract class OCowMixin extends AbstractOMount implements ISickModHolder {
@@ -63,6 +65,16 @@ public abstract class OCowMixin extends AbstractOMount implements ISickModHolder
     @Shadow(remap = false) public abstract boolean isHarnessed();
 
     @Shadow(remap = false) public abstract void registerGoals();
+
+    @Shadow public abstract boolean isMeatBreed();
+
+    @Shadow public abstract boolean isNormalBreed();
+
+    @Shadow public abstract boolean isExquisiteQuality();
+
+    @Shadow public abstract boolean isFantasticQuality();
+
+    @Shadow public abstract boolean isGreatQuality();
 
     @Unique
     int livestockOverhaulScraps$becomeSickChanceMod = 0;
@@ -338,10 +350,45 @@ public abstract class OCowMixin extends AbstractOMount implements ISickModHolder
         nbt.putBoolean("loextras_initialized", true);
     }
 
-    @Inject(method = "dropCustomDeathLoot", at = @At("HEAD"))
-    public void dropCustomDeathLoot(DamageSource p_33574_, int p_33575_, boolean p_33576_, CallbackInfo ci) {
-        if (ScrapsExtrasCommonConfig.BUTCHERING.get()) {
-            return;
+    /**
+     * @author
+     * @reason
+     */
+    @Overwrite
+    public void dropCustomDeathLoot(DamageSource p_33574_, int p_33575_, boolean p_33576_) {
+        super.dropCustomDeathLoot(p_33574_, p_33575_, p_33576_);
+        Random random = new Random();
+
+        if (!LivestockOverhaulCommonConfig.USE_VANILLA_LOOT.get() && !ModList.get().isLoaded("tfc") && !ScrapsExtrasCommonConfig.BUTCHERING.get()) {
+            if (this.isMeatBreed()) {
+                if (random.nextDouble() < 0.40) {
+                    this.spawnAtLocation(new ItemStack(Items.BEEF, 2), 0F);
+                    this.spawnAtLocation(new ItemStack(Items.LEATHER, 2), 0F);
+                } else if (random.nextDouble() > 0.40) {
+                    this.spawnAtLocation(new ItemStack(Items.BEEF, 1), 0F);
+                    this.spawnAtLocation(new ItemStack(Items.LEATHER, 1), 0F);
+                }
+            }
+
+            if (this.isNormalBreed()) {
+                if (random.nextDouble() < 0.15) {
+                    this.spawnAtLocation(new ItemStack(Items.BEEF, 1), 0F);
+                    this.spawnAtLocation(new ItemStack(Items.LEATHER, 1), 0F);
+                }
+            }
+
+            if (LivestockOverhaulCommonConfig.QUALITY.get()) {
+                if (this.isExquisiteQuality()) {
+                    this.spawnAtLocation(new ItemStack(Items.BEEF, 3), 0F);
+                    this.spawnAtLocation(new ItemStack(Items.LEATHER, 3), 0F);
+                } else if (this.isFantasticQuality()) {
+                    this.spawnAtLocation(new ItemStack(Items.BEEF, 2), 0F);
+                    this.spawnAtLocation(new ItemStack(Items.LEATHER, 2), 0F);
+                } else if (this.isGreatQuality()) {
+                    this.spawnAtLocation(new ItemStack(Items.BEEF, 1), 0F);
+                    this.spawnAtLocation(new ItemStack(Items.LEATHER, 1), 0F);
+                }
+            }
         }
     }
 

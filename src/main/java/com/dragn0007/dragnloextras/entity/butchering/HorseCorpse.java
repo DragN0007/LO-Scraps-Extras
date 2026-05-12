@@ -69,7 +69,6 @@ public class HorseCorpse extends Corpse implements GeoEntity {
 
 	public static final EntityDataAccessor<Integer> BUTCHER_STAGE = SynchedEntityData.defineId(HorseCorpse.class, EntityDataSerializers.INT);
 	public static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(HorseCorpse.class, EntityDataSerializers.INT);
-	public static final EntityDataAccessor<Integer> QUALITY = SynchedEntityData.defineId(HorseCorpse.class, EntityDataSerializers.INT);
 	public ResourceLocation getTextureLocation() {
 		return OHorseModel.Variant.variantFromOrdinal(getVariant()).resourceLocation;
 	}
@@ -79,7 +78,6 @@ public class HorseCorpse extends Corpse implements GeoEntity {
 		super.defineSynchedData();
 		this.entityData.define(BUTCHER_STAGE, 0);
 		this.entityData.define(VARIANT, 0);
-		this.entityData.define(QUALITY, 0);
 	}
 
 	@Override
