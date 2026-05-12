@@ -101,6 +101,11 @@ public class SEItemModelProvider extends ItemModelProvider {
         simpleItem(SEItems.COOKED_MUTTON_RIB);
         simpleItem(SEItems.COOKED_MUTTON_LEG);
 
+        simpleItem(SEItems.CHICKEN_THIGH);
+        simpleItem(SEItems.CHICKEN_WING);
+        simpleItem(SEItems.COOKED_CHICKEN_THIGH);
+        simpleItem(SEItems.COOKED_CHICKEN_WING);
+
         simpleItem(SEItems.LLAMA_RIB);
         simpleItem(SEItems.LLAMA_LOIN);
         simpleItem(SEItems.COOKED_LLAMA_RIB);
@@ -117,8 +122,6 @@ public class SEItemModelProvider extends ItemModelProvider {
         simpleItem(SEItems.CAMEL_LOIN);
         simpleItem(SEItems.COOKED_CAMEL_RIB);
         simpleItem(SEItems.COOKED_CAMEL_LOIN);
-        simpleItem(SEItems.CHICKEN_THIGH);
-        simpleItem(SEItems.COOKED_CHICKEN_THIGH);
         simpleItem(SEItems.RABBIT_THIGH);
         simpleItem(SEItems.COOKED_RABBIT_THIGH);
         simpleItem(SEItems.SALMON_FILLET);

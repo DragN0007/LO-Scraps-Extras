@@ -2,6 +2,7 @@ package com.dragn0007.dragnloextras.common.event;
 
 import com.dragn0007.dragnlivestock.entities.camel.OCamel;
 import com.dragn0007.dragnlivestock.entities.caribou.Caribou;
+import com.dragn0007.dragnlivestock.entities.chicken.OChicken;
 import com.dragn0007.dragnlivestock.entities.cow.OCow;
 import com.dragn0007.dragnlivestock.entities.donkey.ODonkey;
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
@@ -121,6 +122,7 @@ public class ForgeEvent {
         if ((event.getObject() instanceof OHorse && event.getObject().getClass() == OHorse.class) ||
             (event.getObject() instanceof OCow && event.getObject().getClass() == OCow.class) ||
             (event.getObject() instanceof OSheep && event.getObject().getClass() == OSheep.class) ||
+            (event.getObject() instanceof OChicken && event.getObject().getClass() == OChicken.class) ||
             (event.getObject() instanceof Unicorn && event.getObject().getClass() == Unicorn.class) ||
             (event.getObject() instanceof ODog && event.getObject().getClass() == ODog.class) ||
             (event.getObject() instanceof OWolf && event.getObject().getClass() == OWolf.class) ||
@@ -132,10 +134,14 @@ public class ForgeEvent {
             (event.getObject() instanceof Caribou && event.getObject().getClass() == Caribou.class)) {
 
             //cats, ocelots, unicorns dont get the dirty capability since they clean themselves
-            if (!(event.getObject() instanceof OCat && event.getObject().getClass() == OCat.class) &&
-                    !(event.getObject() instanceof OOcelot && event.getObject().getClass() == OOcelot.class) &&
-                    !(event.getObject() instanceof Unicorn && event.getObject().getClass() == Unicorn.class) &&
-                    !(event.getObject() instanceof OCow && event.getObject().getClass() == OCow.class)) {
+            if ((event.getObject() instanceof OHorse && event.getObject().getClass() == OHorse.class) ||
+                    (event.getObject() instanceof Unicorn && event.getObject().getClass() == Unicorn.class) ||
+                    (event.getObject() instanceof OMule && event.getObject().getClass() == OMule.class) ||
+                    (event.getObject() instanceof ODonkey && event.getObject().getClass() == ODonkey.class) ||
+                    (event.getObject() instanceof OCamel && event.getObject().getClass() == OCamel.class) ||
+                    (event.getObject() instanceof ODog && event.getObject().getClass() == ODog.class) ||
+                    (event.getObject() instanceof OWolf && event.getObject().getClass() == OWolf.class) ||
+                    (event.getObject() instanceof Caribou && event.getObject().getClass() == Caribou.class)) {
                 if (!event.getObject().getCapability(SECapabilities.DIRTY_CAPABILITY).isPresent()) {
                     DirtyCapabilityAttacher.attach(event);
                     if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
@@ -155,7 +161,8 @@ public class ForgeEvent {
                 }
             }
 
-            if (!(event.getObject() instanceof OSheep && event.getObject().getClass() == OSheep.class)) {
+            if (!(event.getObject() instanceof OSheep && event.getObject().getClass() == OSheep.class) &&
+                    !(event.getObject() instanceof OChicken && event.getObject().getClass() == OChicken.class)) {
                 if (!event.getObject().getCapability(SECapabilities.IMMUNITY_CAPABILITY).isPresent()) {
                     ImmunityCapabilityAttacher.attach(event);
                     if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
@@ -431,6 +438,8 @@ public class ForgeEvent {
             case 11 -> "Trait: Frail \nFrail animals have less overall health and are slightly more likely to get sick from common illnesses.\n";
             case 12 -> "Trait: Hot-Headed \nHot-Headed animals might attack you or other animals out of anger on occasion.\n";
             case 13 -> "Trait: None \nThis animal seems to have no notable personality or physical trait.\n";
+            case 14 -> "Trait: Swimmer \nSwimmer animals are faster at swimming.\n";
+            case 15 -> "Trait: Sinker \nSinker animals are slower while swimming.\n";
             default -> "Trait: Unknown\n";
         };
     }
@@ -444,8 +453,8 @@ public class ForgeEvent {
             if (deceased instanceof OCow animal) {
                 if (!level.isClientSide()) {
                     CowCorpse corpse = new CowCorpse(SEEntityTypes.COW_CORPSE.get(), level);
-                    corpse.setQuality(animal.getQuality());
                     corpse.setVariant(animal.getVariant());
+                    corpse.setQuality(animal.getQuality());
                     if (animal.isMeatBreed()) {
                         corpse.setMeatBreed(true);
                     } else if (animal.isMiniBreed()) {
@@ -485,6 +494,18 @@ public class ForgeEvent {
                 if (!level.isClientSide()) {
                     DonkeyCorpse corpse = new DonkeyCorpse(SEEntityTypes.DONKEY_CORPSE.get(), level);
                     corpse.setVariant(animal.getVariant());
+                    corpse.moveTo(deceased.getX(), deceased.getY(), deceased.getZ(), deceased.getYRot(), deceased.getXRot());
+                    level.addFreshEntity(corpse);
+                }
+            }
+            if (deceased instanceof OChicken animal) {
+                if (!level.isClientSide()) {
+                    ChickenCorpse corpse = new ChickenCorpse(SEEntityTypes.CHICKEN_CORPSE.get(), level);
+                    corpse.setVariant(animal.getVariant());
+                    corpse.setQuality(animal.getQuality());
+                    if (animal.isMeatBreed()) {
+                        corpse.setMeatBreed(true);
+                    }
                     corpse.moveTo(deceased.getX(), deceased.getY(), deceased.getZ(), deceased.getYRot(), deceased.getXRot());
                     level.addFreshEntity(corpse);
                 }

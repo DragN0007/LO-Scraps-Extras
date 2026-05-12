@@ -7,6 +7,7 @@
   "mixins": [
     "AbstractOMountMixin",
     "OCatMixin",
+    "OChickenMixin",
     "OCowMixin",
     "ODogMixin",
     "ODonkeyMixin",

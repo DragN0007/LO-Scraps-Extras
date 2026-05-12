@@ -646,6 +646,12 @@ public class SERecipeMaker extends RecipeProvider implements IConditionBuilder {
                 .unlockedBy("has_chicken_thigh", has(SEItems.CHICKEN_THIGH.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, "cooked_chicken_thigh_smelting"));
         SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.CHICKEN_THIGH.get()), RecipeCategory.MISC, SEItems.COOKED_CHICKEN_THIGH.get(), 0.35F, 600)
                 .unlockedBy("has_chicken_thigh", has(SEItems.CHICKEN_THIGH.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, "cooked_chicken_thigh_campfire_cooking"));
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.CHICKEN_WING.get()), RecipeCategory.MISC, SEItems.COOKED_CHICKEN_WING.get(), 0.35F, 100)
+                .unlockedBy("has_chicken_wing", has(SEItems.CHICKEN_WING.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, "cooked_chicken_wing_smoking"));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.CHICKEN_WING.get()), RecipeCategory.MISC, SEItems.COOKED_CHICKEN_WING.get(), 0.35F, 200)
+                .unlockedBy("has_chicken_wing", has(SEItems.CHICKEN_WING.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, "cooked_chicken_wing_smelting"));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.CHICKEN_WING.get()), RecipeCategory.MISC, SEItems.COOKED_CHICKEN_WING.get(), 0.35F, 600)
+                .unlockedBy("has_chicken_wing", has(SEItems.CHICKEN_WING.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, "cooked_chicken_wing_campfire_cooking"));
 
         SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.SALMON_FILLET.get()), RecipeCategory.MISC, SEItems.COOKED_SALMON_FILLET.get(), 0.35F, 100)
                 .unlockedBy("has_salmon_fillet", has(SEItems.SALMON_FILLET.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, "cooked_salmon_fillet_smoking"));

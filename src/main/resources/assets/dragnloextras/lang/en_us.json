@@ -122,6 +122,11 @@
   "item.dragnloextras.cooked_mutton_rib": "Cooked Mutton Rib",
   "item.dragnloextras.cooked_mutton_leg": "Cooked Mutton Leg",
 
+  "item.dragnloextras.chicken_thigh": "Raw Chicken Thigh",
+  "item.dragnloextras.cooked_chicken_thigh": "Cooked Chicken Thigh",
+  "item.dragnloextras.chicken_wing": "Raw Chicken Wing",
+  "item.dragnloextras.cooked_chicken_wing": "Cooked Chicken Wing",
+
   "item.dragnloextras.llama": "Raw Llama",
   "item.dragnloextras.llama_loin": "Raw Llama Sirloin Steak",
   "item.dragnloextras.llama_rib": "Raw Llama Rib Steak",
@@ -148,8 +153,6 @@
   "item.dragnloextras.cod_fillet": "Raw Cod Fillet",
   "item.dragnloextras.cooked_salmon_fillet": "Cooked Salmon Fillet",
   "item.dragnloextras.cooked_cod_fillet": "Cooked Cod Fillet",
-  "item.dragnloextras.chicken_thigh": "Raw Chicken Thigh",
-  "item.dragnloextras.cooked_chicken_thigh": "Cooked Chicken Thigh",
   "item.dragnloextras.rabbit_thigh": "Raw Rabbit Thigh",
   "item.dragnloextras.cooked_rabbit_thigh": "Cooked Rabbit Thigh",
   "item.dragnloextras.frog": "Raw Frog Legs",

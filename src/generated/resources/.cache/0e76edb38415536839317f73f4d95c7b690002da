@@ -1,4 +1,4 @@
-// 1.20.1	2026-05-12T00:29:06.5722714	Item Models: dragnloextras
+// 1.20.1	2026-05-12T02:32:56.7046365	Item Models: dragnloextras
 4d58d8777a803ce3c6f0c80907de9579c019ac6c assets/dragnloextras/models/item/antibiotic_eardrops.json
 5f7dd1f99481a3aa4a46c7658b52b3f9655da8dd assets/dragnloextras/models/item/antibiotic_injection.json
 c76280cffd2fe708ec18ee2e9ee876ddc90b9199 assets/dragnloextras/models/item/antibiotic_ointment.json
@@ -24,6 +24,7 @@ d7c45bdb0ad4107ee86feaebedcceef1ecbff5ed assets/dragnloextras/models/item/caribo
 7e32590ac71d4e3e66a0fa428ed24a5ad97c70c4 assets/dragnloextras/models/item/chevon_loin.json
 13925572187bb9a869b7cce60ec3b089fb8008e1 assets/dragnloextras/models/item/chevon_rib.json
 8a2fe6e73f3ecc11aa81b9874c9818de362bf04e assets/dragnloextras/models/item/chicken_thigh.json
+fdfbb1a9a788d6261b1c37312db5013c2b85825f assets/dragnloextras/models/item/chicken_wing.json
 58a86ecef1aaab6a88d2aba47a41dda3b51e50de assets/dragnloextras/models/item/cod_fillet.json
 729b9d8704080bfb83764d4fa5d067db9851ff2b assets/dragnloextras/models/item/collar_spikes.json
 c210f90cf3ce94134909212a8af54c001cc524e7 assets/dragnloextras/models/item/cooked_beef_brisket.json
@@ -39,6 +40,7 @@ e7f2f9a37db26a72a3cfba20d869d823ebf9e5fb assets/dragnloextras/models/item/cooked
 40cf9a9ab142c90890ed4f115dade644564273e0 assets/dragnloextras/models/item/cooked_chevon_loin.json
 4ff5fd235858d5fd755d9634993a04b5a92c847f assets/dragnloextras/models/item/cooked_chevon_rib.json
 7f335bc08297d00f856ca4f1142ef4c615e42003 assets/dragnloextras/models/item/cooked_chicken_thigh.json
+4a0ebee45a9f30d2b23e72bb5dfad1d3c287b83c assets/dragnloextras/models/item/cooked_chicken_wing.json
 7f3643cbff1240d6d01ba4bb88acd7a06757f6f5 assets/dragnloextras/models/item/cooked_cod_fillet.json
 6f6eca13dd8cad0d7c4b13920afdc1af6abd4484 assets/dragnloextras/models/item/cooked_horse_brisket.json
 6fc89865cc9804b878b3452998b42418d143207c assets/dragnloextras/models/item/cooked_horse_chuck.json

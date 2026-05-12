@@ -20,6 +20,7 @@ public class ScrapsExtrasEvent {
         event.put(SEEntityTypes.SHEEP_CORPSE.get(), SheepCorpse.createAttributes().build());
         event.put(SEEntityTypes.MULE_CORPSE.get(), MuleCorpse.createAttributes().build());
         event.put(SEEntityTypes.DONKEY_CORPSE.get(), DonkeyCorpse.createAttributes().build());
+        event.put(SEEntityTypes.CHICKEN_CORPSE.get(), ChickenCorpse.createAttributes().build());
         event.put(SEEntityTypes.UNICORN_CORPSE.get(), UnicornCorpse.createAttributes().build());
     }
 
