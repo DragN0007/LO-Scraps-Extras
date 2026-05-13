@@ -1,9 +1,6 @@
 package com.dragn0007.dragnloextras.compat.jade;
 
 import com.dragn0007.dragnlivestock.LivestockOverhaul;
-import com.dragn0007.dragnlivestock.entities.chicken.OChicken;
-import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
-import com.dragn0007.dragnloextras.ScrapsExtras;
 import com.dragn0007.dragnloextras.entity.butchering.Corpse;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import net.minecraft.network.chat.Component;
