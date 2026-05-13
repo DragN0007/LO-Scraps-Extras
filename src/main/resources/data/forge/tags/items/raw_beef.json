@@ -4,6 +4,16 @@
     "dragnloextras:beef_brisket",
     "dragnloextras:beef_chuck",
     "dragnloextras:beef_rib",
-    "dragnloextras:beef_shank"
+    "dragnloextras:beef_shank",
+
+    "dragnloextras:horse_brisket",
+    "dragnloextras:horse_chuck",
+    "dragnloextras:horse_rib",
+    "dragnloextras:horse_shank",
+
+    "dragnloextras:unicorn_brisket",
+    "dragnloextras:unicorn_chuck",
+    "dragnloextras:unicorn_rib",
+    "dragnloextras:unicorn_shank"
   ]
 }

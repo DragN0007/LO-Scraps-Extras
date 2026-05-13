@@ -131,6 +131,13 @@
   "item.dragnloextras.cooked_mutton_rib": "Cooked Mutton Rib",
   "item.dragnloextras.cooked_mutton_leg": "Cooked Mutton Leg",
 
+  "item.dragnloextras.pork_ham": "Raw Pork Ham",
+  "item.dragnloextras.pork_loin": "Raw Pork Loin",
+  "item.dragnloextras.pork_belly": "Raw Pork Belly",
+  "item.dragnloextras.cooked_pork_ham": "Cooked Pork Ham",
+  "item.dragnloextras.cooked_pork_loin": "Cooked Pork Loin",
+  "item.dragnloextras.cooked_pork_belly": "Cooked Pork Belly",
+
   "item.dragnloextras.chicken_thigh": "Raw Chicken Thigh",
   "item.dragnloextras.cooked_chicken_thigh": "Cooked Chicken Thigh",
   "item.dragnloextras.chicken_wing": "Raw Chicken Wing",

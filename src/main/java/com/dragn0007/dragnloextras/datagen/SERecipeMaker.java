@@ -615,6 +615,25 @@ public class SERecipeMaker extends RecipeProvider implements IConditionBuilder {
         SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.MUTTON_LEG.get()), RecipeCategory.MISC, SEItems.COOKED_MUTTON_LEG.get(), 0.35F, 600)
                 .unlockedBy("has_mutton_leg", has(SEItems.MUTTON_LEG.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_MUTTON_LEG.get() + "_campfire_cooking"));
 
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.PORK_HAM.get()), RecipeCategory.MISC, SEItems.COOKED_PORK_HAM.get(), 0.35F, 100)
+                .unlockedBy("has_pork_ham", has(SEItems.PORK_HAM.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_PORK_HAM.get() + "_smoking"));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.PORK_HAM.get()), RecipeCategory.MISC, SEItems.COOKED_PORK_HAM.get(), 0.35F, 200)
+                .unlockedBy("has_pork_ham", has(SEItems.PORK_HAM.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_PORK_HAM.get() + "_smelting"));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.PORK_HAM.get()), RecipeCategory.MISC, SEItems.COOKED_PORK_HAM.get(), 0.35F, 600)
+                .unlockedBy("has_pork_ham", has(SEItems.PORK_HAM.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_PORK_HAM.get() + "_campfire_cooking"));
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.PORK_LOIN.get()), RecipeCategory.MISC, SEItems.COOKED_PORK_LOIN.get(), 0.35F, 100)
+                .unlockedBy("has_pork_loin", has(SEItems.PORK_LOIN.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_PORK_LOIN.get() + "_smoking"));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.PORK_LOIN.get()), RecipeCategory.MISC, SEItems.COOKED_PORK_LOIN.get(), 0.35F, 200)
+                .unlockedBy("has_pork_loin", has(SEItems.PORK_LOIN.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_PORK_LOIN.get() + "_smelting"));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.PORK_LOIN.get()), RecipeCategory.MISC, SEItems.COOKED_PORK_LOIN.get(), 0.35F, 600)
+                .unlockedBy("has_pork_loin", has(SEItems.PORK_LOIN.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_PORK_LOIN.get() + "_campfire_cooking"));
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.PORK_BELLY.get()), RecipeCategory.MISC, SEItems.COOKED_PORK_BELLY.get(), 0.35F, 100)
+                .unlockedBy("has_pork_belly", has(SEItems.PORK_BELLY.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_PORK_BELLY.get() + "_smoking"));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.PORK_BELLY.get()), RecipeCategory.MISC, SEItems.COOKED_PORK_BELLY.get(), 0.35F, 200)
+                .unlockedBy("has_pork_belly", has(SEItems.PORK_BELLY.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_PORK_BELLY.get() + "_smelting"));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.PORK_BELLY.get()), RecipeCategory.MISC, SEItems.COOKED_PORK_BELLY.get(), 0.35F, 600)
+                .unlockedBy("has_pork_belly", has(SEItems.PORK_BELLY.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_PORK_BELLY.get() + "_campfire_cooking"));
+
         SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.CARIBOU_BRISKET.get()), RecipeCategory.MISC, SEItems.COOKED_CARIBOU_BRISKET.get(), 0.35F, 100)
                 .unlockedBy("has_caribou_brisket", has(SEItems.CARIBOU_BRISKET.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CARIBOU_BRISKET.get() + "_smoking"));
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.CARIBOU_BRISKET.get()), RecipeCategory.MISC, SEItems.COOKED_CARIBOU_BRISKET.get(), 0.35F, 200)

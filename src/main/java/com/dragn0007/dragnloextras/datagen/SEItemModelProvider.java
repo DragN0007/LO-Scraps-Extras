@@ -103,6 +103,13 @@ public class SEItemModelProvider extends ItemModelProvider {
         simpleItem(SEItems.COOKED_CAMEL_RIB);
         simpleItem(SEItems.COOKED_CAMEL_SHANK);
 
+        simpleItem(SEItems.PORK_HAM);
+        simpleItem(SEItems.PORK_LOIN);
+        simpleItem(SEItems.PORK_BELLY);
+        simpleItem(SEItems.COOKED_PORK_HAM);
+        simpleItem(SEItems.COOKED_PORK_LOIN);
+        simpleItem(SEItems.COOKED_PORK_BELLY);
+
         simpleItem(SEItems.MUTTON_FLANK);
         simpleItem(SEItems.MUTTON_RIB);
         simpleItem(SEItems.MUTTON_LEG);

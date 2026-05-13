@@ -102,6 +102,13 @@ public class SEItemGroupModifier {
                         output.accept(SEItems.COOKED_CAMEL_RIB.get());
                         output.accept(SEItems.COOKED_CAMEL_SHANK.get());
 
+                        output.accept(SEItems.PORK_HAM.get());
+                        output.accept(SEItems.PORK_LOIN.get());
+                        output.accept(SEItems.PORK_BELLY.get());
+                        output.accept(SEItems.COOKED_PORK_HAM.get());
+                        output.accept(SEItems.COOKED_PORK_LOIN.get());
+                        output.accept(SEItems.COOKED_PORK_BELLY.get());
+
                         output.accept(SEItems.MUTTON_FLANK.get());
                         output.accept(SEItems.MUTTON_RIB.get());
                         output.accept(SEItems.MUTTON_LEG.get());

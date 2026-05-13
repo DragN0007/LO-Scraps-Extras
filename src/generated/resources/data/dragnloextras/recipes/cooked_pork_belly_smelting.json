@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "food",
+  "cookingtime": 200,
+  "experience": 0.35,
+  "ingredient": {
+    "item": "dragnloextras:pork_belly"
+  },
+  "result": "dragnloextras:cooked_pork_belly"
+}

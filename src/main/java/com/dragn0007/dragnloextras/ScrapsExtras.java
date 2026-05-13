@@ -49,8 +49,6 @@ public class ScrapsExtras
     }
 
     //needs butchering mechanic
-//    EntityTypes.O_CAMEL_ENTITY.get(),
-//    EntityTypes.O_PIG_ENTITY.get(),
 //    EntityTypes.O_GOAT_ENTITY.get(),
 //    EntityTypes.O_LLAMA_ENTITY.get(),
 //    EntityTypes.FARM_GOAT_ENTITY.get(),

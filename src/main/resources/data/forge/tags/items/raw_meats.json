@@ -11,6 +11,11 @@
     "dragnloextras:horse_rib",
     "dragnloextras:horse_shank",
 
+    "dragnloextras:camel_brisket",
+    "dragnloextras:camel_chuck",
+    "dragnloextras:camel_rib",
+    "dragnloextras:camel_shank",
+
     "dragnloextras:caribou_brisket",
     "dragnloextras:caribou_chuck",
     "dragnloextras:caribou_rib",
@@ -24,6 +29,10 @@
     "dragnloextras:mutton_flank",
     "dragnloextras:mutton_leg",
     "dragnloextras:mutton_rib",
+
+    "dragnloextras:pork_belly",
+    "dragnloextras:pork_ham",
+    "dragnloextras:pork_loin",
     
     "dragnloextras:chicken_thigh",
     "dragnloextras:chicken_wing",

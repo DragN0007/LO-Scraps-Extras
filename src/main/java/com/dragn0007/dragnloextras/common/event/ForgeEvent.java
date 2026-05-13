@@ -6,6 +6,7 @@ import com.dragn0007.dragnlivestock.entities.cow.OCow;
 import com.dragn0007.dragnlivestock.entities.donkey.ODonkey;
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnlivestock.entities.mule.OMule;
+import com.dragn0007.dragnlivestock.entities.pig.OPig;
 import com.dragn0007.dragnlivestock.entities.rabbit.ORabbit;
 import com.dragn0007.dragnlivestock.entities.sheep.OSheep;
 import com.dragn0007.dragnlivestock.entities.unicorn.Unicorn;
@@ -478,6 +479,18 @@ public class ForgeEvent {
             if (deceased instanceof ORabbit animal) {
                 if (!level.isClientSide()) {
                     RabbitCorpse corpse = new RabbitCorpse(SEEntityTypes.RABBIT_CORPSE.get(), level);
+                    corpse.setVariant(animal.getVariant());
+                    corpse.setQuality(animal.getQuality());
+                    if (animal.isMeatBreed()) {
+                        corpse.setMeatBreed(true);
+                    }
+                    corpse.moveTo(deceased.getX(), deceased.getY(), deceased.getZ(), deceased.getYRot(), deceased.getXRot());
+                    level.addFreshEntity(corpse);
+                }
+            }
+            if (deceased instanceof OPig animal) {
+                if (!level.isClientSide()) {
+                    PigCorpse corpse = new PigCorpse(SEEntityTypes.PIG_CORPSE.get(), level);
                     corpse.setVariant(animal.getVariant());
                     corpse.setQuality(animal.getQuality());
                     if (animal.isMeatBreed()) {
