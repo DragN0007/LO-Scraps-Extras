@@ -1,6 +1,5 @@
 package com.dragn0007.dragnloextras.entity.butchering;
 
-import com.dragn0007.dragnlivestock.entities.chicken.OChickenModel;
 import com.dragn0007.dragnlivestock.entities.rabbit.ORabbitModel;
 import com.dragn0007.dragnloextras.items.SEItems;
 import net.minecraft.nbt.CompoundTag;
