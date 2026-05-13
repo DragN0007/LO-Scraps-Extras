@@ -1,0 +1,19 @@
+{
+  "name": "Canines",
+  "icon": "minecraft:bone",
+  "category": "dragnloextras:info_category",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecraft:bone"
+      },
+      "title": "Canine Welfare Stats",
+      "text": "$(l)Includes:$() Dogs, Wolves $(br2)$(l)Susceptible to:$() Heartworms, Ringworm, Botflies, Fleas, Ear Infections, Abrasions, Infections, Rabies"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Other Info:$()$(br2)Can have Traits. $(br2)Requires consistent brushing (can become dirty). $(br2)Requires feeding (Kibble)."
+    }
+  ]
+}

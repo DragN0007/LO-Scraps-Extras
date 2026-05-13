@@ -1,0 +1,19 @@
+{
+  "name": "Felines",
+  "icon": "minecraft:cod",
+  "category": "dragnloextras:info_category",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecraft:cod"
+      },
+      "title": "Feline Welfare Stats",
+      "text": "$(l)Includes:$() Cats, Ocelots $(l)Susceptible to:$() Heartworms, Ringworm, Botflies, Fleas, Ear Infections, Abrasions, Infections, Rabies"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Other Info:$()$(br2)Can have Traits. $(br2)Does not require consistent brushing. $(br2)Requires feeding (Kibble)."
+    }
+  ]
+}

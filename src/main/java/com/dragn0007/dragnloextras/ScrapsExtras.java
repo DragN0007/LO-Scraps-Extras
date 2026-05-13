@@ -24,8 +24,7 @@ public class ScrapsExtras
 {
     public static final String MODID = "dragnloextras";
 
-    public ScrapsExtras()
-    {
+    public ScrapsExtras() {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         SEItems.register(eventBus);
@@ -45,7 +44,6 @@ public class ScrapsExtras
 
         System.out.println("[DragN's LO: Scraps and Extras] Registered Livestock Overhaul: Scraps and Extras.");
         System.out.println("[DragN's LO: Scraps and Extras] This mod may work strangely on worlds and O-Animals that already exist!");
-        System.out.println("[DragN's LO: Scraps and Extras] Hello Livestock Overhaul and LO: Pets!");
     }
 
     //needs butchering mechanic

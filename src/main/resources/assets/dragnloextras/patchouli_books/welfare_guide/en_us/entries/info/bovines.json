@@ -1,0 +1,19 @@
+{
+  "name": "Bovines",
+  "icon": "dragnloextras:beef_brisket",
+  "category": "dragnloextras:info_category",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "dragnloextras:beef_brisket"
+      },
+      "title": "Bovine Welfare Stats",
+      "text": "$(l)Includes:$() Cows, Mooblooms, Mooshrooms $(br2)$(l)Susceptible to:$() Hoof Abscesses, Abrasions, Infections, Rabies"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Other Info:$()$(br2)Cannot have Traits. $(br2)Does not require consistent brushing. $(br2)Does not require feeding."
+    }
+  ]
+}

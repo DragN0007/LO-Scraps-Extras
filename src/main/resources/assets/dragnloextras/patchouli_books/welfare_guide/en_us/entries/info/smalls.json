@@ -1,0 +1,19 @@
+{
+  "name": "Small Mammals",
+  "icon": "minecraft:rabbit_hide",
+  "category": "dragnloextras:info_category",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecraft:rabbit_hide"
+      },
+      "title": "Lagomorph Welfare Stats",
+      "text": "$(l)Includes:$() Rabbits $(br2)$(l)Susceptible to:$() Abrasions, Infections, Rabies"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Other Info:$()$(br2)Cannot have Traits. $(br2)Does not require consistent brushing. $(br2)Does not require feeding."
+    }
+  ]
+}

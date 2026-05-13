@@ -1,0 +1,19 @@
+{
+  "name": "Other Ungulates",
+  "icon": "dragnlivestock:white_wool_staple",
+  "category": "dragnloextras:info_category",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "dragnlivestock:white_wool_staple"
+      },
+      "title": "Other Welfare Stats",
+      "text": "$(l)Includes:$() Pigs, Sheep, Llamas, Goats $(br2)$(l)Susceptible to:$() Abrasions, Infections, Rabies"
+    },
+    {
+      "type": "patchouli:text",
+      "text": "$(l)Other Info:$()$(br2)Cannot have Traits. $(br2)Does not require consistent brushing. $(br2)Does not require feeding."
+    }
+  ]
+}
