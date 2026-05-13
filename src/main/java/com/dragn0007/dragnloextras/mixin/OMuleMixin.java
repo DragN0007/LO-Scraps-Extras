@@ -1,14 +1,11 @@
 package com.dragn0007.dragnloextras.mixin;
 
 import com.dragn0007.dragnlivestock.client.event.LivestockOverhaulClientEvent;
-import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnlivestock.entities.mule.OMule;
-import com.dragn0007.dragnlivestock.entities.unicorn.Unicorn;
 import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
 import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
 import com.dragn0007.dragnloextras.capabilities.*;
 import com.dragn0007.dragnloextras.effects.SEEffects;
-import com.dragn0007.dragnloextras.entity.ai.EquineSleepGoal;
 import com.dragn0007.dragnloextras.entity.ai.FleeRainGoal;
 import com.dragn0007.dragnloextras.entity.ai.HorseFollowOwnerGoal;
 import com.dragn0007.dragnloextras.entity.ai.SleepGoal;

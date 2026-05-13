@@ -65,6 +65,11 @@ public abstract class AbstractOMountMixin extends AbstractChestedHorse implement
         }
     }
 
+    @Override
+    public void setBaby(boolean p_146756_) {
+        this.setAge(p_146756_ ? -ScrapsExtrasCommonConfig.LARGE_GROWTH_TIME.get() : 0);
+    }
+
     //
 //    @Unique int livestockOverhaulScraps$pregnantTick;
 //

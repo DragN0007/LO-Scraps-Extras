@@ -5,12 +5,10 @@ import com.dragn0007.dragnlivestock.entities.EntityTypes;
 import com.dragn0007.dragnpets.entities.POEntityTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
 
 import java.util.Set;
 
@@ -64,6 +62,7 @@ public class SETags {
             EntityTypes.O_PIG_ENTITY.get(),
             EntityTypes.O_GOAT_ENTITY.get(),
             EntityTypes.O_SHEEP_ENTITY.get(),
+            EntityTypes.O_LLAMA_ENTITY.get(),
             EntityTypes.FARM_GOAT_ENTITY.get(),
             EntityTypes.CARIBOU_ENTITY.get(),
             EntityTypes.UNICORN_ENTITY.get(),

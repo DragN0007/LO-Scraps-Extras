@@ -1,6 +1,5 @@
 package com.dragn0007.dragnloextras.mixin;
 
-import com.dragn0007.dragnlivestock.entities.chicken.OChicken;
 import com.dragn0007.dragnlivestock.entities.rabbit.ORabbit;
 import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
 import com.dragn0007.dragnloextras.capabilities.SECapabilities;
@@ -8,7 +7,6 @@ import com.dragn0007.dragnloextras.capabilities.SleepingCapabilityInterface;
 import com.dragn0007.dragnloextras.effects.SEEffects;
 import com.dragn0007.dragnloextras.entity.ai.FleeRainGoal;
 import com.dragn0007.dragnloextras.entity.ai.SleepGoal;
-import com.dragn0007.dragnloextras.util.ISickModHolder;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
@@ -71,6 +69,11 @@ public abstract class ORabbitMixin extends TamableAnimal {
         } else {
             return ORabbit.LOOT_TABLE;
         }
+    }
+
+    @Override
+    public void setBaby(boolean p_146756_) {
+        this.setAge(p_146756_ ? -ScrapsExtrasCommonConfig.SMALL_GROWTH_TIME.get() : 0);
     }
 
     @Inject(method = "registerGoals", at = @At("HEAD"))

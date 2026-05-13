@@ -1,25 +1,26 @@
 package com.dragn0007.dragnloextras.mixin;
 
+import com.dragn0007.dragnlivestock.client.event.LivestockOverhaulClientEvent;
+import com.dragn0007.dragnlivestock.entities.EntityTypes;
+import com.dragn0007.dragnlivestock.entities.camel.CamelBreed;
+import com.dragn0007.dragnlivestock.entities.camel.OCamel;
+import com.dragn0007.dragnlivestock.entities.camel.OCamelMarkingLayer;
+import com.dragn0007.dragnlivestock.entities.camel.OCamelModel;
+import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
 import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
 import com.dragn0007.dragnloextras.capabilities.*;
 import com.dragn0007.dragnloextras.effects.SEEffects;
 import com.dragn0007.dragnloextras.entity.ai.FleeRainGoal;
+import com.dragn0007.dragnloextras.entity.ai.HorseFollowOwnerGoal;
 import com.dragn0007.dragnloextras.entity.ai.SleepGoal;
-import com.dragn0007.dragnloextras.entity.ai.VaulterLeapAtTargetGoal;
 import com.dragn0007.dragnloextras.items.SEItems;
-import com.dragn0007.dragnloextras.network.SyncDirtyLayerPacket;
-import com.dragn0007.dragnloextras.network.SyncImmunityPacket;
-import com.dragn0007.dragnloextras.network.SyncSpikeCollarLayerPacket;
-import com.dragn0007.dragnloextras.network.SyncTraitPacket;
+import com.dragn0007.dragnloextras.items.custom.HalterItem;
+import com.dragn0007.dragnloextras.items.custom.TurnoutBlanketItem;
+import com.dragn0007.dragnloextras.network.*;
 import com.dragn0007.dragnloextras.util.*;
-import com.dragn0007.dragnpets.entities.POEntityTypes;
-import com.dragn0007.dragnpets.entities.ai.CanineFollowPackLeaderGoal;
-import com.dragn0007.dragnpets.entities.dog.DogBase;
-import com.dragn0007.dragnpets.entities.dog.ODog;
-import com.dragn0007.dragnpets.entities.wolf.OWolf;
-import com.dragn0007.dragnpets.entities.wolf.OWolfMarkingLayer;
-import com.dragn0007.dragnpets.entities.wolf.OWolfModel;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
@@ -29,17 +30,22 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.Tags;
+import net.minecraftforge.fml.ModList;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -55,20 +61,15 @@ import software.bernie.geckolib.core.animation.AnimationState;
 import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
-@Mixin(OWolf.class)
-public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilityInterface, ITraitByBreedTypeHolder, IHungerHolder, ISickModHolder {
+@Mixin(OCamel.class)
+public abstract class OCamelMixin extends AbstractOMount implements DirtyCapabilityInterface, IHungerHolder, ISickModHolder {
 
-    //stop remapping my shit bitch i aint ask you to do all that. piss me off
-    @Shadow(remap = false) public abstract int getVariant();
-    @Shadow(remap = false) public abstract int getOverlayVariant();
-    @Shadow(remap = false) public abstract boolean isWagging();
-    @Shadow(remap = false) public abstract boolean isCollared();
-
-    @Shadow public abstract InteractionResult mobInteract(Player player, InteractionHand hand);
+    @Shadow @Nullable public abstract SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, @org.jetbrains.annotations.Nullable SpawnGroupData data, @org.jetbrains.annotations.Nullable CompoundTag tag);
+    @Shadow public abstract void registerGoals();
 
     @Unique
     public boolean hungry = false;
@@ -79,6 +80,23 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
     @Unique
     public void setHungry(boolean hungry) {
         this.hungry = hungry;
+    }
+
+    /**
+     * @author who do you think
+     * @reason cuz i can
+     */
+    @Overwrite
+    public ResourceLocation getDefaultLootTable() {
+        if (ScrapsExtrasCommonConfig.BUTCHERING.get()) {
+            return BuiltInLootTables.EMPTY;
+        } else if (ModList.get().isLoaded("tfc")) {
+            return OCamel.TFC_LOOT_TABLE;
+        } else if (LivestockOverhaulCommonConfig.USE_VANILLA_LOOT.get()) {
+            return OCamel.VANILLA_LOOT_TABLE;
+        } else {
+            return OCamel.LOOT_TABLE;
+        }
     }
 
     @Unique
@@ -97,24 +115,20 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
 
     @Unique int livestockOverhaulScraps$beMeanTargetTick = random.nextInt(24000) + 1200;
     @Unique int livestockOverhaulScraps$becomeSickRand = random.nextInt(100);
+    @Unique int livestockOverhaulScraps$pregnantTick;
 
-    public OWolfMixin(EntityType<? extends OWolfMixin> entityType, Level level) {
+    public OCamelMixin(EntityType<? extends OCamelMixin> entityType, Level level) {
         super(entityType, level);
         this.setHungry(false);
-    }
-
-    @Override
-    public void setBaby(boolean p_146756_) {
-        this.setAge(p_146756_ ? -ScrapsExtrasCommonConfig.MEDIUM_GROWTH_TIME.get() : 0);
     }
 
     @Inject(method = "registerGoals", at = @At("HEAD"))
     public void registerGoals(CallbackInfo ci) {
         super.registerGoals();
-        OWolf self = (OWolf) (Object) this;
+        OCamel self = (OCamel) (Object) this;
         this.goalSelector.addGoal(0, new SleepGoal(self));
         this.goalSelector.addGoal(1, new FleeRainGoal(self, 1.2F));
-        this.goalSelector.addGoal(3, new VaulterLeapAtTargetGoal(this, 0.4F));
+        this.goalSelector.addGoal(2, new HorseFollowOwnerGoal(self, 1.0D, 2.0F, 2.0F, false));
         this.goalSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10, true, false, entity ->
                 (entity instanceof Player || entity instanceof Villager || entity instanceof Animal) && !this.isBaby() && this.hasEffect(SEEffects.RABIES.get())
         ));
@@ -129,7 +143,10 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
     @Unique public int livestockOverhaulScraps$beMeanTick;
     @Unique public int livestockOverhaulScraps$sickTick;
     @Unique public int livestockOverhaulScraps$sickModDissipateTick = 72000;
+    @Unique public int livestockOverhaulScraps$saddleSoreTick;
+    @Unique public int livestockOverhaulScraps$rainRotTick;
     @Unique public int livestockOverhaulScraps$heartwormMedTick;
+    @Unique public int livestockOverhaulScraps$hoofPickTick;
 
     @Inject(method = "tick", at = @At("HEAD"))
     protected void onTick(CallbackInfo ci) {
@@ -141,12 +158,11 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
                     sleepingCap = this.getCapability(SECapabilities.SLEEPING_CAPABILITY).orElse(null);
                     if (sleepingCap != null && sleepingCap.isSleeping()) {
                         this.goalSelector.getAvailableGoals().removeIf(goal -> goal.getGoal() instanceof LookAtPlayerGoal);
-                        this.goalSelector.getAvailableGoals().removeIf(goal -> goal.getGoal() instanceof CanineFollowPackLeaderGoal);
                     }
                 }
             }
 
-            if (this.isTame()) {
+            if (!this.isTamed()) {
                 if (ScrapsExtrasCommonConfig.AILMENT_SYSTEM.get()) {
                     if (livestockOverhaulScraps$becomeSickChanceMod != 0) {
                         livestockOverhaulScraps$sickModDissipateTick--;
@@ -180,6 +196,9 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
                             if (target.hasEffect(SEEffects.MANGE.get()) && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
                                 this.addEffect(new MobEffectInstance(SEEffects.MANGE.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
                             }
+                            if (target.hasEffect(SEEffects.BOTFLY_INFESTATION.get()) && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                                this.addEffect(new MobEffectInstance(SEEffects.BOTFLY_INFESTATION.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                            }
                             if (target.hasEffect(SEEffects.FLEA_INFESTATION.get()) && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
                                 this.addEffect(new MobEffectInstance(SEEffects.FLEA_INFESTATION.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
                             }
@@ -202,8 +221,16 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
 
                     if (ScrapsExtrasCommonConfig.MANGE.get()) {
                         if (livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
-                            if (random.nextDouble() <= 0.05) {
+                            if (random.nextDouble() <= 0.03) {
                                 this.addEffect(new MobEffectInstance(SEEffects.MANGE.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                            }
+                        }
+                    }
+
+                    if (ScrapsExtrasCommonConfig.BOTFLY_INFESTATION.get()) {
+                        if (livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                            if (random.nextDouble() <= 0.05) {
+                                this.addEffect(new MobEffectInstance(SEEffects.BOTFLY_INFESTATION.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
                             }
                         }
                     }
@@ -230,26 +257,70 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
 
                         if (livestockOverhaulScraps$heartwormMedTick < ScrapsExtrasCommonConfig.HEARTWORM_MED_GRACE.get() &&
                                 livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
-                            if (random.nextDouble() <= 0.05) {
+                            if (random.nextDouble() <= 0.02) {
                                 this.addEffect(new MobEffectInstance(SEEffects.HEARTWORMS.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
                             }
+                        }
+                    }
+
+                    if (ScrapsExtrasCommonConfig.HOOF_ABSCESS.get()) {
+                        if (livestockOverhaulScraps$hoofPickTick >= 0)
+                            livestockOverhaulScraps$hoofPickTick--;
+
+                        if (livestockOverhaulScraps$hoofPickTick < ScrapsExtrasCommonConfig.HOOF_PICK_GRACE.get() &&
+                                livestockOverhaulScraps$sickTick >= 72000 && livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
+                            if (random.nextDouble() <= 0.50) {
+                                this.addEffect(new MobEffectInstance(SEEffects.HOOF_ABSCESS.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                            }
+                        }
+                    }
+
+                    if (ScrapsExtrasCommonConfig.SADDLE_SORE.get()) {
+                        if (this.isSaddled()) {
+                            livestockOverhaulScraps$saddleSoreTick++;
+                            if (livestockOverhaulScraps$saddleSoreTick >= 24000) {
+                                if (random.nextDouble() <= 0.75) {
+                                    this.addEffect(new MobEffectInstance(SEEffects.SADDLE_SORE.get(), 48000, 0, false, false));
+                                }
+                                livestockOverhaulScraps$saddleSoreTick = 0;
+                            }
+                        } else {
+                            livestockOverhaulScraps$saddleSoreTick = 0;
+                        }
+                    }
+
+                    if (ScrapsExtrasCommonConfig.RAIN_ROT.get()) {
+                        if (this.level().isRaining() && this.level().canSeeSky(this.blockPosition())) {
+                            livestockOverhaulScraps$rainRotTick++;
+                            if (livestockOverhaulScraps$rainRotTick >= (random.nextInt(3000) + 12000)) {
+                                if (random.nextDouble() <= 0.75 && !(this.getArmor().getItem() instanceof TurnoutBlanketItem)) {
+                                    this.addEffect(new MobEffectInstance(SEEffects.RAIN_ROT.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                                }
+                                livestockOverhaulScraps$rainRotTick = 0;
+                            }
+                        } else {
+                            livestockOverhaulScraps$rainRotTick = 0;
                         }
                     }
                 }
 
                 if (ScrapsExtrasCommonConfig.FEEDING_SYSTEM.get()) {
                     if (!this.isHungry()) {
-                        livestockOverhaulScraps$hungryTick++;
-                        if (livestockOverhaulScraps$hungryTick >= ScrapsExtrasCommonConfig.DOG_FEED_TICK.get()) {
-                            this.setHungry(true);
-                            this.addEffect(new MobEffectInstance(SEEffects.HUNGER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                            livestockOverhaulScraps$hungryTick = 0;
+                        BlockPos blockpos = this.blockPosition();
+                        BlockPos blockpos1 = blockpos.below();
+                        if (ScrapsExtrasCommonConfig.GRAZING.get() && (!this.level().getBlockState(blockpos1).is(Blocks.GRASS_BLOCK) && !this.isGroundTied()) && this.isTamed()) {
+                            livestockOverhaulScraps$hungryTick++;
+                            if (livestockOverhaulScraps$hungryTick >= ScrapsExtrasCommonConfig.HORSE_FEED_TICK.get()) {
+                                this.setHungry(true);
+                                this.addEffect(new MobEffectInstance(SEEffects.HUNGER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                                livestockOverhaulScraps$hungryTick = 0;
+                            }
                         }
                     }
                 }
 
                 if (ScrapsExtrasCommonConfig.HYGIENE_SYSTEM.get()) {
-                    if (this.isTame())
+                    if (this.isTamed())
                         livestockOverhaulScraps$dirtyTick++;
 
                     if (livestockOverhaulScraps$dirtyTick >= ScrapsExtrasCommonConfig.DIRTY_TICK.get() && this.hasEffect(SEEffects.DIRTY.get())) {
@@ -288,21 +359,6 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
     public void hurt(DamageSource damageSource, float dmg, CallbackInfoReturnable<Boolean> cir) {
         super.hurt(damageSource, dmg);
 
-        if (ScrapsExtrasCommonConfig.SPIKE_COLLAR.get()) {
-            if (damageSource.getEntity() instanceof Mob mob) {
-                this.getCapability(SECapabilities.SPIKE_COLLAR_CAPABILITY).ifPresent(cap -> {
-                    if (cap.hasSpikeCollar()) {
-                        if (mob instanceof OWolf) {
-                            mob.hurt(this.damageSources().thorns(this), (float) 8 + this.random.nextInt(12));
-                        } else {
-                            mob.hurt(this.damageSources().thorns(this), (float) 2 + this.random.nextInt(8));
-                        }
-                        this.playSound(SoundEvents.THORNS_HIT, 0.5F, 1.0F);
-                    }
-                });
-            }
-        }
-
         if (ScrapsExtrasCommonConfig.AILMENT_SYSTEM.get()) {
             if (livestockOverhaulScraps$becomeSickRand <= livestockOverhaulScraps$becomeSickChance) {
 
@@ -324,8 +380,9 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
         }
     }
 
-    @Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true)
-    public void mobInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
+
+    @Override
+    public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
         Item item = itemstack.getItem();
 
@@ -340,29 +397,11 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
                     this.removeEffect(SEEffects.DIRTY.get());
                 }
                 this.playSound(SoundEvents.BRUSH_GENERIC, 0.5f, 1f);
-                cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
-            } else if (itemstack.is(SEItems.COLLAR_SPIKES.get()) && this.isCollared()) {
-                this.getCapability(SECapabilities.SPIKE_COLLAR_CAPABILITY).ifPresent(cap -> {
-                    cap.setSpikeCollared(true);
-                    SyncSpikeCollarLayerPacket.syncToTracking(this, true);
-                });
-                this.playSound(SoundEvents.ARMOR_EQUIP_GENERIC, 0.5f, 1f);
-                cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
-            } else if (itemstack.is(Tags.Items.SHEARS)) {
-                this.getCapability(SECapabilities.SPIKE_COLLAR_CAPABILITY).ifPresent(cap -> {
-                    if (cap.hasSpikeCollar()) {
-                        cap.setSpikeCollared(false);
-                        SyncSpikeCollarLayerPacket.syncToTracking(this, false);
-                    }
-                });
-                this.spawnAtLocation(SEItems.COLLAR_SPIKES.get());
-                this.playSound(SoundEvents.SHEEP_SHEAR, 0.5f, 1f);
-                cir.setReturnValue(super.mobInteract(player, hand));
-//                cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
+                return InteractionResult.sidedSuccess(this.level().isClientSide);
             }
 
             if (this.isHungry() || this.hasEffect(SEEffects.HUNGER.get())) {
-                if (itemstack.is(SEItems.KIBBLE.get())) {
+                if (itemstack.is(SEItems.GRAIN_FEED.get())) {
                     this.setHungry(false);
                     if (this.hasEffect(SEEffects.HUNGER.get())) {
                         this.removeEffect(SEEffects.HUNGER.get());
@@ -370,8 +409,10 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
                     if (!player.getAbilities().instabuild) {
                         itemstack.shrink(1);
                     }
-                    cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
-                } else if (itemstack.is(SEItems.HEARTY_KIBBLE.get())) {
+                    return InteractionResult.sidedSuccess(this.level().isClientSide);
+                }
+
+                if (itemstack.is(SEItems.HEARTY_GRAIN_FEED.get())) {
                     this.setHungry(false);
                     if (this.hasEffect(SEEffects.HUNGER.get())) {
                         this.removeEffect(SEEffects.HUNGER.get());
@@ -386,17 +427,87 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
                     if (!player.getAbilities().instabuild) {
                         itemstack.shrink(1);
                     }
-                    cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
+                    return InteractionResult.sidedSuccess(this.level().isClientSide);
                 }
             }
 
             if (itemstack.is(SEItems.HEARTWORM_MEDICINE.get())) {
                 livestockOverhaulScraps$heartwormMedTick = ScrapsExtrasCommonConfig.HEARTWORM_MED_GRACE.get();
-                cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
+                return InteractionResult.sidedSuccess(this.level().isClientSide);
+            }
+
+            if (itemstack.is(SEItems.HOOF_PICK.get())) {
+                livestockOverhaulScraps$hoofPickTick = ScrapsExtrasCommonConfig.HOOF_PICK_GRACE.get();
+                return InteractionResult.sidedSuccess(this.level().isClientSide);
+            }
+
+            if (itemstack.is(Items.SHEARS) && player.isShiftKeyDown()) {
+                if (this.getCapability(SECapabilities.HALTER_CAPABILITY).isPresent()) {
+                    HalterCapabilityInterface halterCapabilityInterface = this.getCapability(SECapabilities.HALTER_CAPABILITY).orElse(null);
+                    HalterColorCapabilityInterface halterColorCapabilityInterface = this.getCapability(SECapabilities.HALTER_COLOR_CAPABILITY).orElse(null);
+                    if (halterCapabilityInterface.hasHalter()) {
+                        halterCapabilityInterface.setHaltered(false);
+                        SyncHalterLayerPacket.syncToTracking(this, false);
+                        DyeColor dyeColor = DyeColor.byId(halterColorCapabilityInterface.getHalterColor().getId());
+                        Item halter = switch (dyeColor) {
+                            case WHITE -> SEItems.WHITE_HALTER.get();
+                            case ORANGE -> SEItems.ORANGE_HALTER.get();
+                            case MAGENTA -> SEItems.MAGENTA_HALTER.get();
+                            case LIGHT_BLUE -> SEItems.LIGHT_BLUE_HALTER.get();
+                            case YELLOW -> SEItems.YELLOW_HALTER.get();
+                            case LIME -> SEItems.LIME_HALTER.get();
+                            case PINK -> SEItems.PINK_HALTER.get();
+                            case GRAY -> SEItems.GREY_HALTER.get();
+                            case LIGHT_GRAY -> SEItems.LIGHT_GREY_HALTER.get();
+                            case CYAN -> SEItems.CYAN_HALTER.get();
+                            case PURPLE -> SEItems.PURPLE_HALTER.get();
+                            case BLUE -> SEItems.BLUE_HALTER.get();
+                            case BROWN -> SEItems.BROWN_HALTER.get();
+                            case GREEN -> SEItems.GREEN_HALTER.get();
+                            case RED -> SEItems.RED_HALTER.get();
+                            case BLACK -> SEItems.BLACK_HALTER.get();
+                        };
+                        spawnAtLocation(halter);
+                        this.playSound(SoundEvents.SHEEP_SHEAR, 0.5f, 1f);
+                        return InteractionResult.sidedSuccess(this.level().isClientSide);
+                    }
+                }
+
+                if (this.isEquine(this)) {
+                    AbstractOMount equine = this;
+                    equine.setFlowerType(0);
+                    equine.setFlowerItem(Items.AIR.getDefaultInstance());
+                }
+
+                if (this.hasChest() && this.isOwnedBy(player)) {
+                    this.dropEquipment();
+                    this.inventory.removeAllItems();
+                    this.setChest(false);
+                    this.playChestEquipsSound();
+
+                    return InteractionResult.sidedSuccess(this.level().isClientSide);
+                }
+            }
+
+            if (item instanceof HalterItem) {
+                HalterItem halterItem = (HalterItem)item;
+                this.getCapability(SECapabilities.HALTER_CAPABILITY).ifPresent(cap -> {
+                    cap.setHaltered(true);
+                    SyncHalterLayerPacket.syncToTracking(this, true);
+                });
+                DyeColor dyecolor = halterItem.getDyeColor();
+                this.getCapability(SECapabilities.HALTER_COLOR_CAPABILITY).ifPresent(cap -> {
+                    cap.setHalterColor(dyecolor);
+                    SyncHalterColorPacket.syncToTracking(this, dyecolor);
+                    if (!player.getAbilities().instabuild) {
+                        itemstack.shrink(1);
+                    }
+                });
+                return InteractionResult.SUCCESS;
             }
         }
 
-//        cir.setReturnValue(super.mobInteract(player, hand));
+        return super.mobInteract(player, hand);
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
@@ -408,7 +519,10 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
         tag.putInt("SickChance", this.livestockOverhaulScraps$becomeSickChance);
         tag.putInt("SickChanceMod", this.livestockOverhaulScraps$becomeSickChanceMod);
         tag.putInt("SickTick", this.livestockOverhaulScraps$sickTick);
+        tag.putInt("SaddleSoreTick", this.livestockOverhaulScraps$saddleSoreTick);
+        tag.putInt("RainRotTick", this.livestockOverhaulScraps$rainRotTick);
         tag.putInt("HeartwormMedTick", this.livestockOverhaulScraps$heartwormMedTick);
+        tag.putInt("HoofPickTick", this.livestockOverhaulScraps$hoofPickTick);
         tag.putBoolean("Hungry", this.isHungry());
     }
 
@@ -421,13 +535,15 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
         if (tag.contains("SickChance")) {this.livestockOverhaulScraps$becomeSickChance = tag.getInt("SickChance");}
         if (tag.contains("SickChanceMod")) {this.livestockOverhaulScraps$becomeSickChanceMod = tag.getInt("SickChanceMod");}
         if (tag.contains("SickTick")) {this.livestockOverhaulScraps$sickTick = tag.getInt("SickTick");}
+        if (tag.contains("SaddleSoreTick")) {this.livestockOverhaulScraps$saddleSoreTick = tag.getInt("SaddleSoreTick");}
+        if (tag.contains("RainRotTick")) {this.livestockOverhaulScraps$rainRotTick = tag.getInt("RainRotTick");}
         if (tag.contains("HeartwormMedTick")) {this.livestockOverhaulScraps$heartwormMedTick = tag.getInt("HeartwormMedTick");}
+        if (tag.contains("HoofPickTick")) {this.livestockOverhaulScraps$hoofPickTick = tag.getInt("HoofPickTick");}
         if (tag.contains("Hungry")) this.setHungry(tag.getBoolean("Hungry"));
     }
 
     @Inject(method = "finalizeSpawn", at = @At("TAIL"))
     private void spawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, SpawnGroupData data, CompoundTag tag, CallbackInfoReturnable<SpawnGroupData> cir) {
-        Random random = new Random();
         CompoundTag nbt = this.getPersistentData();
         if (!nbt.getBoolean("loextras_initialized")) {
             BaseImmunityHelper.setBaseImmunity(this);
@@ -438,8 +554,16 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
 
     @Inject(method = "predicate", at = @At("HEAD"), remap = false, cancellable = true)
     private <T extends GeoAnimatable> void predicate(AnimationState<T> tAnimationState, CallbackInfoReturnable<PlayState> cir) {
+        double x = this.getX() - this.xo;
+        double z = this.getZ() - this.zo;
         double currentSpeed = this.getDeltaMovement().lengthSqr();
-        double speedThreshold = 0.015;
+        double speedThreshold = 0.025;
+        double speedRunThreshold = 0.02;
+
+        boolean isMoving = (x * x + z * z) > 0.0001;
+
+        double movementSpeed = this.getAttributeBaseValue(Attributes.MOVEMENT_SPEED);
+        double animationSpeed = Math.max(0.1, movementSpeed);
 
         AnimationController<T> controller = tAnimationState.getController();
 
@@ -448,29 +572,64 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
             sleepingCap = this.getCapability(SECapabilities.SLEEPING_CAPABILITY).orElse(null);
         }
 
-        if (tAnimationState.isMoving()) {
-            if (currentSpeed > speedThreshold) {
-                controller.setAnimation(RawAnimation.begin().then("run", Animation.LoopType.LOOP));
-                controller.setAnimationSpeed(1.3);
-            } else {
-                controller.setAnimation(RawAnimation.begin().then("walk", Animation.LoopType.LOOP));
-                controller.setAnimationSpeed(1.3);
+        if (isMoving) {
+            if (!LivestockOverhaulClientEvent.HORSE_WALK_BACKWARDS.isDown()) {
+                if (this.isAggressive() || (this.isVehicle() && this.getAttribute(Attributes.MOVEMENT_SPEED).hasModifier(SPRINT_SPEED_MOD)) || (!this.isVehicle() && currentSpeed > speedThreshold)) {
+                    controller.setAnimation(RawAnimation.begin().then("trot_sprint", Animation.LoopType.LOOP));
+                    controller.setAnimationSpeed(Math.max(0.1, 0.84 * controller.getAnimationSpeed() + animationSpeed));
+
+                } else if ((this.isVehicle() && !this.getAttribute(Attributes.MOVEMENT_SPEED).hasModifier(WALK_SPEED_MOD) && !this.getAttribute(Attributes.MOVEMENT_SPEED).hasModifier(SPRINT_SPEED_MOD) && !this.getAttribute(Attributes.MOVEMENT_SPEED).hasModifier(TROT_SPEED_MOD))
+                        || (!this.isVehicle() && currentSpeed > speedRunThreshold && currentSpeed < speedThreshold)) {
+                    if (this.isOnSand()) {
+                        controller.setAnimation(RawAnimation.begin().then("trot", Animation.LoopType.LOOP));
+                        controller.setAnimationSpeed(Math.max(0.1, 0.84 * controller.getAnimationSpeed() + animationSpeed));
+                    } else {
+                        controller.setAnimation(RawAnimation.begin().then("trot", Animation.LoopType.LOOP));
+                        controller.setAnimationSpeed(Math.max(0.1, 0.78 * controller.getAnimationSpeed() + animationSpeed));
+                    }
+
+                } else if (this.isVehicle() && this.getAttribute(Attributes.MOVEMENT_SPEED).hasModifier(WALK_SPEED_MOD)) {
+                    if (this.isOnSand()) {
+                        controller.setAnimation(RawAnimation.begin().then("walk", Animation.LoopType.LOOP));
+                        controller.setAnimationSpeed(Math.max(0.1, 0.88 * controller.getAnimationSpeed() + animationSpeed));
+                    } else {
+                        controller.setAnimation(RawAnimation.begin().then("walk", Animation.LoopType.LOOP));
+                        controller.setAnimationSpeed(Math.max(0.1, 0.82 * controller.getAnimationSpeed() + animationSpeed));
+                    }
+
+                } else {
+                    controller.setAnimation(RawAnimation.begin().then("walk", Animation.LoopType.LOOP));
+                    controller.setAnimationSpeed(Math.max(0.1, 0.80 * controller.getAnimationSpeed() + animationSpeed));
+                }
+
+            } else if (this.isVehicle() && LivestockOverhaulClientEvent.HORSE_WALK_BACKWARDS.isDown()) {
+                if (this.getAttribute(Attributes.MOVEMENT_SPEED).hasModifier(WALK_SPEED_MOD)) {
+                    controller.setAnimation(RawAnimation.begin().then("walk_back", Animation.LoopType.LOOP));
+                    controller.setAnimationSpeed(Math.max(0.1, 0.76 * controller.getAnimationSpeed() + animationSpeed));
+                } else {
+                    controller.setAnimation(RawAnimation.begin().then("walk_back", Animation.LoopType.LOOP));
+                    controller.setAnimationSpeed(Math.max(0.1, 0.83 * controller.getAnimationSpeed() + animationSpeed));
+                }
             }
+
         } else {
-            if (sleepingCap != null && sleepingCap.isSleeping()) {
+            if (this.isGroundTied()) {
+                controller.setAnimation(RawAnimation.begin().then("ground_tie", Animation.LoopType.LOOP));
+            } else if (sleepingCap != null && sleepingCap.isSleeping()) {
                 controller.setAnimation(RawAnimation.begin().then("sleep", Animation.LoopType.LOOP));
-                controller.setAnimationSpeed(1.0);
-            } else if (isInSittingPose()) {
-                controller.setAnimation(RawAnimation.begin().then("sit", Animation.LoopType.LOOP));
-                controller.setAnimationSpeed(1.0);
-            } else if (this.isWagging()) {
-                controller.setAnimation(RawAnimation.begin().then("wag", Animation.LoopType.LOOP));
-                controller.setAnimationSpeed(1.0);
             } else {
                 controller.setAnimation(RawAnimation.begin().then("idle", Animation.LoopType.LOOP));
             }
+            controller.setAnimationSpeed(1.0);
         }
         cir.setReturnValue(PlayState.CONTINUE);
+    }
+
+    @Inject(method = "canMate", at = @At("HEAD"), cancellable = true)
+    public void canMate(Animal animal, CallbackInfoReturnable<Boolean> cir) {
+        if (this.isHungry() || livestockOverhaulScraps$pregnantTick > 0) {
+            cir.setReturnValue(false);
+        }
     }
 
     /**
@@ -479,123 +638,61 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
      */
     @Overwrite
     public AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
-        DogBase pup;
-        ImmunityCapabilityInterface immunityCap = this.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
-        TraitCapabilityInterface traitCap = this.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
-        if (ageableMob instanceof ODog dogPartner) {
-            pup = POEntityTypes.O_DOG_ENTITY.get().create(serverLevel);
-            ImmunityCapabilityInterface partnerimmunityCap = dogPartner.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
-            TraitCapabilityInterface partnertraitCap = dogPartner.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
-            ImmunityCapabilityInterface pupimmunityCap = pup.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
-            TraitCapabilityInterface puptraitCap = pup.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
+        OCamel calf = (OCamel) ageableMob;
 
-            ((ODog) pup).setBreed(25);
+        if (ageableMob instanceof OCamel) {
+            OCamel partnerCamel = (OCamel) ageableMob;
+            calf = EntityTypes.O_CAMEL_ENTITY.get().create(serverLevel);
+            ImmunityCapabilityInterface immunityCap = this.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
+            TraitCapabilityInterface traitCap = this.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
+            ImmunityCapabilityInterface partnerimmunityCap = partnerCamel.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
+            ImmunityCapabilityInterface calfimmunityCap = calf.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
+            TraitCapabilityInterface partnertraitCap = partnerCamel.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
+            TraitCapabilityInterface calftraitCap = calf.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
 
-            int variantChance = this.random.nextInt(100);
-            if (variantChance < 50) {
-                ((ODog) pup).setVariant(dogPartner.getVariant());
-            } else {
-                ((ODog) pup).setColor();
-            }
-
-            int overlayChance = this.random.nextInt(100);
-            if (overlayChance < 40) {
-                ((ODog) pup).setOverlayVariant(dogPartner.getOverlayVariant());
-            } else if (overlayChance < 80) {
-                ((ODog) pup).setOverlayVariant(20);
-            } else {
-                ((ODog) pup).setMarking();
-            }
-
-            int traitChance = this.random.nextInt(100);
-            int trait;
-            if (traitChance < ((100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get()) / 2)) {
-                trait = traitCap.getTrait();
-                puptraitCap.setTrait(trait);
-                SyncTraitPacket.syncToTracking(pup, trait);
-            } else if (traitChance < (100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get())) {
-                trait = partnertraitCap.getTrait();
-                puptraitCap.setTrait(trait);
-                SyncTraitPacket.syncToTracking(pup, trait);
-            } else {
-                ((ITraitByBreedTypeHolder) pup).setTraitByBreedType();
-            }
-
-            int immunityChance = this.random.nextInt(100);
-            int immunity;
-            if (immunityChance < ((100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get()) / 2)) {
-                immunity = immunityCap.getImmunity();
-                if (random.nextDouble() < 0.25) {
-                    pupimmunityCap.setImmunity(immunity + random.nextInt(1,25));
-                    SyncImmunityPacket.syncToTracking(pup, immunity);
-                } else {
-                    pupimmunityCap.setImmunity(immunity);
-                    SyncImmunityPacket.syncToTracking(pup, immunity);
-                }
-            } else if (immunityChance < (100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get())) {
-                immunity = partnerimmunityCap.getImmunity();
-                if (random.nextDouble() < 0.25) {
-                    pupimmunityCap.setImmunity(immunity + random.nextInt(1,25));
-                    SyncImmunityPacket.syncToTracking(pup, immunity);
-                } else {
-                    pupimmunityCap.setImmunity(immunity);
-                    SyncImmunityPacket.syncToTracking(pup, immunity);
-                }
-            } else {
-                int baseImmunity = random.nextInt(1, 100);
-                pupimmunityCap.setImmunity(random.nextInt(baseImmunity));
-                SyncImmunityPacket.syncToTracking(pup, random.nextInt(baseImmunity));
-            }
-
-            BabyTraitHelper.setTraitEffect(pup);
-            ((ODog) pup).setCropped(1);
-            ((ODog) pup).setFluffChance();
-            ((ODog) pup).setODogAttributes();
-
-        } else {
-            OWolf partner = (OWolf) ageableMob;
-            pup = POEntityTypes.O_WOLF_ENTITY.get().create(serverLevel);
-            ImmunityCapabilityInterface partnerimmunityCap = partner.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
-            TraitCapabilityInterface partnertraitCap = partner.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
-            ImmunityCapabilityInterface pupimmunityCap = pup.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
-            TraitCapabilityInterface puptraitCap = pup.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
-
-            int variantChance = this.random.nextInt(100);
+            int i = this.random.nextInt(100);
             int variant;
-            if (variantChance < 40) {
+            if (i < ((100 - LivestockOverhaulCommonConfig.COAT_CHANCE.get()) / 2)) {
                 variant = this.getVariant();
-            } else if (variantChance < 80) {
-                variant = partner.getVariant();
+            } else if (i < (100 - LivestockOverhaulCommonConfig.COAT_CHANCE.get())) {
+                variant = partnerCamel.getVariant();
             } else {
-                variant = this.random.nextInt(OWolfModel.Variant.values().length);
+                variant = this.random.nextInt(OCamelModel.Variant.values().length);
             }
-            ((OWolf) pup).setVariant(variant);
 
-            int overlayChance = this.random.nextInt(100);
+            int j = this.random.nextInt(100);
             int overlay;
-            if (overlayChance < 40) {
+            if (j < ((100 - LivestockOverhaulCommonConfig.MARKING_CHANCE.get()) / 2)) {
                 overlay = this.getOverlayVariant();
-            } else if (overlayChance < 80) {
-                overlay = partner.getOverlayVariant();
+            } else if (j < (100 - LivestockOverhaulCommonConfig.MARKING_CHANCE.get())) {
+                overlay = partnerCamel.getOverlayVariant();
             } else {
-                overlay = this.random.nextInt(OWolfMarkingLayer.Overlay.values().length);
+                overlay = this.random.nextInt(OCamelMarkingLayer.Overlay.values().length);
             }
-            ((OWolf) pup).setOverlayVariant(overlay);
+
+            int breedChance = this.random.nextInt(100);
+            int breed;
+            if (breedChance < ((100 - LivestockOverhaulCommonConfig.BREED_CHANCE.get()) / 2)) {
+                breed = this.getBreed();
+            } else if (breedChance < (100 - LivestockOverhaulCommonConfig.BREED_CHANCE.get())) {
+                breed = partnerCamel.getBreed();
+            } else {
+                breed = this.random.nextInt(CamelBreed.Breed.values().length);
+            }
+            partnerCamel.setBreed(breed);
 
             int traitChance = this.random.nextInt(100);
             int trait;
             if (traitChance < ((100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get()) / 2)) {
                 trait = traitCap.getTrait();
-                puptraitCap.setTrait(trait);
-                SyncTraitPacket.syncToTracking(pup, trait);
+                calftraitCap.setTrait(trait);
+                SyncTraitPacket.syncToTracking(calf, trait);
             } else if (traitChance < (100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get())) {
                 trait = partnertraitCap.getTrait();
-                puptraitCap.setTrait(trait);
-                SyncTraitPacket.syncToTracking(pup, trait);
+                calftraitCap.setTrait(trait);
+                SyncTraitPacket.syncToTracking(calf, trait);
             } else {
-                trait = random.nextInt(Trait.values().length);
-                puptraitCap.setTrait(trait);
-                SyncTraitPacket.syncToTracking(pup, trait);
+                ((ITraitByBreedTypeHolder) calf).setTraitByBreedType();
             }
 
             int immunityChance = this.random.nextInt(100);
@@ -603,29 +700,29 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
             if (immunityChance < ((100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get()) / 2)) {
                 immunity = immunityCap.getImmunity();
                 if (random.nextDouble() < 0.25) {
-                    pupimmunityCap.setImmunity(immunity + random.nextInt(1,25));
-                    SyncImmunityPacket.syncToTracking(pup, immunity);
+                    calfimmunityCap.setImmunity(immunity + random.nextInt(1,25));
+                    SyncImmunityPacket.syncToTracking(calf, immunity);
                 } else {
-                    pupimmunityCap.setImmunity(immunity);
-                    SyncImmunityPacket.syncToTracking(pup, immunity);
+                    calfimmunityCap.setImmunity(immunity);
+                    SyncImmunityPacket.syncToTracking(calf, immunity);
                 }
             } else if (immunityChance < (100 - LivestockOverhaulCommonConfig.OTHER_CHANCE.get())) {
                 immunity = partnerimmunityCap.getImmunity();
                 if (random.nextDouble() < 0.25) {
-                    pupimmunityCap.setImmunity(immunity + random.nextInt(1,25));
-                    SyncImmunityPacket.syncToTracking(pup, immunity);
+                    calfimmunityCap.setImmunity(immunity + random.nextInt(1,25));
+                    SyncImmunityPacket.syncToTracking(calf, immunity);
                 } else {
-                    pupimmunityCap.setImmunity(immunity);
-                    SyncImmunityPacket.syncToTracking(pup, immunity);
+                    calfimmunityCap.setImmunity(immunity);
+                    SyncImmunityPacket.syncToTracking(calf, immunity);
                 }
             } else {
                 int baseImmunity = random.nextInt(1, 100);
-                pupimmunityCap.setImmunity(random.nextInt(baseImmunity));
-                SyncImmunityPacket.syncToTracking(pup, random.nextInt(baseImmunity));
+                calfimmunityCap.setImmunity(random.nextInt(baseImmunity));
+                SyncImmunityPacket.syncToTracking(calf, random.nextInt(baseImmunity));
             }
 
-            BabyTraitHelper.setTraitEffect(pup);
-            ((ISickModHolder) pup).setSickChance(100 - pupimmunityCap.getImmunity());
+            BabyTraitHelper.setTraitEffect(calf);
+            ((ISickModHolder) calf).setSickChance(100 - calfimmunityCap.getImmunity());
             if (immunityCap.getImmunity() > 100) {
                 immunityCap.setImmunity(100);
                 SyncImmunityPacket.syncToTracking(this, 100);
@@ -633,12 +730,14 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
                 immunityCap.setImmunity(1);
                 SyncImmunityPacket.syncToTracking(this, 1);
             }
+
+            calf.setVariant(variant);
+            calf.setOverlayVariant(overlay);
+            calf.setGender(random.nextInt(Gender.values().length));
+            calf.setBreed(breed);
         }
 
-        CompoundTag nbt = this.getPersistentData();
-        nbt.putBoolean("loextras_initialized", true);
-        pup.setGender(random.nextInt(DogBase.Gender.values().length));
-        return pup;
+        return calf;
     }
 
 }

@@ -92,6 +92,11 @@ public abstract class OCatMixin extends TamableAnimal implements DirtyCapability
         this.setHungry(false);
     }
 
+    @Override
+    public void setBaby(boolean p_146756_) {
+        this.setAge(p_146756_ ? -ScrapsExtrasCommonConfig.SMALL_GROWTH_TIME.get() : 0);
+    }
+
     @Inject(method = "registerGoals", at = @At("HEAD"))
     public void registerGoals(CallbackInfo ci) {
         super.registerGoals();
