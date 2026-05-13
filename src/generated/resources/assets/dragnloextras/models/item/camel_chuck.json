@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "dragnloextras:item/cooked_llama_loin"
+    "layer0": "dragnloextras:item/camel_chuck"
   }
 }

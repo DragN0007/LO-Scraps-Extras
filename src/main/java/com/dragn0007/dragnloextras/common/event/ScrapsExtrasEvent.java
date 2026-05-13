@@ -16,7 +16,8 @@ public class ScrapsExtrasEvent {
     public static void entityAttrbiuteCreationEvent(EntityAttributeCreationEvent event) {
         event.put(SEEntityTypes.HORSE_MANNEQUIN_ENTITY.get(), HorseMannequin.createAttributes().build());
         event.put(SEEntityTypes.COW_CORPSE.get(), CowCorpse.createAttributes().build());
-        event.put(SEEntityTypes.HORSE_CORPSE.get(), DonkeyCorpse.createAttributes().build());
+        event.put(SEEntityTypes.HORSE_CORPSE.get(), HorseCorpse.createAttributes().build());
+        event.put(SEEntityTypes.CAMEL_CORPSE.get(), CamelCorpse.createAttributes().build());
         event.put(SEEntityTypes.SHEEP_CORPSE.get(), SheepCorpse.createAttributes().build());
         event.put(SEEntityTypes.MULE_CORPSE.get(), MuleCorpse.createAttributes().build());
         event.put(SEEntityTypes.DONKEY_CORPSE.get(), DonkeyCorpse.createAttributes().build());

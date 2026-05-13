@@ -1,7 +1,6 @@
 package com.dragn0007.dragnloextras.common.event;
 
 import com.dragn0007.dragnlivestock.entities.camel.OCamel;
-import com.dragn0007.dragnlivestock.entities.caribou.Caribou;
 import com.dragn0007.dragnlivestock.entities.chicken.OChicken;
 import com.dragn0007.dragnlivestock.entities.cow.OCow;
 import com.dragn0007.dragnlivestock.entities.donkey.ODonkey;
@@ -20,10 +19,6 @@ import com.dragn0007.dragnloextras.network.*;
 import com.dragn0007.dragnloextras.util.ISleepAsLeaderHolder;
 import com.dragn0007.dragnloextras.util.SETags;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
-import com.dragn0007.dragnpets.entities.cat.OCat;
-import com.dragn0007.dragnpets.entities.dog.ODog;
-import com.dragn0007.dragnpets.entities.ocelot.OOcelot;
-import com.dragn0007.dragnpets.entities.wolf.OWolf;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -330,7 +325,7 @@ public class ForgeEvent {
                         player.sendSystemMessage(Component.translatable(traitText).withStyle(ChatFormatting.WHITE));
                     }
                 } else {
-                    player.sendSystemMessage(Component.translatable("The Scraps & Extras traits system is disabled on this server.").withStyle(ChatFormatting.RED));
+                    player.sendSystemMessage(Component.translatable("The Scraps & Extras ailment system doesn't apply to this animal or is disabled on this server.").withStyle(ChatFormatting.RED));
                 }
 
                 //immunity
@@ -349,7 +344,7 @@ public class ForgeEvent {
                         }
                         player.sendSystemMessage(Component.translatable("Immunity: " + immunityText).withStyle(ChatFormatting.YELLOW));
                     } else {
-                        player.sendSystemMessage(Component.translatable("The Scraps & Extras ailment system is disabled on this server.").withStyle(ChatFormatting.RED));
+                        player.sendSystemMessage(Component.translatable("The Scraps & Extras ailment system doesn't apply to this animal or is disabled on this server.").withStyle(ChatFormatting.RED));
                     }
                 }
 
@@ -488,6 +483,14 @@ public class ForgeEvent {
                     if (animal.isMeatBreed()) {
                         corpse.setMeatBreed(true);
                     }
+                    corpse.moveTo(deceased.getX(), deceased.getY(), deceased.getZ(), deceased.getYRot(), deceased.getXRot());
+                    level.addFreshEntity(corpse);
+                }
+            }
+            if (deceased instanceof OCamel animal) {
+                if (!level.isClientSide()) {
+                    CamelCorpse corpse = new CamelCorpse(SEEntityTypes.CAMEL_CORPSE.get(), level);
+                    corpse.setVariant(animal.getVariant());
                     corpse.moveTo(deceased.getX(), deceased.getY(), deceased.getZ(), deceased.getYRot(), deceased.getXRot());
                     level.addFreshEntity(corpse);
                 }

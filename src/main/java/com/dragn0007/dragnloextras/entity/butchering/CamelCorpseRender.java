@@ -7,14 +7,14 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
-public class MuleCorpseRender extends GeoEntityRenderer<MuleCorpse> {
+public class CamelCorpseRender extends GeoEntityRenderer<CamelCorpse> {
 
-    public MuleCorpseRender(EntityRendererProvider.Context renderManager) {
-        super(renderManager, new MuleCorpseModel());
+    public CamelCorpseRender(EntityRendererProvider.Context renderManager) {
+        super(renderManager, new CamelCorpseModel());
     }
 
     @Override
-    public void preRender(PoseStack poseStack, MuleCorpse entity, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void preRender(PoseStack poseStack, CamelCorpse entity, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         if (entity.getButcherStage() == 0) {
             model.getBone("head").ifPresent(b -> b.setHidden(false));
             model.getBone("neck").ifPresent(b -> b.setHidden(false));

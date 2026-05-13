@@ -94,6 +94,15 @@ public class SEItemModelProvider extends ItemModelProvider {
         simpleItem(SEItems.COOKED_HORSE_RIB);
         simpleItem(SEItems.COOKED_HORSE_SHANK);
 
+        simpleItem(SEItems.CAMEL_BRISKET);
+        simpleItem(SEItems.CAMEL_CHUCK);
+        simpleItem(SEItems.CAMEL_RIB);
+        simpleItem(SEItems.CAMEL_SHANK);
+        simpleItem(SEItems.COOKED_CAMEL_BRISKET);
+        simpleItem(SEItems.COOKED_CAMEL_CHUCK);
+        simpleItem(SEItems.COOKED_CAMEL_RIB);
+        simpleItem(SEItems.COOKED_CAMEL_SHANK);
+
         simpleItem(SEItems.MUTTON_FLANK);
         simpleItem(SEItems.MUTTON_RIB);
         simpleItem(SEItems.MUTTON_LEG);
@@ -106,24 +115,9 @@ public class SEItemModelProvider extends ItemModelProvider {
         simpleItem(SEItems.COOKED_CHICKEN_THIGH);
         simpleItem(SEItems.COOKED_CHICKEN_WING);
 
-        simpleItem(SEItems.LLAMA_RIB);
-        simpleItem(SEItems.LLAMA_LOIN);
-        simpleItem(SEItems.COOKED_LLAMA_RIB);
-        simpleItem(SEItems.COOKED_LLAMA_LOIN);
-        simpleItem(SEItems.CHEVON_RIB);
-        simpleItem(SEItems.CHEVON_LOIN);
-        simpleItem(SEItems.COOKED_CHEVON_LOIN);
-        simpleItem(SEItems.COOKED_CHEVON_RIB);
-        simpleItem(SEItems.PORK_TENDERLOIN);
-        simpleItem(SEItems.PORK_RIB_CHOP);
-        simpleItem(SEItems.COOKED_PORK_TENDERLOIN);
-        simpleItem(SEItems.COOKED_PORK_RIB_CHOP);
-        simpleItem(SEItems.CAMEL_RIB);
-        simpleItem(SEItems.CAMEL_LOIN);
-        simpleItem(SEItems.COOKED_CAMEL_RIB);
-        simpleItem(SEItems.COOKED_CAMEL_LOIN);
         simpleItem(SEItems.RABBIT_THIGH);
         simpleItem(SEItems.COOKED_RABBIT_THIGH);
+
         simpleItem(SEItems.SALMON_FILLET);
         simpleItem(SEItems.COD_FILLET);
         simpleItem(SEItems.COOKED_SALMON_FILLET);

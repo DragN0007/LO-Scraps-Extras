@@ -1,6 +1,5 @@
 package com.dragn0007.dragnloextras.util;
 
-import com.dragn0007.dragnloextras.entity.butchering.Corpse;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 public class ScrapsExtrasCommonConfig {
@@ -61,6 +60,9 @@ public class ScrapsExtrasCommonConfig {
     public static final ForgeConfigSpec.BooleanValue SLEEPING;
     public static final ForgeConfigSpec.BooleanValue SWIMMING;
     public static final ForgeConfigSpec.ConfigValue<Integer> CORPSE_DECOMP_TIMER;
+    public static final ForgeConfigSpec.ConfigValue<Integer> SMALL_GROWTH_TIME;
+    public static final ForgeConfigSpec.ConfigValue<Integer> MEDIUM_GROWTH_TIME;
+    public static final ForgeConfigSpec.ConfigValue<Integer> LARGE_GROWTH_TIME;
 
     static {
         BUILDER.comment("Welcome to Scraps & Extras! Here, you can configure this entire mod to your liking. " +
@@ -161,6 +163,12 @@ public class ScrapsExtrasCommonConfig {
         SWIMMING = BUILDER.define("Mounts Can Swim", true);
         CORPSE_DECOMP_TIMER = BUILDER.comment("The amount of time it takes for an animal carcass to decompose (despawn). Default is 6000 ticks (5 minutes).")
                 .define("Animal Carcass Despawn Time", 6000);
+        SMALL_GROWTH_TIME = BUILDER.comment("The amount of time it takes for a small-sized baby animal to grow up. Default is 168,000 ticks.")
+                .define("Small Animal Growth Time", 168000);
+        MEDIUM_GROWTH_TIME = BUILDER.comment("The amount of time it takes for a medium-sized baby animal to grow up. Default is 252,000 ticks.")
+                .define("Medium Animal Growth Time", 252000);
+        LARGE_GROWTH_TIME = BUILDER.comment("The amount of time it takes for a large-sized baby animal to grow up. Default is 336,000 ticks.")
+                .define("Large Animal Growth Time", 336000);
         BUILDER.pop();
 
         SPEC = BUILDER.build();

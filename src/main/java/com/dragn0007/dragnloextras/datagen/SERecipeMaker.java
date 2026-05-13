@@ -571,6 +571,31 @@ public class SERecipeMaker extends RecipeProvider implements IConditionBuilder {
         SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.HORSE_SHANK.get()), RecipeCategory.MISC, SEItems.COOKED_HORSE_SHANK.get(), 0.35F, 600)
                 .unlockedBy("has_horse_shank", has(SEItems.HORSE_SHANK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_HORSE_SHANK.get() + "_campfire_cooking"));
 
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.CAMEL_BRISKET.get()), RecipeCategory.MISC, SEItems.COOKED_CAMEL_BRISKET.get(), 0.35F, 100)
+                .unlockedBy("has_camel_brisket", has(SEItems.CAMEL_BRISKET.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CAMEL_BRISKET.get() + "_smoking"));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.CAMEL_BRISKET.get()), RecipeCategory.MISC, SEItems.COOKED_CAMEL_BRISKET.get(), 0.35F, 200)
+                .unlockedBy("has_camel_brisket", has(SEItems.CAMEL_BRISKET.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CAMEL_BRISKET.get() + "_smelting"));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.CAMEL_BRISKET.get()), RecipeCategory.MISC, SEItems.COOKED_CAMEL_BRISKET.get(), 0.35F, 600)
+                .unlockedBy("has_camel_brisket", has(SEItems.CAMEL_BRISKET.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CAMEL_BRISKET.get() + "_campfire_cooking"));
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.CAMEL_CHUCK.get()), RecipeCategory.MISC, SEItems.COOKED_CAMEL_CHUCK.get(), 0.35F, 100)
+                .unlockedBy("has_camel_chuck", has(SEItems.CAMEL_CHUCK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CAMEL_CHUCK.get() + "_smoking"));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.CAMEL_CHUCK.get()), RecipeCategory.MISC, SEItems.COOKED_CAMEL_CHUCK.get(), 0.35F, 200)
+                .unlockedBy("has_camel_chuck", has(SEItems.CAMEL_CHUCK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CAMEL_CHUCK.get() + "_smelting"));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.CAMEL_CHUCK.get()), RecipeCategory.MISC, SEItems.COOKED_CAMEL_CHUCK.get(), 0.35F, 600)
+                .unlockedBy("has_camel_chuck", has(SEItems.CAMEL_CHUCK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CAMEL_CHUCK.get() + "_campfire_cooking"));
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.CAMEL_RIB.get()), RecipeCategory.MISC, SEItems.COOKED_CAMEL_RIB.get(), 0.35F, 100)
+                .unlockedBy("has_camel_rib", has(SEItems.CAMEL_RIB.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CAMEL_RIB.get() + "_smoking"));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.CAMEL_RIB.get()), RecipeCategory.MISC, SEItems.COOKED_CAMEL_RIB.get(), 0.35F, 200)
+                .unlockedBy("has_camel_rib", has(SEItems.CAMEL_RIB.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CAMEL_RIB.get() + "_smelting"));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.CAMEL_RIB.get()), RecipeCategory.MISC, SEItems.COOKED_CAMEL_RIB.get(), 0.35F, 600)
+                .unlockedBy("has_camel_rib", has(SEItems.CAMEL_RIB.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CAMEL_RIB.get() + "_campfire_cooking"));
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.CAMEL_SHANK.get()), RecipeCategory.MISC, SEItems.COOKED_CAMEL_SHANK.get(), 0.35F, 100)
+                .unlockedBy("has_camel_shank", has(SEItems.CAMEL_SHANK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CAMEL_SHANK.get() + "_smoking"));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.CAMEL_SHANK.get()), RecipeCategory.MISC, SEItems.COOKED_CAMEL_SHANK.get(), 0.35F, 200)
+                .unlockedBy("has_camel_shank", has(SEItems.CAMEL_SHANK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CAMEL_SHANK.get() + "_smelting"));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.CAMEL_SHANK.get()), RecipeCategory.MISC, SEItems.COOKED_CAMEL_SHANK.get(), 0.35F, 600)
+                .unlockedBy("has_camel_shank", has(SEItems.CAMEL_SHANK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CAMEL_SHANK.get() + "_campfire_cooking"));
+
         SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.MUTTON_FLANK.get()), RecipeCategory.MISC, SEItems.COOKED_MUTTON_FLANK.get(), 0.35F, 100)
                 .unlockedBy("has_mutton_flank", has(SEItems.MUTTON_FLANK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_MUTTON_FLANK.get() + "_smoking"));
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.MUTTON_FLANK.get()), RecipeCategory.MISC, SEItems.COOKED_MUTTON_FLANK.get(), 0.35F, 200)

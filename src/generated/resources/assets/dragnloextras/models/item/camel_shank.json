@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "dragnloextras:item/pork_tenderloin"
+    "layer0": "dragnloextras:item/camel_shank"
   }
 }

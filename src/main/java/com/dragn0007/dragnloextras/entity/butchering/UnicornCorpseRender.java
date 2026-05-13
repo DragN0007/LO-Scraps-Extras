@@ -32,7 +32,6 @@ public class UnicornCorpseRender extends GeoEntityRenderer<UnicornCorpse> {
         } else if (entity.getButcherStage() == 2) {
             model.getBone("head").ifPresent(b -> b.setHidden(true));
             model.getBone("neck").ifPresent(b -> b.setHidden(true));
-            model.getBone("fat").ifPresent(b -> b.setHidden(true));
             model.getBone("front_left_leg").ifPresent(b -> b.setHidden(true));
             model.getBone("front_right_leg").ifPresent(b -> b.setHidden(false));
             model.getBone("back_left_leg").ifPresent(b -> b.setHidden(false));

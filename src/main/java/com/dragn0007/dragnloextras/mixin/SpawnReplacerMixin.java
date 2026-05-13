@@ -1,5 +1,6 @@
 package com.dragn0007.dragnloextras.mixin;
 
+import com.dragn0007.dragnlivestock.entities.camel.OCamel;
 import com.dragn0007.dragnlivestock.entities.cow.OCow;
 import com.dragn0007.dragnlivestock.entities.donkey.ODonkey;
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
@@ -88,6 +89,22 @@ public class SpawnReplacerMixin implements ISickModHolder {
                         oDonkey.getSpawnType() != MobSpawnType.BREEDING && oDonkey.getSpawnType() != MobSpawnType.SPAWN_EGG) {
                     BaseImmunityHelper.setBaseImmunity(oDonkey);
                     BaseTraitHelper.setBaseTrait(oDonkey, false);
+                    nbt.putBoolean("loextras_initialized", true);
+                }
+            }
+        }
+
+        //Camel
+        if (event.getEntity() instanceof OCamel oCamel) {
+            if (event.getEntity().getClass() == OCamel.class) {
+                if (event.getLevel().isClientSide) {
+                    return;
+                }
+                CompoundTag nbt = oCamel.getPersistentData();
+                if (!nbt.getBoolean("loextras_initialized") &&
+                        oCamel.getSpawnType() != MobSpawnType.BREEDING && oCamel.getSpawnType() != MobSpawnType.SPAWN_EGG) {
+                    BaseImmunityHelper.setBaseImmunity(oCamel);
+                    BaseTraitHelper.setBaseTrait(oCamel, false);
                     nbt.putBoolean("loextras_initialized", true);
                 }
             }

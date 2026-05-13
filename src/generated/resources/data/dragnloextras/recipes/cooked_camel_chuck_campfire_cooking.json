@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "category": "food",
+  "cookingtime": 600,
+  "experience": 0.35,
+  "ingredient": {
+    "item": "dragnloextras:camel_chuck"
+  },
+  "result": "dragnloextras:cooked_camel_chuck"
+}
