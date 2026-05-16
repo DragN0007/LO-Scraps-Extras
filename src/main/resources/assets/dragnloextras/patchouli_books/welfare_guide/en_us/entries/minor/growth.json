@@ -1,0 +1,15 @@
+{
+  "name": "Growth",
+  "icon": "minecraft:golden_apple",
+  "category": "dragnloextras:minor_category",
+  "pages": [
+    {
+      "type": "patchouli:spotlight",
+      "item": {
+        "item": "minecraft:golden_apple"
+      },
+      "title": "Animal Growth Times",
+      "text": "Animal babies grow slower depending on their size. Small animals grow at a rate of ~2.2 hours, medium animals at ~3.5 hours, and large animals at ~4.6 hours by default."
+    }
+  ]
+}

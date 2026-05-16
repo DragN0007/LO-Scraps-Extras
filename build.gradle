@@ -20,7 +20,7 @@ plugins {
 
 apply plugin: 'org.spongepowered.mixin'
 
-version = '1.20.1-0.8-DEV'
+version = '1.20.1-0.9-DEV'
 group = mod_group_id
 
 base {
