@@ -1,10 +1,15 @@
 package com.dragn0007.dragnloextras.common.event;
 
 import com.dragn0007.dragnlivestock.entities.camel.OCamel;
+import com.dragn0007.dragnlivestock.entities.caribou.Caribou;
 import com.dragn0007.dragnlivestock.entities.chicken.OChicken;
 import com.dragn0007.dragnlivestock.entities.cow.OCow;
+import com.dragn0007.dragnlivestock.entities.cow.mooshroom.OMooshroom;
 import com.dragn0007.dragnlivestock.entities.donkey.ODonkey;
+import com.dragn0007.dragnlivestock.entities.farm_goat.FarmGoat;
+import com.dragn0007.dragnlivestock.entities.goat.OGoat;
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
+import com.dragn0007.dragnlivestock.entities.llama.OLlama;
 import com.dragn0007.dragnlivestock.entities.mule.OMule;
 import com.dragn0007.dragnlivestock.entities.pig.OPig;
 import com.dragn0007.dragnlivestock.entities.rabbit.ORabbit;
@@ -503,6 +508,40 @@ public class ForgeEvent {
             if (deceased instanceof OCamel animal) {
                 if (!level.isClientSide()) {
                     CamelCorpse corpse = new CamelCorpse(SEEntityTypes.CAMEL_CORPSE.get(), level);
+                    corpse.setVariant(animal.getVariant());
+                    corpse.moveTo(deceased.getX(), deceased.getY(), deceased.getZ(), deceased.getYRot(), deceased.getXRot());
+                    level.addFreshEntity(corpse);
+                }
+            }
+            if (deceased instanceof OLlama animal) {
+                if (!level.isClientSide()) {
+                    LlamaCorpse corpse = new LlamaCorpse(SEEntityTypes.LLAMA_CORPSE.get(), level);
+                    corpse.setVariant(animal.getVariant());
+                    corpse.moveTo(deceased.getX(), deceased.getY(), deceased.getZ(), deceased.getYRot(), deceased.getXRot());
+                    level.addFreshEntity(corpse);
+                }
+            }
+            if (deceased instanceof FarmGoat animal) {
+                if (!level.isClientSide()) {
+                    FarmGoatCorpse corpse = new FarmGoatCorpse(SEEntityTypes.FARM_GOAT_CORPSE.get(), level);
+                    corpse.setVariant(animal.getVariant());
+                    corpse.setQuality(animal.getQuality());
+                    corpse.moveTo(deceased.getX(), deceased.getY(), deceased.getZ(), deceased.getYRot(), deceased.getXRot());
+                    level.addFreshEntity(corpse);
+                }
+            }
+            if (deceased instanceof OGoat animal) {
+                if (!level.isClientSide()) {
+                    GoatCorpse corpse = new GoatCorpse(SEEntityTypes.GOAT_CORPSE.get(), level);
+                    corpse.setVariant(animal.getVariant());
+                    corpse.setQuality(animal.getQuality());
+                    corpse.moveTo(deceased.getX(), deceased.getY(), deceased.getZ(), deceased.getYRot(), deceased.getXRot());
+                    level.addFreshEntity(corpse);
+                }
+            }
+            if (deceased instanceof Caribou animal) {
+                if (!level.isClientSide()) {
+                    CaribouCorpse corpse = new CaribouCorpse(SEEntityTypes.CARIBOU_CORPSE.get(), level);
                     corpse.setVariant(animal.getVariant());
                     corpse.moveTo(deceased.getX(), deceased.getY(), deceased.getZ(), deceased.getYRot(), deceased.getXRot());
                     level.addFreshEntity(corpse);

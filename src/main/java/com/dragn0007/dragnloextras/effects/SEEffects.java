@@ -77,7 +77,7 @@ public class SEEffects {
     public static final RegistryObject<MobEffect> STURDY = MOB_EFFECTS.register("sturdy",
             () -> new SturdyEffect(MobEffectCategory.BENEFICIAL, 0x5c0d12));
     public static final RegistryObject<MobEffect> SWIMMER = MOB_EFFECTS.register("swimmer",
-            () -> new UnusedTraitEffect(MobEffectCategory.BENEFICIAL, 0x5c0d12));
+            () -> new SwimmerEffect(MobEffectCategory.BENEFICIAL, 0x5c0d12));
 
     public static final RegistryObject<MobEffect> COWARDLY = MOB_EFFECTS.register("cowardly",
             () -> new CowardlyEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
@@ -92,7 +92,7 @@ public class SEEffects {
     public static final RegistryObject<MobEffect> MEAN = MOB_EFFECTS.register("mean",
             () -> new UnusedTraitEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
     public static final RegistryObject<MobEffect> SINKER = MOB_EFFECTS.register("sinker",
-            () -> new UnusedTraitEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
+            () -> new SinkerEffect(MobEffectCategory.HARMFUL, 0x5c0d12));
 
     public static void register(IEventBus eventBus) {
         MOB_EFFECTS.register(eventBus);

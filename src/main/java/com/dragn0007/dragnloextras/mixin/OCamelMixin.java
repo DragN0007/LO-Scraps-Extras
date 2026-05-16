@@ -737,6 +737,8 @@ public abstract class OCamelMixin extends AbstractOMount implements DirtyCapabil
             calf.setBreed(breed);
         }
 
+        CompoundTag nbt = this.getPersistentData();
+        nbt.putBoolean("loextras_initialized", true);
         return calf;
     }
 

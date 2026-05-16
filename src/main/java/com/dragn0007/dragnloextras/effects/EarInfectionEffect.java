@@ -34,7 +34,7 @@ public class EarInfectionEffect extends MobEffect {
                 turnIntoInfectionTick++;
                 if (turnIntoInfectionTick >= ScrapsExtrasCommonConfig.INFECTION_TICK.get() && ScrapsExtrasCommonConfig.INFECTIONS.get()) {
                     turnIntoInfectionTick = 0;
-                    if (random.nextDouble() <= 0.0008) {
+                    if (random.nextDouble() <= 0.008) {
                         entity.addEffect(new MobEffectInstance(SEEffects.INFECTION.get(), MobEffectInstance.INFINITE_DURATION, 1, true, false));
                     }
                 }

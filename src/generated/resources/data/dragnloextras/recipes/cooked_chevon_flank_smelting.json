@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "food",
+  "cookingtime": 200,
+  "experience": 0.35,
+  "ingredient": {
+    "item": "dragnloextras:chevon_flank"
+  },
+  "result": "dragnloextras:cooked_chevon_flank"
+}

@@ -131,6 +131,20 @@
   "item.dragnloextras.cooked_mutton_rib": "Cooked Mutton Rib",
   "item.dragnloextras.cooked_mutton_leg": "Cooked Mutton Leg",
 
+  "item.dragnloextras.chevon_flank": "Raw Chevon Flank",
+  "item.dragnloextras.chevon_rib": "Raw Chevon Rib",
+  "item.dragnloextras.chevon_leg": "Raw Chevon Leg",
+  "item.dragnloextras.cooked_chevon_flank": "Cooked Chevon Flank",
+  "item.dragnloextras.cooked_chevon_rib": "Cooked Chevon Rib",
+  "item.dragnloextras.cooked_chevon_leg": "Cooked Chevon Leg",
+
+  "item.dragnloextras.llama_flank": "Raw Llama Flank",
+  "item.dragnloextras.llama_rib": "Raw Llama Rib",
+  "item.dragnloextras.llama_shank": "Raw Llama Shank",
+  "item.dragnloextras.cooked_llama_flank": "Cooked Llama Flank",
+  "item.dragnloextras.cooked_llama_rib": "Cooked Llama Rib",
+  "item.dragnloextras.cooked_llama_shank": "Cooked Llama Shank",
+
   "item.dragnloextras.pork_ham": "Raw Pork Ham",
   "item.dragnloextras.pork_loin": "Raw Pork Loin",
   "item.dragnloextras.pork_belly": "Raw Pork Belly",

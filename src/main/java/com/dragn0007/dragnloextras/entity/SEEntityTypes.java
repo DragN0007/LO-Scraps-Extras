@@ -76,6 +76,30 @@ public class SEEntityTypes {
                     .sized(1.0f,1.0f)
                     .build(new ResourceLocation(MODID,"pig_corpse").toString()));
 
+    public static final RegistryObject<EntityType<LlamaCorpse>> LLAMA_CORPSE = ENTITY_TYPES.register("llama_corpse",
+            () -> EntityType.Builder.of(LlamaCorpse::new,
+                            MobCategory.CREATURE)
+                    .sized(1.5f,1.0f)
+                    .build(new ResourceLocation(MODID,"llama_corpse").toString()));
+
+    public static final RegistryObject<EntityType<GoatCorpse>> GOAT_CORPSE = ENTITY_TYPES.register("goat_corpse",
+            () -> EntityType.Builder.of(GoatCorpse::new,
+                            MobCategory.CREATURE)
+                    .sized(1.0f,1.0f)
+                    .build(new ResourceLocation(MODID,"goat_corpse").toString()));
+
+    public static final RegistryObject<EntityType<FarmGoatCorpse>> FARM_GOAT_CORPSE = ENTITY_TYPES.register("farm_goat_corpse",
+            () -> EntityType.Builder.of(FarmGoatCorpse::new,
+                            MobCategory.CREATURE)
+                    .sized(1.0f,1.0f)
+                    .build(new ResourceLocation(MODID,"farm_goat_corpse").toString()));
+
+    public static final RegistryObject<EntityType<CaribouCorpse>> CARIBOU_CORPSE = ENTITY_TYPES.register("caribou_corpse",
+            () -> EntityType.Builder.of(CaribouCorpse::new,
+                            MobCategory.CREATURE)
+                    .sized(1.5f,1.0f)
+                    .build(new ResourceLocation(MODID,"caribou_corpse").toString()));
+
     public static final RegistryObject<EntityType<UnicornCorpse>> UNICORN_CORPSE = ENTITY_TYPES.register("unicorn_corpse",
             () -> EntityType.Builder.of(UnicornCorpse::new,
                             MobCategory.CREATURE)

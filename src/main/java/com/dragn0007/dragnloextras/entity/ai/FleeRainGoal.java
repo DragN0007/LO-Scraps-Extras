@@ -37,6 +37,8 @@ public class FleeRainGoal extends Goal {
          return false;
       } else if (this.mob.isOnFire()) {
          return false;
+      } else if (this.mob.isVehicle()) {
+         return false;
       } else if (this.mob.isAggressive()) {
          return false;
       } else if (this.mob instanceof TamableAnimal tamable && (tamable.isInSittingPose() || tamable.isOrderedToSit())) {

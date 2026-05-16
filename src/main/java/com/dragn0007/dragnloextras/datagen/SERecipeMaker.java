@@ -615,6 +615,44 @@ public class SERecipeMaker extends RecipeProvider implements IConditionBuilder {
         SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.MUTTON_LEG.get()), RecipeCategory.MISC, SEItems.COOKED_MUTTON_LEG.get(), 0.35F, 600)
                 .unlockedBy("has_mutton_leg", has(SEItems.MUTTON_LEG.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_MUTTON_LEG.get() + "_campfire_cooking"));
 
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.CHEVON_FLANK.get()), RecipeCategory.MISC, SEItems.COOKED_CHEVON_FLANK.get(), 0.35F, 100)
+                .unlockedBy("has_chevon_flank", has(SEItems.CHEVON_FLANK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CHEVON_FLANK.get() + "_smoking"));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.CHEVON_FLANK.get()), RecipeCategory.MISC, SEItems.COOKED_CHEVON_FLANK.get(), 0.35F, 200)
+                .unlockedBy("has_chevon_flank", has(SEItems.CHEVON_FLANK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CHEVON_FLANK.get() + "_smelting"));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.CHEVON_FLANK.get()), RecipeCategory.MISC, SEItems.COOKED_CHEVON_FLANK.get(), 0.35F, 600)
+                .unlockedBy("has_chevon_flank", has(SEItems.CHEVON_FLANK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CHEVON_FLANK.get() + "_campfire_cooking"));
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.CHEVON_RIB.get()), RecipeCategory.MISC, SEItems.COOKED_CHEVON_RIB.get(), 0.35F, 100)
+                .unlockedBy("has_chevon_rib", has(SEItems.CHEVON_RIB.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CHEVON_RIB.get() + "_smoking"));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.CHEVON_RIB.get()), RecipeCategory.MISC, SEItems.COOKED_CHEVON_RIB.get(), 0.35F, 200)
+                .unlockedBy("has_chevon_rib", has(SEItems.CHEVON_RIB.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CHEVON_RIB.get() + "_smelting"));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.CHEVON_RIB.get()), RecipeCategory.MISC, SEItems.COOKED_CHEVON_RIB.get(), 0.35F, 600)
+                .unlockedBy("has_chevon_rib", has(SEItems.CHEVON_RIB.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CHEVON_RIB.get() + "_campfire_cooking"));
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.CHEVON_LEG.get()), RecipeCategory.MISC, SEItems.COOKED_CHEVON_LEG.get(), 0.35F, 100)
+                .unlockedBy("has_chevon_leg", has(SEItems.CHEVON_LEG.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CHEVON_LEG.get() + "_smoking"));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.CHEVON_LEG.get()), RecipeCategory.MISC, SEItems.COOKED_CHEVON_LEG.get(), 0.35F, 200)
+                .unlockedBy("has_chevon_leg", has(SEItems.CHEVON_LEG.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CHEVON_LEG.get() + "_smelting"));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.CHEVON_LEG.get()), RecipeCategory.MISC, SEItems.COOKED_CHEVON_LEG.get(), 0.35F, 600)
+                .unlockedBy("has_chevon_leg", has(SEItems.CHEVON_LEG.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_CHEVON_LEG.get() + "_campfire_cooking"));
+
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.LLAMA_FLANK.get()), RecipeCategory.MISC, SEItems.COOKED_LLAMA_FLANK.get(), 0.35F, 100)
+                .unlockedBy("has_llama_flank", has(SEItems.LLAMA_FLANK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_LLAMA_FLANK.get() + "_smoking"));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.LLAMA_FLANK.get()), RecipeCategory.MISC, SEItems.COOKED_LLAMA_FLANK.get(), 0.35F, 200)
+                .unlockedBy("has_llama_flank", has(SEItems.LLAMA_FLANK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_LLAMA_FLANK.get() + "_smelting"));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.LLAMA_FLANK.get()), RecipeCategory.MISC, SEItems.COOKED_LLAMA_FLANK.get(), 0.35F, 600)
+                .unlockedBy("has_llama_flank", has(SEItems.LLAMA_FLANK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_LLAMA_FLANK.get() + "_campfire_cooking"));
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.LLAMA_RIB.get()), RecipeCategory.MISC, SEItems.COOKED_LLAMA_RIB.get(), 0.35F, 100)
+                .unlockedBy("has_llama_rib", has(SEItems.LLAMA_RIB.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_LLAMA_RIB.get() + "_smoking"));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.LLAMA_RIB.get()), RecipeCategory.MISC, SEItems.COOKED_LLAMA_RIB.get(), 0.35F, 200)
+                .unlockedBy("has_llama_rib", has(SEItems.LLAMA_RIB.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_LLAMA_RIB.get() + "_smelting"));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.LLAMA_RIB.get()), RecipeCategory.MISC, SEItems.COOKED_LLAMA_RIB.get(), 0.35F, 600)
+                .unlockedBy("has_llama_rib", has(SEItems.LLAMA_RIB.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_LLAMA_RIB.get() + "_campfire_cooking"));
+        SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.LLAMA_SHANK.get()), RecipeCategory.MISC, SEItems.COOKED_LLAMA_SHANK.get(), 0.35F, 100)
+                .unlockedBy("has_llama_shank", has(SEItems.LLAMA_SHANK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_LLAMA_SHANK.get() + "_smoking"));
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.LLAMA_SHANK.get()), RecipeCategory.MISC, SEItems.COOKED_LLAMA_SHANK.get(), 0.35F, 200)
+                .unlockedBy("has_llama_shank", has(SEItems.LLAMA_SHANK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_LLAMA_SHANK.get() + "_smelting"));
+        SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(SEItems.LLAMA_SHANK.get()), RecipeCategory.MISC, SEItems.COOKED_LLAMA_SHANK.get(), 0.35F, 600)
+                .unlockedBy("has_llama_shank", has(SEItems.LLAMA_SHANK.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_LLAMA_SHANK.get() + "_campfire_cooking"));
+
         SimpleCookingRecipeBuilder.smoking(Ingredient.of(SEItems.PORK_HAM.get()), RecipeCategory.MISC, SEItems.COOKED_PORK_HAM.get(), 0.35F, 100)
                 .unlockedBy("has_pork_ham", has(SEItems.PORK_HAM.get())).save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, SEItems.COOKED_PORK_HAM.get() + "_smoking"));
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(SEItems.PORK_HAM.get()), RecipeCategory.MISC, SEItems.COOKED_PORK_HAM.get(), 0.35F, 200)

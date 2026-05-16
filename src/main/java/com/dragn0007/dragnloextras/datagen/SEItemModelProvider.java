@@ -117,6 +117,20 @@ public class SEItemModelProvider extends ItemModelProvider {
         simpleItem(SEItems.COOKED_MUTTON_RIB);
         simpleItem(SEItems.COOKED_MUTTON_LEG);
 
+        advancedItem(SEItems.CHEVON_FLANK, SEItems.MUTTON_FLANK.get().toString());
+        advancedItem(SEItems.CHEVON_RIB, SEItems.MUTTON_RIB.get().toString());
+        advancedItem(SEItems.CHEVON_LEG, SEItems.MUTTON_LEG.get().toString());
+        advancedItem(SEItems.COOKED_CHEVON_FLANK, SEItems.COOKED_MUTTON_FLANK.get().toString());
+        advancedItem(SEItems.COOKED_CHEVON_RIB, SEItems.COOKED_MUTTON_RIB.get().toString());
+        advancedItem(SEItems.COOKED_CHEVON_LEG, SEItems.COOKED_MUTTON_LEG.get().toString());
+
+        simpleItem(SEItems.LLAMA_FLANK);
+        simpleItem(SEItems.LLAMA_RIB);
+        simpleItem(SEItems.LLAMA_SHANK);
+        simpleItem(SEItems.COOKED_LLAMA_FLANK);
+        simpleItem(SEItems.COOKED_LLAMA_RIB);
+        simpleItem(SEItems.COOKED_LLAMA_SHANK);
+
         simpleItem(SEItems.CHICKEN_THIGH);
         simpleItem(SEItems.CHICKEN_WING);
         simpleItem(SEItems.COOKED_CHICKEN_THIGH);

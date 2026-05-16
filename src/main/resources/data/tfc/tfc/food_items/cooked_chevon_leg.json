@@ -1,0 +1,9 @@
+{
+  "ingredient": {
+    "item": "dragnloextras:cooked_chevon_leg"
+  },
+  "hunger": 4,
+  "saturation": 1.8,
+  "decay_modifier": 1.3,
+  "protein": 2
+}

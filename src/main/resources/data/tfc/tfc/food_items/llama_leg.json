@@ -1,0 +1,9 @@
+{
+  "ingredient": {
+    "item": "dragnloextras:llama_shank"
+  },
+  "hunger": 4,
+  "saturation": 0,
+  "decay_modifier": 2,
+  "protein": 2
+}

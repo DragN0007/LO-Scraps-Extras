@@ -30,12 +30,22 @@
     "dragnloextras:mutton_leg",
     "dragnloextras:mutton_rib",
 
+    "dragnloextras:llama_flank",
+    "dragnloextras:llama_shank",
+    "dragnloextras:llama_rib",
+
+    "dragnloextras:chevon_flank",
+    "dragnloextras:chevon_leg",
+    "dragnloextras:chevon_rib",
+
     "dragnloextras:pork_belly",
     "dragnloextras:pork_ham",
     "dragnloextras:pork_loin",
     
     "dragnloextras:chicken_thigh",
     "dragnloextras:chicken_wing",
+
+    "dragnloextras:rabbit_thigh",
 
     "dragnloextras:cod_fillet",
     "dragnloextras:salmon_fillet"

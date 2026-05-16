@@ -93,6 +93,13 @@ public class SEItemGroupModifier {
                         output.accept(SEItems.COOKED_HORSE_RIB.get());
                         output.accept(SEItems.COOKED_HORSE_SHANK.get());
 
+                        output.accept(SEItems.LLAMA_FLANK.get());
+                        output.accept(SEItems.LLAMA_RIB.get());
+                        output.accept(SEItems.LLAMA_SHANK.get());
+                        output.accept(SEItems.COOKED_LLAMA_FLANK.get());
+                        output.accept(SEItems.COOKED_LLAMA_RIB.get());
+                        output.accept(SEItems.COOKED_LLAMA_SHANK.get());
+
                         output.accept(SEItems.CAMEL_BRISKET.get());
                         output.accept(SEItems.CAMEL_CHUCK.get());
                         output.accept(SEItems.CAMEL_RIB.get());
@@ -101,6 +108,13 @@ public class SEItemGroupModifier {
                         output.accept(SEItems.COOKED_CAMEL_CHUCK.get());
                         output.accept(SEItems.COOKED_CAMEL_RIB.get());
                         output.accept(SEItems.COOKED_CAMEL_SHANK.get());
+
+                        output.accept(SEItems.CHEVON_FLANK.get());
+                        output.accept(SEItems.CHEVON_RIB.get());
+                        output.accept(SEItems.CHEVON_LEG.get());
+                        output.accept(SEItems.COOKED_CHEVON_FLANK.get());
+                        output.accept(SEItems.COOKED_CHEVON_RIB.get());
+                        output.accept(SEItems.COOKED_CHEVON_LEG.get());
 
                         output.accept(SEItems.PORK_HAM.get());
                         output.accept(SEItems.PORK_LOIN.get());

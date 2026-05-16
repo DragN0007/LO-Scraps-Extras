@@ -3,6 +3,14 @@
   "values": [
     "dragnloextras:mutton_flank",
     "dragnloextras:mutton_leg",
-    "dragnloextras:mutton_rib"
+    "dragnloextras:mutton_rib",
+
+    "dragnloextras:llama_flank",
+    "dragnloextras:llama_shank",
+    "dragnloextras:llama_rib",
+
+    "dragnloextras:chevon_flank",
+    "dragnloextras:chevon_leg",
+    "dragnloextras:chevon_rib"
   ]
 }

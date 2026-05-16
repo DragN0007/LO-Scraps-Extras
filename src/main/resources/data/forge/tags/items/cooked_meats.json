@@ -30,12 +30,22 @@
     "dragnloextras:cooked_mutton_leg",
     "dragnloextras:cooked_mutton_rib",
 
+    "dragnloextras:cooked_llama_flank",
+    "dragnloextras:cooked_llama_shank",
+    "dragnloextras:cooked_llama_rib",
+
+    "dragnloextras:cooked_chevon_flank",
+    "dragnloextras:cooked_chevon_leg",
+    "dragnloextras:cooked_chevon_rib",
+
     "dragnloextras:cooked_pork_belly",
     "dragnloextras:cooked_pork_ham",
     "dragnloextras:cooked_pork_loin",
 
     "dragnloextras:cooked_chicken_thigh",
     "dragnloextras:cooked_chicken_wing",
+
+    "dragnloextras:cooked_rabbit_thigh",
 
     "dragnloextras:cooked_cod_fillet",
     "dragnloextras:cooked_salmon_fillet"

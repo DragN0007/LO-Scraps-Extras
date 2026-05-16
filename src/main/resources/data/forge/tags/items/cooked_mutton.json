@@ -3,6 +3,14 @@
   "values": [
     "dragnloextras:cooked_mutton_flank",
     "dragnloextras:cooked_mutton_leg",
-    "dragnloextras:cooked_mutton_rib"
+    "dragnloextras:cooked_mutton_rib",
+
+    "dragnloextras:cooked_llama_flank",
+    "dragnloextras:cooked_llama_shank",
+    "dragnloextras:cooked_llama_rib",
+
+    "dragnloextras:cooked_chevon_flank",
+    "dragnloextras:cooked_chevon_leg",
+    "dragnloextras:cooked_chevon_rib"
   ]
 }

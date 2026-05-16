@@ -45,10 +45,4 @@ public class ScrapsExtras
         System.out.println("[DragN's LO: Scraps and Extras] Registered Livestock Overhaul: Scraps and Extras.");
         System.out.println("[DragN's LO: Scraps and Extras] This mod may work strangely on worlds and O-Animals that already exist!");
     }
-
-    //needs butchering mechanic
-//    EntityTypes.O_GOAT_ENTITY.get(),
-//    EntityTypes.O_LLAMA_ENTITY.get(),
-//    EntityTypes.FARM_GOAT_ENTITY.get(),
-//    EntityTypes.CARIBOU_ENTITY.get(),
 }

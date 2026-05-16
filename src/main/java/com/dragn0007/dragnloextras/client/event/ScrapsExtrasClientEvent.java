@@ -29,6 +29,10 @@ public class ScrapsExtrasClientEvent {
         EntityRenderers.register(SEEntityTypes.CHICKEN_CORPSE.get(), ChickenCorpseRender::new);
         EntityRenderers.register(SEEntityTypes.RABBIT_CORPSE.get(), RabbitCorpseRender::new);
         EntityRenderers.register(SEEntityTypes.PIG_CORPSE.get(), PigCorpseRender::new);
+        EntityRenderers.register(SEEntityTypes.LLAMA_CORPSE.get(), LlamaCorpseRender::new);
+        EntityRenderers.register(SEEntityTypes.GOAT_CORPSE.get(), GoatCorpseRender::new);
+        EntityRenderers.register(SEEntityTypes.FARM_GOAT_CORPSE.get(), FarmGoatCorpseRender::new);
+        EntityRenderers.register(SEEntityTypes.CARIBOU_CORPSE.get(), CaribouCorpseRender::new);
         EntityRenderers.register(SEEntityTypes.UNICORN_CORPSE.get(), UnicornCorpseRender::new);
 
         MenuScreens.register(SEMenuTypes.MANNEQUIN_MENU.get(), MannequinScreen::new);
