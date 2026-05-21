@@ -4,6 +4,7 @@ import com.dragn0007.dragnloextras.ScrapsExtras;
 import com.dragn0007.dragnloextras.items.SEItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
@@ -42,39 +43,10 @@ public class SEItemModelProvider extends ItemModelProvider {
 
         simpleItem(SEItems.RAWHIDE_SADDLE);
 
-        simpleItem(SEItems.BLACK_HALTER);
-        simpleItem(SEItems.BLUE_HALTER);
-        simpleItem(SEItems.BROWN_HALTER);
-        simpleItem(SEItems.CYAN_HALTER);
-        simpleItem(SEItems.GREEN_HALTER);
-        simpleItem(SEItems.GREY_HALTER);
-        simpleItem(SEItems.LIGHT_BLUE_HALTER);
-        simpleItem(SEItems.LIGHT_GREY_HALTER);
-        simpleItem(SEItems.LIME_HALTER);
-        simpleItem(SEItems.MAGENTA_HALTER);
-        simpleItem(SEItems.ORANGE_HALTER);
-        simpleItem(SEItems.PINK_HALTER);
-        simpleItem(SEItems.PURPLE_HALTER);
-        simpleItem(SEItems.RED_HALTER);
-        simpleItem(SEItems.WHITE_HALTER);
-        simpleItem(SEItems.YELLOW_HALTER);
-
-        simpleItem(SEItems.BLACK_TURNOUT_BLANKET);
-        simpleItem(SEItems.BLUE_TURNOUT_BLANKET);
-        simpleItem(SEItems.BROWN_TURNOUT_BLANKET);
-        simpleItem(SEItems.CYAN_TURNOUT_BLANKET);
-        simpleItem(SEItems.GREEN_TURNOUT_BLANKET);
-        simpleItem(SEItems.GREY_TURNOUT_BLANKET);
-        simpleItem(SEItems.LIGHT_BLUE_TURNOUT_BLANKET);
-        simpleItem(SEItems.LIGHT_GREY_TURNOUT_BLANKET);
-        simpleItem(SEItems.LIME_TURNOUT_BLANKET);
-        simpleItem(SEItems.MAGENTA_TURNOUT_BLANKET);
-        simpleItem(SEItems.ORANGE_TURNOUT_BLANKET);
-        simpleItem(SEItems.PINK_TURNOUT_BLANKET);
-        simpleItem(SEItems.PURPLE_TURNOUT_BLANKET);
-        simpleItem(SEItems.RED_TURNOUT_BLANKET);
-        simpleItem(SEItems.WHITE_TURNOUT_BLANKET);
-        simpleItem(SEItems.YELLOW_TURNOUT_BLANKET);
+        for (DyeColor color : DyeColor.values()) {
+            simpleItem(SEItems.HALTERS.get(color));
+            simpleItem(SEItems.TURNOUT_BLANKETS.get(color));
+        }
 
         simpleItem(SEItems.BEEF_BRISKET);
         simpleItem(SEItems.BEEF_CHUCK);

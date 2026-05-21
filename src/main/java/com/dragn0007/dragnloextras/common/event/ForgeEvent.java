@@ -4,7 +4,6 @@ import com.dragn0007.dragnlivestock.entities.camel.OCamel;
 import com.dragn0007.dragnlivestock.entities.caribou.Caribou;
 import com.dragn0007.dragnlivestock.entities.chicken.OChicken;
 import com.dragn0007.dragnlivestock.entities.cow.OCow;
-import com.dragn0007.dragnlivestock.entities.cow.mooshroom.OMooshroom;
 import com.dragn0007.dragnlivestock.entities.donkey.ODonkey;
 import com.dragn0007.dragnlivestock.entities.farm_goat.FarmGoat;
 import com.dragn0007.dragnlivestock.entities.goat.OGoat;
@@ -22,10 +21,16 @@ import com.dragn0007.dragnloextras.entity.SEEntityTypes;
 import com.dragn0007.dragnloextras.entity.butchering.*;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.network.*;
+import com.dragn0007.dragnloextras.util.IHungerHolder;
 import com.dragn0007.dragnloextras.util.ISleepAsLeaderHolder;
 import com.dragn0007.dragnloextras.util.SETags;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
+import com.dragn0007.dragnpets.entities.cat.OCat;
+import com.dragn0007.dragnpets.entities.dog.ODog;
+import com.dragn0007.dragnpets.entities.ocelot.OOcelot;
+import com.dragn0007.dragnpets.entities.wolf.OWolf;
 import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -334,6 +339,44 @@ public class ForgeEvent {
                     player.sendSystemMessage(Component.translatable("The Scraps & Extras ailment system doesn't apply to this animal or is disabled on this server.").withStyle(ChatFormatting.RED));
                 }
 
+//                //hunger
+                if (ScrapsExtrasCommonConfig.FEEDING_SYSTEM.get()) {
+                    String feedingText;
+                    if (animal.hasEffect(SEEffects.HUNGER.get())) {
+                        feedingText = "This animal is currently hungry and should be fed.";
+                        player.sendSystemMessage(Component.translatable("Feeding: " + feedingText).withStyle(ChatFormatting.YELLOW));
+                    } else {
+                        CompoundTag tag = animal.getPersistentData();
+                        if (tag.contains("HungryTick")) {
+                            int ticks = tag.getInt("HungryTick");
+                            int tickToMinutes = ticks / 1200;
+
+                            if (animal instanceof OHorse || animal instanceof OMule || animal instanceof ODonkey || animal instanceof OCamel || animal instanceof Caribou) {
+                                feedingText = "This animal has " + (ScrapsExtrasCommonConfig.HORSE_FEED_TICK.get() - tickToMinutes) + " minute(s) left until it becomes hungry.\n";
+                                player.sendSystemMessage(Component.translatable("Feeding: " + feedingText).withStyle(ChatFormatting.WHITE));
+                            }
+                            if (animal instanceof ODog) {
+                                feedingText = "This animal has " + (ScrapsExtrasCommonConfig.DOG_FEED_TICK.get() - tickToMinutes) + " minute(s) left until it becomes hungry.\n";
+                                player.sendSystemMessage(Component.translatable("Feeding: " + feedingText).withStyle(ChatFormatting.WHITE));
+                            }
+                            if (animal instanceof OWolf) {
+                                feedingText = "This animal has " + (ScrapsExtrasCommonConfig.WOLF_FEED_TICK.get() - tickToMinutes) + " minute(s) left until it becomes hungry.\n";
+                                player.sendSystemMessage(Component.translatable("Feeding: " + feedingText).withStyle(ChatFormatting.WHITE));
+                            }
+                            if (animal instanceof OCat) {
+                                feedingText = "This animal has " + (ScrapsExtrasCommonConfig.CAT_FEED_TICK.get() - tickToMinutes) + " minute(s) left until it becomes hungry.\n";
+                                player.sendSystemMessage(Component.translatable("Feeding: " + feedingText).withStyle(ChatFormatting.WHITE));
+                            }
+                            if (animal instanceof OOcelot) {
+                                feedingText = "This animal has " + (ScrapsExtrasCommonConfig.OCELOT_FEED_TICK.get() - tickToMinutes) + " minute(s) left until it becomes hungry.\n";
+                                player.sendSystemMessage(Component.translatable("Feeding: " + feedingText).withStyle(ChatFormatting.WHITE));
+                            }
+                        }
+                    }
+                } else {
+                    player.sendSystemMessage(Component.translatable("The Scraps & Extras feeding system doesn't apply to this animal or is disabled on this server.").withStyle(ChatFormatting.RED));
+                }
+
                 //immunity
                 if (ScrapsExtrasCommonConfig.AILMENT_SYSTEM.get()) {
                     if (animal.getCapability(SECapabilities.IMMUNITY_CAPABILITY).isPresent()) {
@@ -348,7 +391,7 @@ public class ForgeEvent {
                         } else if (immunityCap.getImmunity() > 75 && immunityCap.getImmunity() <= 100) {
                             immunityText = immunityCap.getImmunity() + "%" +  "\nThis animal has a great immune system and may hardly ever get sick, if at all!";
                         }
-                        player.sendSystemMessage(Component.translatable("Immunity: " + immunityText).withStyle(ChatFormatting.YELLOW));
+                        player.sendSystemMessage(Component.translatable("Immunity: " + immunityText).withStyle(ChatFormatting.WHITE));
                     } else {
                         player.sendSystemMessage(Component.translatable("The Scraps & Extras ailment system doesn't apply to this animal or is disabled on this server.").withStyle(ChatFormatting.RED));
                     }
@@ -357,35 +400,36 @@ public class ForgeEvent {
                 //illness (if applicable)
                 if (ScrapsExtrasCommonConfig.AILMENT_SYSTEM.get()) {
                     String illnessText = "";
-                    if (animal.hasEffect(SEEffects.HUNGER.get()))
-                        illnessText = "This animal is Hungry.\n";
-                    if (animal.hasEffect(SEEffects.DIRTY.get()))
-                        illnessText = "This animal is Dirty.\n";
-                    if (animal.hasEffect(SEEffects.INFECTION.get()))
+                    if (animal.hasEffect(SEEffects.IMMUNOCOMPROMISED.get())) {
+                        illnessText = "This animal is Immunocompromised - likely from extensive dirtiness or starvation.\n";
+                    } else if (animal.hasEffect(SEEffects.INFECTION.get())) {
                         illnessText = "This animal has an Infection.\n";
-                    if (animal.hasEffect(SEEffects.RABIES.get()))
+                    } else if (animal.hasEffect(SEEffects.RABIES.get())) {
                         illnessText = "This animal has Rabies.\n";
-                    if (animal.hasEffect(SEEffects.HOOF_ABSCESS.get()))
+                    } else if (animal.hasEffect(SEEffects.HOOF_ABSCESS.get())) {
                         illnessText = "This animal has a Hoof Abscess.\n";
-                    if (animal.hasEffect(SEEffects.ABRASION.get()))
+                    } else if (animal.hasEffect(SEEffects.ABRASION.get())) {
                         illnessText = "This animal has an Abrasion.\n";
-                    if (animal.hasEffect(SEEffects.SADDLE_SORE.get()))
+                    } else if (animal.hasEffect(SEEffects.SADDLE_SORE.get())) {
                         illnessText = "This animal has a Saddle Sore.\n";
-                    if (animal.hasEffect(SEEffects.EAR_INFECTION.get()))
+                    } else if (animal.hasEffect(SEEffects.EAR_INFECTION.get())) {
                         illnessText = "This animal has an Ear Infection.\n";
-                    if (animal.hasEffect(SEEffects.BOTFLY_INFESTATION.get()))
+                    } else if (animal.hasEffect(SEEffects.BOTFLY_INFESTATION.get())) {
                         illnessText = "This animal has a Botfly Infestation.\n";
-                    if (animal.hasEffect(SEEffects.FLEA_INFESTATION.get()))
+                    } else if (animal.hasEffect(SEEffects.FLEA_INFESTATION.get())) {
                         illnessText = "This animal has a Flea Infestation.\n";
-                    if (animal.hasEffect(SEEffects.HEARTWORMS.get()))
+                    } else if (animal.hasEffect(SEEffects.HEARTWORMS.get())) {
                         illnessText = "This animal has Heartworms.\n";
-                    if (animal.hasEffect(SEEffects.RINGWORM.get()))
+                    } else if (animal.hasEffect(SEEffects.RINGWORM.get())) {
                         illnessText = "This animal has Ringworm.\n";
-                    if (animal.hasEffect(SEEffects.MANGE.get()))
+                    } else if (animal.hasEffect(SEEffects.MANGE.get())) {
                         illnessText = "This animal has Mange.\n";
-                    if (animal.hasEffect(SEEffects.RAIN_ROT.get()))
+                    } else if (animal.hasEffect(SEEffects.RAIN_ROT.get())) {
                         illnessText = "This animal has Rain Rot.\n";
-                    player.sendSystemMessage(Component.translatable(illnessText).withStyle(ChatFormatting.RED));
+                    } else {
+                        illnessText = "\nThis animal is healthy and has no current ailments!\n";
+                    }
+                    player.sendSystemMessage(Component.translatable(illnessText).withStyle(ChatFormatting.YELLOW));
                 } else {
                     player.sendSystemMessage(Component.translatable("The Scraps & Extras ailment system is disabled on this server.").withStyle(ChatFormatting.RED));
                 }

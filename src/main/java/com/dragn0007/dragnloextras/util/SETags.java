@@ -161,5 +161,4 @@ public class SETags {
             POEntityTypes.O_DOG_ENTITY.get(),
             POEntityTypes.O_WOLF_ENTITY.get()
     );
-
 }

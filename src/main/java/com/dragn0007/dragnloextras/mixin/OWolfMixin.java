@@ -141,7 +141,7 @@ public abstract class OWolfMixin extends TamableAnimal implements DirtyCapabilit
                     sleepingCap = this.getCapability(SECapabilities.SLEEPING_CAPABILITY).orElse(null);
                     if (sleepingCap != null && sleepingCap.isSleeping()) {
                         this.goalSelector.getAvailableGoals().removeIf(goal -> goal.getGoal() instanceof LookAtPlayerGoal);
-                        this.goalSelector.getAvailableGoals().removeIf(goal -> goal.getGoal() instanceof CanineFollowPackLeaderGoal);
+//                        this.goalSelector.getAvailableGoals().removeIf(goal -> goal.getGoal() instanceof CanineFollowPackLeaderGoal);
                     }
                 }
             }

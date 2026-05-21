@@ -1,9 +1,12 @@
 package com.dragn0007.dragnloextras.items;
 
 import com.dragn0007.dragnlivestock.LivestockOverhaul;
+import com.dragn0007.dragnlivestock.compat.medievalembroidery.MECompatItems;
+import com.dragn0007.dragnloextras.ScrapsExtras;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -11,9 +14,9 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class SEItemGroupModifier {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =
-            DeferredRegister.create(Registries.CREATIVE_MODE_TAB, LivestockOverhaul.MODID);
+            DeferredRegister.create(Registries.CREATIVE_MODE_TAB, ScrapsExtras.MODID);
 
-    public static final RegistryObject<CreativeModeTab> PETS_OVERHAUL_GROUP = CREATIVE_MODE_TABS.register("scraps",
+    public static final RegistryObject<CreativeModeTab> SCRAPS_GROUP = CREATIVE_MODE_TABS.register("scraps",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(SEItems.LOGO.get())).title(Component.translatable("itemGroup.scraps")).withSearchBar()
                     .displayItems((displayParameters, output) -> {
 
@@ -40,40 +43,13 @@ public class SEItemGroupModifier {
 
                         output.accept(SEItems.RAWHIDE_SADDLE.get());
 
-                        output.accept(SEItems.BLACK_HALTER.get());
-                        output.accept(SEItems.BLUE_HALTER.get());
-                        output.accept(SEItems.BROWN_HALTER.get());
-                        output.accept(SEItems.CYAN_HALTER.get());
-                        output.accept(SEItems.GREEN_HALTER.get());
-                        output.accept(SEItems.GREY_HALTER.get());
-                        output.accept(SEItems.LIGHT_BLUE_HALTER.get());
-                        output.accept(SEItems.LIGHT_GREY_HALTER.get());
-                        output.accept(SEItems.LIME_HALTER.get());
-                        output.accept(SEItems.MAGENTA_HALTER.get());
-                        output.accept(SEItems.ORANGE_HALTER.get());
-                        output.accept(SEItems.PINK_HALTER.get());
-                        output.accept(SEItems.PURPLE_HALTER.get());
-                        output.accept(SEItems.RED_HALTER.get());
-                        output.accept(SEItems.WHITE_HALTER.get());
-                        output.accept(SEItems.YELLOW_HALTER.get());
+                        for (DyeColor color : DyeColor.values()) {
+                            output.accept(SEItems.HALTERS.get(color).get());
+                        }
 
-                        output.accept(SEItems.BLACK_TURNOUT_BLANKET.get());
-                        output.accept(SEItems.BLUE_TURNOUT_BLANKET.get());
-                        output.accept(SEItems.BROWN_TURNOUT_BLANKET.get());
-                        output.accept(SEItems.CYAN_TURNOUT_BLANKET.get());
-                        output.accept(SEItems.GREEN_TURNOUT_BLANKET.get());
-                        output.accept(SEItems.GREY_TURNOUT_BLANKET.get());
-                        output.accept(SEItems.LIGHT_BLUE_TURNOUT_BLANKET.get());
-                        output.accept(SEItems.LIGHT_GREY_TURNOUT_BLANKET.get());
-                        output.accept(SEItems.LIME_TURNOUT_BLANKET.get());
-                        output.accept(SEItems.MAGENTA_TURNOUT_BLANKET.get());
-                        output.accept(SEItems.ORANGE_TURNOUT_BLANKET.get());
-                        output.accept(SEItems.PINK_TURNOUT_BLANKET.get());
-                        output.accept(SEItems.PURPLE_TURNOUT_BLANKET.get());
-                        output.accept(SEItems.RED_TURNOUT_BLANKET.get());
-                        output.accept(SEItems.WHITE_TURNOUT_BLANKET.get());
-                        output.accept(SEItems.YELLOW_TURNOUT_BLANKET.get());
-
+                        for (DyeColor color : DyeColor.values()) {
+                            output.accept(SEItems.TURNOUT_BLANKETS.get(color).get());
+                        }
 
                         output.accept(SEItems.BEEF_BRISKET.get());
                         output.accept(SEItems.BEEF_CHUCK.get());

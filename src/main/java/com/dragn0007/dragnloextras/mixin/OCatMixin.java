@@ -52,10 +52,8 @@ import java.util.Random;
 public abstract class OCatMixin extends TamableAnimal implements DirtyCapabilityInterface, ITraitByBreedTypeHolder, IHungerHolder, ISickModHolder {
 
     @Shadow(remap = false) public abstract int getVariant();
-    @Shadow(remap = false) public abstract int getOverlayVariant();
     @Shadow(remap = false) public abstract int getBreed();
     @Shadow(remap = false) public abstract boolean isWagging();
-    @Shadow(remap = false) public abstract int getEyes();
 
     @Shadow public abstract InteractionResult mobInteract(Player player, InteractionHand hand);
 
@@ -228,7 +226,7 @@ public abstract class OCatMixin extends TamableAnimal implements DirtyCapability
                 if (ScrapsExtrasCommonConfig.FEEDING_SYSTEM.get()) {
                     if (!this.isHungry()) {
                         livestockOverhaulScraps$hungryTick++;
-                        if (livestockOverhaulScraps$hungryTick >= ScrapsExtrasCommonConfig.DOG_FEED_TICK.get()) {
+                        if (livestockOverhaulScraps$hungryTick >= ScrapsExtrasCommonConfig.CAT_FEED_TICK.get()) {
                             this.setHungry(true);
                             this.addEffect(new MobEffectInstance(SEEffects.HUNGER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
                             livestockOverhaulScraps$hungryTick = 0;

@@ -85,7 +85,7 @@
         "item": "dragnloextras:antiparasitic_injection"
       },
       "title": "Heartworms (Severe)",
-      "text": "Heartworms happen occasionally with no real rhyme or reason. Heartworms can be lethal do not go away on their own; this ailment should be treated as soon as possible. $(br)$(l)Treatment:$() Antiparasitc Injection"
+      "text": "Heartworms happen occasionally with no real rhyme or reason. Heartworms can be lethal and do not go away on their own; this ailment should be treated as soon as possible. $(br)$(l)Treatment:$() Antiparasitc Injection"
     },
     {
       "type": "patchouli:spotlight",
@@ -93,7 +93,7 @@
         "item": "dragnloextras:antibiotic_injection"
       },
       "title": "Infection (Severe)",
-      "text": "Infections happen when a wound or smaller infection festers and is untreated for too long. Infections can be lethal do not go away on their own; this ailment should be treated as soon as possible. $(br)$(l)Treatment:$() Antibiotic Injection"
+      "text": "Infections happen when a wound or smaller infection festers and is untreated for too long. Infections can be lethal and do not go away on their own; this ailment should be treated as soon as possible. $(br)$(l)Treatment:$() Antibiotic Injection"
     },
     {
       "type": "patchouli:spotlight",

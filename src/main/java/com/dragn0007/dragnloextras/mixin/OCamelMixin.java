@@ -288,20 +288,6 @@ public abstract class OCamelMixin extends AbstractOMount implements DirtyCapabil
                             livestockOverhaulScraps$saddleSoreTick = 0;
                         }
                     }
-
-                    if (ScrapsExtrasCommonConfig.RAIN_ROT.get()) {
-                        if (this.level().isRaining() && this.level().canSeeSky(this.blockPosition())) {
-                            livestockOverhaulScraps$rainRotTick++;
-                            if (livestockOverhaulScraps$rainRotTick >= (random.nextInt(3000) + 12000)) {
-                                if (random.nextDouble() <= 0.75 && !(this.getArmor().getItem() instanceof TurnoutBlanketItem)) {
-                                    this.addEffect(new MobEffectInstance(SEEffects.RAIN_ROT.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                                }
-                                livestockOverhaulScraps$rainRotTick = 0;
-                            }
-                        } else {
-                            livestockOverhaulScraps$rainRotTick = 0;
-                        }
-                    }
                 }
 
                 if (ScrapsExtrasCommonConfig.FEEDING_SYSTEM.get()) {
@@ -442,43 +428,6 @@ public abstract class OCamelMixin extends AbstractOMount implements DirtyCapabil
             }
 
             if (itemstack.is(Items.SHEARS) && player.isShiftKeyDown()) {
-                if (this.getCapability(SECapabilities.HALTER_CAPABILITY).isPresent()) {
-                    HalterCapabilityInterface halterCapabilityInterface = this.getCapability(SECapabilities.HALTER_CAPABILITY).orElse(null);
-                    HalterColorCapabilityInterface halterColorCapabilityInterface = this.getCapability(SECapabilities.HALTER_COLOR_CAPABILITY).orElse(null);
-                    if (halterCapabilityInterface.hasHalter()) {
-                        halterCapabilityInterface.setHaltered(false);
-                        SyncHalterLayerPacket.syncToTracking(this, false);
-                        DyeColor dyeColor = DyeColor.byId(halterColorCapabilityInterface.getHalterColor().getId());
-                        Item halter = switch (dyeColor) {
-                            case WHITE -> SEItems.WHITE_HALTER.get();
-                            case ORANGE -> SEItems.ORANGE_HALTER.get();
-                            case MAGENTA -> SEItems.MAGENTA_HALTER.get();
-                            case LIGHT_BLUE -> SEItems.LIGHT_BLUE_HALTER.get();
-                            case YELLOW -> SEItems.YELLOW_HALTER.get();
-                            case LIME -> SEItems.LIME_HALTER.get();
-                            case PINK -> SEItems.PINK_HALTER.get();
-                            case GRAY -> SEItems.GREY_HALTER.get();
-                            case LIGHT_GRAY -> SEItems.LIGHT_GREY_HALTER.get();
-                            case CYAN -> SEItems.CYAN_HALTER.get();
-                            case PURPLE -> SEItems.PURPLE_HALTER.get();
-                            case BLUE -> SEItems.BLUE_HALTER.get();
-                            case BROWN -> SEItems.BROWN_HALTER.get();
-                            case GREEN -> SEItems.GREEN_HALTER.get();
-                            case RED -> SEItems.RED_HALTER.get();
-                            case BLACK -> SEItems.BLACK_HALTER.get();
-                        };
-                        spawnAtLocation(halter);
-                        this.playSound(SoundEvents.SHEEP_SHEAR, 0.5f, 1f);
-                        return InteractionResult.sidedSuccess(this.level().isClientSide);
-                    }
-                }
-
-                if (this.isEquine(this)) {
-                    AbstractOMount equine = this;
-                    equine.setFlowerType(0);
-                    equine.setFlowerItem(Items.AIR.getDefaultInstance());
-                }
-
                 if (this.hasChest() && this.isOwnedBy(player)) {
                     this.dropEquipment();
                     this.inventory.removeAllItems();
@@ -487,23 +436,6 @@ public abstract class OCamelMixin extends AbstractOMount implements DirtyCapabil
 
                     return InteractionResult.sidedSuccess(this.level().isClientSide);
                 }
-            }
-
-            if (item instanceof HalterItem) {
-                HalterItem halterItem = (HalterItem)item;
-                this.getCapability(SECapabilities.HALTER_CAPABILITY).ifPresent(cap -> {
-                    cap.setHaltered(true);
-                    SyncHalterLayerPacket.syncToTracking(this, true);
-                });
-                DyeColor dyecolor = halterItem.getDyeColor();
-                this.getCapability(SECapabilities.HALTER_COLOR_CAPABILITY).ifPresent(cap -> {
-                    cap.setHalterColor(dyecolor);
-                    SyncHalterColorPacket.syncToTracking(this, dyecolor);
-                    if (!player.getAbilities().instabuild) {
-                        itemstack.shrink(1);
-                    }
-                });
-                return InteractionResult.SUCCESS;
             }
         }
 
@@ -520,7 +452,6 @@ public abstract class OCamelMixin extends AbstractOMount implements DirtyCapabil
         tag.putInt("SickChanceMod", this.livestockOverhaulScraps$becomeSickChanceMod);
         tag.putInt("SickTick", this.livestockOverhaulScraps$sickTick);
         tag.putInt("SaddleSoreTick", this.livestockOverhaulScraps$saddleSoreTick);
-        tag.putInt("RainRotTick", this.livestockOverhaulScraps$rainRotTick);
         tag.putInt("HeartwormMedTick", this.livestockOverhaulScraps$heartwormMedTick);
         tag.putInt("HoofPickTick", this.livestockOverhaulScraps$hoofPickTick);
         tag.putBoolean("Hungry", this.isHungry());
@@ -536,7 +467,6 @@ public abstract class OCamelMixin extends AbstractOMount implements DirtyCapabil
         if (tag.contains("SickChanceMod")) {this.livestockOverhaulScraps$becomeSickChanceMod = tag.getInt("SickChanceMod");}
         if (tag.contains("SickTick")) {this.livestockOverhaulScraps$sickTick = tag.getInt("SickTick");}
         if (tag.contains("SaddleSoreTick")) {this.livestockOverhaulScraps$saddleSoreTick = tag.getInt("SaddleSoreTick");}
-        if (tag.contains("RainRotTick")) {this.livestockOverhaulScraps$rainRotTick = tag.getInt("RainRotTick");}
         if (tag.contains("HeartwormMedTick")) {this.livestockOverhaulScraps$heartwormMedTick = tag.getInt("HeartwormMedTick");}
         if (tag.contains("HoofPickTick")) {this.livestockOverhaulScraps$hoofPickTick = tag.getInt("HoofPickTick");}
         if (tag.contains("Hungry")) this.setHungry(tag.getBoolean("Hungry"));

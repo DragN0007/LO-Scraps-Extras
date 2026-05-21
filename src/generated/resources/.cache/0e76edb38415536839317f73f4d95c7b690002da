@@ -1,4 +1,4 @@
-// 1.20.1	2026-05-15T20:19:09.0672711	Item Models: dragnloextras
+// 1.20.1	2026-05-21T00:05:13.8811836	Item Models: dragnloextras
 4d58d8777a803ce3c6f0c80907de9579c019ac6c assets/dragnloextras/models/item/antibiotic_eardrops.json
 5f7dd1f99481a3aa4a46c7658b52b3f9655da8dd assets/dragnloextras/models/item/antibiotic_injection.json
 c76280cffd2fe708ec18ee2e9ee876ddc90b9199 assets/dragnloextras/models/item/antibiotic_ointment.json
@@ -70,10 +70,10 @@ e26dd13009404c869c6926740b54c059c80f28ea assets/dragnloextras/models/item/cooked
 404633024df3cc39cee33b7101eb6271e19b7a80 assets/dragnloextras/models/item/cyan_halter.json
 00ab2d0e4ccad1464083a21dce58c62a164dbe9f assets/dragnloextras/models/item/cyan_turnout_blanket.json
 ae60532bdfd0a530f3cbb290797f9fb296010c34 assets/dragnloextras/models/item/grain_feed.json
+ad03f6f27a5b7e8ac148c2813d2ea826d5853acc assets/dragnloextras/models/item/gray_halter.json
+18f3e282c014f10a457cdee08a4dc8c06bb8934e assets/dragnloextras/models/item/gray_turnout_blanket.json
 587b1a1132b5d72ade45831da28c1598fd26b3d6 assets/dragnloextras/models/item/green_halter.json
 871b8b57915c440d6933a60acf08174b8681da19 assets/dragnloextras/models/item/green_turnout_blanket.json
-4156a014daccc252c4ace124bc9648fe9380b689 assets/dragnloextras/models/item/grey_halter.json
-b6e91f85630892372a414f979d2b618278c975dc assets/dragnloextras/models/item/grey_turnout_blanket.json
 8af5331ae704d712be1389fbd5e0c6419b1c51be assets/dragnloextras/models/item/heartworm_medicine.json
 f7554ebf1c6f65433160ee04838e8bcda14a552c assets/dragnloextras/models/item/hearty_grain_feed.json
 742507355ac5a9e17742813ab1b8cdf5aea7e43c assets/dragnloextras/models/item/hearty_kibble.json
@@ -86,8 +86,8 @@ caabb14274662186723d98412205f3e40b3f7f96 assets/dragnloextras/models/item/horse_
 e5a1049eeee9896f62f1bf05b6193a003db2f613 assets/dragnloextras/models/item/kibble.json
 febb3eaaa9725439e0cf327136eaf9457e2949a2 assets/dragnloextras/models/item/light_blue_halter.json
 b2c6d9ebf37fe8a176a41ef322ff70444660e2c9 assets/dragnloextras/models/item/light_blue_turnout_blanket.json
-549efc4242075d8cc35c9861f7141403e7a004c8 assets/dragnloextras/models/item/light_grey_halter.json
-be3c1647cd08e008e3bfdffaea0c9eb07ffb2493 assets/dragnloextras/models/item/light_grey_turnout_blanket.json
+52d4d3d0752a2cffbbc7d56eaf3979f8652ecc98 assets/dragnloextras/models/item/light_gray_halter.json
+0d6ad6c67ad3d2382a0d9a5941f72d88699bb40d assets/dragnloextras/models/item/light_gray_turnout_blanket.json
 f1164f2d3bd4dbf9f7b74a801f35fb14a2e1fd60 assets/dragnloextras/models/item/lime_halter.json
 e8883dbd87375b8bfc09f83e93a99f4b7edc1916 assets/dragnloextras/models/item/lime_turnout_blanket.json
 5b7acda5694519c0973e082ee4c5b46efaa96031 assets/dragnloextras/models/item/llama_flank.json

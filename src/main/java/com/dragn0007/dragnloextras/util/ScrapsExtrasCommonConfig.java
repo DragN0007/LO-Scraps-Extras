@@ -90,9 +90,9 @@ public class ScrapsExtrasCommonConfig {
                 .define("Starving Immunity Damper Tick", 72000);
         GRAZING = BUILDER.comment("Should grazing animals, such as horses for example, be able to \"graze\" on grass so they don't starve?")
                 .define("Herbivores Can Graze", true);
-        HORSE_FOOD = BUILDER.define("Horses Need Food", true);
-        HORSE_FEED_TICK = BUILDER.comment("The amount of time at which a horse needs to be fed. Default is 48000 ticks.")
-                .define("Horse Feed Tick", 48000);
+        HORSE_FOOD = BUILDER.define("Equines Need Food", true);
+        HORSE_FEED_TICK = BUILDER.comment("The amount of time at which a equine/ camel/ caribou needs to be fed. Default is 48000 ticks.")
+                .define("Equine/ Camel/ Caribou Feed Tick", 48000);
         DOG_FOOD = BUILDER.define("Dogs Need Food", true);
         DOG_FEED_TICK = BUILDER.comment("The amount of time at which a dog needs to be fed. Default is 48000 ticks.")
                 .define("Dog Feed Tick", 48000);

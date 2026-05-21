@@ -1,5 +1,6 @@
 package com.dragn0007.dragnloextras.items;
 
+import com.dragn0007.dragnlivestock.items.custom.WoolStapleItem;
 import com.dragn0007.dragnloextras.ScrapsExtras;
 import com.dragn0007.dragnloextras.entity.SEEntityTypes;
 import com.dragn0007.dragnloextras.items.custom.*;
@@ -14,6 +15,9 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+
+import java.util.EnumMap;
+import java.util.Map;
 
 public class SEItems {
 
@@ -63,72 +67,26 @@ public class SEItems {
 
     public static final RegistryObject<Item> RAWHIDE_SADDLE = ITEMS.register("rawhide_saddle",
             () -> new SaddleItem(new Item.Properties()));
-    
-    public static final RegistryObject<Item> BLACK_HALTER = ITEMS.register("black_halter",
-            () -> new HalterItem(DyeColor.BLACK, new Item.Properties()));
-    public static final RegistryObject<Item> BLUE_HALTER = ITEMS.register("blue_halter",
-            () -> new HalterItem(DyeColor.BLUE, new Item.Properties()));
-    public static final RegistryObject<Item> BROWN_HALTER = ITEMS.register("brown_halter",
-            () -> new HalterItem(DyeColor.BROWN, new Item.Properties()));
-    public static final RegistryObject<Item> CYAN_HALTER = ITEMS.register("cyan_halter",
-            () -> new HalterItem(DyeColor.CYAN, new Item.Properties()));
-    public static final RegistryObject<Item> GREEN_HALTER = ITEMS.register("green_halter",
-            () -> new HalterItem(DyeColor.GREEN, new Item.Properties()));
-    public static final RegistryObject<Item> GREY_HALTER = ITEMS.register("grey_halter",
-            () -> new HalterItem(DyeColor.GRAY, new Item.Properties()));
-    public static final RegistryObject<Item> LIGHT_BLUE_HALTER = ITEMS.register("light_blue_halter",
-            () -> new HalterItem(DyeColor.LIGHT_BLUE, new Item.Properties()));
-    public static final RegistryObject<Item> LIGHT_GREY_HALTER = ITEMS.register("light_grey_halter",
-            () -> new HalterItem(DyeColor.LIGHT_GRAY, new Item.Properties()));
-    public static final RegistryObject<Item> LIME_HALTER = ITEMS.register("lime_halter",
-            () -> new HalterItem(DyeColor.LIME, new Item.Properties()));
-    public static final RegistryObject<Item> MAGENTA_HALTER = ITEMS.register("magenta_halter",
-            () -> new HalterItem(DyeColor.MAGENTA, new Item.Properties()));
-    public static final RegistryObject<Item> ORANGE_HALTER = ITEMS.register("orange_halter",
-            () -> new HalterItem(DyeColor.ORANGE, new Item.Properties()));
-    public static final RegistryObject<Item> PINK_HALTER = ITEMS.register("pink_halter",
-            () -> new HalterItem(DyeColor.PINK, new Item.Properties()));
-    public static final RegistryObject<Item> PURPLE_HALTER = ITEMS.register("purple_halter",
-            () -> new HalterItem(DyeColor.PURPLE, new Item.Properties()));
-    public static final RegistryObject<Item> RED_HALTER = ITEMS.register("red_halter",
-            () -> new HalterItem(DyeColor.RED, new Item.Properties()));
-    public static final RegistryObject<Item> WHITE_HALTER = ITEMS.register("white_halter",
-            () -> new HalterItem(DyeColor.WHITE, new Item.Properties()));
-    public static final RegistryObject<Item> YELLOW_HALTER = ITEMS.register("yellow_halter",
-            () -> new HalterItem(DyeColor.YELLOW, new Item.Properties()));
 
-    public static final RegistryObject<Item> BLACK_TURNOUT_BLANKET = ITEMS.register("black_turnout_blanket",
-            () -> new TurnoutBlanketItem(DyeColor.BLACK, new Item.Properties()));
-    public static final RegistryObject<Item> BLUE_TURNOUT_BLANKET = ITEMS.register("blue_turnout_blanket",
-            () -> new TurnoutBlanketItem(DyeColor.BLUE, new Item.Properties()));
-    public static final RegistryObject<Item> BROWN_TURNOUT_BLANKET = ITEMS.register("brown_turnout_blanket",
-            () -> new TurnoutBlanketItem(DyeColor.BROWN, new Item.Properties()));
-    public static final RegistryObject<Item> CYAN_TURNOUT_BLANKET = ITEMS.register("cyan_turnout_blanket",
-            () -> new TurnoutBlanketItem(DyeColor.CYAN, new Item.Properties()));
-    public static final RegistryObject<Item> GREEN_TURNOUT_BLANKET = ITEMS.register("green_turnout_blanket",
-            () -> new TurnoutBlanketItem(DyeColor.GREEN, new Item.Properties()));
-    public static final RegistryObject<Item> GREY_TURNOUT_BLANKET = ITEMS.register("grey_turnout_blanket",
-            () -> new TurnoutBlanketItem(DyeColor.GRAY, new Item.Properties()));
-    public static final RegistryObject<Item> LIGHT_BLUE_TURNOUT_BLANKET = ITEMS.register("light_blue_turnout_blanket",
-            () -> new TurnoutBlanketItem(DyeColor.LIGHT_BLUE, new Item.Properties()));
-    public static final RegistryObject<Item> LIGHT_GREY_TURNOUT_BLANKET = ITEMS.register("light_grey_turnout_blanket",
-            () -> new TurnoutBlanketItem(DyeColor.LIGHT_GRAY, new Item.Properties()));
-    public static final RegistryObject<Item> LIME_TURNOUT_BLANKET = ITEMS.register("lime_turnout_blanket",
-            () -> new TurnoutBlanketItem(DyeColor.LIME, new Item.Properties()));
-    public static final RegistryObject<Item> MAGENTA_TURNOUT_BLANKET = ITEMS.register("magenta_turnout_blanket",
-            () -> new TurnoutBlanketItem(DyeColor.MAGENTA, new Item.Properties()));
-    public static final RegistryObject<Item> ORANGE_TURNOUT_BLANKET = ITEMS.register("orange_turnout_blanket",
-            () -> new TurnoutBlanketItem(DyeColor.ORANGE, new Item.Properties()));
-    public static final RegistryObject<Item> PINK_TURNOUT_BLANKET = ITEMS.register("pink_turnout_blanket",
-            () -> new TurnoutBlanketItem(DyeColor.PINK, new Item.Properties()));
-    public static final RegistryObject<Item> PURPLE_TURNOUT_BLANKET = ITEMS.register("purple_turnout_blanket",
-            () -> new TurnoutBlanketItem(DyeColor.PURPLE, new Item.Properties()));
-    public static final RegistryObject<Item> RED_TURNOUT_BLANKET = ITEMS.register("red_turnout_blanket",
-            () -> new TurnoutBlanketItem(DyeColor.RED, new Item.Properties()));
-    public static final RegistryObject<Item> WHITE_TURNOUT_BLANKET = ITEMS.register("white_turnout_blanket",
-            () -> new TurnoutBlanketItem(DyeColor.WHITE, new Item.Properties()));
-    public static final RegistryObject<Item> YELLOW_TURNOUT_BLANKET = ITEMS.register("yellow_turnout_blanket",
-            () -> new TurnoutBlanketItem(DyeColor.YELLOW, new Item.Properties()));
+    public static final Map<DyeColor, RegistryObject<Item>> HALTERS = new EnumMap<>(DyeColor.class);
+    static {
+        for (DyeColor color : DyeColor.values()) {
+            String name = color.getName() + "_halter";
+            RegistryObject<Item> item = ITEMS.register(name,
+                    () -> new HalterItem(color, new Item.Properties()));
+            HALTERS.put(color, item);
+        }
+    }
+
+    public static final Map<DyeColor, RegistryObject<Item>> TURNOUT_BLANKETS = new EnumMap<>(DyeColor.class);
+    static {
+        for (DyeColor color : DyeColor.values()) {
+            String name = color.getName() + "_turnout_blanket";
+            RegistryObject<Item> item = ITEMS.register(name,
+                    () -> new HalterItem(color, new Item.Properties()));
+            TURNOUT_BLANKETS.put(color, item);
+        }
+    }
 
     //Meat Cuts (Transferred from LO: Base)
     public static final RegistryObject<Item> BEEF_BRISKET = ITEMS.register("beef_brisket",

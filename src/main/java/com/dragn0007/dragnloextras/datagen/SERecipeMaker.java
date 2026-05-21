@@ -1,5 +1,7 @@
 package com.dragn0007.dragnloextras.datagen;
 
+import com.dragn0007.dragnlivestock.LivestockOverhaul;
+import com.dragn0007.dragnlivestock.items.LOItems;
 import com.dragn0007.dragnlivestock.util.LOTags;
 import com.dragn0007.dragnloextras.ScrapsExtras;
 import com.dragn0007.dragnloextras.datagen.conditions.TFCCondition;
@@ -12,10 +14,12 @@ import net.dries007.tfc.common.items.Powder;
 import net.dries007.tfc.common.items.TFCItems;
 import net.dries007.tfc.util.Metal;
 import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.crafting.ConditionalRecipe;
@@ -199,311 +203,26 @@ public class SERecipeMaker extends RecipeProvider implements IConditionBuilder {
                         .of(Items.IRON_INGOT).build()))
                 .save(pFinishedRecipeConsumer);
 
+        for (DyeColor color : DyeColor.values()) {
+            ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.HALTERS.get(color).get())
+                    .define('A', Items.LEATHER)
+                    .define('B', BuiltInRegistries.ITEM.get(new ResourceLocation("minecraft", color.getName() + "_wool")))
+                    .pattern("ABA")
+                    .pattern("AA ")
+                    .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
+                            .of(ItemTags.WOOL).build()))
+                    .save(pFinishedRecipeConsumer, new ResourceLocation(LivestockOverhaul.MODID, color.getName() + "_halter"));
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.BLACK_HALTER.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.BLACK_WOOL)
-                .pattern("ABA")
-                .pattern("AA ")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.BLUE_HALTER.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.BLUE_WOOL)
-                .pattern("ABA")
-                .pattern("AA ")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.BROWN_HALTER.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.BROWN_WOOL)
-                .pattern("ABA")
-                .pattern("AA ")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.CYAN_HALTER.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.CYAN_WOOL)
-                .pattern("ABA")
-                .pattern("AA ")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.GREEN_HALTER.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.GREEN_WOOL)
-                .pattern("ABA")
-                .pattern("AA ")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.GREY_HALTER.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.GRAY_WOOL)
-                .pattern("ABA")
-                .pattern("AA ")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.LIGHT_BLUE_HALTER.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.LIGHT_BLUE_WOOL)
-                .pattern("ABA")
-                .pattern("AA ")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.LIGHT_GREY_HALTER.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.LIGHT_GRAY_WOOL)
-                .pattern("ABA")
-                .pattern("AA ")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.LIME_HALTER.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.LIME_WOOL)
-                .pattern("ABA")
-                .pattern("AA ")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.MAGENTA_HALTER.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.MAGENTA_WOOL)
-                .pattern("ABA")
-                .pattern("AA ")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.ORANGE_HALTER.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.ORANGE_WOOL)
-                .pattern("ABA")
-                .pattern("AA ")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.PINK_HALTER.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.PINK_WOOL)
-                .pattern("ABA")
-                .pattern("AA ")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.PURPLE_HALTER.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.PURPLE_WOOL)
-                .pattern("ABA")
-                .pattern("AA ")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.RED_HALTER.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.RED_WOOL)
-                .pattern("ABA")
-                .pattern("AA ")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.WHITE_HALTER.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.WHITE_WOOL)
-                .pattern("ABA")
-                .pattern("AA ")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.YELLOW_HALTER.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.YELLOW_WOOL)
-                .pattern("ABA")
-                .pattern("AA ")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.BLACK_TURNOUT_BLANKET.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.BLACK_WOOL)
-                .pattern("  B")
-                .pattern("BBB")
-                .pattern("A A")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.BLUE_TURNOUT_BLANKET.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.BLUE_WOOL)
-                .pattern("  B")
-                .pattern("BBB")
-                .pattern("A A")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.BROWN_TURNOUT_BLANKET.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.BROWN_WOOL)
-                .pattern("  B")
-                .pattern("BBB")
-                .pattern("A A")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.CYAN_TURNOUT_BLANKET.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.CYAN_WOOL)
-                .pattern("  B")
-                .pattern("BBB")
-                .pattern("A A")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.GREEN_TURNOUT_BLANKET.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.GREEN_WOOL)
-                .pattern("  B")
-                .pattern("BBB")
-                .pattern("A A")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.GREY_TURNOUT_BLANKET.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.GRAY_WOOL)
-                .pattern("  B")
-                .pattern("BBB")
-                .pattern("A A")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.LIGHT_BLUE_TURNOUT_BLANKET.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.LIGHT_BLUE_WOOL)
-                .pattern("  B")
-                .pattern("BBB")
-                .pattern("A A")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.LIGHT_GREY_TURNOUT_BLANKET.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.LIGHT_GRAY_WOOL)
-                .pattern("  B")
-                .pattern("BBB")
-                .pattern("A A")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.LIME_TURNOUT_BLANKET.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.LIME_WOOL)
-                .pattern("  B")
-                .pattern("BBB")
-                .pattern("A A")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.MAGENTA_TURNOUT_BLANKET.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.MAGENTA_WOOL)
-                .pattern("  B")
-                .pattern("BBB")
-                .pattern("A A")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.ORANGE_TURNOUT_BLANKET.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.ORANGE_WOOL)
-                .pattern("  B")
-                .pattern("BBB")
-                .pattern("A A")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.PINK_TURNOUT_BLANKET.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.PINK_WOOL)
-                .pattern("  B")
-                .pattern("BBB")
-                .pattern("A A")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.PURPLE_TURNOUT_BLANKET.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.PURPLE_WOOL)
-                .pattern("  B")
-                .pattern("BBB")
-                .pattern("A A")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.RED_TURNOUT_BLANKET.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.RED_WOOL)
-                .pattern("  B")
-                .pattern("BBB")
-                .pattern("A A")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.WHITE_TURNOUT_BLANKET.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.WHITE_WOOL)
-                .pattern("  B")
-                .pattern("BBB")
-                .pattern("A A")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.YELLOW_TURNOUT_BLANKET.get())
-                .define('A', Items.LEATHER)
-                .define('B', Items.YELLOW_WOOL)
-                .pattern("  B")
-                .pattern("BBB")
-                .pattern("A A")
-                .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(ItemTags.WOOL).build()))
-                .save(pFinishedRecipeConsumer);
+            ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.TURNOUT_BLANKETS.get(color).get())
+                    .define('A', Items.LEATHER)
+                    .define('B', BuiltInRegistries.ITEM.get(new ResourceLocation("minecraft", color.getName() + "_wool")))
+                    .pattern("  B")
+                    .pattern("BBB")
+                    .pattern("A A")
+                    .unlockedBy("has_wool", inventoryTrigger(ItemPredicate.Builder.item()
+                            .of(ItemTags.WOOL).build()))
+                    .save(pFinishedRecipeConsumer, new ResourceLocation(LivestockOverhaul.MODID, color.getName() + "_turnout_blanket"));
+        }
     }
 
     public void buildFoodRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
