@@ -19,6 +19,7 @@
     "OLlamaMixin",
     "OMuleMixin",
     "OOcelotMixin",
+    "OPigMixin",
     "ORabbitMixin",
     "OSheepMixin",
     "OWolfMixin",

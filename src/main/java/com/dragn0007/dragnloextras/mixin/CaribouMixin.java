@@ -159,7 +159,7 @@ public abstract class CaribouMixin extends AbstractOMount implements DirtyCapabi
                 }
             }
 
-            if (!this.isTamed()) {
+            if (this.isTamed()) {
                 if (ScrapsExtrasCommonConfig.AILMENT_SYSTEM.get()) {
                     if (livestockOverhaulScraps$becomeSickChanceMod != 0) {
                         livestockOverhaulScraps$sickModDissipateTick--;
@@ -317,8 +317,7 @@ public abstract class CaribouMixin extends AbstractOMount implements DirtyCapabi
                 }
 
                 if (ScrapsExtrasCommonConfig.HYGIENE_SYSTEM.get()) {
-                    if (this.isTamed())
-                        livestockOverhaulScraps$dirtyTick++;
+                    livestockOverhaulScraps$dirtyTick++;
 
                     if (livestockOverhaulScraps$dirtyTick >= ScrapsExtrasCommonConfig.DIRTY_TICK.get() && this.hasEffect(SEEffects.DIRTY.get())) {
                         this.getCapability(SECapabilities.DIRTY_CAPABILITY).ifPresent(cap -> {

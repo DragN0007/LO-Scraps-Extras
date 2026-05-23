@@ -20,11 +20,11 @@ plugins {
 
 apply plugin: 'org.spongepowered.mixin'
 
-version = '1.20.1-0.9-DEV'
+version = '1.20.1-1.0'
 group = mod_group_id
 
 base {
-    archivesName = 'DragNs_LO_Scraps_and_Extras'
+    archivesName = 'DragNs_LO_Scraps_&_Extras'
 }
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
