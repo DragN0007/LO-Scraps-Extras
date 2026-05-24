@@ -270,7 +270,7 @@ public abstract class OCatMixin extends TamableAnimal implements DirtyCapability
         }
     }
 
-    @Inject(method = "mobInteract", at = @At("TAIL"), cancellable = true)
+    @Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true)
     public void mobInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         ItemStack itemstack = player.getItemInHand(hand);
         Item item = itemstack.getItem();

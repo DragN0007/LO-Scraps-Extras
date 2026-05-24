@@ -356,10 +356,10 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
                     if (cap.hasSpikeCollar()) {
                         cap.setSpikeCollared(false);
                         SyncSpikeCollarLayerPacket.syncToTracking(this, false);
+                        this.spawnAtLocation(SEItems.COLLAR_SPIKES.get());
+                        this.playSound(SoundEvents.SHEEP_SHEAR, 0.5f, 1f);
                     }
                 });
-                this.spawnAtLocation(SEItems.COLLAR_SPIKES.get());
-                this.playSound(SoundEvents.SHEEP_SHEAR, 0.5f, 1f);
                 cir.setReturnValue(super.mobInteract(player, hand));
 //                cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
             }

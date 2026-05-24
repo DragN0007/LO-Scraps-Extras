@@ -83,7 +83,7 @@ public class SEItems {
         for (DyeColor color : DyeColor.values()) {
             String name = color.getName() + "_turnout_blanket";
             RegistryObject<Item> item = ITEMS.register(name,
-                    () -> new HalterItem(color, new Item.Properties()));
+                    () -> new TurnoutBlanketItem(color, new Item.Properties()));
             TURNOUT_BLANKETS.put(color, item);
         }
     }

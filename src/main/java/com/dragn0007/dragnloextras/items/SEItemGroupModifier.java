@@ -9,6 +9,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -41,6 +42,7 @@ public class SEItemGroupModifier {
                         output.accept(SEItems.HORSE_MANNEQUIN.get());
                         output.accept(SEItems.COLLAR_SPIKES.get());
 
+                        if (ModList.get().isLoaded("tfc"))
                         output.accept(SEItems.RAWHIDE_SADDLE.get());
 
                         for (DyeColor color : DyeColor.values()) {

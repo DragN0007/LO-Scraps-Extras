@@ -31,6 +31,8 @@
     "defaultRequire": 1
   },
   "client": [
+    "CaribouRenderMixin",
+    "OCamelRenderMixin",
     "ODogRenderMixin",
     "ODonkeyRenderMixin",
     "OHorseRenderMixin",
