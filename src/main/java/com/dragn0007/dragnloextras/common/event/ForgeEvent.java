@@ -346,32 +346,32 @@ public class ForgeEvent {
                         feedingText = "This animal is currently hungry and should be fed.";
                         player.sendSystemMessage(Component.translatable("Feeding: " + feedingText).withStyle(ChatFormatting.YELLOW));
                     } else {
-                        CompoundTag tag = animal.getPersistentData();
-                        if (tag.contains("HungryTick")) {
-                            int ticks = tag.getInt("HungryTick");
-                            int tickToMinutes = ticks / 1200;
-
-                            if (animal instanceof OHorse || animal instanceof OMule || animal instanceof ODonkey || animal instanceof OCamel || animal instanceof Caribou) {
-                                feedingText = "This animal has " + (ScrapsExtrasCommonConfig.HORSE_FEED_TICK.get() - tickToMinutes) + " minute(s) left until it becomes hungry.\n";
-                                player.sendSystemMessage(Component.translatable("Feeding: " + feedingText).withStyle(ChatFormatting.WHITE));
-                            }
-                            if (animal instanceof ODog) {
-                                feedingText = "This animal has " + (ScrapsExtrasCommonConfig.DOG_FEED_TICK.get() - tickToMinutes) + " minute(s) left until it becomes hungry.\n";
-                                player.sendSystemMessage(Component.translatable("Feeding: " + feedingText).withStyle(ChatFormatting.WHITE));
-                            }
-                            if (animal instanceof OWolf) {
-                                feedingText = "This animal has " + (ScrapsExtrasCommonConfig.WOLF_FEED_TICK.get() - tickToMinutes) + " minute(s) left until it becomes hungry.\n";
-                                player.sendSystemMessage(Component.translatable("Feeding: " + feedingText).withStyle(ChatFormatting.WHITE));
-                            }
-                            if (animal instanceof OCat) {
-                                feedingText = "This animal has " + (ScrapsExtrasCommonConfig.CAT_FEED_TICK.get() - tickToMinutes) + " minute(s) left until it becomes hungry.\n";
-                                player.sendSystemMessage(Component.translatable("Feeding: " + feedingText).withStyle(ChatFormatting.WHITE));
-                            }
-                            if (animal instanceof OOcelot) {
-                                feedingText = "This animal has " + (ScrapsExtrasCommonConfig.OCELOT_FEED_TICK.get() - tickToMinutes) + " minute(s) left until it becomes hungry.\n";
-                                player.sendSystemMessage(Component.translatable("Feeding: " + feedingText).withStyle(ChatFormatting.WHITE));
-                            }
-                        }
+//                        CompoundTag tag = animal.getPersistentData();
+//                        if (tag.contains("HungryTick")) {
+//                            int ticks = tag.getInt("HungryTick");
+//                            int tickToMinutes = ticks / 1200;
+//
+//                            if (animal instanceof OHorse || animal instanceof OMule || animal instanceof ODonkey || animal instanceof OCamel || animal instanceof Caribou) {
+//                                feedingText = "This animal has " + (ScrapsExtrasCommonConfig.HORSE_FEED_TICK.get() - tickToMinutes) + " minute(s) left until it becomes hungry.\n";
+//                                player.sendSystemMessage(Component.translatable("Feeding: " + feedingText).withStyle(ChatFormatting.WHITE));
+//                            }
+//                            if (animal instanceof ODog) {
+//                                feedingText = "This animal has " + (ScrapsExtrasCommonConfig.DOG_FEED_TICK.get() - tickToMinutes) + " minute(s) left until it becomes hungry.\n";
+//                                player.sendSystemMessage(Component.translatable("Feeding: " + feedingText).withStyle(ChatFormatting.WHITE));
+//                            }
+//                            if (animal instanceof OWolf) {
+//                                feedingText = "This animal has " + (ScrapsExtrasCommonConfig.WOLF_FEED_TICK.get() - tickToMinutes) + " minute(s) left until it becomes hungry.\n";
+//                                player.sendSystemMessage(Component.translatable("Feeding: " + feedingText).withStyle(ChatFormatting.WHITE));
+//                            }
+//                            if (animal instanceof OCat) {
+//                                feedingText = "This animal has " + (ScrapsExtrasCommonConfig.CAT_FEED_TICK.get() - tickToMinutes) + " minute(s) left until it becomes hungry.\n";
+//                                player.sendSystemMessage(Component.translatable("Feeding: " + feedingText).withStyle(ChatFormatting.WHITE));
+//                            }
+//                            if (animal instanceof OOcelot) {
+//                                feedingText = "This animal has " + (ScrapsExtrasCommonConfig.OCELOT_FEED_TICK.get() - tickToMinutes) + " minute(s) left until it becomes hungry.\n";
+//                                player.sendSystemMessage(Component.translatable("Feeding: " + feedingText).withStyle(ChatFormatting.WHITE));
+//                            }
+//                        }
                     }
                 } else {
                     player.sendSystemMessage(Component.translatable("The Scraps & Extras feeding system doesn't apply to this animal or is disabled on this server.").withStyle(ChatFormatting.RED));

@@ -1,6 +1,7 @@
 package com.dragn0007.dragnloextras.mixin;
 
 import com.dragn0007.dragnlivestock.entities.farm_goat.FarmGoat;
+import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
 import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
 import com.dragn0007.dragnloextras.capabilities.SECapabilities;
 import com.dragn0007.dragnloextras.capabilities.SleepingCapabilityInterface;
@@ -40,7 +41,7 @@ import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 
 @Mixin(FarmGoat.class)
-public abstract class FarmGoatMixin extends Animal {
+public abstract class FarmGoatMixin extends AbstractOMount {
 
     @Shadow(remap = false) public abstract void registerGoals();
     @Shadow(remap = false) public abstract boolean isSheared();
