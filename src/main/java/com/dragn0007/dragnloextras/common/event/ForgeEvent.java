@@ -34,13 +34,17 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityEvent;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.living.BabyEntitySpawnEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -50,6 +54,17 @@ import net.minecraftforge.network.PacketDistributor;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeEvent {
+
+    @SubscribeEvent
+    public void setBabyNBT(BabyEntitySpawnEvent event) {
+        LivingEntity baby = event.getChild();
+        if (baby.getType().is(SETags.Entity_Types.TRAITABLE)) {
+            CompoundTag nbt = baby.getPersistentData();
+            if (!nbt.getBoolean("loextras_initialized")) {
+                nbt.putBoolean("loextras_initialized", true);
+            }
+        }
+    }
 
     @SubscribeEvent
     public void registerCaps(RegisterCapabilitiesEvent event) {
@@ -345,7 +360,7 @@ public class ForgeEvent {
                     if (animal.hasEffect(SEEffects.HUNGER.get())) {
                         feedingText = "This animal is currently hungry and should be fed.";
                         player.sendSystemMessage(Component.translatable("Feeding: " + feedingText).withStyle(ChatFormatting.YELLOW));
-                    } else {
+//                    } else {
 //                        CompoundTag tag = animal.getPersistentData();
 //                        if (tag.contains("HungryTick")) {
 //                            int ticks = tag.getInt("HungryTick");

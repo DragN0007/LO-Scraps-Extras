@@ -404,35 +404,39 @@ public abstract class ODonkeyMixin extends AbstractOMount implements DirtyCapabi
                 return InteractionResult.sidedSuccess(this.level().isClientSide);
             }
 
-            if (this.isHungry() || this.hasEffect(SEEffects.HUNGER.get())) {
-                if (itemstack.is(SEItems.GRAIN_FEED.get())) {
+            if (itemstack.is(SEItems.GRAIN_FEED.get())) {
+                this.livestockOverhaulScraps$hungryTick = 0;
+                if (this.isHungry()) {
                     this.setHungry(false);
-                    if (this.hasEffect(SEEffects.HUNGER.get())) {
-                        this.removeEffect(SEEffects.HUNGER.get());
-                    }
-                    if (!player.getAbilities().instabuild) {
-                        itemstack.shrink(1);
-                    }
-                    return InteractionResult.sidedSuccess(this.level().isClientSide);
                 }
-
-                if (itemstack.is(SEItems.HEARTY_GRAIN_FEED.get())) {
+                if (this.hasEffect(SEEffects.HUNGER.get())) {
+                    this.removeEffect(SEEffects.HUNGER.get());
+                }
+                if (!player.getAbilities().instabuild) {
+                    itemstack.shrink(1);
+                }
+                this.playSound(SoundEvents.HORSE_EAT, 0.5f, 1f);
+                return InteractionResult.sidedSuccess(this.level().isClientSide);
+            } else if (itemstack.is(SEItems.HEARTY_GRAIN_FEED.get())) {
+                this.livestockOverhaulScraps$hungryTick = 0;
+                if (this.isHungry()) {
                     this.setHungry(false);
-                    if (this.hasEffect(SEEffects.HUNGER.get())) {
-                        this.removeEffect(SEEffects.HUNGER.get());
-                    }
-                    this.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 12000, 0, false, false));
-                    this.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 12000, 0, false, false));
-                    this.setSickChanceMod(livestockOverhaulScraps$becomeSickChanceMod - 25);
-                    livestockOverhaulScraps$becomeSickChance = livestockOverhaulScraps$becomeSickChanceMod;
-                    if (livestockOverhaulScraps$becomeSickChance < 0) {
-                        livestockOverhaulScraps$becomeSickChance = 0;
-                    }
-                    if (!player.getAbilities().instabuild) {
-                        itemstack.shrink(1);
-                    }
-                    return InteractionResult.sidedSuccess(this.level().isClientSide);
                 }
+                if (this.hasEffect(SEEffects.HUNGER.get())) {
+                    this.removeEffect(SEEffects.HUNGER.get());
+                }
+                this.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 12000, 0, false, false));
+                this.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 12000, 0, false, false));
+                this.setSickChanceMod(livestockOverhaulScraps$becomeSickChanceMod - 25);
+                livestockOverhaulScraps$becomeSickChance = livestockOverhaulScraps$becomeSickChanceMod;
+                if (livestockOverhaulScraps$becomeSickChance < 0) {
+                    livestockOverhaulScraps$becomeSickChance = 0;
+                }
+                if (!player.getAbilities().instabuild) {
+                    itemstack.shrink(1);
+                }
+                this.playSound(SoundEvents.HORSE_EAT, 0.5f, 1f);
+                return InteractionResult.sidedSuccess(this.level().isClientSide);
             }
 
             if (itemstack.is(SEItems.HEARTWORM_MEDICINE.get())) {
@@ -616,6 +620,9 @@ public abstract class ODonkeyMixin extends AbstractOMount implements DirtyCapabi
             TraitCapabilityInterface partnertraitCap = partnerHorse.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
             TraitCapabilityInterface foaltraitCap = foal.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
 
+            CompoundTag nbt = this.getPersistentData();
+            nbt.putBoolean("loextras_initialized", true);
+
             int overlayChance = this.random.nextInt(100);
             int overlay;
             if (overlayChance < ((100 - LivestockOverhaulCommonConfig.MARKING_CHANCE.get()) / 2)) {
@@ -650,7 +657,9 @@ public abstract class ODonkeyMixin extends AbstractOMount implements DirtyCapabi
                 foaltraitCap.setTrait(trait);
                 SyncTraitPacket.syncToTracking(foal, trait);
             } else {
-                ((ITraitByBreedTypeHolder) foal).setTraitByBreedType();
+                trait = random.nextInt(Trait.values().length);
+                foaltraitCap.setTrait(trait);
+                SyncTraitPacket.syncToTracking(foal, trait);
             }
 
             int immunityChance = this.random.nextInt(100);
@@ -689,9 +698,6 @@ public abstract class ODonkeyMixin extends AbstractOMount implements DirtyCapabi
                 SyncImmunityPacket.syncToTracking(this, 1);
             }
 
-            CompoundTag nbt = this.getPersistentData();
-            nbt.putBoolean("loextras_initialized", true);
-
             foal.setGender(random.nextInt(Gender.values().length));
 
         } else {
@@ -701,6 +707,13 @@ public abstract class ODonkeyMixin extends AbstractOMount implements DirtyCapabi
             ImmunityCapabilityInterface foalimmunityCap = foal.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
             TraitCapabilityInterface partnertraitCap = partner.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
             TraitCapabilityInterface foaltraitCap = foal.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
+
+            CompoundTag nbt = this.getPersistentData();
+            if (!nbt.getBoolean("loextras_initialized")) {
+                nbt.putBoolean("loextras_initialized", true);
+            }
+            this.getPersistentData().putString("forge:spawn_type", "BREEDING");
+            System.out.println(foal.getSpawnType());
 
             int variantChance = this.random.nextInt(100);
             int variant;
@@ -746,7 +759,9 @@ public abstract class ODonkeyMixin extends AbstractOMount implements DirtyCapabi
                 foaltraitCap.setTrait(trait);
                 SyncTraitPacket.syncToTracking(foal, trait);
             } else {
-                ((ITraitByBreedTypeHolder) foal).setTraitByBreedType();
+                trait = random.nextInt(Trait.values().length);
+                foaltraitCap.setTrait(trait);
+                SyncTraitPacket.syncToTracking(foal, trait);
             }
 
             int immunityChance = this.random.nextInt(100);
@@ -797,8 +812,6 @@ public abstract class ODonkeyMixin extends AbstractOMount implements DirtyCapabi
                 foal.setHealth(betterHealth);
             }
         }
-        CompoundTag nbt = this.getPersistentData();
-        nbt.putBoolean("loextras_initialized", true);
 
         this.setOffspringAttributes(ageableMob, foal);
         return foal;

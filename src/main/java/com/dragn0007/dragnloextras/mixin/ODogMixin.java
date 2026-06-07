@@ -364,33 +364,39 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
 //                cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
             }
 
-            if (this.isHungry() || this.hasEffect(SEEffects.HUNGER.get())) {
-                if (itemstack.is(SEItems.KIBBLE.get())) {
+            if (itemstack.is(SEItems.KIBBLE.get())) {
+                this.livestockOverhaulScraps$hungryTick = 0;
+                if (this.isHungry()) {
                     this.setHungry(false);
-                    if (this.hasEffect(SEEffects.HUNGER.get())) {
-                        this.removeEffect(SEEffects.HUNGER.get());
-                    }
-                    if (!player.getAbilities().instabuild) {
-                        itemstack.shrink(1);
-                    }
-                    cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
-                } else if (itemstack.is(SEItems.HEARTY_KIBBLE.get())) {
-                    this.setHungry(false);
-                    if (this.hasEffect(SEEffects.HUNGER.get())) {
-                        this.removeEffect(SEEffects.HUNGER.get());
-                    }
-                    this.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 12000, 0, false, false));
-                    this.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 12000, 0, false, false));
-                    this.setSickChanceMod(livestockOverhaulScraps$becomeSickChanceMod - 25);
-                    livestockOverhaulScraps$becomeSickChance = livestockOverhaulScraps$becomeSickChanceMod;
-                    if (livestockOverhaulScraps$becomeSickChance < 0) {
-                        livestockOverhaulScraps$becomeSickChance = 0;
-                    }
-                    if (!player.getAbilities().instabuild) {
-                        itemstack.shrink(1);
-                    }
-                    cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
                 }
+                if (this.hasEffect(SEEffects.HUNGER.get())) {
+                    this.removeEffect(SEEffects.HUNGER.get());
+                }
+                if (!player.getAbilities().instabuild) {
+                    itemstack.shrink(1);
+                }
+                this.playSound(SoundEvents.GENERIC_EAT, 0.5f, 1f);
+                cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
+            } else if (itemstack.is(SEItems.HEARTY_KIBBLE.get())) {
+                this.livestockOverhaulScraps$hungryTick = 0;
+                if (this.isHungry()) {
+                    this.setHungry(false);
+                }
+                if (this.hasEffect(SEEffects.HUNGER.get())) {
+                    this.removeEffect(SEEffects.HUNGER.get());
+                }
+                this.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 12000, 0, false, false));
+                this.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 12000, 0, false, false));
+                this.setSickChanceMod(livestockOverhaulScraps$becomeSickChanceMod - 25);
+                livestockOverhaulScraps$becomeSickChance = livestockOverhaulScraps$becomeSickChanceMod;
+                if (livestockOverhaulScraps$becomeSickChance < 0) {
+                    livestockOverhaulScraps$becomeSickChance = 0;
+                }
+                if (!player.getAbilities().instabuild) {
+                    itemstack.shrink(1);
+                }
+                this.playSound(SoundEvents.GENERIC_EAT, 0.5f, 1f);
+                cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
             }
 
             if (itemstack.is(SEItems.HEARTWORM_MEDICINE.get())) {

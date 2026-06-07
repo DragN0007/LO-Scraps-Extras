@@ -1,6 +1,7 @@
 package com.dragn0007.dragnloextras.mixin;
 
 import com.dragn0007.dragnlivestock.entities.EntityTypes;
+import com.dragn0007.dragnlivestock.entities.ai.HorseFollowHerdLeaderGoal;
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnlivestock.entities.horse.OHorseModel;
 import com.dragn0007.dragnlivestock.entities.unicorn.Unicorn;
@@ -128,6 +129,8 @@ public abstract class UnicornMixin extends AbstractOMount implements DirtyCapabi
                 (entity instanceof Player || entity instanceof Villager || entity instanceof Animal) &&
                         !this.isBaby() && this.hasEffect(SEEffects.MEAN.get()) && livestockOverhaulScraps$beMeanTick >= livestockOverhaulScraps$beMeanTargetTick
         ));
+
+        this.goalSelector.addGoal(3, new HorseFollowHerdLeaderGoal(self));
     }
 
     @Unique public int livestockOverhaulScraps$dirtyTick;
