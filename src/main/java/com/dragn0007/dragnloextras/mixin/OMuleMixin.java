@@ -1,7 +1,5 @@
 package com.dragn0007.dragnloextras.mixin;
 
-import com.dragn0007.dragnlivestock.client.event.LivestockOverhaulClientEvent;
-import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnlivestock.entities.mule.OMule;
 import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
 import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;

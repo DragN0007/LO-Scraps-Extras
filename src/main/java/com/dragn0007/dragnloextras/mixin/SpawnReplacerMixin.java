@@ -1,6 +1,7 @@
 package com.dragn0007.dragnloextras.mixin;
 
 import com.dragn0007.dragnlivestock.entities.camel.OCamel;
+import com.dragn0007.dragnlivestock.entities.caribou.Caribou;
 import com.dragn0007.dragnlivestock.entities.cow.OCow;
 import com.dragn0007.dragnlivestock.entities.donkey.ODonkey;
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
@@ -23,21 +24,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 
 @Mixin(value = SpawnReplacer.class, remap = false)
-public class SpawnReplacerMixin implements ISickModHolder {
-
-    @Unique
-    int livestockOverhaulScraps$becomeSickChanceMod = 0;
-    @Unique
-    public void setSickChanceMod(int sickChanceMod) {
-        this.livestockOverhaulScraps$becomeSickChanceMod = sickChanceMod;
-    }
-
-    @Unique
-    int livestockOverhaulScraps$becomeSickChance = 0;
-    @Unique
-    public void setSickChance(int sickChance) {
-        this.livestockOverhaulScraps$becomeSickChance = sickChance;
-    }
+public class SpawnReplacerMixin {
 
     @Inject(method = "onSpawn", at = @At("TAIL"))
     private static void afterSpawn(EntityJoinLevelEvent event, CallbackInfo ci) {
@@ -53,8 +40,7 @@ public class SpawnReplacerMixin implements ISickModHolder {
                     return;
                 }
                 CompoundTag nbt = oHorse.getPersistentData();
-                if (!nbt.getBoolean("loextras_initialized") &&
-                        oHorse.getSpawnType() != MobSpawnType.BREEDING && oHorse.getSpawnType() != MobSpawnType.SPAWN_EGG) {
+                if (!nbt.getBoolean("loextras_initialized") && !oHorse.isBaby() && oHorse.getSpawnType() != MobSpawnType.SPAWN_EGG) {
                     BaseImmunityHelper.setBaseImmunity(oHorse);
                     BaseTraitHelper.setBaseTrait(oHorse, true);
                     nbt.putBoolean("loextras_initialized", true);
@@ -69,8 +55,7 @@ public class SpawnReplacerMixin implements ISickModHolder {
                     return;
                 }
                 CompoundTag nbt = oMule.getPersistentData();
-                if (!nbt.getBoolean("loextras_initialized") &&
-                        oMule.getSpawnType() != MobSpawnType.BREEDING && oMule.getSpawnType() != MobSpawnType.SPAWN_EGG) {
+                if (!nbt.getBoolean("loextras_initialized") && !oMule.isBaby() && oMule.getSpawnType() != MobSpawnType.SPAWN_EGG) {
                     BaseImmunityHelper.setBaseImmunity(oMule);
                     BaseTraitHelper.setBaseTrait(oMule, false);
                     nbt.putBoolean("loextras_initialized", true);
@@ -85,8 +70,7 @@ public class SpawnReplacerMixin implements ISickModHolder {
                     return;
                 }
                 CompoundTag nbt = oDonkey.getPersistentData();
-                if (!nbt.getBoolean("loextras_initialized") &&
-                        oDonkey.getSpawnType() != MobSpawnType.BREEDING && oDonkey.getSpawnType() != MobSpawnType.SPAWN_EGG) {
+                if (!nbt.getBoolean("loextras_initialized") && !oDonkey.isBaby() && oDonkey.getSpawnType() != MobSpawnType.SPAWN_EGG) {
                     BaseImmunityHelper.setBaseImmunity(oDonkey);
                     BaseTraitHelper.setBaseTrait(oDonkey, false);
                     nbt.putBoolean("loextras_initialized", true);
@@ -101,8 +85,7 @@ public class SpawnReplacerMixin implements ISickModHolder {
                     return;
                 }
                 CompoundTag nbt = oCamel.getPersistentData();
-                if (!nbt.getBoolean("loextras_initialized") &&
-                        oCamel.getSpawnType() != MobSpawnType.BREEDING && oCamel.getSpawnType() != MobSpawnType.SPAWN_EGG) {
+                if (!nbt.getBoolean("loextras_initialized") && !oCamel.isBaby() && oCamel.getSpawnType() != MobSpawnType.SPAWN_EGG) {
                     BaseImmunityHelper.setBaseImmunity(oCamel);
                     BaseTraitHelper.setBaseTrait(oCamel, false);
                     nbt.putBoolean("loextras_initialized", true);
@@ -117,9 +100,23 @@ public class SpawnReplacerMixin implements ISickModHolder {
                     return;
                 }
                 CompoundTag nbt = oCow.getPersistentData();
-                if (!nbt.getBoolean("loextras_initialized") &&
-                        oCow.getSpawnType() != MobSpawnType.BREEDING && oCow.getSpawnType() != MobSpawnType.SPAWN_EGG) {
+                if (!nbt.getBoolean("loextras_initialized") && !oCow.isBaby() && oCow.getSpawnType() != MobSpawnType.SPAWN_EGG) {
                     BaseImmunityHelper.setBaseImmunity(oCow);
+                    nbt.putBoolean("loextras_initialized", true);
+                }
+            }
+        }
+
+        //Caribou
+        if (event.getEntity() instanceof Caribou caribou) {
+            if (event.getEntity().getClass() == Caribou.class) {
+                if (event.getLevel().isClientSide) {
+                    return;
+                }
+                CompoundTag nbt = caribou.getPersistentData();
+                if (!nbt.getBoolean("loextras_initialized") && !caribou.isBaby() && caribou.getSpawnType() != MobSpawnType.SPAWN_EGG) {
+                    BaseImmunityHelper.setBaseImmunity(caribou);
+                    BaseTraitHelper.setBaseTrait(caribou, false);
                     nbt.putBoolean("loextras_initialized", true);
                 }
             }
@@ -132,8 +129,7 @@ public class SpawnReplacerMixin implements ISickModHolder {
                     return;
                 }
                 CompoundTag nbt = unicorn.getPersistentData();
-                if (!nbt.getBoolean("loextras_initialized") &&
-                        unicorn.getSpawnType() != MobSpawnType.BREEDING && unicorn.getSpawnType() != MobSpawnType.SPAWN_EGG) {
+                if (!nbt.getBoolean("loextras_initialized") && !unicorn.isBaby() && unicorn.getSpawnType() != MobSpawnType.SPAWN_EGG) {
                     ImmunityCapabilityInterface immunityCap = null;
                     if (unicorn.getCapability(SECapabilities.IMMUNITY_CAPABILITY).isPresent()) {
                         immunityCap = unicorn.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);

@@ -1,9 +1,7 @@
 package com.dragn0007.dragnloextras.mixin;
 
-import com.dragn0007.dragnlivestock.client.event.LivestockOverhaulClientEvent;
 import com.dragn0007.dragnlivestock.entities.EntityTypes;
 import com.dragn0007.dragnlivestock.entities.caribou.Caribou;
-import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
 import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
 import com.dragn0007.dragnloextras.capabilities.*;
@@ -16,7 +14,6 @@ import com.dragn0007.dragnloextras.items.custom.HalterItem;
 import com.dragn0007.dragnloextras.items.custom.TurnoutBlanketItem;
 import com.dragn0007.dragnloextras.network.*;
 import com.dragn0007.dragnloextras.util.*;
-import com.dragn0007.dragnpets.entities.cat.OCat;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -54,8 +51,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.object.PlayState;
 
 import javax.annotation.Nullable;

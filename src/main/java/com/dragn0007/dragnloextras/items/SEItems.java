@@ -1,6 +1,5 @@
 package com.dragn0007.dragnloextras.items;
 
-import com.dragn0007.dragnlivestock.items.custom.WoolStapleItem;
 import com.dragn0007.dragnloextras.ScrapsExtras;
 import com.dragn0007.dragnloextras.entity.SEEntityTypes;
 import com.dragn0007.dragnloextras.items.custom.*;

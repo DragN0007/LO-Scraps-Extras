@@ -1,7 +1,6 @@
 package com.dragn0007.dragnloextras.datagen;
 
 import com.dragn0007.dragnlivestock.LivestockOverhaul;
-import com.dragn0007.dragnlivestock.items.LOItems;
 import com.dragn0007.dragnlivestock.util.LOTags;
 import com.dragn0007.dragnloextras.ScrapsExtras;
 import com.dragn0007.dragnloextras.datagen.conditions.TFCCondition;

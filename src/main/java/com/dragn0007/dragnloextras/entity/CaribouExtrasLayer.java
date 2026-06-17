@@ -2,7 +2,6 @@ package com.dragn0007.dragnloextras.entity;
 
 import com.dragn0007.dragnlivestock.LivestockOverhaul;
 import com.dragn0007.dragnlivestock.entities.caribou.Caribou;
-import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnloextras.capabilities.DirtyCapabilityInterface;
 import com.dragn0007.dragnloextras.capabilities.HalterCapabilityInterface;
 import com.dragn0007.dragnloextras.capabilities.HalterColorCapabilityInterface;

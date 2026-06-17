@@ -45,8 +45,7 @@ public abstract class OLlamaMixin extends Animal {
     @Shadow(remap = false) public abstract void registerGoals();
     @Shadow(remap = false) public abstract boolean isSheared();
     @Shadow(remap = false) public abstract void dropWoolByColorAndMarking();
-
-    @Shadow public abstract int getWooly();
+    @Shadow(remap = false) public abstract int getWooly();
 
     public OLlamaMixin(EntityType<? extends OLlamaMixin> entityType, Level level) {
         super(entityType, level);

@@ -19,21 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 
 @Mixin(value = SpawnReplacer.class, remap = false)
-public class PSpawnReplacerMixin implements ISickModHolder {
-
-    @Unique
-    int livestockOverhaulScraps$becomeSickChanceMod = 0;
-    @Unique
-    public void setSickChanceMod(int sickChanceMod) {
-        this.livestockOverhaulScraps$becomeSickChanceMod = sickChanceMod;
-    }
-
-    @Unique
-    int livestockOverhaulScraps$becomeSickChance = 0;
-    @Unique
-    public void setSickChance(int sickChance) {
-        this.livestockOverhaulScraps$becomeSickChance = sickChance;
-    }
+public class PSpawnReplacerMixin {
 
     @Inject(method = "onSpawn", at = @At("TAIL"))
     private static void afterSpawn(EntityJoinLevelEvent event, CallbackInfo ci) {
@@ -46,8 +32,7 @@ public class PSpawnReplacerMixin implements ISickModHolder {
                     return;
                 }
                 CompoundTag nbt = oWolf.getPersistentData();
-                if (!nbt.getBoolean("loextras_initialized") &&
-                        oWolf.getSpawnType() != MobSpawnType.BREEDING && oWolf.getSpawnType() != MobSpawnType.SPAWN_EGG) {
+                if (!nbt.getBoolean("loextras_initialized") && !oWolf.isBaby() && oWolf.getSpawnType() != MobSpawnType.SPAWN_EGG) {
                     BaseImmunityHelper.setBaseImmunity(oWolf);
                     BaseTraitHelper.setBaseTrait(oWolf, false);
                     nbt.putBoolean("loextras_initialized", true);
@@ -62,8 +47,7 @@ public class PSpawnReplacerMixin implements ISickModHolder {
                     return;
                 }
                 CompoundTag nbt = oDog.getPersistentData();
-                if (!nbt.getBoolean("loextras_initialized") &&
-                        oDog.getSpawnType() != MobSpawnType.BREEDING && oDog.getSpawnType() != MobSpawnType.SPAWN_EGG) {
+                if (!nbt.getBoolean("loextras_initialized") && !oDog.isBaby() && oDog.getSpawnType() != MobSpawnType.SPAWN_EGG) {
                     BaseImmunityHelper.setBaseImmunity(oDog);
                     BaseTraitHelper.setBaseTrait(oDog, true);
                     nbt.putBoolean("loextras_initialized", true);
@@ -78,8 +62,7 @@ public class PSpawnReplacerMixin implements ISickModHolder {
                     return;
                 }
                 CompoundTag nbt = oCat.getPersistentData();
-                if (!nbt.getBoolean("loextras_initialized") &&
-                        oCat.getSpawnType() != MobSpawnType.BREEDING && oCat.getSpawnType() != MobSpawnType.SPAWN_EGG) {
+                if (!nbt.getBoolean("loextras_initialized") && !oCat.isBaby() && oCat.getSpawnType() != MobSpawnType.SPAWN_EGG) {
                     BaseImmunityHelper.setBaseImmunity(oCat);
                     BaseTraitHelper.setBaseTrait(oCat, false);
                     nbt.putBoolean("loextras_initialized", true);
@@ -94,8 +77,7 @@ public class PSpawnReplacerMixin implements ISickModHolder {
                     return;
                 }
                 CompoundTag nbt = oOcelot.getPersistentData();
-                if (!nbt.getBoolean("loextras_initialized") &&
-                        oOcelot.getSpawnType() != MobSpawnType.BREEDING && oOcelot.getSpawnType() != MobSpawnType.SPAWN_EGG) {
+                if (!nbt.getBoolean("loextras_initialized") && !oOcelot.isBaby() && oOcelot.getSpawnType() != MobSpawnType.SPAWN_EGG) {
                     BaseImmunityHelper.setBaseImmunity(oOcelot);
                     BaseTraitHelper.setBaseTrait(oOcelot, false);
                     nbt.putBoolean("loextras_initialized", true);

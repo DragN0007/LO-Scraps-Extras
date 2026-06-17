@@ -4,7 +4,7 @@ license="All Rights Reserved, DragN0007"
 #issueTrackerURL="https://discord.gg/2WznNTtVac"
 [[mods]]
 modId="dragnloextras"
-version="${1.0}"
+version="${1.1}"
 displayName="DragN's Livestock Overhaul: Scraps & Extras Addon!"
 logoFile="scraps_logo.png"
 authors="DragN0007"
@@ -47,5 +47,7 @@ mandatory=false
 versionRange = "[11.11.1,)"
 ordering="NONE"
 side="BOTH"
-[[mixins]]
-config = "dragnloextras.mixins.json"
+mixinConfigs = [
+    "dragnloextras.mixins.json",
+    "dragnloextras.mixins.wildhorse.json"
+]

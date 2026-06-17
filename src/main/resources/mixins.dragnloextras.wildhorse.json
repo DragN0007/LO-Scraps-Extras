@@ -1,0 +1,18 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "plugin": "com.dragn0007.dragnloextras.compat.wildhorse.WildHorseMixinPlugin",
+  "package": "com.dragn0007.dragnloextras.compat.wildhorse.mixin",
+  "refmap": "mixins.dragnloextras.refmap.json",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "EquusFerusMixin",
+    "SpawnReplacerMixinWH"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "EquusFerusRenderMixin"
+  ]
+}

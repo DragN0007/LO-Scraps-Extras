@@ -13,7 +13,6 @@ import com.dragn0007.dragnloextras.network.SyncSpikeCollarLayerPacket;
 import com.dragn0007.dragnloextras.network.SyncTraitPacket;
 import com.dragn0007.dragnloextras.util.*;
 import com.dragn0007.dragnpets.entities.POEntityTypes;
-import com.dragn0007.dragnpets.entities.ai.DogFollowPackLeaderGoal;
 import com.dragn0007.dragnpets.entities.dog.ODog;
 import com.dragn0007.dragnpets.entities.wolf.OWolf;
 import net.minecraft.nbt.CompoundTag;
@@ -72,7 +71,7 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
 
     @Shadow public abstract InteractionResult mobInteract(Player player, InteractionHand hand);
 
-    @Shadow public SimpleContainer inventory;
+    @Shadow(remap = false) public SimpleContainer inventory;
     @Unique
     public boolean hungry = false;
     @Unique

@@ -1,9 +1,7 @@
 package com.dragn0007.dragnloextras.mixin;
 
 import com.dragn0007.dragnlivestock.entities.camel.OCamelRender;
-import com.dragn0007.dragnlivestock.entities.donkey.ODonkeyRender;
 import com.dragn0007.dragnloextras.entity.OCamelExtrasLayer;
-import com.dragn0007.dragnloextras.entity.ODonkeyExtrasLayer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

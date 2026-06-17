@@ -1,7 +1,5 @@
 package com.dragn0007.dragnloextras.items;
 
-import com.dragn0007.dragnlivestock.LivestockOverhaul;
-import com.dragn0007.dragnlivestock.compat.medievalembroidery.MECompatItems;
 import com.dragn0007.dragnloextras.ScrapsExtras;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;

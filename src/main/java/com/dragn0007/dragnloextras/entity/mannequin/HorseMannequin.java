@@ -1,7 +1,6 @@
 package com.dragn0007.dragnloextras.entity.mannequin;
 
 import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
-import com.dragn0007.dragnlivestock.items.LOItems;
 import com.dragn0007.dragnloextras.common.gui.MannequinMenu;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.items.custom.HalterItem;
