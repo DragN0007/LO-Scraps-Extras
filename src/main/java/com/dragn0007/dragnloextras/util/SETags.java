@@ -5,10 +5,12 @@ import com.dragn0007.dragnlivestock.entities.EntityTypes;
 import com.dragn0007.dragnpets.entities.POEntityTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 
 import java.util.Set;
 
@@ -28,6 +30,14 @@ public class SETags {
         }
         public static TagKey<EntityType<?>> tag(String name) {
             return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(LivestockOverhaul.MODID, name));
+        }
+    }
+
+    public static class Blocks {
+        public static final TagKey<Block> EDIBLE_GRASS = forgeTag("edible_grass");
+
+        public static TagKey<Block> forgeTag (String name) {
+            return BlockTags.create(new ResourceLocation("forge", name));
         }
     }
 

@@ -289,7 +289,7 @@ public abstract class OCamelMixin extends AbstractOMount implements DirtyCapabil
                     if (!this.isHungry()) {
                         BlockPos blockpos = this.blockPosition();
                         BlockPos blockpos1 = blockpos.below();
-                        if (ScrapsExtrasCommonConfig.GRAZING.get() && (!this.level().getBlockState(blockpos1).is(Blocks.GRASS_BLOCK) && !this.isGroundTied()) && this.isTamed()) {
+                        if (ScrapsExtrasCommonConfig.GRAZING.get() && (!this.level().getBlockState(blockpos1).is(SETags.Blocks.EDIBLE_GRASS) && !this.isGroundTied()) && this.isTamed()) {
                             livestockOverhaulScraps$hungryTick++;
                             if (livestockOverhaulScraps$hungryTick >= ScrapsExtrasCommonConfig.HORSE_FEED_TICK.get()) {
                                 this.setHungry(true);
