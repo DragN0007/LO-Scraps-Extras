@@ -17,7 +17,7 @@ import java.util.Set;
 public class SETags {
 
     public static class Items {
-        public static final TagKey<Item> GRAIN = forgeTag("grain");
+        public static final TagKey<Item> GRAINS = forgeTag("grains");
         public static TagKey<Item> forgeTag (String name) {
             return ItemTags.create(new ResourceLocation("forge", name));
         }

@@ -100,6 +100,7 @@ dependencies {
     minecraft "net.minecraftforge:forge:1.20.1-47.3.0" // 47.2.0 is Recommended
     implementation fg.deobf('com.dragn0007.dragnlivestock:Livestock_Overhaul_1.20.1:1.20.1-3.7')
     implementation fg.deobf('com.dragn0007.dragnpets:Livestock_Overhaul_Pets_Addon:1.20.1-2.1')
+    implementation fg.deobf("curse.maven:dragns-crop-overhaul-1357111:7948591")
     implementation fg.deobf('com.dragn0007.wildhorse:Wild_Horse:1.20.1-1.0')
     implementation fg.deobf('software.bernie.geckolib:geckolib-forge-1.20.1:4.4.4')
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'

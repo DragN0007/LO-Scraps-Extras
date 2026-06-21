@@ -66,7 +66,7 @@ public class SERecipeMaker extends RecipeProvider implements IConditionBuilder {
                 .save(pFinishedRecipeConsumer);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, SEItems.HEARTY_KIBBLE.get())
-                .requires(SETags.Items.GRAIN)
+                .requires(SETags.Items.GRAINS)
                 .requires(LOTags.Items.RAW_MEATS)
                 .requires(Items.BONE)
                 .requires(Items.BLAZE_POWDER)
@@ -75,28 +75,28 @@ public class SERecipeMaker extends RecipeProvider implements IConditionBuilder {
                 .save(pFinishedRecipeConsumer);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, SEItems.HEARTY_GRAIN_FEED.get())
-                .requires(SETags.Items.GRAIN)
-                .requires(SETags.Items.GRAIN)
+                .requires(SETags.Items.GRAINS)
+                .requires(SETags.Items.GRAINS)
                 .requires(Items.SUGAR)
                 .requires(Items.BEETROOT)
                 .requires(Items.BLAZE_POWDER)
                 .unlockedBy("has_grain", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(SETags.Items.GRAIN).build()))
+                        .of(SETags.Items.GRAINS).build()))
                 .save(pFinishedRecipeConsumer);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, SEItems.KIBBLE.get())
-                .requires(SETags.Items.GRAIN)
+                .requires(SETags.Items.GRAINS)
                 .requires(LOTags.Items.RAW_MEATS)
                 .unlockedBy("has_meat", inventoryTrigger(ItemPredicate.Builder.item()
                         .of(LOTags.Items.RAW_MEATS).build()))
                 .save(pFinishedRecipeConsumer);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, SEItems.GRAIN_FEED.get())
-                .requires(SETags.Items.GRAIN)
-                .requires(SETags.Items.GRAIN)
+                .requires(SETags.Items.GRAINS)
+                .requires(SETags.Items.GRAINS)
                 .requires(Items.SUGAR)
                 .unlockedBy("has_grain", inventoryTrigger(ItemPredicate.Builder.item()
-                        .of(SETags.Items.GRAIN).build()))
+                        .of(SETags.Items.GRAINS).build()))
                 .save(pFinishedRecipeConsumer);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.VETERINARY_BANDAGE.get())
