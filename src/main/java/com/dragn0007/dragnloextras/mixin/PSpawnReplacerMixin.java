@@ -2,7 +2,6 @@ package com.dragn0007.dragnloextras.mixin;
 
 import com.dragn0007.dragnloextras.util.BaseImmunityHelper;
 import com.dragn0007.dragnloextras.util.BaseTraitHelper;
-import com.dragn0007.dragnloextras.util.ISickModHolder;
 import com.dragn0007.dragnpets.entities.cat.OCat;
 import com.dragn0007.dragnpets.entities.dog.ODog;
 import com.dragn0007.dragnpets.entities.ocelot.OOcelot;
@@ -12,7 +11,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
