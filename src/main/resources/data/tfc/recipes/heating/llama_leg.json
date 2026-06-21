@@ -1,0 +1,18 @@
+{
+  "type": "tfc:heating",
+  "ingredient": {
+    "type": "tfc:not_rotten",
+    "ingredient": {
+      "item": "dragnloextras:llama_leg"
+    }
+  },
+  "result_item": {
+    "stack": {
+      "item": "dragnloextras:cooked_llama_leg"
+    },
+    "modifiers": [
+      "tfc:copy_food"
+    ]
+  },
+  "temperature": 200
+}

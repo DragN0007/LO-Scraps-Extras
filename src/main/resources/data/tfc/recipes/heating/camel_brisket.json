@@ -1,0 +1,18 @@
+{
+  "type": "tfc:heating",
+  "ingredient": {
+    "type": "tfc:not_rotten",
+    "ingredient": {
+      "item": "dragnloextras:camel_brisket"
+    }
+  },
+  "result_item": {
+    "stack": {
+      "item": "dragnloextras:cooked_camel_brisket"
+    },
+    "modifiers": [
+      "tfc:copy_food"
+    ]
+  },
+  "temperature": 200
+}

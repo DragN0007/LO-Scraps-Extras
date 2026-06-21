@@ -1,0 +1,18 @@
+{
+  "type": "tfc:heating",
+  "ingredient": {
+    "type": "tfc:not_rotten",
+    "ingredient": {
+      "item": "dragnloextras:horse_shank"
+    }
+  },
+  "result_item": {
+    "stack": {
+      "item": "dragnloextras:cooked_horse_shank"
+    },
+    "modifiers": [
+      "tfc:copy_food"
+    ]
+  },
+  "temperature": 200
+}

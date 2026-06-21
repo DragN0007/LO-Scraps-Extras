@@ -1,0 +1,18 @@
+{
+  "type": "tfc:heating",
+  "ingredient": {
+    "type": "tfc:not_rotten",
+    "ingredient": {
+      "item": "dragnloextras:beef_brisket"
+    }
+  },
+  "result_item": {
+    "stack": {
+      "item": "dragnloextras:cooked_beef_brisket"
+    },
+    "modifiers": [
+      "tfc:copy_food"
+    ]
+  },
+  "temperature": 200
+}

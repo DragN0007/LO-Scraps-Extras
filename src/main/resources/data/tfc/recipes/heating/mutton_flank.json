@@ -1,0 +1,18 @@
+{
+  "type": "tfc:heating",
+  "ingredient": {
+    "type": "tfc:not_rotten",
+    "ingredient": {
+      "item": "dragnloextras:mutton_flank"
+    }
+  },
+  "result_item": {
+    "stack": {
+      "item": "dragnloextras:cooked_mutton_flank"
+    },
+    "modifiers": [
+      "tfc:copy_food"
+    ]
+  },
+  "temperature": 200
+}

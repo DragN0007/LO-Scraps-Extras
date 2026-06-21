@@ -1,0 +1,18 @@
+{
+  "type": "tfc:heating",
+  "ingredient": {
+    "type": "tfc:not_rotten",
+    "ingredient": {
+      "item": "dragnloextras:salmon_fillet"
+    }
+  },
+  "result_item": {
+    "stack": {
+      "item": "dragnloextras:cooked_salmon_fillet"
+    },
+    "modifiers": [
+      "tfc:copy_food"
+    ]
+  },
+  "temperature": 200
+}
