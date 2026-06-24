@@ -1,0 +1,8 @@
+{
+  "parent": "dragnloextras:block/feed_trough_full",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "particle": "dragnloextras:block/dark_oak_feed_trough",
+    "texture": "dragnloextras:block/dark_oak_feed_trough"
+  }
+}

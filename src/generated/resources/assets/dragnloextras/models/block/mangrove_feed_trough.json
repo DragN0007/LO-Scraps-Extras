@@ -1,0 +1,8 @@
+{
+  "parent": "dragnloextras:block/feed_trough",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "particle": "dragnloextras:block/mangrove_feed_trough",
+    "texture": "dragnloextras:block/mangrove_feed_trough"
+  }
+}

@@ -1,6 +1,9 @@
 package com.dragn0007.dragnloextras.items;
 
 import com.dragn0007.dragnloextras.ScrapsExtras;
+import com.dragn0007.dragnloextras.blocks.SEBlocks;
+import com.dragn0007.dragnloextras.datagen.biglooter.SEBlockLoot;
+import com.dragn0007.dragnloextras.util.WoodType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -49,6 +52,14 @@ public class SEItemGroupModifier {
 
                         for (DyeColor color : DyeColor.values()) {
                             output.accept(SEItems.TURNOUT_BLANKETS.get(color).get());
+                        }
+
+                        for (DyeColor color : DyeColor.values()) {
+                            output.accept(SEBlocks.BOWLS.get(color).get());
+                        }
+
+                        for (WoodType color : WoodType.values()) {
+                            output.accept(SEBlocks.TROUGHS.get(color).get());
                         }
 
                         output.accept(SEItems.BEEF_BRISKET.get());

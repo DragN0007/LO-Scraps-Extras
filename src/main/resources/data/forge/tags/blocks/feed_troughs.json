@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    "dragnloextras:white_feed_trough",
+    "dragnloextras:orange_feed_trough",
+    "dragnloextras:magenta_feed_trough",
+    "dragnloextras:light_blue_feed_trough",
+    "dragnloextras:yellow_feed_trough",
+    "dragnloextras:lime_feed_trough",
+    "dragnloextras:pink_feed_trough",
+    "dragnloextras:gray_feed_trough",
+    "dragnloextras:light_gray_feed_trough",
+    "dragnloextras:cyan_feed_trough",
+    "dragnloextras:purple_feed_trough",
+    "dragnloextras:blue_feed_trough",
+    "dragnloextras:brown_feed_trough",
+    "dragnloextras:green_feed_trough",
+    "dragnloextras:red_feed_trough",
+    "dragnloextras:black_feed_trough"
+  ]
+}

@@ -3,10 +3,10 @@
   "category": "misc",
   "ingredients": [
     {
-      "tag": "forge:grain"
+      "tag": "forge:grains"
     },
     {
-      "tag": "forge:raw_meats"
+      "tag": "forge:cooked_fishes"
     },
     {
       "item": "minecraft:bone"

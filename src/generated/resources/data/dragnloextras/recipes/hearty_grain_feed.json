@@ -3,10 +3,10 @@
   "category": "misc",
   "ingredients": [
     {
-      "tag": "forge:grain"
+      "tag": "forge:grains"
     },
     {
-      "tag": "forge:grain"
+      "tag": "forge:grains"
     },
     {
       "item": "minecraft:sugar"

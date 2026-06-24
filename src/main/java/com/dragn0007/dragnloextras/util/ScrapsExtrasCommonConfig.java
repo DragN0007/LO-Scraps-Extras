@@ -15,7 +15,11 @@ public class ScrapsExtrasCommonConfig {
     public static final ForgeConfigSpec.BooleanValue FEEDING_SYSTEM;
     public static final ForgeConfigSpec.BooleanValue HUNGRY_IMMUNITY_DAMPER;
     public static final ForgeConfigSpec.ConfigValue<Integer> HUNGRY_IMMUNITY_DAMPER_TICK;
+    public static final ForgeConfigSpec.ConfigValue<Integer> MAX_FEED_AMOUNT;
+    public static final ForgeConfigSpec.ConfigValue<Integer> MAX_TROUGH_RANGE;
+    public static final ForgeConfigSpec.ConfigValue<Integer> MAX_BOWL_RANGE;
     public static final ForgeConfigSpec.BooleanValue GRAZING;
+    public static final ForgeConfigSpec.BooleanValue SEEK_FOOD;
     public static final ForgeConfigSpec.BooleanValue HORSE_FOOD;
     public static final ForgeConfigSpec.ConfigValue<Integer> HORSE_FEED_TICK;
     public static final ForgeConfigSpec.BooleanValue DOG_FOOD;
@@ -88,8 +92,16 @@ public class ScrapsExtrasCommonConfig {
                 .define("Starving Immunity Damper", true);
         HUNGRY_IMMUNITY_DAMPER_TICK = BUILDER.comment("The amount of time at which an animal's immune system becomes dampened from starving. Default is 72000 ticks.")
                 .define("Starving Immunity Damper Tick", 72000);
+        MAX_FEED_AMOUNT = BUILDER.comment("The maximum amount of food in a Trough or Bowl. Default is 200. Range: 1 - 500")
+                .define("Max Food in Trough/ Bowl", 200);
+        MAX_TROUGH_RANGE = BUILDER.comment("The maximum range a Trough can feed grain-eating animals. Default is 64.")
+                .define("Max Trough Range", 64);
+        MAX_BOWL_RANGE = BUILDER.comment("The maximum range a Bowl can feed kibble-eating animals. Default is 16.")
+                .define("Max Bowl Range", 16);
         GRAZING = BUILDER.comment("Should grazing animals, such as horses for example, be able to \"graze\" on grass so they don't starve?")
                 .define("Herbivores Can Graze", true);
+        SEEK_FOOD = BUILDER.comment("Should animals that can eat seek out food sources, such as grass for grazing, troughs, and bowls?")
+                .define("Seek Food", true);
         HORSE_FOOD = BUILDER.define("Equines Need Food", true);
         HORSE_FEED_TICK = BUILDER.comment("The amount of time at which a equine/ camel/ caribou needs to be fed. Default is 48000 ticks.")
                 .define("Equine/ Camel/ Caribou Feed Tick", 48000);

@@ -1,6 +1,7 @@
 package com.dragn0007.dragnloextras.datagen;
 
 import com.dragn0007.dragnloextras.ScrapsExtras;
+import com.dragn0007.dragnloextras.datagen.biglooter.SELootTableProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
@@ -21,6 +22,8 @@ public class JsonDataGenerator {
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
         generator.addProvider(event.includeServer(), new SERecipeMaker(packOutput));
+        generator.addProvider(event.includeClient(), new SEBlockstateProvider(packOutput, existingFileHelper));
         generator.addProvider(event.includeClient(), new SEItemModelProvider(packOutput, existingFileHelper));
+        generator.addProvider(event.includeServer(), SELootTableProvider.create(packOutput));
     }
 }

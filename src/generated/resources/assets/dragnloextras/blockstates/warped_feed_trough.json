@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=east,has_feed=false": {
+      "model": "dragnloextras:block/warped_feed_trough",
+      "y": 270
+    },
+    "facing=east,has_feed=true": {
+      "model": "dragnloextras:block/warped_feed_trough_full",
+      "y": 270
+    },
+    "facing=north,has_feed=false": {
+      "model": "dragnloextras:block/warped_feed_trough",
+      "y": 180
+    },
+    "facing=north,has_feed=true": {
+      "model": "dragnloextras:block/warped_feed_trough_full",
+      "y": 180
+    },
+    "facing=south,has_feed=false": {
+      "model": "dragnloextras:block/warped_feed_trough"
+    },
+    "facing=south,has_feed=true": {
+      "model": "dragnloextras:block/warped_feed_trough_full"
+    },
+    "facing=west,has_feed=false": {
+      "model": "dragnloextras:block/warped_feed_trough",
+      "y": 90
+    },
+    "facing=west,has_feed=true": {
+      "model": "dragnloextras:block/warped_feed_trough_full",
+      "y": 90
+    }
+  }
+}

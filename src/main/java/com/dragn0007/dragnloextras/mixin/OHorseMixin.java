@@ -18,6 +18,7 @@ import com.dragn0007.dragnloextras.effects.SEEffects;
 import com.dragn0007.dragnloextras.entity.ai.EquineSleepGoal;
 import com.dragn0007.dragnloextras.entity.ai.FleeRainGoal;
 import com.dragn0007.dragnloextras.entity.ai.HorseFollowOwnerGoal;
+import com.dragn0007.dragnloextras.entity.ai.SeekTroughGoal;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.items.custom.HalterItem;
 import com.dragn0007.dragnloextras.items.custom.TurnoutBlanketItem;

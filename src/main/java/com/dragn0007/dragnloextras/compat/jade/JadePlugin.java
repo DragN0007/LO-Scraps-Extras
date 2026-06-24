@@ -1,5 +1,6 @@
 package com.dragn0007.dragnloextras.compat.jade;
 
+import com.dragn0007.dragnloextras.blocks.custom.FeedTroughBlock;
 import com.dragn0007.dragnloextras.entity.butchering.Corpse;
 import snownee.jade.api.IWailaClientRegistration;
 import snownee.jade.api.IWailaPlugin;
@@ -11,5 +12,6 @@ public class JadePlugin implements IWailaPlugin {
     @Override
     public void registerClient(IWailaClientRegistration registration) {
         registration.registerEntityComponent(new CorpseDespawnTooltip(), Corpse.class);
+        registration.registerBlockComponent(new TroughTooltipProvider(), FeedTroughBlock.class);
     }
 }

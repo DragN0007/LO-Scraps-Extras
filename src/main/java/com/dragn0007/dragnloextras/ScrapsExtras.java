@@ -1,5 +1,6 @@
 package com.dragn0007.dragnloextras;
 
+import com.dragn0007.dragnloextras.blocks.SEBlocks;
 import com.dragn0007.dragnloextras.common.gui.SEMenuTypes;
 import com.dragn0007.dragnloextras.datagen.conditions.TFCCondition;
 import com.dragn0007.dragnloextras.effects.SEEffects;
@@ -29,6 +30,7 @@ public class ScrapsExtras
 
         SEItems.register(eventBus);
         SEItemGroupModifier.register(eventBus);
+        SEBlocks.register(eventBus);
         SEEffects.register(eventBus);
         SEMenuTypes.register(eventBus);
         SEEntityTypes.ENTITY_TYPES.register(eventBus);

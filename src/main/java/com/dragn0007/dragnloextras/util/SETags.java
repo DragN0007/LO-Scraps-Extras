@@ -2,6 +2,7 @@ package com.dragn0007.dragnloextras.util;
 
 import com.dragn0007.dragnlivestock.LivestockOverhaul;
 import com.dragn0007.dragnlivestock.entities.EntityTypes;
+import com.dragn0007.dragnloextras.ScrapsExtras;
 import com.dragn0007.dragnpets.entities.POEntityTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -18,8 +19,15 @@ public class SETags {
 
     public static class Items {
         public static final TagKey<Item> GRAINS = forgeTag("grains");
+        public static final TagKey<Item> GRAIN_FEED = tag("grain_feed");
+        public static final TagKey<Item> HEARTY_GRAIN_FEED = tag("hearty_grain_feed");
+        public static final TagKey<Item> KIBBLE = tag("kibble");
+        public static final TagKey<Item> HEARTY_KIBBLE = tag("hearty_kibble");
         public static TagKey<Item> forgeTag (String name) {
             return ItemTags.create(new ResourceLocation("forge", name));
+        }
+        public static TagKey<Item> tag (String name) {
+            return ItemTags.create(new ResourceLocation(ScrapsExtras.MODID, name));
         }
     }
 
@@ -35,6 +43,8 @@ public class SETags {
 
     public static class Blocks {
         public static final TagKey<Block> EDIBLE_GRASS = forgeTag("edible_grass");
+        public static final TagKey<Block> FEED_BOWLS = forgeTag("feed_bowls");
+        public static final TagKey<Block> FEED_TROUGHS = forgeTag("feed_troughs");
 
         public static TagKey<Block> forgeTag (String name) {
             return BlockTags.create(new ResourceLocation("forge", name));
