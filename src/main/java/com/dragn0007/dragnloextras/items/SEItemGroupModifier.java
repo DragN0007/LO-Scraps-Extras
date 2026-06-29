@@ -2,7 +2,6 @@ package com.dragn0007.dragnloextras.items;
 
 import com.dragn0007.dragnloextras.ScrapsExtras;
 import com.dragn0007.dragnloextras.blocks.SEBlocks;
-import com.dragn0007.dragnloextras.datagen.biglooter.SEBlockLoot;
 import com.dragn0007.dragnloextras.util.WoodType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;

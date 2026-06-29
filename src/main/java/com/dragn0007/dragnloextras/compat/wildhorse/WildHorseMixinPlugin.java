@@ -1,6 +1,5 @@
 package com.dragn0007.dragnloextras.compat.wildhorse;
 
-import net.minecraftforge.fml.ModList;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -21,7 +20,14 @@ public class WildHorseMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        return ModList.get().isLoaded("wildhorse");
+//        return ModList.get().isLoaded("wildhorse");
+
+        try {
+            Class.forName("com.dragn0007.wildhorse.WildHorse", false, this.getClass().getClassLoader());
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
     }
 
     @Override
