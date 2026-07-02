@@ -46,8 +46,7 @@ public class SEBlocks {
     static {
         for (DyeColor color : DyeColor.values()) {
             String blockName = color.getName() + "_feed_bowl";
-            RegistryObject<FeedBowlBlock> block = BLOCKS.register(blockName,
-                    () -> new FeedBowlBlock(BlockBehaviour.Properties.copy(OAK_PLANKS)));
+            RegistryObject<FeedBowlBlock> block = BLOCKS.register(blockName, FeedBowlBlock::new);
             RegistryObject<Item> blockItem = SEItems.ITEMS.register(blockName,
                     () -> new BlockItem(block.get(), new Item.Properties()));
             BOWLS.put(color, block);

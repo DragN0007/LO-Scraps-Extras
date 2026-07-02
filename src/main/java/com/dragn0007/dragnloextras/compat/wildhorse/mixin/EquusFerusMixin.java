@@ -27,6 +27,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -46,6 +47,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.fml.ModList;
@@ -76,25 +78,19 @@ public abstract class EquusFerusMixin extends OHorse implements DirtyCapabilityI
 
     @Shadow(remap = false) public abstract int getTanningVariant();
 
-    @Unique
-    public boolean sleepingAsLeader = false;
-    @Unique
-    public boolean isSleepingAsLeader() {
+    @Unique public boolean sleepingAsLeader = false;
+    @Unique public boolean isSleepingAsLeader() {
         return this.sleepingAsLeader;
     }
-    @Unique
-    public void setSleepingAsLeader(boolean sleepingAsLeader) {
+    @Unique public void setSleepingAsLeader(boolean sleepingAsLeader) {
         this.sleepingAsLeader = sleepingAsLeader;
     }
 
-    @Unique
-    public boolean hungry = false;
-    @Unique
-    public boolean isHungry() {
+    @Unique public boolean hungry = false;
+    @Unique public boolean isHungry() {
         return this.hungry;
     }
-    @Unique
-    public void setHungry(boolean hungry) {
+    @Unique public void setHungry(boolean hungry) {
         this.hungry = hungry;
     }
 

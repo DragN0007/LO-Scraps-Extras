@@ -58,14 +58,11 @@ public abstract class OOcelotMixin extends TamableAnimal implements DirtyCapabil
 
     @Shadow public abstract InteractionResult mobInteract(Player player, InteractionHand hand);
 
-    @Unique
-    public boolean hungry = false;
-    @Unique
-    public boolean isHungry() {
+    @Unique public boolean hungry = false;
+    @Unique public boolean isHungry() {
         return this.hungry;
     }
-    @Unique
-    public void setHungry(boolean hungry) {
+    @Unique public void setHungry(boolean hungry) {
         this.hungry = hungry;
     }
 

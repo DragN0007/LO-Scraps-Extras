@@ -2,6 +2,8 @@ package com.dragn0007.dragnloextras.blocks.custom;
 
 import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
 import com.dragn0007.dragnloextras.blocks.DecorRotator;
+import com.dragn0007.dragnloextras.effects.SEEffects;
+import com.dragn0007.dragnloextras.util.IHungerHolder;
 import com.dragn0007.dragnloextras.util.SETags;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import net.minecraft.core.BlockPos;
@@ -47,7 +49,7 @@ public class FeedTroughBlock extends DecorRotator implements SimpleWaterloggedBl
         return FOOD_AMOUNT;
     }
     public int getMaxFoodAmount() {
-        return ScrapsExtrasCommonConfig.MAX_FEED_AMOUNT.get();
+        return ScrapsExtrasCommonConfig.MAX_TROUGH_FEED_AMOUNT.get();
     }
     public int getFoodAmount(BlockState state) {
         return state.getValue(this.getFoodAmountProperty());
@@ -123,6 +125,18 @@ public class FeedTroughBlock extends DecorRotator implements SimpleWaterloggedBl
 
         for (AbstractOMount animal : nearbyAnimals) {
             if (feed > 0) {
+                if (animal.getType().is(SETags.Entity_Types.FEEDABLE_GRAIN_FEED) && animal instanceof IHungerHolder) {
+                    if (((IHungerHolder) animal).isHungry()) {
+                        ((IHungerHolder) animal).setHungerTick(0);
+                        if (((IHungerHolder) animal).isHungry()) {
+                            ((IHungerHolder) animal).setHungry(false);
+                        }
+                        if (animal.hasEffect(SEEffects.HUNGER.get())) {
+                            animal.removeEffect(SEEffects.HUNGER.get());
+                        }
+                    }
+                }
+
                 level.setBlockAndUpdate(pos, this.getStateForFoodAmount(feed - 1).setValue(FEED, Boolean.TRUE)
                         .setValue(BlockStateProperties.HORIZONTAL_FACING, facingDirection));
             }
@@ -154,7 +168,19 @@ public class FeedTroughBlock extends DecorRotator implements SimpleWaterloggedBl
                  }
                  return InteractionResult.SUCCESS;
              } else if (stack.is(SETags.Items.HEARTY_GRAIN_FEED)) {
+                 level.setBlockAndUpdate(pos, state.setValue(FEED, Boolean.valueOf(true))
+                         .setValue(FOOD_AMOUNT, Integer.valueOf(getFoodAmount(state) + 50))
+                         .setValue(BlockStateProperties.HORIZONTAL_FACING, facingDirection)
+                 );
+                 if (this.getFoodAmount(state) > this.getMaxFoodAmount()) {
+                     level.setBlockAndUpdate(pos, state.setValue(FOOD_AMOUNT, Integer.valueOf(this.getMaxFoodAmount())));
+                 }
+                 level.playSound(null, pos, SoundEvents.GRASS_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
 
+                 if (!player.getAbilities().instabuild) {
+                     stack.shrink(1);
+                 }
+                 return InteractionResult.SUCCESS;
              }
          }
 

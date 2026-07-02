@@ -33,6 +33,8 @@ public class SETags {
 
     public static class Entity_Types {
         public static final TagKey<EntityType<?>> TRAITABLE = tag("traitable");
+        public static final TagKey<EntityType<?>> FEEDABLE_GRAIN_FEED = tag("feedable_grain_feed");
+        public static final TagKey<EntityType<?>> FEEDABLE_KIBBLE = tag("feedable_kibble");
         public static TagKey<EntityType<?>> forgeTag(String name) {
             return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation("forge", name));
         }
@@ -43,8 +45,8 @@ public class SETags {
 
     public static class Blocks {
         public static final TagKey<Block> EDIBLE_GRASS = forgeTag("edible_grass");
-        public static final TagKey<Block> FEED_BOWLS = forgeTag("feed_bowls");
         public static final TagKey<Block> FEED_TROUGHS = forgeTag("feed_troughs");
+        public static final TagKey<Block> FEED_BOWLS = forgeTag("feed_bowls");
 
         public static TagKey<Block> forgeTag (String name) {
             return BlockTags.create(new ResourceLocation("forge", name));

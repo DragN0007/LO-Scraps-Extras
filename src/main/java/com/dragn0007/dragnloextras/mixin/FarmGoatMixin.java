@@ -8,6 +8,7 @@ import com.dragn0007.dragnloextras.capabilities.SleepingCapabilityInterface;
 import com.dragn0007.dragnloextras.effects.SEEffects;
 import com.dragn0007.dragnloextras.entity.ai.FleeRainGoal;
 import com.dragn0007.dragnloextras.entity.ai.SleepGoal;
+import com.dragn0007.dragnloextras.util.IHungerHolder;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
@@ -29,6 +30,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -41,7 +43,7 @@ import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 
 @Mixin(FarmGoat.class)
-public abstract class FarmGoatMixin extends AbstractOMount {
+public abstract class FarmGoatMixin extends AbstractOMount implements IHungerHolder {
 
     @Shadow(remap = false) public abstract void registerGoals();
     @Shadow(remap = false) public abstract boolean isSheared();
@@ -49,6 +51,15 @@ public abstract class FarmGoatMixin extends AbstractOMount {
     @Shadow(remap = false) public abstract boolean isExquisiteQuality();
     @Shadow(remap = false) public abstract boolean isFantasticQuality();
     @Shadow(remap = false) public abstract boolean isGreatQuality();
+
+    @Unique
+    public boolean hungry = false;
+    @Unique public boolean isHungry() {
+        return this.hungry;
+    }
+    @Unique public void setHungry(boolean hungry) {
+        this.hungry = hungry;
+    }
 
     public FarmGoatMixin(EntityType<? extends FarmGoatMixin> entityType, Level level) {
         super(entityType, level);

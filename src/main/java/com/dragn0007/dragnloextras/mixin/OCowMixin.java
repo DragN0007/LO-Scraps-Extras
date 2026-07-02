@@ -12,10 +12,7 @@ import com.dragn0007.dragnloextras.entity.ai.FleeRainGoal;
 import com.dragn0007.dragnloextras.entity.ai.SleepGoal;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.network.SyncImmunityPacket;
-import com.dragn0007.dragnloextras.util.BabyTraitHelper;
-import com.dragn0007.dragnloextras.util.BaseImmunityHelper;
-import com.dragn0007.dragnloextras.util.ISickModHolder;
-import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
+import com.dragn0007.dragnloextras.util.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -58,7 +55,7 @@ import java.util.List;
 import java.util.Random;
 
 @Mixin(OCow.class)
-public abstract class OCowMixin extends AbstractOMount implements ISickModHolder {
+public abstract class OCowMixin extends AbstractOMount implements ISickModHolder, IHungerHolder {
 
     @Shadow(remap = false) @Nullable public abstract SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, @org.jetbrains.annotations.Nullable SpawnGroupData data, @org.jetbrains.annotations.Nullable CompoundTag tag);
     @Shadow(remap = false) public abstract boolean isHarnessed();
@@ -68,6 +65,14 @@ public abstract class OCowMixin extends AbstractOMount implements ISickModHolder
     @Shadow(remap = false) public abstract boolean isExquisiteQuality();
     @Shadow(remap = false) public abstract boolean isFantasticQuality();
     @Shadow(remap = false) public abstract boolean isGreatQuality();
+
+    @Unique public boolean hungry = false;
+    @Unique public boolean isHungry() {
+        return this.hungry;
+    }
+    @Unique public void setHungry(boolean hungry) {
+        this.hungry = hungry;
+    }
 
     @Unique
     int livestockOverhaulScraps$becomeSickChanceMod = 0;

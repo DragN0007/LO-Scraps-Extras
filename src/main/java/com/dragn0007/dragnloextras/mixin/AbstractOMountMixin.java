@@ -1,23 +1,49 @@
 package com.dragn0007.dragnloextras.mixin;
 
 import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
+import com.dragn0007.dragnloextras.effects.SEEffects;
 import com.dragn0007.dragnloextras.util.IHungerHolder;
+import com.dragn0007.dragnloextras.util.SETags;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
+import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.horse.AbstractChestedHorse;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(AbstractOMount.class)
 public abstract class AbstractOMountMixin extends AbstractChestedHorse implements IHungerHolder {
 
-//    @Shadow public abstract boolean isFemale();
+    @Shadow(remap = false) public abstract boolean isGroundTied();
+
+    //    @Shadow public abstract boolean isFemale();
 //    @Shadow public abstract boolean isMale();
 //
     public AbstractOMountMixin(EntityType<? extends AbstractOMountMixin> entityType, Level level) {
         super(entityType, level);
+    }
+
+    @Unique public boolean hungry = false;
+    @Unique public boolean isHungry() {
+        return this.hungry;
+    }
+    @Unique public void setHungry(boolean hungry) {
+        this.hungry = hungry;
+    }
+
+    @Unique
+    public int livestockOverhaulScraps$hungryTick;
+
+    @Override
+    public void tick() {
+        super.tick();
     }
 
     @Override

@@ -67,14 +67,11 @@ public abstract class OMuleMixin extends AbstractOMount implements DirtyCapabili
 
     @Shadow public abstract void registerGoals();
 
-    @Unique
-    public boolean hungry = false;
-    @Unique
-    public boolean isHungry() {
+    @Unique public boolean hungry = false;
+    @Unique public boolean isHungry() {
         return this.hungry;
     }
-    @Unique
-    public void setHungry(boolean hungry) {
+    @Unique public void setHungry(boolean hungry) {
         this.hungry = hungry;
     }
 

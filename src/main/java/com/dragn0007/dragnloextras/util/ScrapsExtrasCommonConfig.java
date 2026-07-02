@@ -15,7 +15,8 @@ public class ScrapsExtrasCommonConfig {
     public static final ForgeConfigSpec.BooleanValue FEEDING_SYSTEM;
     public static final ForgeConfigSpec.BooleanValue HUNGRY_IMMUNITY_DAMPER;
     public static final ForgeConfigSpec.ConfigValue<Integer> HUNGRY_IMMUNITY_DAMPER_TICK;
-    public static final ForgeConfigSpec.ConfigValue<Integer> MAX_FEED_AMOUNT;
+    public static final ForgeConfigSpec.ConfigValue<Integer> MAX_TROUGH_FEED_AMOUNT;
+    public static final ForgeConfigSpec.ConfigValue<Integer> MAX_BOWL_FEED_AMOUNT;
     public static final ForgeConfigSpec.ConfigValue<Integer> MAX_TROUGH_RANGE;
     public static final ForgeConfigSpec.ConfigValue<Integer> MAX_BOWL_RANGE;
     public static final ForgeConfigSpec.BooleanValue GRAZING;
@@ -58,15 +59,22 @@ public class ScrapsExtrasCommonConfig {
     public static final ForgeConfigSpec.BooleanValue TRAITS_SYSTEM;
     public static final ForgeConfigSpec.BooleanValue TRAITS_BY_BREED;
     public static final ForgeConfigSpec.BooleanValue GOOD_TRAITS_ONLY;
+//    public static final ForgeConfigSpec.BooleanValue AGING;
+//    public static final ForgeConfigSpec.BooleanValue DEATH_OLD_AGE;
+//    public static final ForgeConfigSpec.ConfigValue<Integer> YEAR;
+//    public static final ForgeConfigSpec.ConfigValue<Integer> DAY_TICKS;
+//    public static final ForgeConfigSpec.ConfigValue<Integer> SMALL_LIFESPAN;
+//    public static final ForgeConfigSpec.ConfigValue<Integer> MEDIUM_LIFESPAN;
+//    public static final ForgeConfigSpec.ConfigValue<Integer> LARGE_LIFESPAN;
+public static final ForgeConfigSpec.ConfigValue<Integer> SMALL_GROWTH_TIME;
+    public static final ForgeConfigSpec.ConfigValue<Integer> MEDIUM_GROWTH_TIME;
+    public static final ForgeConfigSpec.ConfigValue<Integer> LARGE_GROWTH_TIME;
     public static final ForgeConfigSpec.BooleanValue BUTCHERING;
     public static final ForgeConfigSpec.BooleanValue HALTER;
     public static final ForgeConfigSpec.BooleanValue SPIKE_COLLAR;
     public static final ForgeConfigSpec.BooleanValue SLEEPING;
     public static final ForgeConfigSpec.BooleanValue SWIMMING;
     public static final ForgeConfigSpec.ConfigValue<Integer> CORPSE_DECOMP_TIMER;
-    public static final ForgeConfigSpec.ConfigValue<Integer> SMALL_GROWTH_TIME;
-    public static final ForgeConfigSpec.ConfigValue<Integer> MEDIUM_GROWTH_TIME;
-    public static final ForgeConfigSpec.ConfigValue<Integer> LARGE_GROWTH_TIME;
 
     static {
         BUILDER.comment("Welcome to Scraps & Extras! Here, you can configure this entire mod to your liking. " +
@@ -92,16 +100,18 @@ public class ScrapsExtrasCommonConfig {
                 .define("Starving Immunity Damper", true);
         HUNGRY_IMMUNITY_DAMPER_TICK = BUILDER.comment("The amount of time at which an animal's immune system becomes dampened from starving. Default is 72000 ticks.")
                 .define("Starving Immunity Damper Tick", 72000);
-        MAX_FEED_AMOUNT = BUILDER.comment("The maximum amount of food in a Trough or Bowl. Default is 200. Range: 1 - 500")
-                .define("Max Food in Trough/ Bowl", 200);
+        MAX_TROUGH_FEED_AMOUNT = BUILDER.comment("The maximum amount of food in a Trough. Default is 200. Range: 1 - 500")
+                .define("Max Food in Trough", 200);
+        MAX_BOWL_FEED_AMOUNT = BUILDER.comment("The maximum amount of food in a Bowl. Default is 50. Range: 1 - 500")
+                .define("Max Food in Bowl", 50);
         MAX_TROUGH_RANGE = BUILDER.comment("The maximum range a Trough can feed grain-eating animals. Default is 64.")
                 .define("Max Trough Range", 64);
         MAX_BOWL_RANGE = BUILDER.comment("The maximum range a Bowl can feed kibble-eating animals. Default is 16.")
                 .define("Max Bowl Range", 16);
         GRAZING = BUILDER.comment("Should grazing animals, such as horses for example, be able to \"graze\" on grass so they don't starve?")
                 .define("Herbivores Can Graze", true);
-        SEEK_FOOD = BUILDER.comment("Should animals that can eat seek out food sources, such as grass for grazing, troughs, and bowls?")
-                .define("Seek Food", true);
+        SEEK_FOOD = BUILDER.comment("Should animals that can eat be able to eat from Troughs or Bowls?")
+                .define("Eat From Trough/ Bowl", true);
         HORSE_FOOD = BUILDER.define("Equines Need Food", true);
         HORSE_FEED_TICK = BUILDER.comment("The amount of time at which a equine/ camel/ caribou needs to be fed. Default is 48000 ticks.")
                 .define("Equine/ Camel/ Caribou Feed Tick", 48000);
@@ -167,6 +177,27 @@ public class ScrapsExtrasCommonConfig {
                 .define("Good Traits Only", false);
         BUILDER.pop();
 
+        BUILDER.push("Aging");
+//        AGING = BUILDER.define("[NOT FUNCTIONAL: Future Development] Aging Enabled", true);
+//        DEATH_OLD_AGE = BUILDER.define("[NOT FUNCTIONAL: Future Development] Death by Old Age Enabled", true);
+//        YEAR = BUILDER.comment("The amount of in-game days that add up to an entire in-game year. Default is 96. Used for animal lifespans.")
+//                .define("[NOT FUNCTIONAL: Future Development] Days per Year", 96);
+//        DAY_TICKS = BUILDER.comment("The amount of ticks that add up to an entire in-game day. Default is 24000 (vanilla). Used for animal lifespans.")
+//                .define("[NOT FUNCTIONAL: Future Development] Ticks per Day", 24000);
+//        SMALL_LIFESPAN = BUILDER.comment("The maximum lifespan, in years, that a small-sized animal will live. Default is 6 years.")
+//                .define("[NOT FUNCTIONAL: Future Development] Small Animal Lifespan", 6);
+//        MEDIUM_LIFESPAN = BUILDER.comment("The maximum lifespan, in years, that a medium-sized animal will live. Default is 12 years.")
+//                .define("[NOT FUNCTIONAL: Future Development] Medium Animal Lifespan", 12);
+//        LARGE_LIFESPAN = BUILDER.comment("The maximum lifespan, in years, that a large-sized animal will live. Default is 24 years.")
+//                .define("[NOT FUNCTIONAL: Future Development] Large Animal Lifespan", 24);
+        SMALL_GROWTH_TIME = BUILDER.comment("The amount of time it takes for a small-sized baby animal to grow up. Default is 168,000 ticks.")
+                .define("Small Animal Growth Time", 168000);
+        MEDIUM_GROWTH_TIME = BUILDER.comment("The amount of time it takes for a medium-sized baby animal to grow up. Default is 252,000 ticks.")
+                .define("Medium Animal Growth Time", 252000);
+        LARGE_GROWTH_TIME = BUILDER.comment("The amount of time it takes for a large-sized baby animal to grow up. Default is 336,000 ticks.")
+                .define("Large Animal Growth Time", 336000);
+        BUILDER.pop();
+
         BUILDER.push("Misc");
         BUTCHERING = BUILDER.define("Butchering System Enabled", true);
         HALTER = BUILDER.define("Halter Owner Following Enabled", true);
@@ -175,12 +206,6 @@ public class ScrapsExtrasCommonConfig {
         SWIMMING = BUILDER.define("Mounts Can Swim", true);
         CORPSE_DECOMP_TIMER = BUILDER.comment("The amount of time it takes for an animal carcass to decompose (despawn). Default is 6000 ticks (5 minutes).")
                 .define("Animal Carcass Despawn Time", 6000);
-        SMALL_GROWTH_TIME = BUILDER.comment("The amount of time it takes for a small-sized baby animal to grow up. Default is 168,000 ticks.")
-                .define("Small Animal Growth Time", 168000);
-        MEDIUM_GROWTH_TIME = BUILDER.comment("The amount of time it takes for a medium-sized baby animal to grow up. Default is 252,000 ticks.")
-                .define("Medium Animal Growth Time", 252000);
-        LARGE_GROWTH_TIME = BUILDER.comment("The amount of time it takes for a large-sized baby animal to grow up. Default is 336,000 ticks.")
-                .define("Large Animal Growth Time", 336000);
         BUILDER.pop();
 
         SPEC = BUILDER.build();

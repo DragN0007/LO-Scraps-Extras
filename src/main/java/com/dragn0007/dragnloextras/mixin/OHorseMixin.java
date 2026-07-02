@@ -82,27 +82,27 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
     @Shadow @Nullable public abstract SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, @org.jetbrains.annotations.Nullable SpawnGroupData data, @org.jetbrains.annotations.Nullable CompoundTag tag);
     @Shadow public abstract void registerGoals();
 
-    @Unique
-    public boolean sleepingAsLeader = false;
-    @Unique
-    public boolean isSleepingAsLeader() {
+    @Unique public boolean sleepingAsLeader = false;
+    @Unique public boolean isSleepingAsLeader() {
         return this.sleepingAsLeader;
     }
-    @Unique
-    public void setSleepingAsLeader(boolean sleepingAsLeader) {
+    @Unique public void setSleepingAsLeader(boolean sleepingAsLeader) {
         this.sleepingAsLeader = sleepingAsLeader;
     }
 
-    @Unique
-    public boolean hungry = false;
-    @Unique
-    public boolean isHungry() {
+    @Unique public boolean hungry = false;
+    @Unique public boolean isHungry() {
         return this.hungry;
     }
-    @Unique
-    public void setHungry(boolean hungry) {
+    @Unique public void setHungry(boolean hungry) {
         this.hungry = hungry;
     }
+
+    @Unique public int livestockOverhaulScraps$hungryTick = 0;
+    @Unique public int hungryTick() {
+        return this.livestockOverhaulScraps$hungryTick;
+    }
+    @Unique public void setHungerTick(int hungryTick) {}
 
 //    @Unique
 //    public boolean pregnant = false;
@@ -176,7 +176,6 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
     }
 
     @Unique public int livestockOverhaulScraps$dirtyTick;
-    @Unique public int livestockOverhaulScraps$hungryTick;
     @Unique public int livestockOverhaulScraps$beMeanTick;
     @Unique public int livestockOverhaulScraps$sickTick;
     @Unique public int livestockOverhaulScraps$sickModDissipateTick = 72000;
@@ -346,12 +345,15 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
                     if (!this.isHungry()) {
                         BlockPos blockpos = this.blockPosition();
                         BlockPos blockpos1 = blockpos.below();
-                        if (ScrapsExtrasCommonConfig.GRAZING.get() && (!this.level().getBlockState(blockpos1).is(SETags.Blocks.EDIBLE_GRASS) && !this.isGroundTied()) && this.isTamed()) {
-                            livestockOverhaulScraps$hungryTick++;
-                            if (livestockOverhaulScraps$hungryTick >= ScrapsExtrasCommonConfig.HORSE_FEED_TICK.get()) {
-                                this.setHungry(true);
-                                this.addEffect(new MobEffectInstance(SEEffects.HUNGER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
-                                livestockOverhaulScraps$hungryTick = 0;
+                        if ((ScrapsExtrasCommonConfig.GRAZING.get() && (!this.level().getBlockState(blockpos1).is(SETags.Blocks.EDIBLE_GRASS)) || this.isGroundTied()) || !ScrapsExtrasCommonConfig.GRAZING.get()) {
+                            if (this.isTamed()) {
+                                livestockOverhaulScraps$hungryTick++;
+                                if (livestockOverhaulScraps$hungryTick >= ScrapsExtrasCommonConfig.HORSE_FEED_TICK.get()) {
+                                    this.setHungry(true);
+                                    this.addEffect(new MobEffectInstance(SEEffects.HUNGER.get(), MobEffectInstance.INFINITE_DURATION, 0, false, false));
+                                    livestockOverhaulScraps$hungryTick = 0;
+                                    this.setHungerTick(0);
+                                }
                             }
                         }
                     }

@@ -66,14 +66,11 @@ public abstract class OCamelMixin extends AbstractOMount implements DirtyCapabil
     @Shadow @Nullable public abstract SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, @org.jetbrains.annotations.Nullable SpawnGroupData data, @org.jetbrains.annotations.Nullable CompoundTag tag);
     @Shadow public abstract void registerGoals();
 
-    @Unique
-    public boolean hungry = false;
-    @Unique
-    public boolean isHungry() {
+    @Unique public boolean hungry = false;
+    @Unique public boolean isHungry() {
         return this.hungry;
     }
-    @Unique
-    public void setHungry(boolean hungry) {
+    @Unique public void setHungry(boolean hungry) {
         this.hungry = hungry;
     }
 

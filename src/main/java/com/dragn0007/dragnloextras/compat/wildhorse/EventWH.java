@@ -1,11 +1,14 @@
 package com.dragn0007.dragnloextras.compat.wildhorse;
 
+import com.dragn0007.dragnloextras.capabilities.*;
 import com.dragn0007.dragnloextras.entity.SEEntityTypes;
 import com.dragn0007.dragnloextras.entity.butchering.HorseCorpse;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import com.dragn0007.wildhorse.entity.equus_ferus.EquusFerus;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -13,7 +16,33 @@ import net.minecraftforge.fml.common.Mod;
 
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class CorpseEventWH {
+public class EventWH {
+
+    @SubscribeEvent
+    public static void attach(final AttachCapabilitiesEvent<Entity> event) {
+        if (!ModList.get().isLoaded("wildhorse")) return;
+
+        if (event.getObject() instanceof EquusFerus) {
+            if (!event.getObject().getCapability(SECapabilities.SLEEPING_CAPABILITY).isPresent()) {
+                SleepingCapabilityAttacher.attach(event);
+            }
+            if (!event.getObject().getCapability(SECapabilities.DIRTY_CAPABILITY).isPresent()) {
+                DirtyCapabilityAttacher.attach(event);
+            }
+            if (!event.getObject().getCapability(SECapabilities.TRAIT_CAPABILITY).isPresent()) {
+                TraitCapabilityAttacher.attach(event);
+            }
+            if (!event.getObject().getCapability(SECapabilities.IMMUNITY_CAPABILITY).isPresent()) {
+                ImmunityCapabilityAttacher.attach(event);
+            }
+            if (!event.getObject().getCapability(SECapabilities.HALTER_CAPABILITY).isPresent()) {
+                HalterCapabilityAttacher.attach(event);
+            }
+            if (!event.getObject().getCapability(SECapabilities.HALTER_COLOR_CAPABILITY).isPresent()) {
+                HalterColorCapabilityAttacher.attach(event);
+            }
+        }
+    }
 
     @SubscribeEvent
     public static void corpseOnEntityDeath(LivingDeathEvent event) {
@@ -23,8 +52,6 @@ public class CorpseEventWH {
         Level level = deceased.level();
 
         if (!deceased.isBaby() && ScrapsExtrasCommonConfig.BUTCHERING.get()) {
-
-            //WildHorse
             if (deceased instanceof EquusFerus animal) {
                 if (!level.isClientSide()) {
                     HorseCorpse corpse = new HorseCorpse(SEEntityTypes.HORSE_CORPSE.get(), level);

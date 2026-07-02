@@ -72,14 +72,12 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
     @Shadow public abstract InteractionResult mobInteract(Player player, InteractionHand hand);
 
     @Shadow(remap = false) public SimpleContainer inventory;
-    @Unique
-    public boolean hungry = false;
-    @Unique
-    public boolean isHungry() {
+
+    @Unique public boolean hungry = false;
+    @Unique public boolean isHungry() {
         return this.hungry;
     }
-    @Unique
-    public void setHungry(boolean hungry) {
+    @Unique public void setHungry(boolean hungry) {
         this.hungry = hungry;
     }
 
