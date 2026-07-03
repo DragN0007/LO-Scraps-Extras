@@ -28,7 +28,7 @@ public class SEBlockstateProvider extends BlockStateProvider {
         for (DyeColor color : DyeColor.values()) {
             RegistryObject<FeedBowlBlock> blockRegistryObject = SEBlocks.BOWLS.get(color);
             FeedBowlBlock block = blockRegistryObject.get();
-            bowlBlock(block, color + "_feed_bowl");
+            bowlBlock(block, FeedBowlBlock.FEED, color.toString().toLowerCase() + "_feed_bowl", "feed_bowl", "feed_bowl_full");
         }
         for (WoodType color : WoodType.values()) {
             RegistryObject<FeedTroughBlock> blockRegistryObject = SEBlocks.TROUGHS.get(color);
@@ -37,14 +37,29 @@ public class SEBlockstateProvider extends BlockStateProvider {
         }
     }
 
-    private void bowlBlock(Block block, String getTextureName) {
+    private void bowlBlock(Block block, BooleanProperty booleanProperty, String getTextureName, String emptyModel, String fullModel) {
         ResourceLocation texture = modLoc("block/" + getTextureName);
-        var model = models().withExistingParent(block.builtInRegistryHolder().key().location().getPath(),
-                        modLoc("block/feed_bowl"))
+        String blockPath = block.builtInRegistryHolder().key().location().getPath();
+
+        ModelFile empty = models().withExistingParent(blockPath, modLoc("block/" + emptyModel))
                 .texture("particle", texture)
-                .texture("texture", texture);
-        simpleBlock(block, models().getBuilder(model.getLocation().toString()).renderType("cutout"));
-        simpleBlockItem(block, model);
+                .texture("texture", texture)
+                .renderType("cutout");
+
+        ModelFile full = models().withExistingParent(blockPath + "_full", modLoc("block/" + fullModel))
+                .texture("particle", texture)
+                .texture("texture", texture)
+                .renderType("cutout");
+
+        getVariantBuilder(block).forAllStatesExcept(state -> {
+            boolean hasFood = state.getValue(booleanProperty);
+            ModelFile modelFile = hasFood ? full : empty;
+            return ConfiguredModel.builder()
+                    .modelFile(modelFile)
+                    .build();
+        }, FeedBowlBlock.FOOD_AMOUNT);
+
+        simpleBlockItem(block, empty);
     }
 
     private void troughBlock(Block block, BooleanProperty booleanProperty, String getTextureName, String emptyModel, String fullModel) {
@@ -61,7 +76,7 @@ public class SEBlockstateProvider extends BlockStateProvider {
                 .texture("texture", texture)
                 .renderType("cutout");
 
-        getVariantBuilder(block).forAllStates(state -> {
+        getVariantBuilder(block).forAllStatesExcept(state -> {
             Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
             boolean hasFood = state.getValue(booleanProperty);
             ModelFile modelFile = hasFood ? full : empty;
@@ -70,7 +85,7 @@ public class SEBlockstateProvider extends BlockStateProvider {
                     .modelFile(modelFile)
                     .rotationY(yRot)
                     .build();
-        });
+        }, FeedTroughBlock.FOOD_AMOUNT);
 
         simpleBlockItem(block, empty);
     }

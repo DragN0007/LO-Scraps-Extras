@@ -80,6 +80,8 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
     @Unique public void setHungry(boolean hungry) {
         this.hungry = hungry;
     }
+    @Unique public int livestockOverhaulScraps$hungryTick = 0;
+    @Unique public void setHungerTick(int hungryTick) {}
 
     @Unique
     int livestockOverhaulScraps$becomeSickChanceMod = 0;
@@ -125,7 +127,6 @@ public abstract class ODogMixin extends TamableAnimal implements DirtyCapability
     }
 
     @Unique public int livestockOverhaulScraps$dirtyTick;
-    @Unique public int livestockOverhaulScraps$hungryTick;
     @Unique public int livestockOverhaulScraps$beMeanTick;
     @Unique public int livestockOverhaulScraps$sickTick;
     @Unique public int livestockOverhaulScraps$sickModDissipateTick = 72000;

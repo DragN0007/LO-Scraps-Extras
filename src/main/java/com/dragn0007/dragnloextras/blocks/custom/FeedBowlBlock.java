@@ -34,6 +34,7 @@ import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
@@ -41,7 +42,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class FeedBowlBlock extends DecorRotator implements SimpleWaterloggedBlock {
+public class FeedBowlBlock extends Block implements SimpleWaterloggedBlock {
 
     public static final BooleanProperty FEED = BooleanProperty.create("has_feed");
     public static final IntegerProperty FOOD_AMOUNT = IntegerProperty.create("feed_amount", 0, 200);
@@ -59,40 +60,27 @@ public class FeedBowlBlock extends DecorRotator implements SimpleWaterloggedBloc
         return this.defaultBlockState().setValue(this.getFoodAmountProperty(), Integer.valueOf(i));
     }
 
+    protected static final VoxelShape AABB = Shapes.or(Block.box(4, 0, 4, 12, 3, 12));
+    public VoxelShape getShape(BlockState p_153474_, BlockGetter p_153475_, BlockPos p_153476_, CollisionContext p_153477_) {
+        return AABB;
+    }
+
     public boolean isRandomlyTicking(BlockState state) {
         return true;
     }
 
     public FeedBowlBlock() {
-        super(NORTH, EAST, SOUTH, WEST, Properties.copy(Blocks.OAK_PLANKS).pushReaction(PushReaction.DESTROY).noOcclusion().randomTicks());
+        super(Properties.copy(Blocks.OAK_PLANKS).pushReaction(PushReaction.DESTROY).noOcclusion().randomTicks());
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FEED, Boolean.valueOf(false))
                 .setValue(getFoodAmountProperty(), 0)
                 );
     }
 
-    public static final VoxelShape NORTH = Stream.of(
-            Block.box(-8, 2, 1, 24, 10, 15)
-    ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-
-    public static final VoxelShape EAST = Stream.of(
-            Block.box(1, 2, -8, 15, 10, 24)
-    ).reduce((v1, v2) -> Shapes.join(v1, v2,BooleanOp.OR)).get();
-
-    public static final VoxelShape SOUTH = Stream.of(
-            Block.box(-8, 2, 1, 24, 10, 15)
-    ).reduce((v1, v2) -> Shapes.join(v1, v2,BooleanOp.OR)).get();
-
-    public static final VoxelShape WEST = Stream.of(
-            Block.box(1, 2, -8, 15, 10, 24)
-    ).reduce((v1, v2) -> Shapes.join(v1, v2,BooleanOp.OR)).get();
-
     @Nullable
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         this.defaultBlockState()
-                .setValue(FACING, context.getHorizontalDirection().getOpposite())
-                .setValue(FEED, Boolean.valueOf(false))
-                .setValue(FOOD_AMOUNT, 0)
+                .setValue(FEED, Boolean.valueOf(false)).setValue(FOOD_AMOUNT, 0)
         ;
         return super.getStateForPlacement(context);
     }
@@ -105,9 +93,7 @@ public class FeedBowlBlock extends DecorRotator implements SimpleWaterloggedBloc
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FEED)
-                .add(FOOD_AMOUNT)
-                .add(FACING);
+        builder.add(FEED).add(FOOD_AMOUNT);
     }
 
     public boolean isPathfindable(BlockState p_56104_, BlockGetter p_56105_, BlockPos p_56106_, PathComputationType p_56107_) {
@@ -117,7 +103,6 @@ public class FeedBowlBlock extends DecorRotator implements SimpleWaterloggedBloc
     @Override
     public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource randomSource) {
         super.tick(state, level, pos, randomSource);
-        Direction facingDirection = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
 
         int feed = this.getFoodAmount(state);
         double range = 8.0;
@@ -126,7 +111,7 @@ public class FeedBowlBlock extends DecorRotator implements SimpleWaterloggedBloc
 
         for (TamableAnimal animal : nearbyAnimals) {
             if (feed > 0) {
-                if (animal.getType().is(SETags.Entity_Types.FEEDABLE_KIBBLE) && animal instanceof IHungerHolder) {
+                if (animal instanceof IHungerHolder) {
                     if (((IHungerHolder) animal).isHungry()) {
                         ((IHungerHolder) animal).setHungerTick(0);
                         if (((IHungerHolder) animal).isHungry()) {
@@ -138,26 +123,23 @@ public class FeedBowlBlock extends DecorRotator implements SimpleWaterloggedBloc
                     }
                 }
 
-                level.setBlockAndUpdate(pos, this.getStateForFoodAmount(feed - 1).setValue(FEED, Boolean.TRUE)
-                        .setValue(BlockStateProperties.HORIZONTAL_FACING, facingDirection));
+                level.setBlockAndUpdate(pos, this.getStateForFoodAmount(feed - 1).setValue(FEED, Boolean.TRUE));
             }
         }
 
         if (feed <= 0) {
-            state.setValue(FEED, Boolean.FALSE).setValue(BlockStateProperties.HORIZONTAL_FACING, facingDirection);
+            state.setValue(FEED, Boolean.FALSE);
         }
     }
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
          ItemStack stack = player.getItemInHand(hand);
-         Direction facingDirection = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
 
          if (this.getFoodAmount(state) < this.getMaxFoodAmount()) {
              if (stack.is(SETags.Items.KIBBLE)) {
                  level.setBlockAndUpdate(pos, state.setValue(FEED, Boolean.valueOf(true))
                          .setValue(FOOD_AMOUNT, Integer.valueOf(getFoodAmount(state) + 10))
-                         .setValue(BlockStateProperties.HORIZONTAL_FACING, facingDirection)
                  );
                  if (this.getFoodAmount(state) > this.getMaxFoodAmount()) {
                      level.setBlockAndUpdate(pos, state.setValue(FOOD_AMOUNT, Integer.valueOf(this.getMaxFoodAmount())));
@@ -171,7 +153,6 @@ public class FeedBowlBlock extends DecorRotator implements SimpleWaterloggedBloc
              } else if (stack.is(SETags.Items.HEARTY_KIBBLE)) {
                  level.setBlockAndUpdate(pos, state.setValue(FEED, Boolean.valueOf(true))
                          .setValue(FOOD_AMOUNT, Integer.valueOf(getFoodAmount(state) + 25))
-                         .setValue(BlockStateProperties.HORIZONTAL_FACING, facingDirection)
                  );
                  if (this.getFoodAmount(state) > this.getMaxFoodAmount()) {
                      level.setBlockAndUpdate(pos, state.setValue(FOOD_AMOUNT, Integer.valueOf(this.getMaxFoodAmount())));

@@ -97,11 +97,7 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
     @Unique public void setHungry(boolean hungry) {
         this.hungry = hungry;
     }
-
     @Unique public int livestockOverhaulScraps$hungryTick = 0;
-    @Unique public int hungryTick() {
-        return this.livestockOverhaulScraps$hungryTick;
-    }
     @Unique public void setHungerTick(int hungryTick) {}
 
 //    @Unique

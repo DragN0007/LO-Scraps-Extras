@@ -125,7 +125,7 @@ public class FeedTroughBlock extends DecorRotator implements SimpleWaterloggedBl
 
         for (AbstractOMount animal : nearbyAnimals) {
             if (feed > 0) {
-                if (animal.getType().is(SETags.Entity_Types.FEEDABLE_GRAIN_FEED) && animal instanceof IHungerHolder) {
+                if (animal instanceof IHungerHolder) {
                     if (((IHungerHolder) animal).isHungry()) {
                         ((IHungerHolder) animal).setHungerTick(0);
                         if (((IHungerHolder) animal).isHungry()) {

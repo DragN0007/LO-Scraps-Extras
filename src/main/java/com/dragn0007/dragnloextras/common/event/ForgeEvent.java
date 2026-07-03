@@ -133,7 +133,6 @@ public class ForgeEvent {
     public static void attach(final AttachCapabilitiesEvent<Entity> event) {
         //attach general caps
         if (SETags.CAPABLE.contains(event.getObject().getType())) {
-
             if (SETags.SLEEPABLE.contains(event.getObject().getType())) {
                 if (!event.getObject().getCapability(SECapabilities.SLEEPING_CAPABILITY).isPresent()) {
                     SleepingCapabilityAttacher.attach(event);
@@ -142,7 +141,6 @@ public class ForgeEvent {
                     }
                 }
             }
-
             if (SETags.DIRTYABLE.contains(event.getObject().getType())) {
                 if (!event.getObject().getCapability(SECapabilities.DIRTY_CAPABILITY).isPresent()) {
                     DirtyCapabilityAttacher.attach(event);
@@ -151,7 +149,6 @@ public class ForgeEvent {
                     }
                 }
             }
-
             if (SETags.TRAITABLE.contains(event.getObject().getType())) {
                 if (!event.getObject().getCapability(SECapabilities.TRAIT_CAPABILITY).isPresent()) {
                     TraitCapabilityAttacher.attach(event);
@@ -160,7 +157,6 @@ public class ForgeEvent {
                     }
                 }
             }
-
             if (SETags.IMMUNITYABLE.contains(event.getObject().getType())) {
                 if (!event.getObject().getCapability(SECapabilities.IMMUNITY_CAPABILITY).isPresent()) {
                     ImmunityCapabilityAttacher.attach(event);
@@ -169,7 +165,6 @@ public class ForgeEvent {
                     }
                 }
             }
-
             if (SETags.HALTERABLE.contains(event.getObject().getType())) {
                 if (!event.getObject().getCapability(SECapabilities.HALTER_CAPABILITY).isPresent()) {
                     HalterCapabilityAttacher.attach(event);
@@ -184,7 +179,6 @@ public class ForgeEvent {
                     }
                 }
             }
-
             if (SETags.SPIKE_COLLARABLE.contains(event.getObject().getType())) {
                 if (!event.getObject().getCapability(SECapabilities.SPIKE_COLLAR_CAPABILITY).isPresent()) {
                     SpikeCollarCapabilityAttacher.attach(event);

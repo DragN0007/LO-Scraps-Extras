@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
+    "has_feed=false": {
       "model": "dragnloextras:block/gray_feed_bowl"
+    },
+    "has_feed=true": {
+      "model": "dragnloextras:block/gray_feed_bowl_full"
     }
   }
 }

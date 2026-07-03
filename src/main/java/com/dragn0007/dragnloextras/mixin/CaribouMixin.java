@@ -71,6 +71,8 @@ public abstract class CaribouMixin extends AbstractOMount implements DirtyCapabi
     @Unique public void setHungry(boolean hungry) {
         this.hungry = hungry;
     }
+    @Unique public int livestockOverhaulScraps$hungryTick = 0;
+    @Unique public void setHungerTick(int hungryTick) {}
 
     /**
      * @author who do you think
@@ -129,7 +131,6 @@ public abstract class CaribouMixin extends AbstractOMount implements DirtyCapabi
     }
 
     @Unique public int livestockOverhaulScraps$dirtyTick;
-    @Unique public int livestockOverhaulScraps$hungryTick;
     @Unique public int livestockOverhaulScraps$beMeanTick;
     @Unique public int livestockOverhaulScraps$sickTick;
     @Unique public int livestockOverhaulScraps$sickModDissipateTick = 72000;
