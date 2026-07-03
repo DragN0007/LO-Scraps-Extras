@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:cherry_planks"
+    },
+    "B": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "A A",
+    "AAA",
+    "B B"
+  ],
+  "result": {
+    "item": "dragnloextras:cherry_feed_trough"
+  },
+  "show_notification": true
+}

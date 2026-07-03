@@ -1,11 +1,14 @@
 package com.dragn0007.dragnloextras.datagen;
 
 import com.dragn0007.dragnlivestock.LivestockOverhaul;
+import com.dragn0007.dragnlivestock.items.LOItems;
 import com.dragn0007.dragnlivestock.util.LOTags;
 import com.dragn0007.dragnloextras.ScrapsExtras;
+import com.dragn0007.dragnloextras.blocks.SEBlocks;
 import com.dragn0007.dragnloextras.datagen.conditions.TFCCondition;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.util.SETags;
+import com.dragn0007.dragnloextras.util.WoodType;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.items.Food;
 import net.dries007.tfc.common.items.HideItemType;
@@ -17,10 +20,14 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DyeItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.crafting.ConditionalRecipe;
 import net.minecraftforge.common.crafting.conditions.IConditionBuilder;
 
@@ -38,6 +45,33 @@ public class SERecipeMaker extends RecipeProvider implements IConditionBuilder {
     }
 
     public void buildCommonRecipes(Consumer<FinishedRecipe> pFinishedRecipeConsumer) {
+        for (DyeColor color : DyeColor.values()) {
+            ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEBlocks.BOWLS.get(color).get())
+                    .define('A', DyeItem.byColor(color))
+                    .define('B', Items.STICK)
+                    .pattern("BAB")
+                    .pattern(" B ")
+                    .unlockedBy("has_stick", inventoryTrigger(ItemPredicate.Builder.item()
+                            .of(Items.STICK).build()))
+                    .save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, color.getName() + "_feed_bowl"));
+        }
+
+        for (WoodType color : WoodType.values()) {
+            String plankId = color.getName() + "_planks";
+            ResourceLocation registryKey = new ResourceLocation(plankId);
+            Block plankBlock = BuiltInRegistries.BLOCK.get(registryKey);
+
+            ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEBlocks.TROUGHS.get(color).get())
+                    .define('A', plankBlock)
+                    .define('B', Items.STICK)
+                    .pattern("A A")
+                    .pattern("AAA")
+                    .pattern("B B")
+                    .unlockedBy("has_stick", inventoryTrigger(ItemPredicate.Builder.item()
+                            .of(Items.STICK).build()))
+                    .save(pFinishedRecipeConsumer, new ResourceLocation(ScrapsExtras.MODID, color.getName() + "_feed_trough"));
+        }
+
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, SEItems.COLLAR_SPIKES.get())
                 .define('A', Items.IRON_NUGGET)
                 .pattern(" AA")

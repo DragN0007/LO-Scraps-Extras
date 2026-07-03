@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "item": "minecraft:yellow_dye"
+    },
+    "B": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "BAB",
+    " B "
+  ],
+  "result": {
+    "item": "dragnloextras:yellow_feed_bowl"
+  },
+  "show_notification": true
+}
