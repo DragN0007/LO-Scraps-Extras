@@ -5,7 +5,7 @@ import com.dragn0007.dragnlivestock.entities.ai.HorseFollowHerdLeaderGoal;
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnlivestock.entities.horse.OHorseModel;
 import com.dragn0007.dragnlivestock.entities.unicorn.Unicorn;
-import com.dragn0007.dragnlivestock.entities.unicorn.UnicornMarkingLayer;
+import com.dragn0007.dragnlivestock.entities.unicorn.UnicornBodyLayer;
 import com.dragn0007.dragnlivestock.entities.unicorn.UnicornModel;
 import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
 import com.dragn0007.dragnlivestock.entities.util.marking_layer.EquineEyeColorOverlay;
@@ -315,7 +315,7 @@ public abstract class UnicornMixin extends AbstractOMount implements DirtyCapabi
             } else if (overlayChance < (100 - LivestockOverhaulCommonConfig.COAT_CHANCE.get())) {
                 overlay = partnerHorse.getOverlayVariant();
             } else {
-                overlay = this.random.nextInt(UnicornMarkingLayer.Overlay.values().length);
+                overlay = this.random.nextInt(UnicornBodyLayer.Marking.values().length);
             }
             (foal).setVariant(overlay);
 
@@ -409,7 +409,7 @@ public abstract class UnicornMixin extends AbstractOMount implements DirtyCapabi
             } else if (overlayChance < (100 - LivestockOverhaulCommonConfig.MARKING_CHANCE.get())) {
                 overlay = partner.getOverlayVariant();
             } else {
-                overlay = this.random.nextInt(UnicornMarkingLayer.Overlay.values().length);
+                overlay = this.random.nextInt(UnicornBodyLayer.Marking.values().length);
             }
             (foal).setOverlayVariant(overlay);
 

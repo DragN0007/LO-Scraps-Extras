@@ -3,7 +3,7 @@ package com.dragn0007.dragnloextras.mixin;
 import com.dragn0007.dragnlivestock.entities.EntityTypes;
 import com.dragn0007.dragnlivestock.entities.camel.CamelBreed;
 import com.dragn0007.dragnlivestock.entities.camel.OCamel;
-import com.dragn0007.dragnlivestock.entities.camel.OCamelMarkingLayer;
+import com.dragn0007.dragnlivestock.entities.camel.OCamelBodyLayer;
 import com.dragn0007.dragnlivestock.entities.camel.OCamelModel;
 import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
 import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
@@ -573,7 +573,7 @@ public abstract class OCamelMixin extends AbstractOMount implements DirtyCapabil
             } else if (j < (100 - LivestockOverhaulCommonConfig.MARKING_CHANCE.get())) {
                 overlay = partnerCamel.getOverlayVariant();
             } else {
-                overlay = this.random.nextInt(OCamelMarkingLayer.Overlay.values().length);
+                overlay = this.random.nextInt(OCamelBodyLayer.Marking.values().length);
             }
 
             int breedChance = this.random.nextInt(100);

@@ -633,15 +633,16 @@ public abstract class EquusFerusMixin extends OHorse implements DirtyCapabilityI
     @Overwrite
     public AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
         AbstractOMount foal = null;
-        ImmunityCapabilityInterface immunityCap = this.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
-        TraitCapabilityInterface traitCap = this.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
-        ImmunityCapabilityInterface foalimmunityCap = foal.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
-        TraitCapabilityInterface foaltraitCap = foal.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
 
         if (ageableMob instanceof ODonkey partnerDonkey) {
+            foal = EntityTypes.O_MULE_ENTITY.get().create(serverLevel);
             ImmunityCapabilityInterface partnerimmunityCap = partnerDonkey.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
             TraitCapabilityInterface partnertraitCap = partnerDonkey.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
-            foal = EntityTypes.O_MULE_ENTITY.get().create(serverLevel);
+            ImmunityCapabilityInterface immunityCap = this.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
+            TraitCapabilityInterface traitCap = this.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
+            ImmunityCapabilityInterface foalimmunityCap = foal.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
+            TraitCapabilityInterface foaltraitCap = foal.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
+
             int overlayChance = this.random.nextInt(100);
             int overlay;
             if (overlayChance < ((100 - LivestockOverhaulCommonConfig.MARKING_CHANCE.get()) / 2)) {
@@ -708,9 +709,7 @@ public abstract class EquusFerusMixin extends OHorse implements DirtyCapabilityI
                 SyncImmunityPacket.syncToTracking(this, 1);
             }
         } else if (ageableMob instanceof OHorse partnerHorse && partnerHorse.getClass() == OHorse.class) {
-            ImmunityCapabilityInterface partnerimmunityCap = partnerHorse.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
-            TraitCapabilityInterface partnertraitCap = partnerHorse.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
-            if (random.nextDouble() <= 0.75) {
+            if (random.nextDouble() <= 0.50) {
                 foal = WHEntityTypes.EQUUS_FERUS.get().create(serverLevel);
                 ((EquusFerus) foal).setTanningVariant(this.random.nextInt(EquusFerusTanningLayer.Overlay.values().length));
                 if (this.random.nextInt(3) >= 1) {
@@ -735,6 +734,14 @@ public abstract class EquusFerusMixin extends OHorse implements DirtyCapabilityI
                     foal.setHealth(betterHealth);
                 }
             }
+
+            ImmunityCapabilityInterface partnerimmunityCap = partnerHorse.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
+            TraitCapabilityInterface partnertraitCap = partnerHorse.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
+            ImmunityCapabilityInterface immunityCap = this.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
+            TraitCapabilityInterface traitCap = this.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
+            ImmunityCapabilityInterface foalimmunityCap = foal.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
+            TraitCapabilityInterface foaltraitCap = foal.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
+
             int overlayChance = this.random.nextInt(100);
             int overlay;
             if (overlayChance < ((100 - LivestockOverhaulCommonConfig.MARKING_CHANCE.get()) / 2)) {
@@ -811,8 +818,6 @@ public abstract class EquusFerusMixin extends OHorse implements DirtyCapabilityI
 
             foal.setGender(random.nextInt(Gender.values().length));
         } else if (ageableMob instanceof EquusFerus partner) {
-            ImmunityCapabilityInterface partnerimmunityCap = partner.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
-            TraitCapabilityInterface partnertraitCap = partner.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
             if (random.nextDouble() <= 0.99) {
                 foal = WHEntityTypes.EQUUS_FERUS.get().create(serverLevel);
 
@@ -848,6 +853,13 @@ public abstract class EquusFerusMixin extends OHorse implements DirtyCapabilityI
                     foal.setHealth(betterHealth);
                 }
             }
+
+            ImmunityCapabilityInterface partnerimmunityCap = partner.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
+            TraitCapabilityInterface partnertraitCap = partner.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
+            ImmunityCapabilityInterface immunityCap = this.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
+            TraitCapabilityInterface traitCap = this.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
+            ImmunityCapabilityInterface foalimmunityCap = foal.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
+            TraitCapabilityInterface foaltraitCap = foal.getCapability(SECapabilities.TRAIT_CAPABILITY).orElse(null);
 
             int variantChance = this.random.nextInt(100);
             int variant;
