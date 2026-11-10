@@ -70,7 +70,6 @@ import java.util.Random;
 
 @Mixin(EquusFerus.class)
 public abstract class EquusFerusMixin extends OHorse implements DirtyCapabilityInterface, ITraitByBreedTypeHolder, IHungerHolder, ISleepAsLeaderHolder, ISickModHolder {
-
     @Shadow @Nullable public abstract SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, @org.jetbrains.annotations.Nullable SpawnGroupData data, @org.jetbrains.annotations.Nullable CompoundTag tag);
     @Shadow public abstract void registerGoals();
 
@@ -968,5 +967,6 @@ public abstract class EquusFerusMixin extends OHorse implements DirtyCapabilityI
             }
         }
     }
+
 
 }
