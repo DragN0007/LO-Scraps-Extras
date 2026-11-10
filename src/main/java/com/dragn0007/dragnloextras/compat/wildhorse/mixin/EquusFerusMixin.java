@@ -21,13 +21,12 @@ import com.dragn0007.dragnloextras.network.*;
 import com.dragn0007.dragnloextras.util.*;
 import com.dragn0007.wildhorse.common.WHEntityTypes;
 import com.dragn0007.wildhorse.entity.equus_ferus.EquusFerus;
-import com.dragn0007.wildhorse.entity.equus_ferus.EquusFerusTanningLayer;
+import com.dragn0007.wildhorse.entity.equus_ferus.EquusFerusBodyLayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -47,7 +46,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.fml.ModList;
@@ -653,8 +651,17 @@ public abstract class EquusFerusMixin extends OHorse implements DirtyCapabilityI
                 overlay = this.random.nextInt(EquineMarkingOverlay.values().length);
             }
             foal.setOverlayVariant(overlay);
-            foal.setVariant(random.nextInt(OMuleModel.Variant.values().length));
-            foal.setBreed(random.nextInt(0));
+
+            int variantChance = this.random.nextInt(100);
+            int variant;
+            if (variantChance < ((100 - LivestockOverhaulCommonConfig.COAT_CHANCE.get()) / 2)) {
+                variant = this.getVariant();
+            } else {
+                variant = this.random.nextInt(OHorseModel.Variant.values().length);
+            }
+            foal.setVariant(variant);
+
+            foal.setBreed(0);
             foal.setGender(random.nextInt(Gender.values().length));
 
             int traitChance = this.random.nextInt(100);
@@ -711,7 +718,7 @@ public abstract class EquusFerusMixin extends OHorse implements DirtyCapabilityI
         } else if (ageableMob instanceof OHorse partnerHorse && partnerHorse.getClass() == OHorse.class) {
             if (random.nextDouble() <= 0.50) {
                 foal = WHEntityTypes.EQUUS_FERUS.get().create(serverLevel);
-                ((EquusFerus) foal).setTanningVariant(this.random.nextInt(EquusFerusTanningLayer.Overlay.values().length));
+                ((EquusFerus) foal).setTanningVariant(this.random.nextInt(EquusFerusBodyLayer.Tanning.values().length));
                 if (this.random.nextInt(3) >= 1) {
                     ((EquusFerus) foal).generateRandomEquusJumpStrength();
                     int betterSpeed = (int) Math.max(partnerHorse.getSpeed(), this.random.nextInt(10) + 20);
@@ -828,7 +835,7 @@ public abstract class EquusFerusMixin extends OHorse implements DirtyCapabilityI
                 } else if (tanningChance < (100 - LivestockOverhaulCommonConfig.MARKING_CHANCE.get())) {
                     tanning = partner.getTanningVariant();
                 } else {
-                    tanning = this.random.nextInt(EquusFerusTanningLayer.Overlay.values().length);
+                    tanning = this.random.nextInt(EquusFerusBodyLayer.Tanning.values().length);
                 }
                 ((EquusFerus) foal).setTanningVariant(tanning);
 

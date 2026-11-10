@@ -2,7 +2,6 @@ package com.dragn0007.dragnloextras.compat.jade;
 
 import com.dragn0007.dragnlivestock.LivestockOverhaul;
 import com.dragn0007.dragnloextras.blocks.custom.FeedBowlBlock;
-import com.dragn0007.dragnloextras.blocks.custom.FeedTroughBlock;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;

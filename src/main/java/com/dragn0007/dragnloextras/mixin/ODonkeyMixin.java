@@ -630,17 +630,19 @@ public abstract class ODonkeyMixin extends AbstractOMount implements DirtyCapabi
             }
 
             foal.setOverlayVariant(overlay);
-            foal.setVariant(random.nextInt(OMuleModel.Variant.values().length));
 
-            if (partnerHorse.isStockBreed() || partnerHorse.isWarmbloodedBreed() || partnerHorse.isRacingBreed()) {
-                foal.setBreed(0);
+            int variantChance = this.random.nextInt(100);
+            int variant;
+            if (variantChance < ((100 - LivestockOverhaulCommonConfig.COAT_CHANCE.get()) / 2)) {
+                variant = partnerHorse.getVariant();
+            } else {
+                variant = this.random.nextInt(OHorseModel.Variant.values().length);
             }
-            if (partnerHorse.isPonyBreed()) {
-                foal.setBreed(1);
-            }
-            if (partnerHorse.isDraftBreed()) {
-                foal.setBreed(2);
-            }
+            foal.setVariant(variant);
+
+            if (partnerHorse.isStockBreed() || partnerHorse.isWarmbloodedBreed() || partnerHorse.isRacingBreed()) foal.setBreed(0);
+            if (partnerHorse.isPonyBreed()) foal.setBreed(1);
+            if (partnerHorse.isDraftBreed()) foal.setBreed(2);
 
             int traitChance = this.random.nextInt(100);
             int trait;

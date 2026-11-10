@@ -6,7 +6,6 @@ import com.dragn0007.dragnloextras.capabilities.DirtyCapabilityInterface;
 import com.dragn0007.dragnloextras.capabilities.HalterCapabilityInterface;
 import com.dragn0007.dragnloextras.capabilities.HalterColorCapabilityInterface;
 import com.dragn0007.dragnloextras.capabilities.SECapabilities;
-import com.dragn0007.dragnloextras.entity.OHorseExtrasLayer;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasClientConfig;
 import com.dragn0007.wildhorse.entity.equus_ferus.EquusFerus;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -52,9 +51,6 @@ public class EquusFerusExtrasLayer extends GeoRenderLayer<EquusFerus> {
 
                     RenderType renderType1 = RenderType.entityCutout(resourceLocation);
                     poseStack.pushPose();
-                    poseStack.scale(1.0f, 1.0f, 1.0f);
-                    poseStack.translate(0.0d, 0.0d, 0.0d);
-                    poseStack.popPose();
                     getRenderer().reRender(getDefaultBakedModel(animatable),
                             poseStack,
                             bufferSource,
@@ -73,10 +69,6 @@ public class EquusFerusExtrasLayer extends GeoRenderLayer<EquusFerus> {
                     resourceLocation = new ResourceLocation(LivestockOverhaul.MODID, "textures/entity/horse/dirt.png");
 
                     RenderType renderType1 = RenderType.entityCutout(resourceLocation);
-                    poseStack.pushPose();
-                    poseStack.scale(1.0f, 1.0f, 1.0f);
-                    poseStack.translate(0.0d, 0.0d, 0.0d);
-                    poseStack.popPose();
                     getRenderer().reRender(getDefaultBakedModel(animatable),
                             poseStack,
                             bufferSource,

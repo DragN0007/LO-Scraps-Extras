@@ -1,5 +1,6 @@
 package com.dragn0007.dragnloextras.entity.butchering;
 
+import com.dragn0007.dragnlivestock.entities.horse.OHorseModel;
 import com.dragn0007.dragnlivestock.entities.unicorn.UnicornModel;
 import com.dragn0007.dragnlivestock.items.LOItems;
 import com.dragn0007.dragnloextras.items.SEItems;
@@ -70,7 +71,7 @@ public class UnicornCorpse extends Corpse implements GeoEntity {
 	public static final EntityDataAccessor<Integer> BUTCHER_STAGE = SynchedEntityData.defineId(UnicornCorpse.class, EntityDataSerializers.INT);
 	public static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(UnicornCorpse.class, EntityDataSerializers.INT);
 	public ResourceLocation getTextureLocation() {
-		return UnicornModel.Variant.variantFromOrdinal(getVariant()).resourceLocation;
+		return OHorseModel.Variant.variantFromOrdinal(getVariant()).resourceLocation;
 	}
 
 	@Override

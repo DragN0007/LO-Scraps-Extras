@@ -83,20 +83,12 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
     @Shadow public abstract void registerGoals();
 
     @Unique public boolean sleepingAsLeader = false;
-    @Unique public boolean isSleepingAsLeader() {
-        return this.sleepingAsLeader;
-    }
-    @Unique public void setSleepingAsLeader(boolean sleepingAsLeader) {
-        this.sleepingAsLeader = sleepingAsLeader;
-    }
+    @Unique public boolean isSleepingAsLeader() {return this.sleepingAsLeader;}
+    @Unique public void setSleepingAsLeader(boolean sleepingAsLeader) {this.sleepingAsLeader = sleepingAsLeader;}
 
     @Unique public boolean hungry = false;
-    @Unique public boolean isHungry() {
-        return this.hungry;
-    }
-    @Unique public void setHungry(boolean hungry) {
-        this.hungry = hungry;
-    }
+    @Unique public boolean isHungry() {return this.hungry;}
+    @Unique public void setHungry(boolean hungry) {this.hungry = hungry;}
     @Unique public int livestockOverhaulScraps$hungryTick = 0;
     @Unique public void setHungerTick(int hungryTick) {}
 
@@ -754,7 +746,15 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
                 overlay = this.random.nextInt(EquineMarkingOverlay.values().length);
             }
             foal.setOverlayVariant(overlay);
-            foal.setVariant(random.nextInt(OMuleModel.Variant.values().length));
+
+            int variantChance = this.random.nextInt(100);
+            int variant;
+            if (variantChance < ((100 - LivestockOverhaulCommonConfig.COAT_CHANCE.get()) / 2)) {
+                variant = this.getVariant();
+            } else {
+                variant = this.random.nextInt(OHorseModel.Variant.values().length);
+            }
+            foal.setVariant(variant);
 
             if (this.isStockBreed() || this.isWarmbloodedBreed() || this.isRacingBreed()) {
                 foal.setBreed(0);

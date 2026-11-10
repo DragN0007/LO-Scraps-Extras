@@ -34,26 +34,16 @@ public class HorseMannequinArmorLayer extends GeoRenderLayer<HorseMannequin> {
     public void render(PoseStack poseStack, HorseMannequin animatable, BakedGeoModel bakedModel, RenderType renderType, MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight, int packedOverlay) {
         List<ItemStack> armorSlots = (List<ItemStack>) animatable.getArmorSlots();
         ItemStack armorItemStack = armorSlots.get(2);
-
-        if (armorItemStack.isEmpty()) {
-            return;
-        }
-
+        if (armorItemStack.isEmpty()) return;
         ResourceLocation resourceLocation = null;
-
-        String armorpath;
-        if (LivestockOverhaulClientConfig.SIMPLE_MODELS.get()) {
-            armorpath = "textures/entity/config_simplified/horse/armor/";
-        } else {
-            armorpath = "textures/entity/horse/armor/";
-        }
+        String armorpath = "textures/entity/horse/armor/";
 
         if (!armorItemStack.isEmpty()) {
             if (armorItemStack.getItem() == LOItems.OBSIDIAN_HORSE_ARMOR.get()) {
                 resourceLocation = new ResourceLocation("medievalembroidery", armorpath + "obsidian_horse_armor.png");
             } else if (armorItemStack.getItem() == LOItems.MINIMAL_OBSIDIAN_HORSE_ARMOR.get()) {
                 resourceLocation = new ResourceLocation("medievalembroidery", armorpath + "minimal_obsidian_horse_armor.png");
-            } else if (armorItemStack.getItem() == LOItems.RIOT_HORSE_ARMOR.get() && !LivestockOverhaulClientConfig.SIMPLE_MODELS.get()) {
+            } else if (armorItemStack.getItem() == LOItems.RIOT_HORSE_ARMOR.get()) {
                 resourceLocation = new ResourceLocation("deadlydinos", "textures/entity/horse/armor/riot_horse_armor.png");
 
                 // if youre another modder looking to add new armor, use this pathway v
@@ -63,9 +53,9 @@ public class HorseMannequinArmorLayer extends GeoRenderLayer<HorseMannequin> {
                 resourceLocation = new ResourceLocation(LivestockOverhaul.MODID, armorpath + horseArmorItem + ".png");
             } else if (armorItemStack.getItem() instanceof LightHorseArmorItem horseArmorItem) {
                 resourceLocation = new ResourceLocation(LivestockOverhaul.MODID, armorpath + horseArmorItem + ".png");
-            } else if ((armorItemStack.getItem() instanceof RumpStrapItem rumpStrapItem) && !armorItemStack.isEmpty() && !LivestockOverhaulClientConfig.SIMPLE_MODELS.get()) {
+            } else if ((armorItemStack.getItem() instanceof RumpStrapItem rumpStrapItem) && !armorItemStack.isEmpty()) {
                 resourceLocation = new ResourceLocation("medievalembroidery", "textures/entity/horse/caparison/" + rumpStrapItem + ".png");
-            } else if ((armorItemStack.getItem() instanceof CaparisonItem caparisonItem) && !armorItemStack.isEmpty() && !LivestockOverhaulClientConfig.SIMPLE_MODELS.get()) {
+            } else if ((armorItemStack.getItem() instanceof CaparisonItem caparisonItem) && !armorItemStack.isEmpty()) {
                 resourceLocation = new ResourceLocation("medievalembroidery", "textures/entity/horse/caparison/" + caparisonItem + ".png");
             } else if (armorItemStack.is(LOTags.Items.COSMETICS)) {
                 String item = armorItemStack.getItem().toString();

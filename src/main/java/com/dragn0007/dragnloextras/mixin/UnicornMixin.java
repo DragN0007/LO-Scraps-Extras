@@ -9,6 +9,7 @@ import com.dragn0007.dragnlivestock.entities.unicorn.UnicornBodyLayer;
 import com.dragn0007.dragnlivestock.entities.unicorn.UnicornModel;
 import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
 import com.dragn0007.dragnlivestock.entities.util.marking_layer.EquineEyeColorOverlay;
+import com.dragn0007.dragnlivestock.entities.util.marking_layer.EquineMarkingOverlay;
 import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
 import com.dragn0007.dragnloextras.capabilities.*;
 import com.dragn0007.dragnloextras.effects.SEEffects;
@@ -315,7 +316,7 @@ public abstract class UnicornMixin extends AbstractOMount implements DirtyCapabi
             } else if (overlayChance < (100 - LivestockOverhaulCommonConfig.COAT_CHANCE.get())) {
                 overlay = partnerHorse.getOverlayVariant();
             } else {
-                overlay = this.random.nextInt(UnicornBodyLayer.Marking.values().length);
+                overlay = this.random.nextInt(EquineMarkingOverlay.values().length);
             }
             (foal).setVariant(overlay);
 
@@ -398,7 +399,7 @@ public abstract class UnicornMixin extends AbstractOMount implements DirtyCapabi
             } else if (variantChance < (100 - LivestockOverhaulCommonConfig.COAT_CHANCE.get())) {
                 variant = partner.getVariant();
             } else {
-                variant = this.random.nextInt(UnicornModel.Variant.values().length);
+                variant = this.random.nextInt(OHorseModel.Variant.values().length);
             }
             (foal).setVariant(variant);
 
@@ -409,7 +410,7 @@ public abstract class UnicornMixin extends AbstractOMount implements DirtyCapabi
             } else if (overlayChance < (100 - LivestockOverhaulCommonConfig.MARKING_CHANCE.get())) {
                 overlay = partner.getOverlayVariant();
             } else {
-                overlay = this.random.nextInt(UnicornBodyLayer.Marking.values().length);
+                overlay = this.random.nextInt(EquineMarkingOverlay.values().length);
             }
             (foal).setOverlayVariant(overlay);
 
