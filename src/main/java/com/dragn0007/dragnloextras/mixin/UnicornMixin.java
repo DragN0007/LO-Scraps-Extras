@@ -276,7 +276,7 @@ public abstract class UnicornMixin extends AbstractOMount implements DirtyCapabi
     private void spawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, SpawnGroupData data, CompoundTag tag, CallbackInfoReturnable<SpawnGroupData> cir) {
         Unicorn self = (Unicorn) (Object) this;
         CompoundTag nbt = this.getPersistentData();
-        if (!nbt.getBoolean("loextras_initialized")) {
+        if (!nbt.getBoolean("loextras_initialized") || !nbt.contains("loextras_initialized")) {
             ImmunityCapabilityInterface immunityCap = null;
             if (this.getCapability(SECapabilities.IMMUNITY_CAPABILITY).isPresent()) {
                 immunityCap = this.getCapability(SECapabilities.IMMUNITY_CAPABILITY).orElse(null);
@@ -376,7 +376,7 @@ public abstract class UnicornMixin extends AbstractOMount implements DirtyCapabi
             }
 
             CompoundTag nbt = this.getPersistentData();
-            if (!nbt.getBoolean("loextras_initialized")) {
+            if (!nbt.getBoolean("loextras_initialized") || !nbt.contains("loextras_initialized")) {
                 nbt.putBoolean("loextras_initialized", true);
             }
 
@@ -503,7 +503,7 @@ public abstract class UnicornMixin extends AbstractOMount implements DirtyCapabi
         }
 
         CompoundTag nbt = this.getPersistentData();
-        if (!nbt.getBoolean("loextras_initialized")) {
+        if (!nbt.getBoolean("loextras_initialized") || !nbt.contains("loextras_initialized")) {
             nbt.putBoolean("loextras_initialized", true);
         }
 

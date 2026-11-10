@@ -10,8 +10,8 @@ public class ScrapsExtrasCommonConfig {
     public static final ForgeConfigSpec.ConfigValue<Integer> DIRTY_TICK;
     public static final ForgeConfigSpec.BooleanValue DIRTY_IMMUNITY_DAMPER;
     public static final ForgeConfigSpec.ConfigValue<Integer> DIRTY_IMMUNITY_DAMPER_TICK;
-//    public static final ForgeConfigSpec.BooleanValue GESTATION;
-//    public static final ForgeConfigSpec.ConfigValue<Integer> GESTATION_TICK;
+    public static final ForgeConfigSpec.BooleanValue GESTATION;
+    public static final ForgeConfigSpec.ConfigValue<Integer> GESTATION_TICK;
     public static final ForgeConfigSpec.BooleanValue FEEDING_SYSTEM;
     public static final ForgeConfigSpec.BooleanValue HUNGRY_IMMUNITY_DAMPER;
     public static final ForgeConfigSpec.ConfigValue<Integer> HUNGRY_IMMUNITY_DAMPER_TICK;
@@ -59,13 +59,13 @@ public class ScrapsExtrasCommonConfig {
     public static final ForgeConfigSpec.BooleanValue TRAITS_SYSTEM;
     public static final ForgeConfigSpec.BooleanValue TRAITS_BY_BREED;
     public static final ForgeConfigSpec.BooleanValue GOOD_TRAITS_ONLY;
-//    public static final ForgeConfigSpec.BooleanValue AGING;
-//    public static final ForgeConfigSpec.BooleanValue DEATH_OLD_AGE;
-//    public static final ForgeConfigSpec.ConfigValue<Integer> YEAR;
-//    public static final ForgeConfigSpec.ConfigValue<Integer> DAY_TICKS;
-//    public static final ForgeConfigSpec.ConfigValue<Integer> SMALL_LIFESPAN;
-//    public static final ForgeConfigSpec.ConfigValue<Integer> MEDIUM_LIFESPAN;
-//    public static final ForgeConfigSpec.ConfigValue<Integer> LARGE_LIFESPAN;
+    public static final ForgeConfigSpec.BooleanValue AGING;
+    public static final ForgeConfigSpec.BooleanValue DEATH_OLD_AGE;
+    public static final ForgeConfigSpec.ConfigValue<Integer> YEAR;
+    public static final ForgeConfigSpec.ConfigValue<Integer> DAY_TICKS;
+    public static final ForgeConfigSpec.ConfigValue<Integer> SMALL_LIFESPAN;
+    public static final ForgeConfigSpec.ConfigValue<Integer> MEDIUM_LIFESPAN;
+    public static final ForgeConfigSpec.ConfigValue<Integer> LARGE_LIFESPAN;
 public static final ForgeConfigSpec.ConfigValue<Integer> SMALL_GROWTH_TIME;
     public static final ForgeConfigSpec.ConfigValue<Integer> MEDIUM_GROWTH_TIME;
     public static final ForgeConfigSpec.ConfigValue<Integer> LARGE_GROWTH_TIME;
@@ -88,10 +88,10 @@ public static final ForgeConfigSpec.ConfigValue<Integer> SMALL_GROWTH_TIME;
                 .define("Dirty Immunity Damper", true);
         DIRTY_IMMUNITY_DAMPER_TICK = BUILDER.comment("The amount of time at which an animal's immune system becomes dampened from being dirty. Default is 72000 ticks.")
                 .define("Dirty Immunity Damper Tick", 72000);
-//        GESTATION = BUILDER.comment("Should female animals become pregnant and have a gestation period after breeding? This requires the (LO) Genders Affect Breeding config to be on.")
-//                .define("[NOT FUNCTIONAL: Future Development] Animal Gestation", true);
-//        GESTATION_TICK = BUILDER.comment("The amount of time at which an animal gestates. Default is 72000 ticks.")
-//                .define("[NOT FUNCTIONAL: Future Development] Gestation Tick", 72000);
+        GESTATION = BUILDER.comment("Should female animals become pregnant and have a gestation period after breeding? This requires the (LO) Genders Affect Breeding config to be on.")
+                .define("Animal Gestation", true);
+        GESTATION_TICK = BUILDER.comment("The amount of time at which an animal gestates. Default is 72000 ticks.")
+                .define("Gestation Tick", 72000);
         BUILDER.pop();
 
         BUILDER.push("Food");
@@ -178,18 +178,18 @@ public static final ForgeConfigSpec.ConfigValue<Integer> SMALL_GROWTH_TIME;
         BUILDER.pop();
 
         BUILDER.push("Aging");
-//        AGING = BUILDER.define("[NOT FUNCTIONAL: Future Development] Aging Enabled", true);
-//        DEATH_OLD_AGE = BUILDER.define("[NOT FUNCTIONAL: Future Development] Death by Old Age Enabled", true);
-//        YEAR = BUILDER.comment("The amount of in-game days that add up to an entire in-game year. Default is 96. Used for animal lifespans.")
-//                .define("[NOT FUNCTIONAL: Future Development] Days per Year", 96);
-//        DAY_TICKS = BUILDER.comment("The amount of ticks that add up to an entire in-game day. Default is 24000 (vanilla). Used for animal lifespans.")
-//                .define("[NOT FUNCTIONAL: Future Development] Ticks per Day", 24000);
-//        SMALL_LIFESPAN = BUILDER.comment("The maximum lifespan, in years, that a small-sized animal will live. Default is 6 years.")
-//                .define("[NOT FUNCTIONAL: Future Development] Small Animal Lifespan", 6);
-//        MEDIUM_LIFESPAN = BUILDER.comment("The maximum lifespan, in years, that a medium-sized animal will live. Default is 12 years.")
-//                .define("[NOT FUNCTIONAL: Future Development] Medium Animal Lifespan", 12);
-//        LARGE_LIFESPAN = BUILDER.comment("The maximum lifespan, in years, that a large-sized animal will live. Default is 24 years.")
-//                .define("[NOT FUNCTIONAL: Future Development] Large Animal Lifespan", 24);
+        AGING = BUILDER.define("Aging Enabled", true);
+        DEATH_OLD_AGE = BUILDER.define("Death by Old Age Enabled", false);
+        YEAR = BUILDER.comment("The amount of in-game days that add up to an entire in-game year. Default is 96. Used for animal lifespans.")
+                .define("Days per Year", 96);
+        DAY_TICKS = BUILDER.comment("The amount of ticks that add up to an entire in-game day. Default is 24000 (vanilla). Used for animal lifespans.")
+                .define("Ticks per Day", 24000);
+        SMALL_LIFESPAN = BUILDER.comment("The maximum lifespan, in years, that a small-sized animal will live. Default is 6 years.")
+                .define("Small Animal Lifespan", 6);
+        MEDIUM_LIFESPAN = BUILDER.comment("The maximum lifespan, in years, that a medium-sized animal will live. Default is 12 years.")
+                .define("Medium Animal Lifespan", 12);
+        LARGE_LIFESPAN = BUILDER.comment("The maximum lifespan, in years, that a large-sized animal will live. Default is 24 years.")
+                .define("Large Animal Lifespan", 24);
         SMALL_GROWTH_TIME = BUILDER.comment("The amount of time it takes for a small-sized baby animal to grow up. Default is 168,000 ticks.")
                 .define("Small Animal Growth Time", 168000);
         MEDIUM_GROWTH_TIME = BUILDER.comment("The amount of time it takes for a medium-sized baby animal to grow up. Default is 252,000 ticks.")

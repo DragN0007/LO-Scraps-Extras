@@ -68,7 +68,7 @@ public class SETags {
             EntityTypes.FARM_GOAT_ENTITY.get(),
             EntityTypes.CARIBOU_ENTITY.get(),
             EntityTypes.UNICORN_ENTITY.get(),
-//            EntityTypes.MOOBLOOM.get(),
+            EntityTypes.MOOBLOOM_ENTITY.get(),
 
             POEntityTypes.O_CAT_ENTITY.get(),
             POEntityTypes.O_OCELOT_ENTITY.get(),

@@ -1,5 +1,6 @@
 package com.dragn0007.dragnloextras.common.event;
 
+import com.dragn0007.dragnlivestock.LivestockOverhaul;
 import com.dragn0007.dragnlivestock.entities.camel.OCamel;
 import com.dragn0007.dragnlivestock.entities.caribou.Caribou;
 import com.dragn0007.dragnlivestock.entities.chicken.OChicken;
@@ -48,20 +49,19 @@ import net.minecraftforge.network.PacketDistributor;
 public class ForgeEvent {
 
     @SubscribeEvent
-    public void setBabyNBT(BabyEntitySpawnEvent event) {
+    public void babyEvent(BabyEntitySpawnEvent event) {
         LivingEntity baby = event.getChild();
-        if (baby.getType().is(SETags.Entity_Types.TRAITABLE)) {
+        if (baby != null) {
             CompoundTag nbt = baby.getPersistentData();
-            if (!nbt.getBoolean("loextras_initialized")) {
-                nbt.putBoolean("loextras_initialized", true);
+            if (baby.getType().is(SETags.Entity_Types.TRAITABLE)) {
+                if (!nbt.getBoolean("loextras_initialized") || !nbt.contains("loextras_initialized"))
+                    nbt.putBoolean("loextras_initialized", true);
             }
         }
     }
 
     @SubscribeEvent
-    public void registerCaps(RegisterCapabilitiesEvent event) {
-        SECapabilities.register(event);
-    }
+    public void registerCaps(RegisterCapabilitiesEvent event) {SECapabilities.register(event);}
 
     @SubscribeEvent
     public static void onStartTracking(PlayerEvent.StartTracking event) {
@@ -136,55 +136,41 @@ public class ForgeEvent {
             if (SETags.SLEEPABLE.contains(event.getObject().getType())) {
                 if (!event.getObject().getCapability(SECapabilities.SLEEPING_CAPABILITY).isPresent()) {
                     SleepingCapabilityAttacher.attach(event);
-                    if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
-                        System.out.println("Attached the Sleeping Capability NBT to " + event.getObject().getName());
-                    }
+                    if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) System.out.println("Attached the Sleeping Capability NBT to " + event.getObject().getName());
                 }
             }
             if (SETags.DIRTYABLE.contains(event.getObject().getType())) {
                 if (!event.getObject().getCapability(SECapabilities.DIRTY_CAPABILITY).isPresent()) {
                     DirtyCapabilityAttacher.attach(event);
-                    if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
-                        System.out.println("Attached the Dirty Capability NBT to " + event.getObject().getName());
-                    }
+                    if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) System.out.println("Attached the Dirty Capability NBT to " + event.getObject().getName());
                 }
             }
             if (SETags.TRAITABLE.contains(event.getObject().getType())) {
                 if (!event.getObject().getCapability(SECapabilities.TRAIT_CAPABILITY).isPresent()) {
                     TraitCapabilityAttacher.attach(event);
-                    if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
-                        System.out.println("Attached the Trait Capability NBT to " + event.getObject().getName());
-                    }
+                    if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) System.out.println("Attached the Trait Capability NBT to " + event.getObject().getName());
                 }
             }
             if (SETags.IMMUNITYABLE.contains(event.getObject().getType())) {
                 if (!event.getObject().getCapability(SECapabilities.IMMUNITY_CAPABILITY).isPresent()) {
                     ImmunityCapabilityAttacher.attach(event);
-                    if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
-                        System.out.println("Attached the Immunity Capability NBT to " + event.getObject().getName());
-                    }
+                    if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) System.out.println("Attached the Immunity Capability NBT to " + event.getObject().getName());
                 }
             }
             if (SETags.HALTERABLE.contains(event.getObject().getType())) {
                 if (!event.getObject().getCapability(SECapabilities.HALTER_CAPABILITY).isPresent()) {
                     HalterCapabilityAttacher.attach(event);
-                    if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
-                        System.out.println("Attached the Halter Capability NBT to " + event.getObject().getName());
-                    }
+                    if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) System.out.println("Attached the Halter Capability NBT to " + event.getObject().getName());
                 }
                 if (!event.getObject().getCapability(SECapabilities.HALTER_COLOR_CAPABILITY).isPresent()) {
                     HalterColorCapabilityAttacher.attach(event);
-                    if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
-                        System.out.println("Attached the Halter Color Capability NBT to " + event.getObject().getName());
-                    }
+                    if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) System.out.println("Attached the Halter Color Capability NBT to " + event.getObject().getName());
                 }
             }
             if (SETags.SPIKE_COLLARABLE.contains(event.getObject().getType())) {
                 if (!event.getObject().getCapability(SECapabilities.SPIKE_COLLAR_CAPABILITY).isPresent()) {
                     SpikeCollarCapabilityAttacher.attach(event);
-                    if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) {
-                        System.out.println("Attached the Spike Collar Capability NBT to " + event.getObject().getName());
-                    }
+                    if (LivestockOverhaulCommonConfig.DEBUG_LOGS.get()) System.out.println("Attached the Spike Collar Capability NBT to " + event.getObject().getName());
                 }
             }
         }
@@ -322,7 +308,6 @@ public class ForgeEvent {
 
     @SubscribeEvent
     public static void onUseStethoscope(PlayerInteractEvent.EntityInteract event) {
-
         if (event.getTarget() instanceof LivingEntity animal) {
             Player player = event.getEntity();
             ItemStack stack = event.getItemStack();

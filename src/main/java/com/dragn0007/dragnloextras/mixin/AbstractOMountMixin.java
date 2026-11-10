@@ -1,42 +1,44 @@
 package com.dragn0007.dragnloextras.mixin;
 
 import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
+import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
 import com.dragn0007.dragnloextras.effects.SEEffects;
 import com.dragn0007.dragnloextras.util.IHungerHolder;
 import com.dragn0007.dragnloextras.util.SETags;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.horse.AbstractChestedHorse;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AbstractOMount.class)
 public abstract class AbstractOMountMixin extends AbstractChestedHorse implements IHungerHolder {
-
     @Shadow(remap = false) public abstract boolean isGroundTied();
+    @Shadow public abstract boolean isFemale();
+    @Shadow public abstract boolean isMale();
 
-    //    @Shadow public abstract boolean isFemale();
-//    @Shadow public abstract boolean isMale();
-//
     public AbstractOMountMixin(EntityType<? extends AbstractOMountMixin> entityType, Level level) {
         super(entityType, level);
     }
 
     @Unique public boolean hungry = false;
-    @Unique public boolean isHungry() {
-        return this.hungry;
-    }
-    @Unique public void setHungry(boolean hungry) {
-        this.hungry = hungry;
-    }
+    @Unique public boolean isHungry() {return this.hungry;}
+    @Unique public void setHungry(boolean hungry) {this.hungry = hungry;}
 
     @Unique
     public int livestockOverhaulScraps$hungryTick;
@@ -78,12 +80,10 @@ public abstract class AbstractOMountMixin extends AbstractChestedHorse implement
             if (waterLevel > 1.3) {
                 this.setDeltaMovement(movement.x, 0.02D, movement.z);
             } else {
-                if (waterLevel < 1.0) {
+                if (waterLevel < 1.0)
                     this.setDeltaMovement(movement.x, -0.04D, movement.z);
-                }
-                if (this.horizontalCollision) {
+                if (this.horizontalCollision)
                     this.setDeltaMovement(movement.x, 0.3D, movement.z);
-                }
             }
             super.travel(vec3);
         } else {
@@ -96,33 +96,31 @@ public abstract class AbstractOMountMixin extends AbstractChestedHorse implement
         this.setAge(p_146756_ ? -ScrapsExtrasCommonConfig.LARGE_GROWTH_TIME.get() : 0);
     }
 
-    //
 //    @Unique int livestockOverhaulScraps$pregnantTick;
-//
-//
-//    @Inject(method = "finalizeSpawnChildFromBreeding", at = @At("HEAD"), cancellable = true)
-//    public void gestate(ServerLevel pLevel, Animal pAnimal, AgeableMob pBaby, CallbackInfo ci) {
-//        if (this.isFemale() && ScrapsExtrasCommonConfig.GESTATION.get()) {
+//    @Overwrite
+//    public void spawnChildFromBreeding(ServerLevel p_27564_, Animal p_27565_) {
+//        if (this.isFemale() && ScrapsExtrasCommonConfig.GESTATION.get() && this.livestockOverhaulScraps$pregnantTick > 0) {
 //            livestockOverhaulScraps$pregnantTick = ScrapsExtrasCommonConfig.GESTATION_TICK.get();
 //        }
-//
-//        if (pAnimal instanceof AbstractOMount partner) {
+//    }
+
+//    @Inject(method = "finalizeSpawnChildFromBreeding", at = @At("HEAD"), cancellable = true)
+//    public void gestate(ServerLevel pLevel, Animal pAnimal, AgeableMob pBaby, CallbackInfo ci) {
+////        if (this.isFemale() && ScrapsExtrasCommonConfig.GESTATION.get()) {
+////            livestockOverhaulScraps$pregnantTick = ScrapsExtrasCommonConfig.GESTATION_TICK.get();
+////            ci.cancel();
+////        } else
+//            if (pAnimal instanceof AbstractOMount partner) {
 //            if (LivestockOverhaulCommonConfig.GENDERS_AFFECT_BREEDING.get()) {
-//                if (this.isMale()) {
-//                    this.setAge(LivestockOverhaulCommonConfig.MALE_COOLDOWN.get());
-//                } else {
-//                    this.setAge(LivestockOverhaulCommonConfig.FEMALE_COOLDOWN.get());
-//                }
-//                if (partner.isMale()) {
-//                    partner.setAge(LivestockOverhaulCommonConfig.MALE_COOLDOWN.get());
-//                } else {
-//                    partner.setAge(LivestockOverhaulCommonConfig.FEMALE_COOLDOWN.get());
-//                }
+//                if (this.isMale()) this.setAge(LivestockOverhaulCommonConfig.MALE_COOLDOWN.get());
+//                else this.setAge(LivestockOverhaulCommonConfig.FEMALE_COOLDOWN.get());
+//
+//                if (partner.isMale()) partner.setAge(LivestockOverhaulCommonConfig.MALE_COOLDOWN.get());
+//                else partner.setAge(LivestockOverhaulCommonConfig.FEMALE_COOLDOWN.get());
 //            } else {
 //                this.setAge(LivestockOverhaulCommonConfig.FEMALE_COOLDOWN.get());
 //                partner.setAge(LivestockOverhaulCommonConfig.FEMALE_COOLDOWN.get());
 //            }
 //        }
-//        ci.cancel();
 //    }
 }

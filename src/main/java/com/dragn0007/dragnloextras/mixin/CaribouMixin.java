@@ -524,7 +524,7 @@ public abstract class CaribouMixin extends AbstractOMount implements DirtyCapabi
     @Inject(method = "finalizeSpawn", at = @At("TAIL"))
     private void spawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance instance, MobSpawnType spawnType, SpawnGroupData data, CompoundTag tag, CallbackInfoReturnable<SpawnGroupData> cir) {
         CompoundTag nbt = this.getPersistentData();
-        if (!nbt.getBoolean("loextras_initialized")) {
+        if (!nbt.getBoolean("loextras_initialized") || !nbt.contains("loextras_initialized")) {
             BaseImmunityHelper.setBaseImmunity(this);
             BaseTraitHelper.setBaseTrait(this, false);
             nbt.putBoolean("loextras_initialized", true);

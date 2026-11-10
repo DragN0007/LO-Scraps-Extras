@@ -22,15 +22,14 @@ public class PSpawnReplacerMixin {
     @Inject(method = "onSpawn", at = @At("TAIL"))
     private static void afterSpawn(EntityJoinLevelEvent event, CallbackInfo ci) {
         if (event.getLevel().isClientSide) return;
+        CompoundTag nbt = event.getEntity().getPersistentData();
+        boolean uninitialized = !nbt.getBoolean("loextras_initialized") || !nbt.contains("loextras_initialized");
 
         //Wolf
         if (event.getEntity() instanceof OWolf oWolf) {
             if (event.getEntity().getClass() == OWolf.class) {
-                if (event.getLevel().isClientSide) {
-                    return;
-                }
-                CompoundTag nbt = oWolf.getPersistentData();
-                if (!nbt.getBoolean("loextras_initialized") && !oWolf.isBaby() && oWolf.getSpawnType() != MobSpawnType.SPAWN_EGG) {
+                if (event.getLevel().isClientSide) return;
+                if (uninitialized || !oWolf.isBaby() && oWolf.getSpawnType() != MobSpawnType.SPAWN_EGG) {
                     BaseImmunityHelper.setBaseImmunity(oWolf);
                     BaseTraitHelper.setBaseTrait(oWolf, false);
                     nbt.putBoolean("loextras_initialized", true);
@@ -41,11 +40,8 @@ public class PSpawnReplacerMixin {
         //Dog
         if (event.getEntity() instanceof ODog oDog) {
             if (event.getEntity().getClass() == ODog.class) {
-                if (event.getLevel().isClientSide) {
-                    return;
-                }
-                CompoundTag nbt = oDog.getPersistentData();
-                if (!nbt.getBoolean("loextras_initialized") && !oDog.isBaby() && oDog.getSpawnType() != MobSpawnType.SPAWN_EGG) {
+                if (event.getLevel().isClientSide) return;
+                if (uninitialized && !oDog.isBaby() && oDog.getSpawnType() != MobSpawnType.SPAWN_EGG) {
                     BaseImmunityHelper.setBaseImmunity(oDog);
                     BaseTraitHelper.setBaseTrait(oDog, true);
                     nbt.putBoolean("loextras_initialized", true);
@@ -56,11 +52,8 @@ public class PSpawnReplacerMixin {
         //Cat
         if (event.getEntity() instanceof OCat oCat) {
             if (event.getEntity().getClass() == OCat.class) {
-                if (event.getLevel().isClientSide) {
-                    return;
-                }
-                CompoundTag nbt = oCat.getPersistentData();
-                if (!nbt.getBoolean("loextras_initialized") && !oCat.isBaby() && oCat.getSpawnType() != MobSpawnType.SPAWN_EGG) {
+                if (event.getLevel().isClientSide) return;
+                if (uninitialized && !oCat.isBaby() && oCat.getSpawnType() != MobSpawnType.SPAWN_EGG) {
                     BaseImmunityHelper.setBaseImmunity(oCat);
                     BaseTraitHelper.setBaseTrait(oCat, false);
                     nbt.putBoolean("loextras_initialized", true);
@@ -71,11 +64,8 @@ public class PSpawnReplacerMixin {
         //Ocelot
         if (event.getEntity() instanceof OOcelot oOcelot) {
             if (event.getEntity().getClass() == OOcelot.class) {
-                if (event.getLevel().isClientSide) {
-                    return;
-                }
-                CompoundTag nbt = oOcelot.getPersistentData();
-                if (!nbt.getBoolean("loextras_initialized") && !oOcelot.isBaby() && oOcelot.getSpawnType() != MobSpawnType.SPAWN_EGG) {
+                if (event.getLevel().isClientSide) return;
+                if (uninitialized && !oOcelot.isBaby() && oOcelot.getSpawnType() != MobSpawnType.SPAWN_EGG) {
                     BaseImmunityHelper.setBaseImmunity(oOcelot);
                     BaseTraitHelper.setBaseTrait(oOcelot, false);
                     nbt.putBoolean("loextras_initialized", true);

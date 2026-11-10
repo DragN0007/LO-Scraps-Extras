@@ -248,7 +248,7 @@ public abstract class OCowMixin extends AbstractOMount implements ISickModHolder
         OCow self = (OCow) (Object) this;
         if (self.getClass() == OCow.class) {
             CompoundTag nbt = this.getPersistentData();
-            if (!nbt.getBoolean("loextras_initialized")) {
+            if (!nbt.getBoolean("loextras_initialized") || !nbt.contains("loextras_initialized")) {
                 BaseImmunityHelper.setBaseImmunity(this);
                 nbt.putBoolean("loextras_initialized", true);
             }
