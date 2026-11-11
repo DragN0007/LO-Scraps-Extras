@@ -1,6 +1,5 @@
 package com.dragn0007.dragnloextras.common.event;
 
-import com.dragn0007.dragnlivestock.LivestockOverhaul;
 import com.dragn0007.dragnlivestock.entities.camel.OCamel;
 import com.dragn0007.dragnlivestock.entities.caribou.Caribou;
 import com.dragn0007.dragnlivestock.entities.chicken.OChicken;
@@ -22,7 +21,7 @@ import com.dragn0007.dragnloextras.entity.SEEntityTypes;
 import com.dragn0007.dragnloextras.entity.butchering.*;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.network.*;
-import com.dragn0007.dragnloextras.util.ISleepAsLeaderHolder;
+import com.dragn0007.dragnloextras.util.impls.ISleepAsLeaderHolder;
 import com.dragn0007.dragnloextras.util.SETags;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import net.minecraft.ChatFormatting;
@@ -186,15 +185,11 @@ public class ForgeEvent {
                 if (stack.is(SEItems.ANTIBIOTIC_INJECTION.get())) {
                     if (entity.hasEffect(SEEffects.INFECTION.get())) {
                         entity.removeEffect(SEEffects.INFECTION.get());
-                        if (!player.getAbilities().instabuild) {
-                            stack.shrink(1);
-                        }
+                        if (!player.getAbilities().instabuild) stack.shrink(1);
                         player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
                     } else if (entity.hasEffect(SEEffects.HOOF_ABSCESS.get())) {
                         entity.removeEffect(SEEffects.HOOF_ABSCESS.get());
-                        if (!player.getAbilities().instabuild) {
-                            stack.shrink(1);
-                        }
+                        if (!player.getAbilities().instabuild) stack.shrink(1);
                         player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
                     } else {
                         player.displayClientMessage(Component.translatable("tooltip.dragnloextras.no_ailment.tooltip").withStyle(ChatFormatting.YELLOW), true);
@@ -204,9 +199,7 @@ public class ForgeEvent {
                 if (stack.is(SEItems.ANTIBIOTIC_OINTMENT.get())) {
                     if (entity.hasEffect(SEEffects.RAIN_ROT.get())) {
                         entity.removeEffect(SEEffects.RAIN_ROT.get());
-                        if (!player.getAbilities().instabuild) {
-                            stack.shrink(1);
-                        }
+                        if (!player.getAbilities().instabuild) stack.shrink(1);
                         player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
                     } else {
                         player.displayClientMessage(Component.translatable("tooltip.dragnloextras.no_ailment.tooltip").withStyle(ChatFormatting.YELLOW), true);
@@ -216,15 +209,11 @@ public class ForgeEvent {
                 if (stack.is(SEItems.ANTIPARASITIC_OINTMENT.get())) {
                     if (entity.hasEffect(SEEffects.MANGE.get())) {
                         entity.removeEffect(SEEffects.MANGE.get());
-                        if (!player.getAbilities().instabuild) {
-                            stack.shrink(1);
-                        }
+                        if (!player.getAbilities().instabuild) stack.shrink(1);
                         player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
                     } else if (entity.hasEffect(SEEffects.FLEA_INFESTATION.get())) {
                         entity.removeEffect(SEEffects.FLEA_INFESTATION.get());
-                        if (!player.getAbilities().instabuild) {
-                            stack.shrink(1);
-                        }
+                        if (!player.getAbilities().instabuild) stack.shrink(1);
                         player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
                     } else {
                         player.displayClientMessage(Component.translatable("tooltip.dragnloextras.no_ailment.tooltip").withStyle(ChatFormatting.YELLOW), true);
@@ -234,21 +223,15 @@ public class ForgeEvent {
                 if (stack.is(SEItems.ANTIPARASITIC_INJECTION.get())) {
                     if (entity.hasEffect(SEEffects.HEARTWORMS.get())) {
                         entity.removeEffect(SEEffects.HEARTWORMS.get());
-                        if (!player.getAbilities().instabuild) {
-                            stack.shrink(1);
-                        }
+                        if (!player.getAbilities().instabuild) stack.shrink(1);
                         player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
                     } else if (entity.hasEffect(SEEffects.BOTFLY_INFESTATION.get())) {
                         entity.removeEffect(SEEffects.BOTFLY_INFESTATION.get());
-                        if (!player.getAbilities().instabuild) {
-                            stack.shrink(1);
-                        }
+                        if (!player.getAbilities().instabuild) stack.shrink(1);
                         player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
                     } else if (entity.hasEffect(SEEffects.RINGWORM.get())) {
                         entity.removeEffect(SEEffects.RINGWORM.get());
-                        if (!player.getAbilities().instabuild) {
-                            stack.shrink(1);
-                        }
+                        if (!player.getAbilities().instabuild) stack.shrink(1);
                         player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
                     } else {
                         player.displayClientMessage(Component.translatable("tooltip.dragnloextras.no_ailment.tooltip").withStyle(ChatFormatting.YELLOW), true);
@@ -258,9 +241,7 @@ public class ForgeEvent {
                 if (stack.is(SEItems.ANTIBIOTIC_EARDROPS.get())) {
                     if (entity.hasEffect(SEEffects.EAR_INFECTION.get())) {
                         entity.removeEffect(SEEffects.EAR_INFECTION.get());
-                        if (!player.getAbilities().instabuild) {
-                            stack.shrink(1);
-                        }
+                        if (!player.getAbilities().instabuild) stack.shrink(1);
                         player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
                     } else {
                         player.displayClientMessage(Component.translatable("tooltip.dragnloextras.no_ailment.tooltip").withStyle(ChatFormatting.YELLOW), true);
@@ -270,15 +251,11 @@ public class ForgeEvent {
                 if (stack.is(SEItems.VETERINARY_BANDAGE.get())) {
                     if (entity.hasEffect(SEEffects.SADDLE_SORE.get())) {
                         entity.removeEffect(SEEffects.SADDLE_SORE.get());
-                        if (!player.getAbilities().instabuild) {
-                            stack.shrink(1);
-                        }
+                        if (!player.getAbilities().instabuild) stack.shrink(1);
                         player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
                     } else if (entity.hasEffect(SEEffects.ABRASION.get())) {
                         entity.removeEffect(SEEffects.ABRASION.get());
-                        if (!player.getAbilities().instabuild) {
-                            stack.shrink(1);
-                        }
+                        if (!player.getAbilities().instabuild) stack.shrink(1);
                         player.displayClientMessage(Component.translatable("tooltip.dragnloextras.cured.tooltip").withStyle(ChatFormatting.GOLD), true);
                     } else {
                         player.displayClientMessage(Component.translatable("tooltip.dragnloextras.no_ailment.tooltip").withStyle(ChatFormatting.YELLOW), true);

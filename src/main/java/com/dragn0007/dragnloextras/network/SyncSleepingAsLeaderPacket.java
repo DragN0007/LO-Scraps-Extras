@@ -1,7 +1,7 @@
 package com.dragn0007.dragnloextras.network;
 
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
-import com.dragn0007.dragnloextras.util.ISleepAsLeaderHolder;
+import com.dragn0007.dragnloextras.util.impls.ISleepAsLeaderHolder;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;

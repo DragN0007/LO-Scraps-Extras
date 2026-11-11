@@ -3,7 +3,7 @@ package com.dragn0007.dragnloextras.blocks.custom;
 import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
 import com.dragn0007.dragnloextras.blocks.DecorRotator;
 import com.dragn0007.dragnloextras.effects.SEEffects;
-import com.dragn0007.dragnloextras.util.IHungerHolder;
+import com.dragn0007.dragnloextras.util.impls.IHungerHolder;
 import com.dragn0007.dragnloextras.util.SETags;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import net.minecraft.core.BlockPos;
@@ -163,9 +163,7 @@ public class FeedTroughBlock extends DecorRotator implements SimpleWaterloggedBl
                  }
                  level.playSound(null, pos, SoundEvents.GRASS_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
 
-                 if (!player.getAbilities().instabuild) {
-                     stack.shrink(1);
-                 }
+                 if (!player.getAbilities().instabuild) stack.shrink(1);
                  return InteractionResult.SUCCESS;
              } else if (stack.is(SETags.Items.HEARTY_GRAIN_FEED)) {
                  level.setBlockAndUpdate(pos, state.setValue(FEED, Boolean.valueOf(true))
@@ -177,9 +175,7 @@ public class FeedTroughBlock extends DecorRotator implements SimpleWaterloggedBl
                  }
                  level.playSound(null, pos, SoundEvents.GRASS_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
 
-                 if (!player.getAbilities().instabuild) {
-                     stack.shrink(1);
-                 }
+                 if (!player.getAbilities().instabuild) stack.shrink(1);
                  return InteractionResult.SUCCESS;
              }
          }

@@ -13,6 +13,8 @@ import com.dragn0007.dragnloextras.entity.ai.SleepGoal;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.network.SyncImmunityPacket;
 import com.dragn0007.dragnloextras.util.*;
+import com.dragn0007.dragnloextras.util.impls.IHungerHolder;
+import com.dragn0007.dragnloextras.util.impls.ISickModHolder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;

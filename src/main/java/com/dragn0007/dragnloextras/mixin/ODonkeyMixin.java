@@ -4,7 +4,6 @@ import com.dragn0007.dragnlivestock.entities.EntityTypes;
 import com.dragn0007.dragnlivestock.entities.donkey.ODonkey;
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
 import com.dragn0007.dragnlivestock.entities.horse.OHorseModel;
-import com.dragn0007.dragnlivestock.entities.mule.OMuleModel;
 import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
 import com.dragn0007.dragnlivestock.entities.util.marking_layer.EquineEyeColorOverlay;
 import com.dragn0007.dragnlivestock.entities.util.marking_layer.EquineMarkingOverlay;
@@ -19,6 +18,8 @@ import com.dragn0007.dragnloextras.items.custom.HalterItem;
 import com.dragn0007.dragnloextras.items.custom.TurnoutBlanketItem;
 import com.dragn0007.dragnloextras.network.*;
 import com.dragn0007.dragnloextras.util.*;
+import com.dragn0007.dragnloextras.util.impls.IHungerHolder;
+import com.dragn0007.dragnloextras.util.impls.ISickModHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -408,9 +409,7 @@ public abstract class ODonkeyMixin extends AbstractOMount implements DirtyCapabi
                 if (this.hasEffect(SEEffects.HUNGER.get())) {
                     this.removeEffect(SEEffects.HUNGER.get());
                 }
-                if (!player.getAbilities().instabuild) {
-                    itemstack.shrink(1);
-                }
+                if (!player.getAbilities().instabuild) itemstack.shrink(1);
                 this.playSound(SoundEvents.HORSE_EAT, 0.5f, 1f);
                 return InteractionResult.sidedSuccess(this.level().isClientSide);
             } else if (itemstack.is(SEItems.HEARTY_GRAIN_FEED.get())) {
@@ -428,9 +427,7 @@ public abstract class ODonkeyMixin extends AbstractOMount implements DirtyCapabi
                 if (livestockOverhaulScraps$becomeSickChance < 0) {
                     livestockOverhaulScraps$becomeSickChance = 0;
                 }
-                if (!player.getAbilities().instabuild) {
-                    itemstack.shrink(1);
-                }
+                if (!player.getAbilities().instabuild) itemstack.shrink(1);
                 this.playSound(SoundEvents.HORSE_EAT, 0.5f, 1f);
                 return InteractionResult.sidedSuccess(this.level().isClientSide);
             }

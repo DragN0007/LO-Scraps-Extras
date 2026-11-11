@@ -1,4 +1,4 @@
-package com.dragn0007.dragnloextras.util;
+package com.dragn0007.dragnloextras.util.impls;
 
 public interface IHungerHolder {
     boolean isHungry();

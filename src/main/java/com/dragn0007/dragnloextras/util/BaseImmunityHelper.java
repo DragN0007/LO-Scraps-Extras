@@ -4,6 +4,7 @@ import com.dragn0007.dragnloextras.capabilities.ImmunityCapabilityInterface;
 import com.dragn0007.dragnloextras.capabilities.SECapabilities;
 import com.dragn0007.dragnloextras.capabilities.TraitCapabilityInterface;
 import com.dragn0007.dragnloextras.network.SyncImmunityPacket;
+import com.dragn0007.dragnloextras.util.impls.ISickModHolder;
 import net.minecraft.world.entity.LivingEntity;
 
 import java.util.Random;

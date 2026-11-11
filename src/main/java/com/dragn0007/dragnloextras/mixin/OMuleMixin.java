@@ -15,6 +15,8 @@ import com.dragn0007.dragnloextras.network.SyncDirtyLayerPacket;
 import com.dragn0007.dragnloextras.network.SyncHalterColorPacket;
 import com.dragn0007.dragnloextras.network.SyncHalterLayerPacket;
 import com.dragn0007.dragnloextras.util.*;
+import com.dragn0007.dragnloextras.util.impls.IHungerHolder;
+import com.dragn0007.dragnloextras.util.impls.ISickModHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -404,9 +406,7 @@ public abstract class OMuleMixin extends AbstractOMount implements DirtyCapabili
                 if (this.hasEffect(SEEffects.HUNGER.get())) {
                     this.removeEffect(SEEffects.HUNGER.get());
                 }
-                if (!player.getAbilities().instabuild) {
-                    itemstack.shrink(1);
-                }
+                if (!player.getAbilities().instabuild) itemstack.shrink(1);
                 this.playSound(SoundEvents.HORSE_EAT, 0.5f, 1f);
                 return InteractionResult.sidedSuccess(this.level().isClientSide);
             } else if (itemstack.is(SEItems.HEARTY_GRAIN_FEED.get())) {
@@ -424,9 +424,7 @@ public abstract class OMuleMixin extends AbstractOMount implements DirtyCapabili
                 if (livestockOverhaulScraps$becomeSickChance < 0) {
                     livestockOverhaulScraps$becomeSickChance = 0;
                 }
-                if (!player.getAbilities().instabuild) {
-                    itemstack.shrink(1);
-                }
+                if (!player.getAbilities().instabuild) itemstack.shrink(1);
                 this.playSound(SoundEvents.HORSE_EAT, 0.5f, 1f);
                 return InteractionResult.sidedSuccess(this.level().isClientSide);
             }

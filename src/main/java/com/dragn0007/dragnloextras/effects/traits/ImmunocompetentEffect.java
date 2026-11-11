@@ -1,7 +1,7 @@
 package com.dragn0007.dragnloextras.effects.traits;
 
 import com.dragn0007.dragnlivestock.entities.horse.OHorse;
-import com.dragn0007.dragnloextras.util.ISickModHolder;
+import com.dragn0007.dragnloextras.util.impls.ISickModHolder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;

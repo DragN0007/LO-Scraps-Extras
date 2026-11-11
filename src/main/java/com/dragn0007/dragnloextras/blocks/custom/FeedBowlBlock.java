@@ -1,9 +1,7 @@
 package com.dragn0007.dragnloextras.blocks.custom;
 
-import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
-import com.dragn0007.dragnloextras.blocks.DecorRotator;
 import com.dragn0007.dragnloextras.effects.SEEffects;
-import com.dragn0007.dragnloextras.util.IHungerHolder;
+import com.dragn0007.dragnloextras.util.impls.IHungerHolder;
 import com.dragn0007.dragnloextras.util.SETags;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
 import net.minecraft.core.BlockPos;
@@ -26,21 +24,18 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class FeedBowlBlock extends Block implements SimpleWaterloggedBlock {
 
@@ -146,9 +141,7 @@ public class FeedBowlBlock extends Block implements SimpleWaterloggedBlock {
                  }
                  level.playSound(null, pos, SoundEvents.GRASS_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
 
-                 if (!player.getAbilities().instabuild) {
-                     stack.shrink(1);
-                 }
+                 if (!player.getAbilities().instabuild) stack.shrink(1);
                  return InteractionResult.SUCCESS;
              } else if (stack.is(SETags.Items.HEARTY_KIBBLE)) {
                  level.setBlockAndUpdate(pos, state.setValue(FEED, Boolean.valueOf(true))
@@ -159,9 +152,7 @@ public class FeedBowlBlock extends Block implements SimpleWaterloggedBlock {
                  }
                  level.playSound(null, pos, SoundEvents.GRASS_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
 
-                 if (!player.getAbilities().instabuild) {
-                     stack.shrink(1);
-                 }
+                 if (!player.getAbilities().instabuild) stack.shrink(1);
                  return InteractionResult.SUCCESS;
              }
          }

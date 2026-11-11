@@ -9,6 +9,9 @@ import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.network.SyncImmunityPacket;
 import com.dragn0007.dragnloextras.network.SyncTraitPacket;
 import com.dragn0007.dragnloextras.util.*;
+import com.dragn0007.dragnloextras.util.impls.IHungerHolder;
+import com.dragn0007.dragnloextras.util.impls.ISickModHolder;
+import com.dragn0007.dragnloextras.util.impls.ITraitByBreedTypeHolder;
 import com.dragn0007.dragnpets.entities.POEntityTypes;
 import com.dragn0007.dragnpets.entities.ai.DogFollowPackLeaderGoal;
 import com.dragn0007.dragnpets.entities.ocelot.OOcelot;
@@ -283,9 +286,7 @@ public abstract class OOcelotMixin extends TamableAnimal implements DirtyCapabil
                 if (this.hasEffect(SEEffects.HUNGER.get())) {
                     this.removeEffect(SEEffects.HUNGER.get());
                 }
-                if (!player.getAbilities().instabuild) {
-                    itemstack.shrink(1);
-                }
+                if (!player.getAbilities().instabuild) itemstack.shrink(1);
                 this.playSound(SoundEvents.GENERIC_EAT, 0.5f, 1f);
                 cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
             } else if (itemstack.is(SEItems.HEARTY_KIBBLE.get())) {
@@ -303,9 +304,7 @@ public abstract class OOcelotMixin extends TamableAnimal implements DirtyCapabil
                 if (livestockOverhaulScraps$becomeSickChance < 0) {
                     livestockOverhaulScraps$becomeSickChance = 0;
                 }
-                if (!player.getAbilities().instabuild) {
-                    itemstack.shrink(1);
-                }
+                if (!player.getAbilities().instabuild) itemstack.shrink(1);
                 this.playSound(SoundEvents.GENERIC_EAT, 0.5f, 1f);
                 cir.setReturnValue(InteractionResult.sidedSuccess(this.level().isClientSide()));
             }

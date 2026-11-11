@@ -11,7 +11,9 @@ public class ScrapsExtrasCommonConfig {
     public static final ForgeConfigSpec.BooleanValue DIRTY_IMMUNITY_DAMPER;
     public static final ForgeConfigSpec.ConfigValue<Integer> DIRTY_IMMUNITY_DAMPER_TICK;
     public static final ForgeConfigSpec.BooleanValue GESTATION;
-    public static final ForgeConfigSpec.ConfigValue<Integer> GESTATION_TICK;
+    public static final ForgeConfigSpec.ConfigValue<Integer> SMALL_GESTATION_TIME;
+    public static final ForgeConfigSpec.ConfigValue<Integer> MEDIUM_GESTATION_TIME;
+    public static final ForgeConfigSpec.ConfigValue<Integer> LARGE_GESTATION_TIME;
     public static final ForgeConfigSpec.BooleanValue FEEDING_SYSTEM;
     public static final ForgeConfigSpec.BooleanValue HUNGRY_IMMUNITY_DAMPER;
     public static final ForgeConfigSpec.ConfigValue<Integer> HUNGRY_IMMUNITY_DAMPER_TICK;
@@ -90,8 +92,12 @@ public static final ForgeConfigSpec.ConfigValue<Integer> SMALL_GROWTH_TIME;
                 .define("Dirty Immunity Damper Tick", 72000);
         GESTATION = BUILDER.comment("Should female animals become pregnant and have a gestation period after breeding? This requires the (LO) Genders Affect Breeding config to be on.")
                 .define("Animal Gestation", true);
-        GESTATION_TICK = BUILDER.comment("The amount of time at which an animal gestates. Default is 72000 ticks.")
-                .define("Gestation Tick", 72000);
+        LARGE_GESTATION_TIME = BUILDER.comment("The amount of time at which a large-sized animal gestates. Default is 72000 ticks.")
+                .define("Large Animal Gestation Tick", 72000);
+        MEDIUM_GESTATION_TIME = BUILDER.comment("The amount of time at which a medium-sized animal gestates. Default is 48000 ticks.")
+                .define("Medium Animal Gestation Tick", 48000);
+        SMALL_GESTATION_TIME = BUILDER.comment("The amount of time at which a small-sized animal gestates. Default is 24000 ticks.")
+                .define("Small Animal Gestation Tick", 24000);
         BUILDER.pop();
 
         BUILDER.push("Food");
