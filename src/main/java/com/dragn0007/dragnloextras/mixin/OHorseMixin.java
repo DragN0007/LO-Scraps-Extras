@@ -28,6 +28,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -51,7 +53,6 @@ import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -95,7 +96,9 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
     @Unique public boolean pregnant = false;
     @Unique public boolean isPregnant() {return this.pregnant;}
     @Unique public void setPregnant(boolean pregnant) {this.pregnant = pregnant;}
-    @Unique public int livestockOverhaulScraps$pregnantTick;
+    @Unique public int livestockOverhaulScraps$pregnantTick = 0;
+    @Unique public int livestockOverhaulScraps$pregnantTick() {return livestockOverhaulScraps$pregnantTick;}
+
     @Unique public void setPregnantTick(int pregnantTick) {}
 
     @Unique public int livestockOverhaulScraps$ageInYearsTick;
@@ -165,7 +168,6 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
     @Inject(method = "tick", at = @At("HEAD"))
     protected void onTick(CallbackInfo ci) {
         if (!this.level().isClientSide) {
-
             if (ScrapsExtrasCommonConfig.SLEEPING.get()) {
                 SleepingCapabilityInterface sleepingCap;
                 if (this.getCapability(SECapabilities.SLEEPING_CAPABILITY).isPresent()) {
@@ -695,9 +697,7 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
 
     @Inject(method = "canMate", at = @At("HEAD"), cancellable = true)
     public void canMate(Animal animal, CallbackInfoReturnable<Boolean> cir) {
-        if (this.isHungry() || livestockOverhaulScraps$pregnantTick > 0) {
-            cir.setReturnValue(false);
-        }
+        if (this.isHungry() || livestockOverhaulScraps$pregnantTick > 0) cir.setReturnValue(false);
     }
 
     /**
@@ -929,13 +929,6 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
             }
         }
 
-        if (LivestockOverhaulCommonConfig.GENDERS_AFFECT_BREEDING.get()) {
-            if (this.isFemale()) {
-                livestockOverhaulScraps$pregnantTick = ScrapsExtrasCommonConfig.LARGE_GESTATION_TIME.get();
-                this.setPregnantTick(ScrapsExtrasCommonConfig.LARGE_GESTATION_TIME.get());
-            }
-        }
-
         CompoundTag nbt = this.getPersistentData();
         if (!nbt.getBoolean("loextras_initialized") || !nbt.contains("loextras_initialized")) {
             nbt.putBoolean("loextras_initialized", true);
@@ -960,6 +953,17 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
         }
     }
 
+    @Override
+    public void spawnChildFromBreeding(ServerLevel p_27564_, Animal p_27565_) {
+        if (LivestockOverhaulCommonConfig.GENDERS_AFFECT_BREEDING.get()) {
+            if (this.isFemale()) {
+                this.livestockOverhaulScraps$pregnantTick = ScrapsExtrasCommonConfig.LARGE_GESTATION_TIME.get();
+                this.setPregnantTick(ScrapsExtrasCommonConfig.LARGE_GESTATION_TIME.get());
+                this.setPregnant(true);
+            }
+        }
+    }
+
     @Unique
     private void spawnGestationChildFromBreeding() {
         Animal parent = this;
@@ -969,8 +973,10 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
         this.level().addFreshEntity(baby);
         CompoundTag nbt = baby.getPersistentData();
         nbt.putBoolean("spawned_from_pregnancy", true);
+        this.level().playSound(null, this, SoundEvents.BEEHIVE_EXIT, SoundSource.NEUTRAL, 1.0F, Mth.randomBetween(this.level().random, 0.8F, 1.2F));
         this.livestockOverhaulScraps$pregnantTick = 0;
         this.setPregnantTick(0);
+        this.setPregnant(false);
     }
 
     /**
@@ -1016,5 +1022,4 @@ public abstract class OHorseMixin extends AbstractOMount implements DirtyCapabil
             }
         }
     }
-
 }

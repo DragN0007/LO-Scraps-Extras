@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "dragnlivestock:o_goat",
+    "dragnlivestock:o_pig",
+    "dragnlivestock:o_sheep",
+    "dragnlivestock:o_llama",
+    "dragnlivestock:farm_goat",
+    "dragnpets:o_wolf",
+    "dragnpets:o_dog",
+    "dragnpets:o_cat",
+    "dragnpets:o_ocelot"
+  ]
+}

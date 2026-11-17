@@ -10,7 +10,6 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -19,8 +18,6 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Supplier;
-
-import static net.minecraft.world.level.block.Blocks.OAK_PLANKS;
 
 public class SEBlocks {
     public static final DeferredRegister<Block> BLOCKS

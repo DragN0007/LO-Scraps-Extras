@@ -2,8 +2,9 @@ package com.dragn0007.dragnloextras.mixin;
 
 import com.dragn0007.dragnlivestock.entities.util.AbstractOMount;
 import com.dragn0007.dragnlivestock.util.LivestockOverhaulCommonConfig;
-import com.dragn0007.dragnloextras.util.impls.IHungerHolder;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
+import com.dragn0007.dragnloextras.util.impls.IHungerHolder;
+import com.dragn0007.dragnloextras.util.impls.IPregnancyHolder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.AgeableMob;
@@ -13,7 +14,6 @@ import net.minecraft.world.entity.animal.horse.AbstractChestedHorse;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AbstractOMount.class)
-public abstract class AbstractOMountMixin extends AbstractChestedHorse implements IHungerHolder {
+public abstract class AbstractOMountMixin extends AbstractChestedHorse implements IHungerHolder, IPregnancyHolder {
     @Shadow(remap = false) public abstract boolean isGroundTied();
     @Shadow public abstract boolean isFemale();
     @Shadow public abstract boolean isMale();
@@ -33,14 +33,16 @@ public abstract class AbstractOMountMixin extends AbstractChestedHorse implement
     @Unique public boolean hungry = false;
     @Unique public boolean isHungry() {return this.hungry;}
     @Unique public void setHungry(boolean hungry) {this.hungry = hungry;}
+    @Unique public int livestockOverhaulScraps$hungryTick;
 
-    @Unique
-    public int livestockOverhaulScraps$hungryTick;
+    @Unique public boolean pregnant = false;
+    @Unique public boolean isPregnant() {return this.pregnant;}
+    @Unique public void setPregnant(boolean pregnant) {this.pregnant = pregnant;}
+    @Unique public int livestockOverhaulScraps$pregnantTick;
+    @Unique public void setPregnantTick(int pregnantTick) {}
 
     @Override
-    public void tick() {
-        super.tick();
-    }
+    public void tick() {super.tick();}
 
     @Override
     public void travel(Vec3 vec3) {
@@ -88,14 +90,6 @@ public abstract class AbstractOMountMixin extends AbstractChestedHorse implement
     @Override
     public void setBaby(boolean p_146756_) {
         this.setAge(p_146756_ ? -ScrapsExtrasCommonConfig.LARGE_GROWTH_TIME.get() : 0);
-    }
-
-    @Unique int livestockOverhaulScraps$pregnantTick;
-    @Overwrite
-    public void spawnChildFromBreeding(ServerLevel p_27564_, Animal p_27565_) {
-        if (this.isFemale() && ScrapsExtrasCommonConfig.GESTATION.get() && this.livestockOverhaulScraps$pregnantTick > 0) {
-            livestockOverhaulScraps$pregnantTick = ScrapsExtrasCommonConfig.LARGE_GESTATION_TIME.get();
-        }
     }
 
     @Inject(method = "finalizeSpawnChildFromBreeding", at = @At("HEAD"), cancellable = true)

@@ -1,9 +1,9 @@
 package com.dragn0007.dragnloextras.blocks.custom;
 
 import com.dragn0007.dragnloextras.effects.SEEffects;
-import com.dragn0007.dragnloextras.util.impls.IHungerHolder;
 import com.dragn0007.dragnloextras.util.SETags;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
+import com.dragn0007.dragnloextras.util.impls.IHungerHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -109,12 +109,8 @@ public class FeedBowlBlock extends Block implements SimpleWaterloggedBlock {
                 if (animal instanceof IHungerHolder) {
                     if (((IHungerHolder) animal).isHungry()) {
                         ((IHungerHolder) animal).setHungerTick(0);
-                        if (((IHungerHolder) animal).isHungry()) {
-                            ((IHungerHolder) animal).setHungry(false);
-                        }
-                        if (animal.hasEffect(SEEffects.HUNGER.get())) {
-                            animal.removeEffect(SEEffects.HUNGER.get());
-                        }
+                        ((IHungerHolder) animal).setHungry(false);
+                        if (animal.hasEffect(SEEffects.HUNGER.get())) animal.removeEffect(SEEffects.HUNGER.get());
                     }
                 }
 

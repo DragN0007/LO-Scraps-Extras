@@ -5,8 +5,8 @@ import com.dragn0007.dragnloextras.capabilities.SECapabilities;
 import com.dragn0007.dragnloextras.capabilities.SleepingCapabilityInterface;
 import com.dragn0007.dragnloextras.network.SyncSleepingAsLeaderPacket;
 import com.dragn0007.dragnloextras.network.SyncSleepingPacket;
-import com.dragn0007.dragnloextras.util.impls.ISleepAsLeaderHolder;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
+import com.dragn0007.dragnloextras.util.impls.ISleepAsLeaderHolder;
 import net.minecraft.world.entity.ai.goal.Goal;
 
 import java.util.EnumSet;

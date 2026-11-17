@@ -21,9 +21,10 @@ import com.dragn0007.dragnloextras.entity.SEEntityTypes;
 import com.dragn0007.dragnloextras.entity.butchering.*;
 import com.dragn0007.dragnloextras.items.SEItems;
 import com.dragn0007.dragnloextras.network.*;
-import com.dragn0007.dragnloextras.util.impls.ISleepAsLeaderHolder;
 import com.dragn0007.dragnloextras.util.SETags;
 import com.dragn0007.dragnloextras.util.ScrapsExtrasCommonConfig;
+import com.dragn0007.dragnloextras.util.impls.IPregnancyHolder;
+import com.dragn0007.dragnloextras.util.impls.ISleepAsLeaderHolder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -300,6 +301,24 @@ public class ForgeEvent {
                     }
                 } else {
                     player.sendSystemMessage(Component.translatable("The Scraps & Extras ailment system doesn't apply to this animal or is disabled on this server.").withStyle(ChatFormatting.RED));
+                }
+
+                //pregnancy
+                if (ScrapsExtrasCommonConfig.GESTATION.get()) {
+                    if (animal instanceof IPregnancyHolder holder) {
+                        int gestationTime = holder.livestockOverhaulScraps$pregnantTick();
+                        if (gestationTime > 0) {
+                            int timeUntilBirth = 0;
+                            if (animal.getType().is(SETags.Entity_Types.LARGE_ANIMAL))
+                                timeUntilBirth = ScrapsExtrasCommonConfig.LARGE_GESTATION_TIME.get() - gestationTime;
+                            if (animal.getType().is(SETags.Entity_Types.MEDIUM_ANIMAL))
+                                timeUntilBirth = ScrapsExtrasCommonConfig.MEDIUM_GESTATION_TIME.get() - gestationTime;
+                            if (animal.getType().is(SETags.Entity_Types.SMALL_ANIMAL))
+                                timeUntilBirth = ScrapsExtrasCommonConfig.SMALL_GESTATION_TIME.get() - gestationTime;
+                            int timeUntilBirthSeconds = timeUntilBirth / 20;
+                            player.sendSystemMessage(Component.literal("Gestation Time Left: " + timeUntilBirthSeconds + "s"));
+                        }
+                    }
                 }
 
 //                //hunger
